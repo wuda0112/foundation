@@ -12,3 +12,5 @@
 [数据库设计源文件](https://github.com/wuda0112/foundation/blob/master/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1.mwb)
 
 使用MySQL Workbench打开
+
+包含的数据库表有用户体系，权限控制体系，店铺，商品，订单，消息通知体系，异步任务等等，持续更新中......

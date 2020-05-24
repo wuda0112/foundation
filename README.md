@@ -12,7 +12,7 @@
 这些东西很多人都想做，但是由于业务时间太紧，今天没做，明天没做，最后就再也不好做起来了，如果在业务系统还没开始之前，就开始做好这些事情，就像修房子之前就打好地基一样，后续开发和维护就会顺畅很多。
 
 # 数据库设计
-[数据库设计源文件](https://github.com/wuda0112/foundation/blob/master/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1.mwb)
+[数据库设计源文件](https://github.com/wuda0112/foundation/blob/master/DB-Design.mwb)
 
 使用MySQL Workbench打开
 

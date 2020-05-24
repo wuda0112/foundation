@@ -8,12 +8,11 @@ public class CRUDEntityTest {
 
     private UserAccount getUserAccount() {
         return new UserAccount.Builder(CRUDEntityState.UPDATE, new NoOpUserAccountValidator())
-                .addPrincipal(new UsernamePrincipal("test"))
                 .password("123456")
                 .userId(1L)
                 .userType(BuiltinUserType.ZERO)
                 .userAccountId(1L)
-                .status(BuiltinUserAccountStatus.ZERO)
+                .status(BuiltinUserAccountState.ZERO)
                 .lastModifyUserId(1L)
                 .lastModifyTime(Constant.EPOCH + 1)
                 .build();
@@ -31,7 +30,7 @@ public class CRUDEntityTest {
         User user = new User.Builder(CRUDEntityState.CREATE)
                 .userId(1L)
                 .userType(BuiltinUserType.ZERO)
-                .userStatus(BuiltinUserStatus.ZERO)
+                .userStatus(BuiltinUserState.ZERO)
                 .userAccount(userAccount)
                 .createUserId(1L)
                 .createTime(Constant.EPOCH + 1)

@@ -26,7 +26,7 @@ public class User extends CRUDEntity {
     /**
      * user status.
      */
-    private UserStatus userStatus;
+    private UserState userState;
     /**
      * user account.
      */
@@ -35,7 +35,7 @@ public class User extends CRUDEntity {
     @Override
     protected void forCreateCheck() {
         forCreateCheckShortcut0();
-        Objects.requireNonNull(userStatus);
+        Objects.requireNonNull(userState);
         Objects.requireNonNull(userType);
         Objects.requireNonNull(userAccount);
         userAccount.forCreateCheck();
@@ -90,11 +90,11 @@ public class User extends CRUDEntity {
         /**
          * 设置该用户的状态
          *
-         * @param userStatus user status
+         * @param userState user status
          * @return this
          */
-        public Builder userStatus(UserStatus userStatus) {
-            user.userStatus = userStatus;
+        public Builder userStatus(UserState userState) {
+            user.userState = userState;
             return this;
         }
 

@@ -9,6 +9,10 @@
         <module>foundation-lang</module>
         <module>foundation-user</module>
         <module>foundation-security</module>
+        <module>foundation-user-impl-jooq</module>
+        <module>foundation-commons</module>
+        <module>foundation-commons-impl-jooq</module>
+        <module>foundation-test</module>
     </modules>
 
     <groupId>com.wuda</groupId>
@@ -21,6 +25,7 @@
         <guava.version>20.0</guava.version>
         <commons.lang3.version>3.9</commons.lang3.version>
         <commons.collections4.version>4.4</commons.collections4.version>
+        <jooq.version>3.13.2</jooq.version>
     </properties>
 
     <dependencies>
@@ -51,6 +56,28 @@
         </dependency>
 
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-meta</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen</artifactId>
+                <version>${jooq.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

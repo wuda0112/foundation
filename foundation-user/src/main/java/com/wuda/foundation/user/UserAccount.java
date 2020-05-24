@@ -43,7 +43,7 @@ public class UserAccount extends CRUDEntity {
     /**
      * 账号的状态.
      */
-    private UserAccountStatus status;
+    private UserAccountState status;
     /**
      * 所属用户的类型.
      */
@@ -149,7 +149,7 @@ public class UserAccount extends CRUDEntity {
          * @param status 状态
          * @return this
          */
-        public Builder status(UserAccountStatus status) {
+        public Builder status(UserAccountState status) {
             userAccount.status = status;
             return this;
         }

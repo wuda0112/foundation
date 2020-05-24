@@ -1,24 +1,30 @@
 package com.wuda.foundation.user;
 
+import com.wuda.foundation.lang.Identifier;
+
+import java.util.List;
+
 public interface UserManager {
 
     /**
-     * 检查principal是否存在.
+     * 检查用户是否存在.
      *
-     * @param principal 用户唯一标记
+     * @param identifier 用户唯一标记
      * @return <code>true</code>-如果存在
      */
-    boolean exists(UserPrincipal principal);
+    boolean exists(Identifier<String> identifier);
 
     /**
-     * 新增一个用户.
+     * 新增一个新用户.
      *
-     * @param account 账号
-     * @param type    用户类型
-     * @param status  用户状态
+     * @param type             用户类型
+     * @param userState        用户状态
+     * @param identifiers      唯一标记这个用户,比如username,email等等
+     * @param password         密码
+     * @param userAccountState 账号的状态
      * @return 用户ID
      */
-    long addUser(UserAccount account, UserType type, UserStatus status);
+    long addUser(UserType type, UserState userState, List<Identifier<String>> identifiers, String password, UserAccountState userAccountState);
 
     /**
      * 更新密码.
@@ -34,7 +40,7 @@ public interface UserManager {
      * @param userId 用户ID
      * @param status 用户账号的状态.
      */
-    void updateUserAccountStatus(Long userId, UserAccountStatus status);
+    void updateUserAccountStatus(Long userId, UserAccountState status);
 
     /**
      * 更新用户账号的状态.
@@ -42,7 +48,7 @@ public interface UserManager {
      * @param userId 用户ID
      * @param status 用户账号的状态.
      */
-    void updateUserStatus(Long userId, UserStatus status);
+    void updateUserStatus(Long userId, UserState status);
 
     /**
      * 获取用户详细信息.

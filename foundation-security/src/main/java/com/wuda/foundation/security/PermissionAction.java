@@ -1,9 +1,8 @@
 package com.wuda.foundation.security;
 
-import com.wuda.foundation.CRUDEntity;
-import com.wuda.foundation.CRUDEntityBuilder;
-import com.wuda.foundation.EntityCRUDState;
-import com.wuda.foundation.IdValidator;
+import com.wuda.foundation.lang.CRUDEntity;
+import com.wuda.foundation.lang.CRUDEntityState;
+import com.wuda.foundation.lang.IdValidator;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -82,19 +81,39 @@ public class PermissionAction extends CRUDEntity {
         }
     }
 
-    public static class Builder extends CRUDEntityBuilder<PermissionAction> {
+    public static class Builder extends CRUDEntityBuilder<PermissionAction,Builder> {
 
         /**
          * 即将被构建的{@link PermissionAction}的CRUD状态.
          *
-         * @param crudState {@link EntityCRUDState}
+         * @param crudState {@link CRUDEntityState}
          */
-        protected Builder(EntityCRUDState crudState) {
+        protected Builder(CRUDEntityState crudState) {
             super(crudState);
         }
 
         @Override
         public PermissionAction build() {
+            return null;
+        }
+
+        @Override
+        public Builder createTime(Long createTime) {
+            return null;
+        }
+
+        @Override
+        public Builder createUserId(Long createUserId) {
+            return null;
+        }
+
+        @Override
+        public Builder lastModifyTime(Long lastModifyTime) {
+            return null;
+        }
+
+        @Override
+        public Builder lastModifyUserId(Long lastModifyUserId) {
             return null;
         }
     }

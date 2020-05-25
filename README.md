@@ -10,6 +10,8 @@
 
 使用FreeMind和XMind打开
 
+包含数据库设计文档，系统约束说明，专有名词说明等等，程序更新中......
+
 # wiki
 [quick start](https://github.com/wuda0112/foundation/wiki)
 

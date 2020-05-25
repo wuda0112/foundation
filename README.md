@@ -1,3 +1,15 @@
+# 数据库设计
+[DB-Design.mwb 源文件](https://github.com/wuda0112/foundation/blob/master/DB-Design.mwb)
+
+使用MySQL Workbench打开
+
+包含的数据库表有用户体系，权限控制体系，店铺，商品，订单，消息通知体系，异步任务等等，持续更新中......
+
+# 系统设计文档
+[System-Design.mm 源文件](https://github.com/wuda0112/foundation/blob/master/System-Design.mm)
+
+使用FreeMind和XMind打开
+
 # wiki
 [quick start](https://github.com/wuda0112/foundation/wiki)
 
@@ -10,10 +22,3 @@
 - 定义基本的约束，比如在数据库设计中，所有数据ID都不能是0，因为0倍用于特殊用途；比如主键ID预留一个范围的值给系统数据使用，等等，虽然看上去很简单，但是积少成多，并且文档化，这些看上去小的东西也会发挥大作用
 
 这些东西很多人都想做，但是由于业务时间太紧，今天没做，明天没做，最后就再也不好做起来了，如果在业务系统还没开始之前，就开始做好这些事情，就像修房子之前就打好地基一样，后续开发和维护就会顺畅很多。
-
-# 数据库设计
-[数据库设计源文件](https://github.com/wuda0112/foundation/blob/master/DB-Design.mwb)
-
-使用MySQL Workbench打开
-
-包含的数据库表有用户体系，权限控制体系，店铺，商品，订单，消息通知体系，异步任务等等，持续更新中......

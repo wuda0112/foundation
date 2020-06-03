@@ -17,10 +17,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserAccount implements Serializable {
 
-    private static final long serialVersionUID = 1644056695;
+    private static final long serialVersionUID = 523477519;
 
     private ULong         userAccountId;
-    private Long          userId;
+    private ULong         userId;
     private String        username;
     private String        password;
     private UByte         state;
@@ -47,7 +47,7 @@ public class UserAccount implements Serializable {
 
     public UserAccount(
         ULong         userAccountId,
-        Long          userId,
+        ULong         userId,
         String        username,
         String        password,
         UByte         state,
@@ -77,11 +77,11 @@ public class UserAccount implements Serializable {
         this.userAccountId = userAccountId;
     }
 
-    public Long getUserId() {
+    public ULong getUserId() {
         return this.userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(ULong userId) {
         this.userId = userId;
     }
 

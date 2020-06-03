@@ -9,9 +9,16 @@ package com.wuda.foundation.user;
 public interface UserAccountState {
 
     /**
-     * 获取用户账号的状态.
+     * 获取code.
      *
-     * @return 状态值
+     * @return code
      */
-    int get();
+    int getCode();
+
+    /**
+     * 描述信息.
+     *
+     * @return 描述
+     */
+    String getDescription();
 }

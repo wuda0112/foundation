@@ -10,16 +10,21 @@ public enum BuiltinUserState implements UserState {
 
     ZERO(0, "系统内建的一个状态值,业务不可使用,就好像系统保留的关键字一样,用于系统用户初始化");
 
-    private int state;
-    private String desc;
+    private int code;
+    private String description;
 
-    BuiltinUserState(int state, String desc) {
-        this.state = state;
-        this.desc = desc;
+    BuiltinUserState(int code, String description) {
+        this.code = code;
+        this.description = description;
     }
 
     @Override
-    public int get() {
-        return state;
+    public int getCode() {
+        return code;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

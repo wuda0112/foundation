@@ -9,9 +9,16 @@ package com.wuda.foundation.user;
 public interface UserType {
 
     /**
-     * 获取类型的值.
+     * 获取code.
      *
-     * @return 用户类型
+     * @return code
      */
-    int get();
+    int getCode();
+
+    /**
+     * 描述信息.
+     *
+     * @return 描述
+     */
+    String getDescription();
 }

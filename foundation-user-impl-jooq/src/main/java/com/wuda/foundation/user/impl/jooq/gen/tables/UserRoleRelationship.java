@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -35,7 +36,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserRoleRelationship extends TableImpl<UserRoleRelationshipRecord> {
 
-    private static final long serialVersionUID = 1754857962;
+    private static final long serialVersionUID = 1016508980;
 
     /**
      * The reference instance of <code>user.user_role_relationship</code>
@@ -53,7 +54,7 @@ public class UserRoleRelationship extends TableImpl<UserRoleRelationshipRecord> 
     /**
      * The column <code>user.user_role_relationship.id</code>.
      */
-    public final TableField<UserRoleRelationshipRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<UserRoleRelationshipRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>user.user_role_relationship.user_id</code>.
@@ -121,6 +122,11 @@ public class UserRoleRelationship extends TableImpl<UserRoleRelationshipRecord> 
     @Override
     public List<Index> getIndexes() {
         return Arrays.<Index>asList(Indexes.USER_ROLE_RELATIONSHIP_FK_ROLE_ID_IDX, Indexes.USER_ROLE_RELATIONSHIP_FK_USER_ID);
+    }
+
+    @Override
+    public Identity<UserRoleRelationshipRecord, ULong> getIdentity() {
+        return Keys.IDENTITY_USER_ROLE_RELATIONSHIP;
     }
 
     @Override

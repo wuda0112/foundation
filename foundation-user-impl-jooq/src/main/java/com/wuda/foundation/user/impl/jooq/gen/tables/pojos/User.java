@@ -17,9 +17,9 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 932802602;
+    private static final long serialVersionUID = -223696040;
 
-    private Long          userId;
+    private ULong         userId;
     private UByte         type;
     private UByte         state;
     private LocalDateTime createTime;
@@ -42,7 +42,7 @@ public class User implements Serializable {
     }
 
     public User(
-        Long          userId,
+        ULong         userId,
         UByte         type,
         UByte         state,
         LocalDateTime createTime,
@@ -61,11 +61,11 @@ public class User implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public Long getUserId() {
+    public ULong getUserId() {
         return this.userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(ULong userId) {
         this.userId = userId;
     }
 

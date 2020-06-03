@@ -20,7 +20,7 @@ import org.jooq.types.ULong;
  * 用户有很多类型，比如一种分类方法是把用户分成个人用户和企业用户，而不同类型的用户需要的字段不一样，但是他们都是用户，即 is-a user。这个表属于所有用户的基本信息，其他不同类型的用户有自己专属的表，然后用用户ID关联回这个表。这样做还有一个好处，那就是其他表中的用户ID都统一关联回这个表，这样用户ID就不会有歧义了。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserDao extends DAOImpl<UserRecord, com.wuda.foundation.user.impl.jooq.gen.tables.pojos.User, Long> {
+public class UserDao extends DAOImpl<UserRecord, com.wuda.foundation.user.impl.jooq.gen.tables.pojos.User, ULong> {
 
     /**
      * Create a new UserDao without any configuration
@@ -37,28 +37,28 @@ public class UserDao extends DAOImpl<UserRecord, com.wuda.foundation.user.impl.j
     }
 
     @Override
-    public Long getId(com.wuda.foundation.user.impl.jooq.gen.tables.pojos.User object) {
+    public ULong getId(com.wuda.foundation.user.impl.jooq.gen.tables.pojos.User object) {
         return object.getUserId();
     }
 
     /**
      * Fetch records that have <code>user_id BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.user.impl.jooq.gen.tables.pojos.User> fetchRangeOfUserId(Long lowerInclusive, Long upperInclusive) {
+    public List<com.wuda.foundation.user.impl.jooq.gen.tables.pojos.User> fetchRangeOfUserId(ULong lowerInclusive, ULong upperInclusive) {
         return fetchRange(User.USER_.USER_ID, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>user_id IN (values)</code>
      */
-    public List<com.wuda.foundation.user.impl.jooq.gen.tables.pojos.User> fetchByUserId(Long... values) {
+    public List<com.wuda.foundation.user.impl.jooq.gen.tables.pojos.User> fetchByUserId(ULong... values) {
         return fetch(User.USER_.USER_ID, values);
     }
 
     /**
      * Fetch a unique record that has <code>user_id = value</code>
      */
-    public com.wuda.foundation.user.impl.jooq.gen.tables.pojos.User fetchOneByUserId(Long value) {
+    public com.wuda.foundation.user.impl.jooq.gen.tables.pojos.User fetchOneByUserId(ULong value) {
         return fetchOne(User.USER_.USER_ID, value);
     }
 

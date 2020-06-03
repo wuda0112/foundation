@@ -21,22 +21,22 @@ import org.jooq.types.ULong;
  * 用户有很多类型，比如一种分类方法是把用户分成个人用户和企业用户，而不同类型的用户需要的字段不一样，但是他们都是用户，即 is-a user。这个表属于所有用户的基本信息，其他不同类型的用户有自己专属的表，然后用用户ID关联回这个表。这样做还有一个好处，那就是其他表中的用户ID都统一关联回这个表，这样用户ID就不会有歧义了。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Record8<Long, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Record8<ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1025236691;
+    private static final long serialVersionUID = -1089276318;
 
     /**
      * Setter for <code>user.user.user_id</code>.
      */
-    public void setUserId(Long value) {
+    public void setUserId(ULong value) {
         set(0, value);
     }
 
     /**
      * Getter for <code>user.user.user_id</code>.
      */
-    public Long getUserId() {
-        return (Long) get(0);
+    public ULong getUserId() {
+        return (ULong) get(0);
     }
 
     /**
@@ -142,7 +142,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     // -------------------------------------------------------------------------
 
     @Override
-    public Record1<Long> key() {
+    public Record1<ULong> key() {
         return (Record1) super.key();
     }
 
@@ -151,17 +151,17 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Long, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+    public Row8<ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
         return (Row8) super.fieldsRow();
     }
 
     @Override
-    public Row8<Long, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+    public Row8<ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
         return (Row8) super.valuesRow();
     }
 
     @Override
-    public Field<Long> field1() {
+    public Field<ULong> field1() {
         return User.USER_.USER_ID;
     }
 
@@ -201,7 +201,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     }
 
     @Override
-    public Long component1() {
+    public ULong component1() {
         return getUserId();
     }
 
@@ -241,7 +241,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     }
 
     @Override
-    public Long value1() {
+    public ULong value1() {
         return getUserId();
     }
 
@@ -281,7 +281,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     }
 
     @Override
-    public UserRecord value1(Long value) {
+    public UserRecord value1(ULong value) {
         setUserId(value);
         return this;
     }
@@ -329,7 +329,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     }
 
     @Override
-    public UserRecord values(Long value1, UByte value2, UByte value3, LocalDateTime value4, ULong value5, LocalDateTime value6, ULong value7, ULong value8) {
+    public UserRecord values(ULong value1, UByte value2, UByte value3, LocalDateTime value4, ULong value5, LocalDateTime value6, ULong value7, ULong value8) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -355,7 +355,7 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
     /**
      * Create a detached, initialised UserRecord
      */
-    public UserRecord(Long userId, UByte type, UByte state, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public UserRecord(ULong userId, UByte type, UByte state, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(User.USER_);
 
         set(0, userId);

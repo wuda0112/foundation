@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -35,7 +36,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Role extends TableImpl<RoleRecord> {
 
-    private static final long serialVersionUID = 652167621;
+    private static final long serialVersionUID = 1417735711;
 
     /**
      * The reference instance of <code>user.role</code>
@@ -53,7 +54,7 @@ public class Role extends TableImpl<RoleRecord> {
     /**
      * The column <code>user.role.role_id</code>.
      */
-    public final TableField<RoleRecord, ULong> ROLE_ID = createField(DSL.name("role_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<RoleRecord, ULong> ROLE_ID = createField(DSL.name("role_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>user.role.parent_id</code>. 父级
@@ -136,6 +137,11 @@ public class Role extends TableImpl<RoleRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.<Index>asList(Indexes.ROLE_IDX_PARENT_ID);
+    }
+
+    @Override
+    public Identity<RoleRecord, ULong> getIdentity() {
+        return Keys.IDENTITY_ROLE;
     }
 
     @Override

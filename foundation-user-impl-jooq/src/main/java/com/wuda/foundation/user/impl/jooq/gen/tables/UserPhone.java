@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -36,7 +37,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserPhone extends TableImpl<UserPhoneRecord> {
 
-    private static final long serialVersionUID = 763982688;
+    private static final long serialVersionUID = -2140686081;
 
     /**
      * The reference instance of <code>user.user_phone</code>
@@ -54,7 +55,7 @@ public class UserPhone extends TableImpl<UserPhoneRecord> {
     /**
      * The column <code>user.user_phone.id</code>.
      */
-    public final TableField<UserPhoneRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<UserPhoneRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>user.user_phone.user_id</code>.
@@ -70,6 +71,11 @@ public class UserPhone extends TableImpl<UserPhoneRecord> {
      * The column <code>user.user_phone.usage</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
      */
     public final TableField<UserPhoneRecord, UByte> USAGE = createField(DSL.name("usage"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "电话的用途。比如用于400电话。也就是电话使用的业务场景。");
+
+    /**
+     * The column <code>user.user_phone.state</code>. 状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态
+     */
+    public final TableField<UserPhoneRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态");
 
     /**
      * The column <code>user.user_phone.description</code>. 简单描述
@@ -100,11 +106,6 @@ public class UserPhone extends TableImpl<UserPhoneRecord> {
      * The column <code>user.user_phone.is_deleted</code>.
      */
     public final TableField<UserPhoneRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
-
-    /**
-     * The column <code>user.user_phone.state</code>. 状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态
-     */
-    public final TableField<UserPhoneRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态");
 
     /**
      * Create a <code>user.user_phone</code> table reference
@@ -150,6 +151,11 @@ public class UserPhone extends TableImpl<UserPhoneRecord> {
     }
 
     @Override
+    public Identity<UserPhoneRecord, ULong> getIdentity() {
+        return Keys.IDENTITY_USER_PHONE;
+    }
+
+    @Override
     public UniqueKey<UserPhoneRecord> getPrimaryKey() {
         return Keys.KEY_USER_PHONE_PRIMARY;
     }
@@ -190,7 +196,7 @@ public class UserPhone extends TableImpl<UserPhoneRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<ULong, ULong, ULong, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong, UByte> fieldsRow() {
+    public Row11<ULong, ULong, ULong, UByte, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
         return (Row11) super.fieldsRow();
     }
 }

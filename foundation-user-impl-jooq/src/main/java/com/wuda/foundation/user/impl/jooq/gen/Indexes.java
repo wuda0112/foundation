@@ -4,6 +4,7 @@
 package com.wuda.foundation.user.impl.jooq.gen;
 
 
+import com.wuda.foundation.user.impl.jooq.gen.tables.IndividualUserGeneral;
 import com.wuda.foundation.user.impl.jooq.gen.tables.Role;
 import com.wuda.foundation.user.impl.jooq.gen.tables.UserEmail;
 import com.wuda.foundation.user.impl.jooq.gen.tables.UserPhone;
@@ -24,6 +25,7 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
+    public static final Index INDIVIDUAL_USER_GENERAL_FK_USER_ID = Indexes0.INDIVIDUAL_USER_GENERAL_FK_USER_ID;
     public static final Index ROLE_IDX_PARENT_ID = Indexes0.ROLE_IDX_PARENT_ID;
     public static final Index USER_EMAIL_FK_USER_ID = Indexes0.USER_EMAIL_FK_USER_ID;
     public static final Index USER_PHONE_FK_USER_ID = Indexes0.USER_PHONE_FK_USER_ID;
@@ -35,6 +37,7 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
+        public static Index INDIVIDUAL_USER_GENERAL_FK_USER_ID = Internal.createIndex("fk_user_id", IndividualUserGeneral.INDIVIDUAL_USER_GENERAL, new OrderField[] { IndividualUserGeneral.INDIVIDUAL_USER_GENERAL.USER_ID }, false);
         public static Index ROLE_IDX_PARENT_ID = Internal.createIndex("idx_parent_id", Role.ROLE, new OrderField[] { Role.ROLE.PARENT_ID }, false);
         public static Index USER_EMAIL_FK_USER_ID = Internal.createIndex("fk_user_id", UserEmail.USER_EMAIL, new OrderField[] { UserEmail.USER_EMAIL.USER_ID }, false);
         public static Index USER_PHONE_FK_USER_ID = Internal.createIndex("fk_user_id", UserPhone.USER_PHONE, new OrderField[] { UserPhone.USER_PHONE.USER_ID }, false);

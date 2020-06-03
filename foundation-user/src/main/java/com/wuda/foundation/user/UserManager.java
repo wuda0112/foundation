@@ -17,14 +17,20 @@ public interface UserManager {
     /**
      * 新增一个新用户.
      *
-     * @param type             用户类型
+     * @param userType         用户类型
      * @param userState        用户状态
      * @param identifiers      唯一标记这个用户,比如username,email等等
      * @param password         密码
      * @param userAccountState 账号的状态
+     * @param opUserId         操作人用户ID,是谁正在添加这个新用户
      * @return 用户ID
      */
-    long addUser(UserType type, UserState userState, List<Identifier<String>> identifiers, String password, UserAccountState userAccountState);
+    long addUser(UserType userType,
+                 UserState userState,
+                 List<Identifier<String>> identifiers,
+                 String password,
+                 UserAccountState userAccountState,
+                 Long opUserId);
 
     /**
      * 更新密码.

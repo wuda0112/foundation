@@ -9,16 +9,21 @@ package com.wuda.foundation.user;
 public enum BuiltinUserAccountState implements UserAccountState {
 
     ZERO(0, "系统内建的一个状态值,业务不可使用,就好像系统保留的关键字一样,用于系统用户初始化");
-    private int status;
-    private String desc;
+    private int code;
+    private String description;
 
-    BuiltinUserAccountState(int status, String desc) {
-        this.status = status;
-        this.desc = desc;
+    BuiltinUserAccountState(int code, String description) {
+        this.code = code;
+        this.description = description;
     }
 
     @Override
-    public int get() {
-        return status;
+    public int getCode() {
+        return code;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

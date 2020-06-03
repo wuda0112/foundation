@@ -21,9 +21,9 @@ import org.jooq.types.ULong;
  * 用户的电话
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implements Record11<ULong, ULong, ULong, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong, UByte> {
+public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implements Record11<ULong, ULong, ULong, UByte, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1888098225;
+    private static final long serialVersionUID = -344524229;
 
     /**
      * Setter for <code>user.user_phone.id</code>.
@@ -82,101 +82,101 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
     }
 
     /**
-     * Setter for <code>user.user_phone.description</code>. 简单描述
-     */
-    public void setDescription(String value) {
-        set(4, value);
-    }
-
-    /**
-     * Getter for <code>user.user_phone.description</code>. 简单描述
-     */
-    public String getDescription() {
-        return (String) get(4);
-    }
-
-    /**
-     * Setter for <code>user.user_phone.create_time</code>.
-     */
-    public void setCreateTime(LocalDateTime value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>user.user_phone.create_time</code>.
-     */
-    public LocalDateTime getCreateTime() {
-        return (LocalDateTime) get(5);
-    }
-
-    /**
-     * Setter for <code>user.user_phone.create_user_id</code>.
-     */
-    public void setCreateUserId(ULong value) {
-        set(6, value);
-    }
-
-    /**
-     * Getter for <code>user.user_phone.create_user_id</code>.
-     */
-    public ULong getCreateUserId() {
-        return (ULong) get(6);
-    }
-
-    /**
-     * Setter for <code>user.user_phone.last_modify_time</code>.
-     */
-    public void setLastModifyTime(LocalDateTime value) {
-        set(7, value);
-    }
-
-    /**
-     * Getter for <code>user.user_phone.last_modify_time</code>.
-     */
-    public LocalDateTime getLastModifyTime() {
-        return (LocalDateTime) get(7);
-    }
-
-    /**
-     * Setter for <code>user.user_phone.last_modify_user_id</code>.
-     */
-    public void setLastModifyUserId(ULong value) {
-        set(8, value);
-    }
-
-    /**
-     * Getter for <code>user.user_phone.last_modify_user_id</code>.
-     */
-    public ULong getLastModifyUserId() {
-        return (ULong) get(8);
-    }
-
-    /**
-     * Setter for <code>user.user_phone.is_deleted</code>.
-     */
-    public void setIsDeleted(ULong value) {
-        set(9, value);
-    }
-
-    /**
-     * Getter for <code>user.user_phone.is_deleted</code>.
-     */
-    public ULong getIsDeleted() {
-        return (ULong) get(9);
-    }
-
-    /**
      * Setter for <code>user.user_phone.state</code>. 状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态
      */
     public void setState(UByte value) {
-        set(10, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>user.user_phone.state</code>. 状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态
      */
     public UByte getState() {
-        return (UByte) get(10);
+        return (UByte) get(4);
+    }
+
+    /**
+     * Setter for <code>user.user_phone.description</code>. 简单描述
+     */
+    public void setDescription(String value) {
+        set(5, value);
+    }
+
+    /**
+     * Getter for <code>user.user_phone.description</code>. 简单描述
+     */
+    public String getDescription() {
+        return (String) get(5);
+    }
+
+    /**
+     * Setter for <code>user.user_phone.create_time</code>.
+     */
+    public void setCreateTime(LocalDateTime value) {
+        set(6, value);
+    }
+
+    /**
+     * Getter for <code>user.user_phone.create_time</code>.
+     */
+    public LocalDateTime getCreateTime() {
+        return (LocalDateTime) get(6);
+    }
+
+    /**
+     * Setter for <code>user.user_phone.create_user_id</code>.
+     */
+    public void setCreateUserId(ULong value) {
+        set(7, value);
+    }
+
+    /**
+     * Getter for <code>user.user_phone.create_user_id</code>.
+     */
+    public ULong getCreateUserId() {
+        return (ULong) get(7);
+    }
+
+    /**
+     * Setter for <code>user.user_phone.last_modify_time</code>.
+     */
+    public void setLastModifyTime(LocalDateTime value) {
+        set(8, value);
+    }
+
+    /**
+     * Getter for <code>user.user_phone.last_modify_time</code>.
+     */
+    public LocalDateTime getLastModifyTime() {
+        return (LocalDateTime) get(8);
+    }
+
+    /**
+     * Setter for <code>user.user_phone.last_modify_user_id</code>.
+     */
+    public void setLastModifyUserId(ULong value) {
+        set(9, value);
+    }
+
+    /**
+     * Getter for <code>user.user_phone.last_modify_user_id</code>.
+     */
+    public ULong getLastModifyUserId() {
+        return (ULong) get(9);
+    }
+
+    /**
+     * Setter for <code>user.user_phone.is_deleted</code>.
+     */
+    public void setIsDeleted(ULong value) {
+        set(10, value);
+    }
+
+    /**
+     * Getter for <code>user.user_phone.is_deleted</code>.
+     */
+    public ULong getIsDeleted() {
+        return (ULong) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -193,12 +193,12 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<ULong, ULong, ULong, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong, UByte> fieldsRow() {
+    public Row11<ULong, ULong, ULong, UByte, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
         return (Row11) super.fieldsRow();
     }
 
     @Override
-    public Row11<ULong, ULong, ULong, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong, UByte> valuesRow() {
+    public Row11<ULong, ULong, ULong, UByte, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
         return (Row11) super.valuesRow();
     }
 
@@ -223,38 +223,38 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
     }
 
     @Override
-    public Field<String> field5() {
+    public Field<UByte> field5() {
+        return UserPhone.USER_PHONE.STATE;
+    }
+
+    @Override
+    public Field<String> field6() {
         return UserPhone.USER_PHONE.DESCRIPTION;
     }
 
     @Override
-    public Field<LocalDateTime> field6() {
+    public Field<LocalDateTime> field7() {
         return UserPhone.USER_PHONE.CREATE_TIME;
     }
 
     @Override
-    public Field<ULong> field7() {
+    public Field<ULong> field8() {
         return UserPhone.USER_PHONE.CREATE_USER_ID;
     }
 
     @Override
-    public Field<LocalDateTime> field8() {
+    public Field<LocalDateTime> field9() {
         return UserPhone.USER_PHONE.LAST_MODIFY_TIME;
     }
 
     @Override
-    public Field<ULong> field9() {
+    public Field<ULong> field10() {
         return UserPhone.USER_PHONE.LAST_MODIFY_USER_ID;
     }
 
     @Override
-    public Field<ULong> field10() {
+    public Field<ULong> field11() {
         return UserPhone.USER_PHONE.IS_DELETED;
-    }
-
-    @Override
-    public Field<UByte> field11() {
-        return UserPhone.USER_PHONE.STATE;
     }
 
     @Override
@@ -278,38 +278,38 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
     }
 
     @Override
-    public String component5() {
+    public UByte component5() {
+        return getState();
+    }
+
+    @Override
+    public String component6() {
         return getDescription();
     }
 
     @Override
-    public LocalDateTime component6() {
+    public LocalDateTime component7() {
         return getCreateTime();
     }
 
     @Override
-    public ULong component7() {
+    public ULong component8() {
         return getCreateUserId();
     }
 
     @Override
-    public LocalDateTime component8() {
+    public LocalDateTime component9() {
         return getLastModifyTime();
     }
 
     @Override
-    public ULong component9() {
+    public ULong component10() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong component10() {
+    public ULong component11() {
         return getIsDeleted();
-    }
-
-    @Override
-    public UByte component11() {
-        return getState();
     }
 
     @Override
@@ -333,38 +333,38 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
     }
 
     @Override
-    public String value5() {
+    public UByte value5() {
+        return getState();
+    }
+
+    @Override
+    public String value6() {
         return getDescription();
     }
 
     @Override
-    public LocalDateTime value6() {
+    public LocalDateTime value7() {
         return getCreateTime();
     }
 
     @Override
-    public ULong value7() {
+    public ULong value8() {
         return getCreateUserId();
     }
 
     @Override
-    public LocalDateTime value8() {
+    public LocalDateTime value9() {
         return getLastModifyTime();
     }
 
     @Override
-    public ULong value9() {
+    public ULong value10() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong value10() {
+    public ULong value11() {
         return getIsDeleted();
-    }
-
-    @Override
-    public UByte value11() {
-        return getState();
     }
 
     @Override
@@ -392,49 +392,49 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
     }
 
     @Override
-    public UserPhoneRecord value5(String value) {
-        setDescription(value);
-        return this;
-    }
-
-    @Override
-    public UserPhoneRecord value6(LocalDateTime value) {
-        setCreateTime(value);
-        return this;
-    }
-
-    @Override
-    public UserPhoneRecord value7(ULong value) {
-        setCreateUserId(value);
-        return this;
-    }
-
-    @Override
-    public UserPhoneRecord value8(LocalDateTime value) {
-        setLastModifyTime(value);
-        return this;
-    }
-
-    @Override
-    public UserPhoneRecord value9(ULong value) {
-        setLastModifyUserId(value);
-        return this;
-    }
-
-    @Override
-    public UserPhoneRecord value10(ULong value) {
-        setIsDeleted(value);
-        return this;
-    }
-
-    @Override
-    public UserPhoneRecord value11(UByte value) {
+    public UserPhoneRecord value5(UByte value) {
         setState(value);
         return this;
     }
 
     @Override
-    public UserPhoneRecord values(ULong value1, ULong value2, ULong value3, UByte value4, String value5, LocalDateTime value6, ULong value7, LocalDateTime value8, ULong value9, ULong value10, UByte value11) {
+    public UserPhoneRecord value6(String value) {
+        setDescription(value);
+        return this;
+    }
+
+    @Override
+    public UserPhoneRecord value7(LocalDateTime value) {
+        setCreateTime(value);
+        return this;
+    }
+
+    @Override
+    public UserPhoneRecord value8(ULong value) {
+        setCreateUserId(value);
+        return this;
+    }
+
+    @Override
+    public UserPhoneRecord value9(LocalDateTime value) {
+        setLastModifyTime(value);
+        return this;
+    }
+
+    @Override
+    public UserPhoneRecord value10(ULong value) {
+        setLastModifyUserId(value);
+        return this;
+    }
+
+    @Override
+    public UserPhoneRecord value11(ULong value) {
+        setIsDeleted(value);
+        return this;
+    }
+
+    @Override
+    public UserPhoneRecord values(ULong value1, ULong value2, ULong value3, UByte value4, UByte value5, String value6, LocalDateTime value7, ULong value8, LocalDateTime value9, ULong value10, ULong value11) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -463,19 +463,19 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
     /**
      * Create a detached, initialised UserPhoneRecord
      */
-    public UserPhoneRecord(ULong id, ULong userId, ULong phoneId, UByte usage, String description, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted, UByte state) {
+    public UserPhoneRecord(ULong id, ULong userId, ULong phoneId, UByte usage, UByte state, String description, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(UserPhone.USER_PHONE);
 
         set(0, id);
         set(1, userId);
         set(2, phoneId);
         set(3, usage);
-        set(4, description);
-        set(5, createTime);
-        set(6, createUserId);
-        set(7, lastModifyTime);
-        set(8, lastModifyUserId);
-        set(9, isDeleted);
-        set(10, state);
+        set(4, state);
+        set(5, description);
+        set(6, createTime);
+        set(7, createUserId);
+        set(8, lastModifyTime);
+        set(9, lastModifyUserId);
+        set(10, isDeleted);
     }
 }

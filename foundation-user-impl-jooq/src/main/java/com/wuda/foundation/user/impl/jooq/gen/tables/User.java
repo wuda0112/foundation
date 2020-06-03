@@ -34,7 +34,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class User extends TableImpl<UserRecord> {
 
-    private static final long serialVersionUID = -642455122;
+    private static final long serialVersionUID = -684591831;
 
     /**
      * The reference instance of <code>user.user</code>
@@ -52,7 +52,7 @@ public class User extends TableImpl<UserRecord> {
     /**
      * The column <code>user.user.user_id</code>.
      */
-    public final TableField<UserRecord, Long> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<UserRecord, ULong> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>user.user.type</code>. 用户类型
@@ -128,7 +128,7 @@ public class User extends TableImpl<UserRecord> {
     }
 
     @Override
-    public Identity<UserRecord, Long> getIdentity() {
+    public Identity<UserRecord, ULong> getIdentity() {
         return Keys.IDENTITY_USER_;
     }
 
@@ -139,7 +139,7 @@ public class User extends TableImpl<UserRecord> {
 
     @Override
     public List<UniqueKey<UserRecord>> getKeys() {
-        return Arrays.<UniqueKey<UserRecord>>asList(Keys.KEY_USER_PRIMARY, Keys.KEY_USER_USER_ID);
+        return Arrays.<UniqueKey<UserRecord>>asList(Keys.KEY_USER_PRIMARY);
     }
 
     @Override
@@ -173,7 +173,7 @@ public class User extends TableImpl<UserRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<Long, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+    public Row8<ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
         return (Row8) super.fieldsRow();
     }
 }

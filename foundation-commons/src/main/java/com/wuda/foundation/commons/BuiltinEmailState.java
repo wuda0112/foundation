@@ -1,13 +1,18 @@
 package com.wuda.foundation.commons;
 
-public enum BuiltinPhoneUsage implements PhoneUsage {
+/**
+ * 内置email state.
+ *
+ * @author wuda
+ */
+public enum BuiltinEmailState implements EmailState {
 
-    ZERO(0, "用于登录");
+    ZERO(0, "初始化状态,刚添加到系统中");
 
     private int code;
     private String description;
 
-    BuiltinPhoneUsage(int code, String description) {
+    BuiltinEmailState(int code, String description) {
         this.code = code;
         this.description = description;
     }

@@ -10,18 +10,23 @@ public enum BuiltinUserType implements UserType {
 
     ZERO(0, "系统内建的一个状态值,业务不可使用,就好像系统保留的关键字一样,表示系统用户");
 
-    private int status;
-    private String desc;
+    private int code;
+    private String description;
 
-    BuiltinUserType(int status, String desc) {
-        this.status = status;
-        this.desc = desc;
+    BuiltinUserType(int code, String description) {
+        this.code = code;
+        this.description = description;
     }
 
 
     @Override
-    public int get() {
-        return status;
+    public int getCode() {
+        return code;
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -31,10 +36,10 @@ public enum BuiltinUserType implements UserType {
      * @return <code>true</code>-如果是系统内建的用户
      */
     public static boolean builtinUserType(UserType userType) {
-        int type = userType.get();
+        int code = userType.getCode();
         BuiltinUserType[] array = BuiltinUserType.values();
         for (BuiltinUserType element : array) {
-            if (element.get() == type) {
+            if (element.getCode() == code) {
                 return true;
             }
         }

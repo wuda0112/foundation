@@ -105,6 +105,20 @@ public class UserPhoneDao extends DAOImpl<UserPhoneRecord, com.wuda.foundation.u
     }
 
     /**
+     * Fetch records that have <code>state BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.user.impl.jooq.gen.tables.pojos.UserPhone> fetchRangeOfState(UByte lowerInclusive, UByte upperInclusive) {
+        return fetchRange(UserPhone.USER_PHONE.STATE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>state IN (values)</code>
+     */
+    public List<com.wuda.foundation.user.impl.jooq.gen.tables.pojos.UserPhone> fetchByState(UByte... values) {
+        return fetch(UserPhone.USER_PHONE.STATE, values);
+    }
+
+    /**
      * Fetch records that have <code>description BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.user.impl.jooq.gen.tables.pojos.UserPhone> fetchRangeOfDescription(String lowerInclusive, String upperInclusive) {
@@ -186,19 +200,5 @@ public class UserPhoneDao extends DAOImpl<UserPhoneRecord, com.wuda.foundation.u
      */
     public List<com.wuda.foundation.user.impl.jooq.gen.tables.pojos.UserPhone> fetchByIsDeleted(ULong... values) {
         return fetch(UserPhone.USER_PHONE.IS_DELETED, values);
-    }
-
-    /**
-     * Fetch records that have <code>state BETWEEN lowerInclusive AND upperInclusive</code>
-     */
-    public List<com.wuda.foundation.user.impl.jooq.gen.tables.pojos.UserPhone> fetchRangeOfState(UByte lowerInclusive, UByte upperInclusive) {
-        return fetchRange(UserPhone.USER_PHONE.STATE, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>state IN (values)</code>
-     */
-    public List<com.wuda.foundation.user.impl.jooq.gen.tables.pojos.UserPhone> fetchByState(UByte... values) {
-        return fetch(UserPhone.USER_PHONE.STATE, values);
     }
 }

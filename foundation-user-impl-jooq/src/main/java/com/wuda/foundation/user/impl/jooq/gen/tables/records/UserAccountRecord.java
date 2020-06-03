@@ -21,9 +21,9 @@ import org.jooq.types.ULong;
  * 用户账号信息，适用各种类型的用户
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> implements Record10<ULong, Long, String, String, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> implements Record10<ULong, ULong, String, String, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1069258474;
+    private static final long serialVersionUID = 1221994160;
 
     /**
      * Setter for <code>user.user_account.user_account_id</code>.
@@ -42,15 +42,15 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     /**
      * Setter for <code>user.user_account.user_id</code>. 用户ID
      */
-    public void setUserId(Long value) {
+    public void setUserId(ULong value) {
         set(1, value);
     }
 
     /**
      * Getter for <code>user.user_account.user_id</code>. 用户ID
      */
-    public Long getUserId() {
-        return (Long) get(1);
+    public ULong getUserId() {
+        return (ULong) get(1);
     }
 
     /**
@@ -179,12 +179,12 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<ULong, Long, String, String, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+    public Row10<ULong, ULong, String, String, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
         return (Row10) super.fieldsRow();
     }
 
     @Override
-    public Row10<ULong, Long, String, String, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+    public Row10<ULong, ULong, String, String, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
         return (Row10) super.valuesRow();
     }
 
@@ -194,7 +194,7 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     }
 
     @Override
-    public Field<Long> field2() {
+    public Field<ULong> field2() {
         return UserAccount.USER_ACCOUNT.USER_ID;
     }
 
@@ -244,7 +244,7 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     }
 
     @Override
-    public Long component2() {
+    public ULong component2() {
         return getUserId();
     }
 
@@ -294,7 +294,7 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     }
 
     @Override
-    public Long value2() {
+    public ULong value2() {
         return getUserId();
     }
 
@@ -345,7 +345,7 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     }
 
     @Override
-    public UserAccountRecord value2(Long value) {
+    public UserAccountRecord value2(ULong value) {
         setUserId(value);
         return this;
     }
@@ -399,7 +399,7 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     }
 
     @Override
-    public UserAccountRecord values(ULong value1, Long value2, String value3, String value4, UByte value5, LocalDateTime value6, ULong value7, LocalDateTime value8, ULong value9, ULong value10) {
+    public UserAccountRecord values(ULong value1, ULong value2, String value3, String value4, UByte value5, LocalDateTime value6, ULong value7, LocalDateTime value8, ULong value9, ULong value10) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -427,7 +427,7 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     /**
      * Create a detached, initialised UserAccountRecord
      */
-    public UserAccountRecord(ULong userAccountId, Long userId, String username, String password, UByte state, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public UserAccountRecord(ULong userAccountId, ULong userId, String username, String password, UByte state, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(UserAccount.USER_ACCOUNT);
 
         set(0, userAccountId);

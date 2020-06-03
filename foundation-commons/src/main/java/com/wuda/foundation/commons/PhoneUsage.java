@@ -1,12 +1,11 @@
-package com.wuda.foundation.user;
+package com.wuda.foundation.commons;
 
 /**
- * 用户的状态.
+ * phone用途.
  *
  * @author wuda
- * @since 1.0.0
  */
-public interface UserState {
+public interface PhoneUsage {
 
     /**
      * 获取code.
@@ -21,4 +20,5 @@ public interface UserState {
      * @return 描述
      */
     String getDescription();
+
 }

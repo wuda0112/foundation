@@ -17,19 +17,19 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserPhone implements Serializable {
 
-    private static final long serialVersionUID = 1910923609;
+    private static final long serialVersionUID = 29625051;
 
     private ULong         id;
     private ULong         userId;
     private ULong         phoneId;
     private UByte         usage;
+    private UByte         state;
     private String        description;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private LocalDateTime lastModifyTime;
     private ULong         lastModifyUserId;
     private ULong         isDeleted;
-    private UByte         state;
 
     public UserPhone() {}
 
@@ -38,13 +38,13 @@ public class UserPhone implements Serializable {
         this.userId = value.userId;
         this.phoneId = value.phoneId;
         this.usage = value.usage;
+        this.state = value.state;
         this.description = value.description;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.lastModifyTime = value.lastModifyTime;
         this.lastModifyUserId = value.lastModifyUserId;
         this.isDeleted = value.isDeleted;
-        this.state = value.state;
     }
 
     public UserPhone(
@@ -52,25 +52,25 @@ public class UserPhone implements Serializable {
         ULong         userId,
         ULong         phoneId,
         UByte         usage,
+        UByte         state,
         String        description,
         LocalDateTime createTime,
         ULong         createUserId,
         LocalDateTime lastModifyTime,
         ULong         lastModifyUserId,
-        ULong         isDeleted,
-        UByte         state
+        ULong         isDeleted
     ) {
         this.id = id;
         this.userId = userId;
         this.phoneId = phoneId;
         this.usage = usage;
+        this.state = state;
         this.description = description;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.lastModifyTime = lastModifyTime;
         this.lastModifyUserId = lastModifyUserId;
         this.isDeleted = isDeleted;
-        this.state = state;
     }
 
     public ULong getId() {
@@ -103,6 +103,14 @@ public class UserPhone implements Serializable {
 
     public void setUsage(UByte usage) {
         this.usage = usage;
+    }
+
+    public UByte getState() {
+        return this.state;
+    }
+
+    public void setState(UByte state) {
+        this.state = state;
     }
 
     public String getDescription() {
@@ -153,14 +161,6 @@ public class UserPhone implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public UByte getState() {
-        return this.state;
-    }
-
-    public void setState(UByte state) {
-        this.state = state;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("UserPhone (");
@@ -169,13 +169,13 @@ public class UserPhone implements Serializable {
         sb.append(", ").append(userId);
         sb.append(", ").append(phoneId);
         sb.append(", ").append(usage);
+        sb.append(", ").append(state);
         sb.append(", ").append(description);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(lastModifyTime);
         sb.append(", ").append(lastModifyUserId);
         sb.append(", ").append(isDeleted);
-        sb.append(", ").append(state);
 
         sb.append(")");
         return sb.toString();

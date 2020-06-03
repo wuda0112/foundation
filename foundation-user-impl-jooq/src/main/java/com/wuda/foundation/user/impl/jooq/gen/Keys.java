@@ -38,7 +38,12 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final Identity<IndividualUserGeneralRecord, ULong> IDENTITY_INDIVIDUAL_USER_GENERAL = Identities0.IDENTITY_INDIVIDUAL_USER_GENERAL;
-    public static final Identity<UserRecord, Long> IDENTITY_USER_ = Identities0.IDENTITY_USER_;
+    public static final Identity<RoleRecord, ULong> IDENTITY_ROLE = Identities0.IDENTITY_ROLE;
+    public static final Identity<UserRecord, ULong> IDENTITY_USER_ = Identities0.IDENTITY_USER_;
+    public static final Identity<UserAccountRecord, ULong> IDENTITY_USER_ACCOUNT = Identities0.IDENTITY_USER_ACCOUNT;
+    public static final Identity<UserEmailRecord, ULong> IDENTITY_USER_EMAIL = Identities0.IDENTITY_USER_EMAIL;
+    public static final Identity<UserPhoneRecord, ULong> IDENTITY_USER_PHONE = Identities0.IDENTITY_USER_PHONE;
+    public static final Identity<UserRoleRelationshipRecord, ULong> IDENTITY_USER_ROLE_RELATIONSHIP = Identities0.IDENTITY_USER_ROLE_RELATIONSHIP;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -48,9 +53,7 @@ public class Keys {
     public static final UniqueKey<RoleRecord> KEY_ROLE_PRIMARY = UniqueKeys0.KEY_ROLE_PRIMARY;
     public static final UniqueKey<RoleRecord> KEY_ROLE_IDX_ROLE_NAME = UniqueKeys0.KEY_ROLE_IDX_ROLE_NAME;
     public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = UniqueKeys0.KEY_USER_PRIMARY;
-    public static final UniqueKey<UserRecord> KEY_USER_USER_ID = UniqueKeys0.KEY_USER_USER_ID;
     public static final UniqueKey<UserAccountRecord> KEY_USER_ACCOUNT_PRIMARY = UniqueKeys0.KEY_USER_ACCOUNT_PRIMARY;
-    public static final UniqueKey<UserAccountRecord> KEY_USER_ACCOUNT_USER_ID = UniqueKeys0.KEY_USER_ACCOUNT_USER_ID;
     public static final UniqueKey<UserAccountRecord> KEY_USER_ACCOUNT_IDX_USERNAME = UniqueKeys0.KEY_USER_ACCOUNT_IDX_USERNAME;
     public static final UniqueKey<UserEmailRecord> KEY_USER_EMAIL_PRIMARY = UniqueKeys0.KEY_USER_EMAIL_PRIMARY;
     public static final UniqueKey<UserEmailRecord> KEY_USER_EMAIL_IDX_UNIQUE = UniqueKeys0.KEY_USER_EMAIL_IDX_UNIQUE;
@@ -69,7 +72,12 @@ public class Keys {
 
     private static class Identities0 {
         public static Identity<IndividualUserGeneralRecord, ULong> IDENTITY_INDIVIDUAL_USER_GENERAL = Internal.createIdentity(IndividualUserGeneral.INDIVIDUAL_USER_GENERAL, IndividualUserGeneral.INDIVIDUAL_USER_GENERAL.INDIVIDUAL_USER_GENERAL_ID);
-        public static Identity<UserRecord, Long> IDENTITY_USER_ = Internal.createIdentity(User.USER_, User.USER_.USER_ID);
+        public static Identity<RoleRecord, ULong> IDENTITY_ROLE = Internal.createIdentity(Role.ROLE, Role.ROLE.ROLE_ID);
+        public static Identity<UserRecord, ULong> IDENTITY_USER_ = Internal.createIdentity(User.USER_, User.USER_.USER_ID);
+        public static Identity<UserAccountRecord, ULong> IDENTITY_USER_ACCOUNT = Internal.createIdentity(UserAccount.USER_ACCOUNT, UserAccount.USER_ACCOUNT.USER_ACCOUNT_ID);
+        public static Identity<UserEmailRecord, ULong> IDENTITY_USER_EMAIL = Internal.createIdentity(UserEmail.USER_EMAIL, UserEmail.USER_EMAIL.ID);
+        public static Identity<UserPhoneRecord, ULong> IDENTITY_USER_PHONE = Internal.createIdentity(UserPhone.USER_PHONE, UserPhone.USER_PHONE.ID);
+        public static Identity<UserRoleRelationshipRecord, ULong> IDENTITY_USER_ROLE_RELATIONSHIP = Internal.createIdentity(UserRoleRelationship.USER_ROLE_RELATIONSHIP, UserRoleRelationship.USER_ROLE_RELATIONSHIP.ID);
     }
 
     private static class UniqueKeys0 {
@@ -77,9 +85,7 @@ public class Keys {
         public static final UniqueKey<RoleRecord> KEY_ROLE_PRIMARY = Internal.createUniqueKey(Role.ROLE, "KEY_role_PRIMARY", new TableField[] { Role.ROLE.ROLE_ID }, true);
         public static final UniqueKey<RoleRecord> KEY_ROLE_IDX_ROLE_NAME = Internal.createUniqueKey(Role.ROLE, "KEY_role_idx_role_name", new TableField[] { Role.ROLE.NAME, Role.ROLE.IS_DELETED }, true);
         public static final UniqueKey<UserRecord> KEY_USER_PRIMARY = Internal.createUniqueKey(User.USER_, "KEY_user_PRIMARY", new TableField[] { User.USER_.USER_ID }, true);
-        public static final UniqueKey<UserRecord> KEY_USER_USER_ID = Internal.createUniqueKey(User.USER_, "KEY_user_user_id", new TableField[] { User.USER_.USER_ID }, true);
         public static final UniqueKey<UserAccountRecord> KEY_USER_ACCOUNT_PRIMARY = Internal.createUniqueKey(UserAccount.USER_ACCOUNT, "KEY_user_account_PRIMARY", new TableField[] { UserAccount.USER_ACCOUNT.USER_ACCOUNT_ID }, true);
-        public static final UniqueKey<UserAccountRecord> KEY_USER_ACCOUNT_USER_ID = Internal.createUniqueKey(UserAccount.USER_ACCOUNT, "KEY_user_account_user_id", new TableField[] { UserAccount.USER_ACCOUNT.USER_ID }, true);
         public static final UniqueKey<UserAccountRecord> KEY_USER_ACCOUNT_IDX_USERNAME = Internal.createUniqueKey(UserAccount.USER_ACCOUNT, "KEY_user_account_idx_username", new TableField[] { UserAccount.USER_ACCOUNT.USERNAME, UserAccount.USER_ACCOUNT.IS_DELETED }, true);
         public static final UniqueKey<UserEmailRecord> KEY_USER_EMAIL_PRIMARY = Internal.createUniqueKey(UserEmail.USER_EMAIL, "KEY_user_email_PRIMARY", new TableField[] { UserEmail.USER_EMAIL.ID }, true);
         public static final UniqueKey<UserEmailRecord> KEY_USER_EMAIL_IDX_UNIQUE = Internal.createUniqueKey(UserEmail.USER_EMAIL, "KEY_user_email_idx_unique", new TableField[] { UserEmail.USER_EMAIL.EMAIL_ID, UserEmail.USER_EMAIL.USAGE, UserEmail.USER_EMAIL.IS_DELETED }, true);

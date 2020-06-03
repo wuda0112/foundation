@@ -1,13 +1,18 @@
 package com.wuda.foundation.commons;
 
-public enum BuiltinPhoneUsage implements PhoneUsage {
+/**
+ * 内置phone state.
+ *
+ * @author wuda
+ */
+public enum BuiltinPhoneState implements PhoneState {
 
-    ZERO(0, "用于登录");
+    ZERO(0, "初始化状态,刚添加到系统中");
 
     private int code;
     private String description;
 
-    BuiltinPhoneUsage(int code, String description) {
+    BuiltinPhoneState(int code, String description) {
         this.code = code;
         this.description = description;
     }
@@ -17,7 +22,6 @@ public enum BuiltinPhoneUsage implements PhoneUsage {
         return code;
     }
 
-    @Override
     public String getDescription() {
         return description;
     }

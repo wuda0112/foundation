@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -36,7 +37,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserEmail extends TableImpl<UserEmailRecord> {
 
-    private static final long serialVersionUID = 1389972398;
+    private static final long serialVersionUID = -950403119;
 
     /**
      * The reference instance of <code>user.user_email</code>
@@ -54,7 +55,7 @@ public class UserEmail extends TableImpl<UserEmailRecord> {
     /**
      * The column <code>user.user_email.id</code>.
      */
-    public final TableField<UserEmailRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<UserEmailRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>user.user_email.user_id</code>.
@@ -147,6 +148,11 @@ public class UserEmail extends TableImpl<UserEmailRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.<Index>asList(Indexes.USER_EMAIL_FK_USER_ID);
+    }
+
+    @Override
+    public Identity<UserEmailRecord, ULong> getIdentity() {
+        return Keys.IDENTITY_USER_EMAIL;
     }
 
     @Override

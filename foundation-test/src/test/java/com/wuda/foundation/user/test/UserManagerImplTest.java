@@ -1,6 +1,7 @@
 package com.wuda.foundation.user.test;
 
 import com.wuda.foundation.lang.Identifier;
+import com.wuda.foundation.lang.keygen.KeyGeneratorSnowflake;
 import com.wuda.foundation.user.*;
 import com.wuda.foundation.user.impl.jooq.UserManagerImpl;
 import org.junit.Test;
@@ -10,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class UserManagerImplTest {
+
+    private KeyGeneratorSnowflake keyGeneratorSnowflake = new KeyGeneratorSnowflake(1);
 
     private DataSource getDataSource() {
         DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();
@@ -21,12 +24,13 @@ public class UserManagerImplTest {
 
     @Test
     public void testAddUser() {
-        getUserManager().addUser(BuiltinUserType.ZERO, BuiltinUserState.ZERO, generateIdentifiers(), "124456", BuiltinUserAccountState.ZERO);
+        getUserManager().addUser(BuiltinUserType.ZERO, BuiltinUserState.ZERO, generateIdentifiers(), "124456", BuiltinUserAccountState.ZERO, 0L);
     }
 
     private UserManager getUserManager() {
         UserManagerImpl userManager = new UserManagerImpl();
         userManager.setDataSource(getDataSource());
+        userManager.setKeyGenerator(keyGeneratorSnowflake);
         return userManager;
     }
 

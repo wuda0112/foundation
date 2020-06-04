@@ -1,19 +1,35 @@
-# 数据库设计
-[DB-Design.mwb 源文件](https://github.com/wuda0112/foundation/blob/master/DB-Design.mwb)
 
-使用MySQL Workbench打开
+
+**面向对象编程，拒绝面条代码。**
+
+
+# 数据库设计
+[数据库源文件 DB-Design.mwb ](https://github.com/wuda0112/foundation/blob/master/DB-Design.mwb)
+
+使用 **MySQL Workbench** 打开
 
 包含的数据库表有用户体系，权限控制体系，店铺，商品，订单，消息通知体系，异步任务等等，持续更新中......
 
 # 系统设计文档
-[System-Design.mm 源文件](https://github.com/wuda0112/foundation/blob/master/System-Design.mm)
+[系统文档源文件 System-Design.mm](https://github.com/wuda0112/foundation/blob/master/System-Design.mm)
 
-使用FreeMind和XMind打开
+使用**FreeMind**或者**XMind**打开
 
-包含数据库设计文档，系统约束说明，专有名词说明等等，程序更新中......
+包含数据库设计文档，系统约束说明，专有名词说明等等，持续更新中......
 
 # wiki
 [quick start](https://github.com/wuda0112/foundation/wiki)
+
+# 模块简介
+- foundation-lang：定义了很多工具类，常用的与业务无关的基础类，比如，[树形结构](https://github.com/wuda0112/foundation/tree/master/foundation-lang/src/main/java/com/wuda/foundation/lang/tree/)，[Snowflake唯一ID生成器](https://github.com/wuda0112/foundation/blob/master/foundation-lang/src/main/java/com/wuda/foundation/lang/keygen/KeyGeneratorSnowflake.java)等等。没有数据库相关的维护。
+
+- foundation-commons：用于维护与业务无关，通用的数据库表，比如用于保存行政区划省市区的表
+- foundation-user：维护用户体系，最主要的就是维护数据库表的完整性
+- foundation-security：维护权限控制体系
+- 未来还有店铺体系，商品体系，订单体系等等，持续更新中......
+
+# 如何搭建完整系统
+比如想做一个CMS系统，则引入foundation-lang，foundation-commons，foundation-user，以及即将提交的foundation-item等模块即可
 
 # 简介
 建房子需要打地基，软件开发也一样，优先的基础设施才能支撑复杂的业务。这个项目不是开箱即用的成品软件，而是一个中台项目，主要关注开发过程中常用的基本组件定义，包括

@@ -26,6 +26,7 @@
 - foundation-commons：用于维护与业务无关，通用的数据库表，比如用于保存行政区划省市区的表
 - foundation-user：维护用户体系，最主要的就是维护数据库表的完整性
 - foundation-security：维护权限控制体系
+- foundation-test：测试用例，前提是先根据数据库设计文档建立好数据库。比如[测试添加用户接口](https://github.com/wuda0112/foundation/blob/master/foundation-test/src/test/java/com/wuda/foundation/user/test/UserManagerImplTest.java)
 - 未来还有店铺体系，商品体系，订单体系等等，持续更新中......
 
 # 如何搭建完整系统

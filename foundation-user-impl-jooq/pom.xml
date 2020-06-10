@@ -14,6 +14,7 @@
     <description>用户体系,使用jooq实现</description>
 
     <dependencies>
+
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq</artifactId>
@@ -27,6 +28,12 @@
         <dependency>
             <groupId>org.jooq</groupId>
             <artifactId>jooq-codegen</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wuda</groupId>
+            <artifactId>foundation-jooq</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -53,6 +60,7 @@
                     <plugin>
                         <groupId>org.jooq</groupId>
                         <artifactId>jooq-codegen-maven</artifactId>
+                        <version>${jooq.version}</version>
                         <executions>
                             <execution>
                                 <phase>generate-sources</phase>
@@ -65,7 +73,7 @@
                             <dependency>
                                 <groupId>mysql</groupId>
                                 <artifactId>mysql-connector-java</artifactId>
-                                <version>8.0.13</version>
+                                <version>${mysql.connector.java.version}</version>
                             </dependency>
                         </dependencies>
 
@@ -101,7 +109,7 @@
 
                                 <target>
                                     <!--生成代码文件的包名及放置目录-->
-                                    <packageName>com.wuda.foundation.user.impl.jooq.gen</packageName>
+                                    <packageName>com.wuda.foundation.user.impl.jooq.generation</packageName>
                                     <directory>src/main/java</directory>
                                 </target>
 

@@ -11,5 +11,90 @@
 
     <artifactId>foundation-commons-impl-jooq</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>com.wuda</groupId>
+            <artifactId>foundation-jooq</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wuda</groupId>
+            <artifactId>foundation-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-codegen-maven</artifactId>
+                        <version>${jooq.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>mysql</groupId>
+                                <artifactId>mysql-connector-java</artifactId>
+                                <version>${mysql.connector.java.version}</version>
+                            </dependency>
+                        </dependencies>
+
+                        <configuration>
+                            <jdbc>
+                                <driver>com.mysql.jdbc.Driver</driver>
+                                <url>jdbc:mysql://localhost:3306/?serverTimezone=UTC</url>
+                                <username>root</username>
+                                <password>123456</password>
+                            </jdbc>
+
+                            <generator>
+                                <database>
+                                    <name>org.jooq.meta.mysql.MySQLDatabase</name>
+                                    <!--include和exclude用于控制为数据库中哪些表生成代码-->
+                                    <includes>.*</includes>
+                                    <!--<excludes></excludes>-->
+
+                                    <!--数据库名称-->
+                                    <inputSchema>commons</inputSchema>
+                                </database>
+
+                                <generate>
+                                    <!--生成dao和pojo-->
+                                    <daos>true</daos>
+                                    <pojos>true</pojos>
+                                    <!--把数据库时间类型映射到java 8时间类型-->
+                                    <javaTimeTypes>true</javaTimeTypes>
+                                    <!--<interfaces>true</interfaces>-->
+                                    <!--不在生成的代码中添加spring注释，比如@Repository-->
+                                    <springAnnotations>false</springAnnotations>
+                                </generate>
+
+                                <target>
+                                    <!--生成代码文件的包名及放置目录-->
+                                    <packageName>com.wuda.foundation.commons.impl.jooq.generation</packageName>
+                                    <directory>src/main/java</directory>
+                                </target>
+
+                            </generator>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
 
 </project>

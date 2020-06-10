@@ -13,6 +13,7 @@
         <module>foundation-commons</module>
         <module>foundation-commons-impl-jooq</module>
         <module>foundation-test</module>
+        <module>foundation-jooq</module>
     </modules>
 
     <groupId>com.wuda</groupId>
@@ -26,6 +27,8 @@
         <commons.lang3.version>3.9</commons.lang3.version>
         <commons.collections4.version>4.4</commons.collections4.version>
         <jooq.version>3.13.2</jooq.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <mysql.connector.java.version>8.0.13</mysql.connector.java.version>
     </properties>
 
     <dependencies>
@@ -84,6 +87,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <source>8</source>
                     <target>8</target>

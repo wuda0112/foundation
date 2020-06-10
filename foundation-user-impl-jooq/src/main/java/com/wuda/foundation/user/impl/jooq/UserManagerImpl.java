@@ -1,14 +1,14 @@
 package com.wuda.foundation.user.impl.jooq;
 
 import com.wuda.foundation.commons.*;
-import com.wuda.foundation.lang.Identifier;
-import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.jooq.JooqContext;
+import com.wuda.foundation.lang.*;
 import com.wuda.foundation.lang.keygen.KeyGeneratorSnowflake;
 import com.wuda.foundation.user.*;
-import com.wuda.foundation.user.impl.jooq.gen.tables.records.UserAccountRecord;
-import com.wuda.foundation.user.impl.jooq.gen.tables.records.UserEmailRecord;
-import com.wuda.foundation.user.impl.jooq.gen.tables.records.UserPhoneRecord;
-import com.wuda.foundation.user.impl.jooq.gen.tables.records.UserRecord;
+import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserAccountRecord;
+import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserEmailRecord;
+import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserPhoneRecord;
+import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserRecord;
 import org.jooq.Configuration;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
@@ -59,7 +59,7 @@ public class UserManagerImpl extends AbstractUserManager {
         userRecord.insert();
 
         for (Identifier<String> identifier : identifiers) {
-            if (identifier.getType() == BuiltinUserIdentifierType.USERNAME) {
+            if (identifier.getType() == BuiltinIdentifierType.USERNAME) {
                 long userAccountId = keyGeneratorSnowflake.next();
                 UserAccountRecord userAccountRecord = new UserAccountRecord(ULong.valueOf(userAccountId),
                         ULong.valueOf(userId),
@@ -68,27 +68,29 @@ public class UserManagerImpl extends AbstractUserManager {
                         now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
                 userAccountRecord.attach(configuration);
                 userAccountRecord.insert();
-            } else if (identifier.getType() == BuiltinUserIdentifierType.EMAIL) {
-                long emailId = emailManager.addEmail(identifier.getValue());
+            } else if (identifier.getType() == BuiltinIdentifierType.EMAIL) {
+                EmailIdentifier emailIdentifier = (EmailIdentifier) identifier;
+                long emailId = emailManager.addEmail(emailIdentifier.getValue(), emailIdentifier.getEmailState(), opUserId);
                 long id = keyGeneratorSnowflake.next();
                 UserEmailRecord userEmailRecord = new UserEmailRecord(ULong.valueOf(id),
                         ULong.valueOf(userId),
                         ULong.valueOf(emailId),
                         UByte.valueOf(BuiltinEmailUsage.ZERO.getCode()),
-                        UByte.valueOf(BuiltinEmailState.ZERO.getCode()),
+                        UByte.valueOf(BuiltinUserEmailState.ZERO.getCode()),
                         "",
                         now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
                 userEmailRecord.attach(configuration);
                 userEmailRecord.insert();
 
-            } else if (identifier.getType() == BuiltinUserIdentifierType.MOBILE_PHONE) {
-                long phoneId = phoneManager.addPhone(identifier.getValue());
+            } else if (identifier.getType() == BuiltinIdentifierType.MOBILE_PHONE) {
+                MobilePhoneIdentifier mobilePhoneIdentifier = (MobilePhoneIdentifier) identifier;
+                long phoneId = phoneManager.addPhone(identifier.getValue(), mobilePhoneIdentifier.getPhoneState(), BuiltinPhoneType.ZERO, opUserId);
                 long id = keyGeneratorSnowflake.next();
                 UserPhoneRecord userPhoneRecord = new UserPhoneRecord(ULong.valueOf(id),
                         ULong.valueOf(userId),
                         ULong.valueOf(phoneId),
                         UByte.valueOf(BuiltinPhoneUsage.ZERO.getCode()),
-                        UByte.valueOf(BuiltinPhoneState.ZERO.getCode()),
+                        UByte.valueOf(BuiltinUserPhoneState.ZERO.getCode()),
                         "",
                         now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
                 userPhoneRecord.attach(configuration);

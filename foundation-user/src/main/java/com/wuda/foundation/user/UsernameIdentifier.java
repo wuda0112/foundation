@@ -1,5 +1,6 @@
 package com.wuda.foundation.user;
 
+import com.wuda.foundation.lang.BuiltinIdentifierType;
 import com.wuda.foundation.lang.Identifier;
 import com.wuda.foundation.lang.IdentifierType;
 
@@ -30,7 +31,7 @@ public class UsernameIdentifier implements Identifier<String> {
 
     @Override
     public IdentifierType getType() {
-        return BuiltinUserIdentifierType.USERNAME;
+        return BuiltinIdentifierType.USERNAME;
     }
 
     @Override

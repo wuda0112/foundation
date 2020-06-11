@@ -1,13 +1,13 @@
 package com.wuda.foundation.user;
 
 /**
- * 内置user phone state.
+ * 内置state.
  *
  * @author wuda
  */
 public enum BuiltinUserEmailState implements UserEmailState {
 
-    ZERO(0, "正常用于登录");
+    ZERO(0, "初始化");
 
     private int code;
     private String description;

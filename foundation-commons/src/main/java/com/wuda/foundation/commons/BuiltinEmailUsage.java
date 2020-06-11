@@ -2,7 +2,7 @@ package com.wuda.foundation.commons;
 
 public enum BuiltinEmailUsage implements EmailUsage {
 
-    ZERO(0, "用于登录");
+    ZERO(0, "MOCK");
 
     private int code;
     private String description;

@@ -9,11 +9,13 @@
         <module>foundation-lang</module>
         <module>foundation-user</module>
         <module>foundation-security</module>
-        <module>foundation-user-impl-jooq</module>
+        <module>foundation-user-impl</module>
         <module>foundation-commons</module>
-        <module>foundation-commons-impl-jooq</module>
+        <module>foundation-commons-impl</module>
         <module>foundation-test</module>
         <module>foundation-jooq</module>
+        <module>foundation-store</module>
+        <module>foundation-store-impl</module>
     </modules>
 
     <groupId>com.wuda</groupId>
@@ -29,6 +31,7 @@
         <jooq.version>3.13.2</jooq.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <mysql.connector.java.version>8.0.13</mysql.connector.java.version>
+        <mysql.jdbc.driver>com.mysql.cj.jdbc.Driver</mysql.jdbc.driver>
     </properties>
 
     <dependencies>

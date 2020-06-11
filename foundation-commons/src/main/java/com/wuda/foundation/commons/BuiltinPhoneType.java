@@ -2,8 +2,7 @@ package com.wuda.foundation.commons;
 
 public enum BuiltinPhoneType implements PhoneType {
 
-    ZERO(0, "手机"),
-    ONE(1, "固话");
+    ZERO(0, "MOCK");
 
     private int code;
     private String description;

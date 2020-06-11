@@ -9,7 +9,7 @@ import com.wuda.foundation.lang.PhoneState;
  */
 public enum BuiltinUserPhoneState implements UserPhoneState {
 
-    ZERO(0, "正常用于登录");
+    ZERO(0, "初始化");
 
     private int code;
     private String description;

@@ -12,16 +12,23 @@
     <artifactId>foundation-test</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.wuda</groupId>
-            <artifactId>foundation-commons-impl-jooq</artifactId>
+            <artifactId>foundation-commons-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.wuda</groupId>
-            <artifactId>foundation-user-impl-jooq</artifactId>
+            <artifactId>foundation-user-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.wuda</groupId>
+            <artifactId>foundation-store-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jdbc</artifactId>
@@ -30,8 +37,9 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.13</version>
+            <version>${mysql.connector.java.version}</version>
         </dependency>
+
     </dependencies>
 
 

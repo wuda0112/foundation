@@ -1,5 +1,6 @@
 package com.wuda.foundation.user;
 
+import com.wuda.foundation.lang.ExtObjects;
 import com.wuda.foundation.lang.Identifier;
 
 import java.util.List;
@@ -38,12 +39,7 @@ public abstract class AbstractUserManager implements UserManager {
                         String password,
                         UserAccountState userAccountState,
                         Long opUserId) {
-        Objects.requireNonNull(userType);
-        Objects.requireNonNull(userState);
-        Objects.requireNonNull(identifiers);
-        Objects.requireNonNull(password);
-        Objects.requireNonNull(userAccountState);
-        Objects.requireNonNull(opUserId);
+        ExtObjects.requireNonNull(userType, userState, identifiers, password, userAccountState, opUserId);
         return addUserDbOp(userType, userState, identifiers, password, userAccountState, opUserId);
     }
 

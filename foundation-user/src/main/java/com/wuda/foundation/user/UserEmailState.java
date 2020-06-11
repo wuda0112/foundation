@@ -2,7 +2,7 @@ package com.wuda.foundation.user;
 
 /**
  * user email state.每种用途的email的状态可能不同，
- * 比如用于登录的email，状态可能是禁止登录状态.
+ * 比如用于登录的email，状态可能是禁止登录状态,其他用途的email就不会有这个状态.
  * 推荐使用枚举的方式实现.
  *
  * @author wuda

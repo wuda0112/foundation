@@ -8,7 +8,7 @@ package com.wuda.foundation.user;
  */
 public enum BuiltinUserType implements UserType {
 
-    ZERO(0, "系统内建的一个状态值,业务不可使用,就好像系统保留的关键字一样,表示系统用户");
+    ZERO(0, "MOCK");
 
     private int code;
     private String description;

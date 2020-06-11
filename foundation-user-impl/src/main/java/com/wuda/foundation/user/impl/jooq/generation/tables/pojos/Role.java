@@ -16,7 +16,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Role implements Serializable {
 
-    private static final long serialVersionUID = 1856252588;
+    private static final long serialVersionUID = 629312424;
 
     private ULong         roleId;
     private ULong         parentId;

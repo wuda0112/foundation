@@ -91,17 +91,17 @@ public class UserPhoneDao extends DAOImpl<UserPhoneRecord, com.wuda.foundation.u
     }
 
     /**
-     * Fetch records that have <code>usage BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>use BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.user.impl.jooq.generation.tables.pojos.UserPhone> fetchRangeOfUsage(UByte lowerInclusive, UByte upperInclusive) {
-        return fetchRange(UserPhone.USER_PHONE.USAGE, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.user.impl.jooq.generation.tables.pojos.UserPhone> fetchRangeOfUse(UByte lowerInclusive, UByte upperInclusive) {
+        return fetchRange(UserPhone.USER_PHONE.USE, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>usage IN (values)</code>
+     * Fetch records that have <code>use IN (values)</code>
      */
-    public List<com.wuda.foundation.user.impl.jooq.generation.tables.pojos.UserPhone> fetchByUsage(UByte... values) {
-        return fetch(UserPhone.USER_PHONE.USAGE, values);
+    public List<com.wuda.foundation.user.impl.jooq.generation.tables.pojos.UserPhone> fetchByUse(UByte... values) {
+        return fetch(UserPhone.USER_PHONE.USE, values);
     }
 
     /**

@@ -23,7 +23,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Record8<ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -1089276318;
+    private static final long serialVersionUID = 439761598;
 
     /**
      * Setter for <code>user.user.user_id</code>.

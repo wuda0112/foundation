@@ -22,7 +22,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserRoleRelationshipRecord extends UpdatableRecordImpl<UserRoleRelationshipRecord> implements Record6<ULong, ULong, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -626823182;
+    private static final long serialVersionUID = 1928142870;
 
     /**
      * Setter for <code>user.user_role_relationship.id</code>.

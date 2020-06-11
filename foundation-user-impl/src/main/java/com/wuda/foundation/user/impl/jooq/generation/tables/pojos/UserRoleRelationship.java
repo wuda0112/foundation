@@ -16,7 +16,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserRoleRelationship implements Serializable {
 
-    private static final long serialVersionUID = 1527486542;
+    private static final long serialVersionUID = -277531950;
 
     private ULong         id;
     private ULong         userId;

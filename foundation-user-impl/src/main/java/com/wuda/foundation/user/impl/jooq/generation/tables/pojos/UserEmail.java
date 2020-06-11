@@ -17,12 +17,12 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserEmail implements Serializable {
 
-    private static final long serialVersionUID = -1853100305;
+    private static final long serialVersionUID = -1007520731;
 
     private ULong         id;
     private ULong         userId;
     private ULong         emailId;
-    private UByte         usage;
+    private UByte         use;
     private UByte         state;
     private String        description;
     private LocalDateTime createTime;
@@ -37,7 +37,7 @@ public class UserEmail implements Serializable {
         this.id = value.id;
         this.userId = value.userId;
         this.emailId = value.emailId;
-        this.usage = value.usage;
+        this.use = value.use;
         this.state = value.state;
         this.description = value.description;
         this.createTime = value.createTime;
@@ -51,7 +51,7 @@ public class UserEmail implements Serializable {
         ULong         id,
         ULong         userId,
         ULong         emailId,
-        UByte         usage,
+        UByte         use,
         UByte         state,
         String        description,
         LocalDateTime createTime,
@@ -63,7 +63,7 @@ public class UserEmail implements Serializable {
         this.id = id;
         this.userId = userId;
         this.emailId = emailId;
-        this.usage = usage;
+        this.use = use;
         this.state = state;
         this.description = description;
         this.createTime = createTime;
@@ -97,12 +97,12 @@ public class UserEmail implements Serializable {
         this.emailId = emailId;
     }
 
-    public UByte getUsage() {
-        return this.usage;
+    public UByte getUse() {
+        return this.use;
     }
 
-    public void setUsage(UByte usage) {
-        this.usage = usage;
+    public void setUse(UByte use) {
+        this.use = use;
     }
 
     public UByte getState() {
@@ -168,7 +168,7 @@ public class UserEmail implements Serializable {
         sb.append(id);
         sb.append(", ").append(userId);
         sb.append(", ").append(emailId);
-        sb.append(", ").append(usage);
+        sb.append(", ").append(use);
         sb.append(", ").append(state);
         sb.append(", ").append(description);
         sb.append(", ").append(createTime);

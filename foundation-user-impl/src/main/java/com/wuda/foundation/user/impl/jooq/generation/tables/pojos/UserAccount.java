@@ -17,7 +17,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserAccount implements Serializable {
 
-    private static final long serialVersionUID = 523477519;
+    private static final long serialVersionUID = -108560885;
 
     private ULong         userAccountId;
     private ULong         userId;

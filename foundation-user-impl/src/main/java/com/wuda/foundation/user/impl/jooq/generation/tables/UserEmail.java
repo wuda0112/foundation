@@ -37,7 +37,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserEmail extends TableImpl<UserEmailRecord> {
 
-    private static final long serialVersionUID = -950403119;
+    private static final long serialVersionUID = 1837392821;
 
     /**
      * The reference instance of <code>user.user_email</code>
@@ -68,9 +68,9 @@ public class UserEmail extends TableImpl<UserEmailRecord> {
     public final TableField<UserEmailRecord, ULong> EMAIL_ID = createField(DSL.name("email_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.user_email.usage</code>. emai;l的用途。比如用于登录
+     * The column <code>user.user_email.use</code>. emai;l的用途。比如用于登录
      */
-    public final TableField<UserEmailRecord, UByte> USAGE = createField(DSL.name("usage"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "emai;l的用途。比如用于登录");
+    public final TableField<UserEmailRecord, UByte> USE = createField(DSL.name("use"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "emai;l的用途。比如用于登录");
 
     /**
      * The column <code>user.user_email.state</code>. 状态，每种用途的email状态可能不同，比如如果用于登录的email，状态可以是禁止登录状态

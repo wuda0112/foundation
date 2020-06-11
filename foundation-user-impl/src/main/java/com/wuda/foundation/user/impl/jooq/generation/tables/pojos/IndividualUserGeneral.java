@@ -16,7 +16,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IndividualUserGeneral implements Serializable {
 
-    private static final long serialVersionUID = 1058088831;
+    private static final long serialVersionUID = -597976573;
 
     private ULong         individualUserGeneralId;
     private ULong         userId;

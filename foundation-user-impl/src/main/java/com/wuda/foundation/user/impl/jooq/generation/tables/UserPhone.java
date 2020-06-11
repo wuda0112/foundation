@@ -37,7 +37,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserPhone extends TableImpl<UserPhoneRecord> {
 
-    private static final long serialVersionUID = -2140686081;
+    private static final long serialVersionUID = -1363743657;
 
     /**
      * The reference instance of <code>user.user_phone</code>
@@ -68,9 +68,9 @@ public class UserPhone extends TableImpl<UserPhoneRecord> {
     public final TableField<UserPhoneRecord, ULong> PHONE_ID = createField(DSL.name("phone_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.user_phone.usage</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
+     * The column <code>user.user_phone.use</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
      */
-    public final TableField<UserPhoneRecord, UByte> USAGE = createField(DSL.name("usage"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "电话的用途。比如用于400电话。也就是电话使用的业务场景。");
+    public final TableField<UserPhoneRecord, UByte> USE = createField(DSL.name("use"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "电话的用途。比如用于400电话。也就是电话使用的业务场景。");
 
     /**
      * The column <code>user.user_phone.state</code>. 状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态

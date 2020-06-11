@@ -22,7 +22,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class RoleRecord extends UpdatableRecordImpl<RoleRecord> implements Record9<ULong, ULong, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 514197320;
+    private static final long serialVersionUID = -953836436;
 
     /**
      * Setter for <code>user.role.role_id</code>.

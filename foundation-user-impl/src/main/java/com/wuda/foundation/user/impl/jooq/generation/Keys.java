@@ -88,9 +88,9 @@ public class Keys {
         public static final UniqueKey<UserAccountRecord> KEY_USER_ACCOUNT_PRIMARY = Internal.createUniqueKey(UserAccount.USER_ACCOUNT, "KEY_user_account_PRIMARY", new TableField[] { UserAccount.USER_ACCOUNT.USER_ACCOUNT_ID }, true);
         public static final UniqueKey<UserAccountRecord> KEY_USER_ACCOUNT_IDX_USERNAME = Internal.createUniqueKey(UserAccount.USER_ACCOUNT, "KEY_user_account_idx_username", new TableField[] { UserAccount.USER_ACCOUNT.USERNAME, UserAccount.USER_ACCOUNT.IS_DELETED }, true);
         public static final UniqueKey<UserEmailRecord> KEY_USER_EMAIL_PRIMARY = Internal.createUniqueKey(UserEmail.USER_EMAIL, "KEY_user_email_PRIMARY", new TableField[] { UserEmail.USER_EMAIL.ID }, true);
-        public static final UniqueKey<UserEmailRecord> KEY_USER_EMAIL_IDX_UNIQUE = Internal.createUniqueKey(UserEmail.USER_EMAIL, "KEY_user_email_idx_unique", new TableField[] { UserEmail.USER_EMAIL.EMAIL_ID, UserEmail.USER_EMAIL.USAGE, UserEmail.USER_EMAIL.IS_DELETED }, true);
+        public static final UniqueKey<UserEmailRecord> KEY_USER_EMAIL_IDX_UNIQUE = Internal.createUniqueKey(UserEmail.USER_EMAIL, "KEY_user_email_idx_unique", new TableField[] { UserEmail.USER_EMAIL.EMAIL_ID, UserEmail.USER_EMAIL.USE, UserEmail.USER_EMAIL.IS_DELETED }, true);
         public static final UniqueKey<UserPhoneRecord> KEY_USER_PHONE_PRIMARY = Internal.createUniqueKey(UserPhone.USER_PHONE, "KEY_user_phone_PRIMARY", new TableField[] { UserPhone.USER_PHONE.ID }, true);
-        public static final UniqueKey<UserPhoneRecord> KEY_USER_PHONE_IDX_UNIQUE = Internal.createUniqueKey(UserPhone.USER_PHONE, "KEY_user_phone_idx_unique", new TableField[] { UserPhone.USER_PHONE.PHONE_ID, UserPhone.USER_PHONE.USAGE, UserPhone.USER_PHONE.IS_DELETED }, true);
+        public static final UniqueKey<UserPhoneRecord> KEY_USER_PHONE_IDX_UNIQUE = Internal.createUniqueKey(UserPhone.USER_PHONE, "KEY_user_phone_idx_unique", new TableField[] { UserPhone.USER_PHONE.PHONE_ID, UserPhone.USER_PHONE.USE, UserPhone.USER_PHONE.IS_DELETED }, true);
         public static final UniqueKey<UserRoleRelationshipRecord> KEY_USER_ROLE_RELATIONSHIP_PRIMARY = Internal.createUniqueKey(UserRoleRelationship.USER_ROLE_RELATIONSHIP, "KEY_user_role_relationship_PRIMARY", new TableField[] { UserRoleRelationship.USER_ROLE_RELATIONSHIP.ID }, true);
     }
 }

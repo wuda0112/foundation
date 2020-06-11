@@ -23,7 +23,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implements Record11<ULong, ULong, ULong, UByte, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -426624175;
+    private static final long serialVersionUID = 1177578849;
 
     /**
      * Setter for <code>user.user_email.id</code>.
@@ -68,16 +68,16 @@ public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implem
     }
 
     /**
-     * Setter for <code>user.user_email.usage</code>. emai;l的用途。比如用于登录
+     * Setter for <code>user.user_email.use</code>. emai;l的用途。比如用于登录
      */
-    public void setUsage(UByte value) {
+    public void setUse(UByte value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>user.user_email.usage</code>. emai;l的用途。比如用于登录
+     * Getter for <code>user.user_email.use</code>. emai;l的用途。比如用于登录
      */
-    public UByte getUsage() {
+    public UByte getUse() {
         return (UByte) get(3);
     }
 
@@ -219,7 +219,7 @@ public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implem
 
     @Override
     public Field<UByte> field4() {
-        return UserEmail.USER_EMAIL.USAGE;
+        return UserEmail.USER_EMAIL.USE;
     }
 
     @Override
@@ -274,7 +274,7 @@ public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implem
 
     @Override
     public UByte component4() {
-        return getUsage();
+        return getUse();
     }
 
     @Override
@@ -329,7 +329,7 @@ public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implem
 
     @Override
     public UByte value4() {
-        return getUsage();
+        return getUse();
     }
 
     @Override
@@ -387,7 +387,7 @@ public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implem
 
     @Override
     public UserEmailRecord value4(UByte value) {
-        setUsage(value);
+        setUse(value);
         return this;
     }
 
@@ -463,13 +463,13 @@ public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implem
     /**
      * Create a detached, initialised UserEmailRecord
      */
-    public UserEmailRecord(ULong id, ULong userId, ULong emailId, UByte usage, UByte state, String description, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public UserEmailRecord(ULong id, ULong userId, ULong emailId, UByte use, UByte state, String description, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(UserEmail.USER_EMAIL);
 
         set(0, id);
         set(1, userId);
         set(2, emailId);
-        set(3, usage);
+        set(3, use);
         set(4, state);
         set(5, description);
         set(6, createTime);

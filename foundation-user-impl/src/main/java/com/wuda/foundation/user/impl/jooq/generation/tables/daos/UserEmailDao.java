@@ -91,17 +91,17 @@ public class UserEmailDao extends DAOImpl<UserEmailRecord, com.wuda.foundation.u
     }
 
     /**
-     * Fetch records that have <code>usage BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>use BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.user.impl.jooq.generation.tables.pojos.UserEmail> fetchRangeOfUsage(UByte lowerInclusive, UByte upperInclusive) {
-        return fetchRange(UserEmail.USER_EMAIL.USAGE, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.user.impl.jooq.generation.tables.pojos.UserEmail> fetchRangeOfUse(UByte lowerInclusive, UByte upperInclusive) {
+        return fetchRange(UserEmail.USER_EMAIL.USE, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>usage IN (values)</code>
+     * Fetch records that have <code>use IN (values)</code>
      */
-    public List<com.wuda.foundation.user.impl.jooq.generation.tables.pojos.UserEmail> fetchByUsage(UByte... values) {
-        return fetch(UserEmail.USER_EMAIL.USAGE, values);
+    public List<com.wuda.foundation.user.impl.jooq.generation.tables.pojos.UserEmail> fetchByUse(UByte... values) {
+        return fetch(UserEmail.USER_EMAIL.USE, values);
     }
 
     /**

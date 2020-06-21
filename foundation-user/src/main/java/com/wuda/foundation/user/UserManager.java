@@ -1,8 +1,9 @@
 package com.wuda.foundation.user;
 
+import com.wuda.foundation.commons.EmailManager;
+import com.wuda.foundation.commons.PhoneManager;
 import com.wuda.foundation.lang.Identifier;
-
-import java.util.List;
+import com.wuda.foundation.lang.keygen.KeyGenerator;
 
 public interface UserManager {
 
@@ -17,20 +18,14 @@ public interface UserManager {
     /**
      * 新增一个新用户.
      *
-     * @param userType         用户类型
-     * @param userState        用户状态
-     * @param identifiers      唯一标记这个用户,比如username,email等等
-     * @param password         密码
-     * @param userAccountState 账号的状态
-     * @param opUserId         操作人用户ID,是谁正在添加这个新用户
-     * @return 用户ID
+     * @param createUser   用于创建用户的信息
+     * @param emailManager 如果账号有email,则用于处理email
+     * @param phoneManager 如果账号有phone,则用于处理phone
+     * @param keyGenerator 用于生成记录的主键
+     * @param opUserId     操作人用户ID,是谁正在添加这个新用户
+     * @return 新增的用户的ID
      */
-    long addUser(UserType userType,
-                 UserState userState,
-                 List<Identifier<String>> identifiers,
-                 String password,
-                 UserAccountState userAccountState,
-                 Long opUserId);
+    long createUser(CreateUser createUser, EmailManager emailManager, PhoneManager phoneManager, KeyGenerator<Long> keyGenerator, Long opUserId);
 
     /**
      * 更新密码.
@@ -41,20 +36,20 @@ public interface UserManager {
     void updatePassword(Long userId, String newPassword);
 
     /**
-     * 更新用户账号的状态.
+     * 改变用户账号的状态.
      *
-     * @param userId 用户ID
-     * @param status 用户账号的状态.
+     * @param userId   用户ID
+     * @param newState 新的状态.
      */
-    void updateUserAccountStatus(Long userId, UserAccountState status);
+    void changeUserAccountState(Long userId, UserAccountState newState);
 
     /**
-     * 更新用户账号的状态.
+     * 改变用户的状态.
      *
-     * @param userId 用户ID
-     * @param status 用户账号的状态.
+     * @param userId   用户ID
+     * @param newState 新的状态.
      */
-    void updateUserStatus(Long userId, UserState status);
+    void changeUserState(Long userId, UserState newState);
 
     /**
      * 获取用户详细信息.
@@ -62,7 +57,7 @@ public interface UserManager {
      * @param userId 用户ID
      * @return user, <code>null</code>-如果用户不存在
      */
-    User getUser(Long userId);
+    DescribeUser getUser(Long userId);
 
     /**
      * 获取用户账户信息.
@@ -70,5 +65,5 @@ public interface UserManager {
      * @param userId 用户ID
      * @return 该用户的账户信息, <code>null</code>-如果用户不存在
      */
-    UserAccount getUserAccount(Long userId);
+    DescribeUserAccount getUserAccount(Long userId);
 }

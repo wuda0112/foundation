@@ -1,9 +1,10 @@
 package com.wuda.foundation.user;
 
-import com.wuda.foundation.lang.ExtObjects;
+import com.wuda.foundation.commons.EmailManager;
+import com.wuda.foundation.commons.PhoneManager;
 import com.wuda.foundation.lang.Identifier;
+import com.wuda.foundation.lang.keygen.KeyGenerator;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -33,35 +34,22 @@ public abstract class AbstractUserManager implements UserManager {
     protected abstract boolean existsDbOp(Identifier<String> identifier);
 
     @Override
-    public long addUser(UserType userType,
-                        UserState userState,
-                        List<Identifier<String>> identifiers,
-                        String password,
-                        UserAccountState userAccountState,
-                        Long opUserId) {
-        ExtObjects.requireNonNull(userType, userState, identifiers, password, userAccountState, opUserId);
-        return addUserDbOp(userType, userState, identifiers, password, userAccountState, opUserId);
+    public long createUser(CreateUser createUser, EmailManager emailManager, PhoneManager phoneManager, KeyGenerator<Long> keyGenerator, Long opUserId) {
+        return createUserDbOp(createUser, emailManager, phoneManager, keyGenerator, opUserId);
     }
 
     /**
-     * 作为{@link #addUser(UserType, UserState, List, String, UserAccountState, Long)}方法的一部分,
-     * 参数的校验已经在{@link #addUser(UserType, UserState, List, String, UserAccountState, Long)}
+     * 作为{@link #createUser}方法的一部分,参数的校验已经在{@link #createUser}
      * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
      *
-     * @param userType         用户类型
-     * @param userState        用户状态
-     * @param identifiers      唯一标记这个用户,比如username,email等等
-     * @param password         密码
-     * @param userAccountState 账号的状态
-     * @param opUserId         操作人用户ID,是谁正在添加这个新用户
-     * @return 用户ID
+     * @param createUser   用于创建用户的信息
+     * @param emailManager 如果账号有email,则用于处理email
+     * @param phoneManager 如果账号有phone,则用于处理phone
+     * @param keyGenerator 用于生成记录的主键
+     * @param opUserId     操作人用户ID,是谁正在添加这个新用户
+     * @return 新增的用户的ID
      */
-    protected abstract long addUserDbOp(UserType userType,
-                                        UserState userState,
-                                        List<Identifier<String>> identifiers,
-                                        String password,
-                                        UserAccountState userAccountState,
-                                        Long opUserId);
+    protected abstract long createUserDbOp(CreateUser createUser, EmailManager emailManager, PhoneManager phoneManager, KeyGenerator<Long> keyGenerator, Long opUserId);
 
     @Override
     public void updatePassword(Long userId, String newPassword) {
@@ -69,22 +57,22 @@ public abstract class AbstractUserManager implements UserManager {
     }
 
     @Override
-    public void updateUserAccountStatus(Long userId, UserAccountState status) {
+    public void changeUserAccountState(Long userId, UserAccountState newState) {
 
     }
 
     @Override
-    public void updateUserStatus(Long userId, UserState status) {
+    public void changeUserState(Long userId, UserState newState) {
 
     }
 
     @Override
-    public User getUser(Long userId) {
+    public DescribeUser getUser(Long userId) {
         return null;
     }
 
     @Override
-    public UserAccount getUserAccount(Long userId) {
+    public DescribeUserAccount getUserAccount(Long userId) {
         return null;
     }
 }

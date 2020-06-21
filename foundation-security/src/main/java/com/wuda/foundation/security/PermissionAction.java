@@ -1,7 +1,7 @@
 package com.wuda.foundation.security;
 
 import com.wuda.foundation.lang.CRUDEntity;
-import com.wuda.foundation.lang.CRUDEntityState;
+import com.wuda.foundation.lang.CRUDState;
 import com.wuda.foundation.lang.IdValidator;
 import lombok.Getter;
 
@@ -86,9 +86,9 @@ public class PermissionAction extends CRUDEntity {
         /**
          * 即将被构建的{@link PermissionAction}的CRUD状态.
          *
-         * @param crudState {@link CRUDEntityState}
+         * @param crudState {@link CRUDState}
          */
-        protected Builder(CRUDEntityState crudState) {
+        protected Builder(CRUDState crudState) {
             super(crudState);
         }
 

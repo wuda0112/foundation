@@ -1,7 +1,7 @@
 package com.wuda.foundation.user;
 
 import com.wuda.foundation.lang.CRUDEntity;
-import com.wuda.foundation.lang.CRUDEntityState;
+import com.wuda.foundation.lang.CRUDState;
 import com.wuda.foundation.lang.IdValidator;
 import lombok.Getter;
 
@@ -60,7 +60,7 @@ public class IndividualUserGeneral extends CRUDEntity {
 
         private IndividualUserGeneral general = new IndividualUserGeneral();
 
-        public Builder(CRUDEntityState crudState) {
+        public Builder(CRUDState crudState) {
             super(crudState);
         }
 

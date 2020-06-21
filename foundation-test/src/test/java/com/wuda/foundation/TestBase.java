@@ -6,7 +6,9 @@ import javax.sql.DataSource;
 
 public class TestBase {
 
-    protected KeyGeneratorSnowflake keyGeneratorSnowflake = new KeyGeneratorSnowflake(1);
+    protected KeyGeneratorSnowflake keyGenerator = new KeyGeneratorSnowflake(1);
+
+    protected long opUserId = 0L;
 
     protected DataSource getDataSource() {
         DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();

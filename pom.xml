@@ -16,6 +16,8 @@
         <module>foundation-jooq</module>
         <module>foundation-store</module>
         <module>foundation-store-impl</module>
+        <module>foundation-item</module>
+        <module>foundation-item-impl</module>
     </modules>
 
     <groupId>com.wuda</groupId>

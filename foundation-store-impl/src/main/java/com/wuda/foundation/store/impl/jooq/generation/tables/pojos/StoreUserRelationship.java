@@ -7,58 +7,61 @@ package com.wuda.foundation.store.impl.jooq.generation.tables.pojos;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
 /**
- * 店铺信息
+ * 如果把用户ID字段放在store表中，表明店铺属于某个用户，但是如果有多个用户可以管理这个店铺呢？有种做法是一个用户作为另一个用户的子账号；也可以建立用户与店铺的关联关系，这样感觉更符合逻辑。把用户IID放在store表，可以很明确的表明店铺的owner，如果是用关联关系表的话，就需要明确的标明哪个用户是owner，哪些用户只是管理这个店铺的。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class Store implements Serializable {
+public class StoreUserRelationship implements Serializable {
 
-    private static final long serialVersionUID = 1863727820;
+    private static final long serialVersionUID = 1796416846;
 
+    private ULong         id;
     private ULong         storeId;
-    private UByte         type;
-    private UByte         state;
+    private ULong         userId;
+    private Boolean       isStoreOwner;
     private LocalDateTime createTime;
     private ULong         createUserId;
-    private LocalDateTime lastModifyTime;
-    private ULong         lastModifyUserId;
     private ULong         isDeleted;
 
-    public Store() {}
+    public StoreUserRelationship() {}
 
-    public Store(Store value) {
+    public StoreUserRelationship(StoreUserRelationship value) {
+        this.id = value.id;
         this.storeId = value.storeId;
-        this.type = value.type;
-        this.state = value.state;
+        this.userId = value.userId;
+        this.isStoreOwner = value.isStoreOwner;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
-        this.lastModifyTime = value.lastModifyTime;
-        this.lastModifyUserId = value.lastModifyUserId;
         this.isDeleted = value.isDeleted;
     }
 
-    public Store(
+    public StoreUserRelationship(
+        ULong         id,
         ULong         storeId,
-        UByte         type,
-        UByte         state,
+        ULong         userId,
+        Boolean       isStoreOwner,
         LocalDateTime createTime,
         ULong         createUserId,
-        LocalDateTime lastModifyTime,
-        ULong         lastModifyUserId,
         ULong         isDeleted
     ) {
+        this.id = id;
         this.storeId = storeId;
-        this.type = type;
-        this.state = state;
+        this.userId = userId;
+        this.isStoreOwner = isStoreOwner;
         this.createTime = createTime;
         this.createUserId = createUserId;
-        this.lastModifyTime = lastModifyTime;
-        this.lastModifyUserId = lastModifyUserId;
         this.isDeleted = isDeleted;
+    }
+
+    public ULong getId() {
+        return this.id;
+    }
+
+    public void setId(ULong id) {
+        this.id = id;
     }
 
     public ULong getStoreId() {
@@ -69,20 +72,20 @@ public class Store implements Serializable {
         this.storeId = storeId;
     }
 
-    public UByte getType() {
-        return this.type;
+    public ULong getUserId() {
+        return this.userId;
     }
 
-    public void setType(UByte type) {
-        this.type = type;
+    public void setUserId(ULong userId) {
+        this.userId = userId;
     }
 
-    public UByte getState() {
-        return this.state;
+    public Boolean getIsStoreOwner() {
+        return this.isStoreOwner;
     }
 
-    public void setState(UByte state) {
-        this.state = state;
+    public void setIsStoreOwner(Boolean isStoreOwner) {
+        this.isStoreOwner = isStoreOwner;
     }
 
     public LocalDateTime getCreateTime() {
@@ -101,22 +104,6 @@ public class Store implements Serializable {
         this.createUserId = createUserId;
     }
 
-    public LocalDateTime getLastModifyTime() {
-        return this.lastModifyTime;
-    }
-
-    public void setLastModifyTime(LocalDateTime lastModifyTime) {
-        this.lastModifyTime = lastModifyTime;
-    }
-
-    public ULong getLastModifyUserId() {
-        return this.lastModifyUserId;
-    }
-
-    public void setLastModifyUserId(ULong lastModifyUserId) {
-        this.lastModifyUserId = lastModifyUserId;
-    }
-
     public ULong getIsDeleted() {
         return this.isDeleted;
     }
@@ -127,15 +114,14 @@ public class Store implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Store (");
+        StringBuilder sb = new StringBuilder("StoreUserRelationship (");
 
-        sb.append(storeId);
-        sb.append(", ").append(type);
-        sb.append(", ").append(state);
+        sb.append(id);
+        sb.append(", ").append(storeId);
+        sb.append(", ").append(userId);
+        sb.append(", ").append(isStoreOwner);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
-        sb.append(", ").append(lastModifyTime);
-        sb.append(", ").append(lastModifyUserId);
         sb.append(", ").append(isDeleted);
 
         sb.append(")");

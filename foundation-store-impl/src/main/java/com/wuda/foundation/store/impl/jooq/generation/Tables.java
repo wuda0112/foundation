@@ -6,6 +6,7 @@ package com.wuda.foundation.store.impl.jooq.generation;
 
 import com.wuda.foundation.store.impl.jooq.generation.tables.Store;
 import com.wuda.foundation.store.impl.jooq.generation.tables.StoreGeneral;
+import com.wuda.foundation.store.impl.jooq.generation.tables.StoreUserRelationship;
 
 
 /**
@@ -23,4 +24,9 @@ public class Tables {
      * 店铺基本信息
      */
     public static final StoreGeneral STORE_GENERAL = StoreGeneral.STORE_GENERAL;
+
+    /**
+     * 如果把用户ID字段放在store表中，表明店铺属于某个用户，但是如果有多个用户可以管理这个店铺呢？有种做法是一个用户作为另一个用户的子账号；也可以建立用户与店铺的关联关系，这样感觉更符合逻辑。把用户IID放在store表，可以很明确的表明店铺的owner，如果是用关联关系表的话，就需要明确的标明哪个用户是owner，哪些用户只是管理这个店铺的。
+     */
+    public static final StoreUserRelationship STORE_USER_RELATIONSHIP = StoreUserRelationship.STORE_USER_RELATIONSHIP;
 }

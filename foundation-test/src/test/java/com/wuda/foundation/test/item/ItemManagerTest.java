@@ -3,6 +3,7 @@ package com.wuda.foundation.test.item;
 import com.wuda.foundation.TestBase;
 import com.wuda.foundation.item.*;
 import com.wuda.foundation.item.impl.ItemManagerImpl;
+import com.wuda.foundation.lang.Constant;
 import org.junit.Test;
 
 public class ItemManagerTest extends TestBase {
@@ -29,6 +30,12 @@ public class ItemManagerTest extends TestBase {
         long itemVariationId = itemManager.createItemVariation(itemId, createItemVariation, keyGenerator, opUserId);
 
         itemManager.createDescription(itemId, itemVariationId, "description", keyGenerator, opUserId);
+    }
+
+    @Test
+    public void testCreateOrUpdateDescription(){
+        ItemManager itemManager = getItemManager();
+        itemManager.createOrUpdateDescription(1024L, Constant.NOT_EXISTS_ID,"update-4",keyGenerator,opUserId);
     }
 
     private ItemManager getItemManager() {

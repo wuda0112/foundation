@@ -6,8 +6,10 @@ package com.wuda.foundation.store.impl.jooq.generation;
 
 import com.wuda.foundation.store.impl.jooq.generation.tables.Store;
 import com.wuda.foundation.store.impl.jooq.generation.tables.StoreGeneral;
+import com.wuda.foundation.store.impl.jooq.generation.tables.StoreUserRelationship;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreGeneralRecord;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreRecord;
+import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreUserRelationshipRecord;
 
 import org.jooq.Identity;
 import org.jooq.TableField;
@@ -29,6 +31,7 @@ public class Keys {
 
     public static final Identity<StoreRecord, ULong> IDENTITY_STORE_ = Identities0.IDENTITY_STORE_;
     public static final Identity<StoreGeneralRecord, ULong> IDENTITY_STORE_GENERAL = Identities0.IDENTITY_STORE_GENERAL;
+    public static final Identity<StoreUserRelationshipRecord, ULong> IDENTITY_STORE_USER_RELATIONSHIP = Identities0.IDENTITY_STORE_USER_RELATIONSHIP;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -36,6 +39,7 @@ public class Keys {
 
     public static final UniqueKey<StoreRecord> KEY_STORE_PRIMARY = UniqueKeys0.KEY_STORE_PRIMARY;
     public static final UniqueKey<StoreGeneralRecord> KEY_STORE_GENERAL_PRIMARY = UniqueKeys0.KEY_STORE_GENERAL_PRIMARY;
+    public static final UniqueKey<StoreUserRelationshipRecord> KEY_STORE_USER_RELATIONSHIP_PRIMARY = UniqueKeys0.KEY_STORE_USER_RELATIONSHIP_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -49,10 +53,12 @@ public class Keys {
     private static class Identities0 {
         public static Identity<StoreRecord, ULong> IDENTITY_STORE_ = Internal.createIdentity(Store.STORE_, Store.STORE_.STORE_ID);
         public static Identity<StoreGeneralRecord, ULong> IDENTITY_STORE_GENERAL = Internal.createIdentity(StoreGeneral.STORE_GENERAL, StoreGeneral.STORE_GENERAL.STORE_GENERAL_ID);
+        public static Identity<StoreUserRelationshipRecord, ULong> IDENTITY_STORE_USER_RELATIONSHIP = Internal.createIdentity(StoreUserRelationship.STORE_USER_RELATIONSHIP, StoreUserRelationship.STORE_USER_RELATIONSHIP.ID);
     }
 
     private static class UniqueKeys0 {
         public static final UniqueKey<StoreRecord> KEY_STORE_PRIMARY = Internal.createUniqueKey(Store.STORE_, "KEY_store_PRIMARY", new TableField[] { Store.STORE_.STORE_ID }, true);
         public static final UniqueKey<StoreGeneralRecord> KEY_STORE_GENERAL_PRIMARY = Internal.createUniqueKey(StoreGeneral.STORE_GENERAL, "KEY_store_general_PRIMARY", new TableField[] { StoreGeneral.STORE_GENERAL.STORE_GENERAL_ID }, true);
+        public static final UniqueKey<StoreUserRelationshipRecord> KEY_STORE_USER_RELATIONSHIP_PRIMARY = Internal.createUniqueKey(StoreUserRelationship.STORE_USER_RELATIONSHIP, "KEY_store_user_relationship_PRIMARY", new TableField[] { StoreUserRelationship.STORE_USER_RELATIONSHIP.ID }, true);
     }
 }

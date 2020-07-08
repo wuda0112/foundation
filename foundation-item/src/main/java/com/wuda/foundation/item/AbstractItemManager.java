@@ -81,24 +81,23 @@ public abstract class AbstractItemManager implements ItemManager {
     protected abstract long createDescriptionDbOp(Long itemId, Long itemVariationId, String description, KeyGenerator<Long> keyGenerator, Long opUserId);
 
     @Override
-    public long updateDescription(Long itemId, Long itemVariationId, String description, Long opUserId) {
-        ExtObjects.requireNonNull(itemId, itemId, description, opUserId);
-        return updateDescriptionDbOp(itemId, itemVariationId, description, opUserId);
+    public long updateDescription(Long itemDescriptionId, String description, Long opUserId) {
+        ExtObjects.requireNonNull(itemDescriptionId, description, opUserId);
+        return updateDescriptionDbOp(itemDescriptionId, description, opUserId);
     }
 
     /**
      * 作为{@link #createDescription}方法的一部分,参数的校验已经在{@link #createDescription}
      * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
      *
-     * @param itemId          item id
-     * @param itemVariationId item variation id,可以为<code>null</code>,
-     *                        如果为<code>null</code>,则表示修改item的描述信息,
-     *                        如果不为<code>null</code>,则表示修改variation描述信息。
-     * @param description     详细的描述信息
-     * @param opUserId        操作人用户ID
+     * @param itemDescriptionId item  description id
+     *                          如果为<code>null</code>,则表示修改item的描述信息,
+     *                          如果不为<code>null</code>,则表示修改variation描述信息。
+     * @param description       详细的描述信息
+     * @param opUserId          操作人用户ID
      * @return 被修改的描述信息的ID
      */
-    protected abstract long updateDescriptionDbOp(Long itemId, Long itemVariationId, String description, Long opUserId);
+    protected abstract long updateDescriptionDbOp(Long itemDescriptionId, String description, Long opUserId);
 
     @Override
     public long createOrUpdateDescription(Long itemId, Long itemVariationId, String description, KeyGenerator<Long> keyGenerator, Long opUserId) {

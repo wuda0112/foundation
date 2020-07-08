@@ -4,7 +4,6 @@
 package com.wuda.foundation.store.impl.jooq.generation.tables;
 
 
-import com.wuda.foundation.store.impl.jooq.generation.Indexes;
 import com.wuda.foundation.store.impl.jooq.generation.Keys;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreRecord;
 
@@ -15,10 +14,9 @@ import java.util.List;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
-import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row9;
+import org.jooq.Row8;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -36,7 +34,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Store extends TableImpl<StoreRecord> {
 
-    private static final long serialVersionUID = 1740785110;
+    private static final long serialVersionUID = 786669899;
 
     /**
      * The reference instance of <code>store.store</code>
@@ -57,19 +55,14 @@ public class Store extends TableImpl<StoreRecord> {
     public final TableField<StoreRecord, ULong> STORE_ID = createField(DSL.name("store_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>store.store.user_id</code>. 所属用户ID
-     */
-    public final TableField<StoreRecord, ULong> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "所属用户ID");
-
-    /**
      * The column <code>store.store.type</code>. 店铺类型
      */
     public final TableField<StoreRecord, UByte> TYPE = createField(DSL.name("type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "店铺类型");
 
     /**
-     * The column <code>store.store.state</code>.
+     * The column <code>store.store.state</code>. 店铺状态
      */
-    public final TableField<StoreRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "");
+    public final TableField<StoreRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "店铺状态");
 
     /**
      * The column <code>store.store.create_time</code>.
@@ -135,11 +128,6 @@ public class Store extends TableImpl<StoreRecord> {
     }
 
     @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.STORE_FK_USER_ID);
-    }
-
-    @Override
     public Identity<StoreRecord, ULong> getIdentity() {
         return Keys.IDENTITY_STORE_;
     }
@@ -181,11 +169,11 @@ public class Store extends TableImpl<StoreRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row9 type methods
+    // Row8 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row8<ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row8) super.fieldsRow();
     }
 }

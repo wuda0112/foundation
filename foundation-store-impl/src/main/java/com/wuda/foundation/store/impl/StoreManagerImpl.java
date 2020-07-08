@@ -9,6 +9,7 @@ import com.wuda.foundation.store.CreateStoreGeneral;
 import com.wuda.foundation.store.UpdateStoreGeneral;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreGeneralRecord;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreRecord;
+import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreUserRelationshipRecord;
 import org.jooq.Configuration;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
@@ -28,17 +29,13 @@ public class StoreManagerImpl extends AbstractStoreManager {
     @Override
     public long createStoreDbOp(CreateStore createStore, Long ownerUserId, KeyGenerator<Long> keyGenerator, Long opUserId) {
         long storeId = keyGenerator.next();
-        LocalDateTime now = LocalDateTime.now();
-        StoreRecord storeRecord = new StoreRecord(ULong.valueOf(storeId),
-                ULong.valueOf(ownerUserId),
-                UByte.valueOf(createStore.getStoreType().getCode()),
-                UByte.valueOf(createStore.getStoreState().getCode()),
-                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
-
+        StoreRecord storeRecord = newStoreRecord(storeId, createStore, opUserId);
+        StoreUserRelationshipRecord storeUserRelationshipRecord = newStoreUserRelationshipRecord(keyGenerator.next(), storeId, ownerUserId, true, opUserId);
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         storeRecord.attach(configuration);
+        storeUserRelationshipRecord.attach(configuration);
         storeRecord.insert();
-
+        storeUserRelationshipRecord.insert();
         return storeId;
     }
 
@@ -68,5 +65,23 @@ public class StoreManagerImpl extends AbstractStoreManager {
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         storeGeneralRecord.attach(configuration);
         storeGeneralRecord.update();
+    }
+
+    private StoreUserRelationshipRecord newStoreUserRelationshipRecord(Long id, Long storeId, Long userId, boolean isStoreOwner, Long opUserId) {
+        return new StoreUserRelationshipRecord(ULong.valueOf(id),
+                ULong.valueOf(storeId),
+                ULong.valueOf(userId),
+                isStoreOwner,
+                LocalDateTime.now(),
+                ULong.valueOf(opUserId),
+                ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private StoreRecord newStoreRecord(Long storeId, CreateStore createStore, Long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new StoreRecord(ULong.valueOf(storeId),
+                UByte.valueOf(createStore.getStoreType().getCode()),
+                UByte.valueOf(createStore.getStoreState().getCode()),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 }

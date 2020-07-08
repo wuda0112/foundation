@@ -63,20 +63,6 @@ public class StoreDao extends DAOImpl<StoreRecord, com.wuda.foundation.store.imp
     }
 
     /**
-     * Fetch records that have <code>user_id BETWEEN lowerInclusive AND upperInclusive</code>
-     */
-    public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchRangeOfUserId(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(Store.STORE_.USER_ID, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>user_id IN (values)</code>
-     */
-    public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchByUserId(ULong... values) {
-        return fetch(Store.STORE_.USER_ID, values);
-    }
-
-    /**
      * Fetch records that have <code>type BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchRangeOfType(UByte lowerInclusive, UByte upperInclusive) {

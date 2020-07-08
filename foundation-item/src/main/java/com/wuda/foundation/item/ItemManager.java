@@ -73,16 +73,14 @@ public interface ItemManager {
     /**
      * 修改给定的item或者variation的描述信息.
      *
-     * @param itemId          item id
-     * @param itemVariationId item variation id,可以为<code>null</code>,
-     *                        如果为<code>null</code>,则表示修改item的描述信息,
-     *                        如果不为<code>null</code>,则表示修改variation描述信息。
-     * @param description     详细的描述信息
-     * @param opUserId        操作人用户ID
+     * @param itemDescriptionId item description id
+     *                          如果为<code>null</code>,则表示修改item的描述信息,
+     *                          如果不为<code>null</code>,则表示修改variation描述信息。
+     * @param description       详细的描述信息
+     * @param opUserId          操作人用户ID
      * @return 被修改的描述信息的ID
      */
-    long updateDescription(Long itemId,
-                           Long itemVariationId,
+    long updateDescription(Long itemDescriptionId,
                            String description,
                            Long opUserId);
 

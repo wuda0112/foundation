@@ -6,6 +6,8 @@ package com.wuda.foundation.commons.impl.jooq.generation;
 
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Email;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Phone;
+import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKey;
+import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyValue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +23,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Commons extends SchemaImpl {
 
-    private static final long serialVersionUID = -908789330;
+    private static final long serialVersionUID = -785885981;
 
     /**
      * The reference instance of <code>commons</code>
@@ -37,6 +39,16 @@ public class Commons extends SchemaImpl {
      * 电话信息。
      */
     public final Phone PHONE = Phone.PHONE;
+
+    /**
+     * 属性的key
+     */
+    public final PropertyKey PROPERTY_KEY = PropertyKey.PROPERTY_KEY;
+
+    /**
+     * 属性的值
+     */
+    public final PropertyValue PROPERTY_VALUE = PropertyValue.PROPERTY_VALUE;
 
     /**
      * No further instances allowed
@@ -55,6 +67,8 @@ public class Commons extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
             Email.EMAIL,
-            Phone.PHONE);
+            Phone.PHONE,
+            PropertyKey.PROPERTY_KEY,
+            PropertyValue.PROPERTY_VALUE);
     }
 }

@@ -6,6 +6,8 @@ package com.wuda.foundation.commons.impl.jooq.generation;
 
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Email;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Phone;
+import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKey;
+import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyValue;
 
 
 /**
@@ -23,4 +25,14 @@ public class Tables {
      * 电话信息。
      */
     public static final Phone PHONE = Phone.PHONE;
+
+    /**
+     * 属性的key
+     */
+    public static final PropertyKey PROPERTY_KEY = PropertyKey.PROPERTY_KEY;
+
+    /**
+     * 属性的值
+     */
+    public static final PropertyValue PROPERTY_VALUE = PropertyValue.PROPERTY_VALUE;
 }

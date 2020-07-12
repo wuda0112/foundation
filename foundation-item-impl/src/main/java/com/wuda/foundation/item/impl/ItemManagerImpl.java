@@ -113,11 +113,12 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
         Long itemDescriptionId = keyGenerator.next();
         LocalDateTime now = LocalDateTime.now();
         Configuration configuration = JooqContext.getConfiguration(dataSource);
-        SelectConditionStep<ItemDescriptionRecord> forUpdateRecordSelector = DSL.using(configuration)
+        SelectConditionStep<ItemDescriptionRecord> existsRecordSelector = DSL.using(configuration)
                 .selectFrom(ITEM_DESCRIPTION)
                 .where(ITEM_DESCRIPTION.ITEM_ID.eq(ULong.valueOf(itemId)))
                 .and(ITEM_DESCRIPTION.ITEM_VARIATION_ID.eq(ULong.valueOf(itemVariationId)));
-        SelectField[] selectFields = new SelectField[]{param(ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID.getName(), ULong.valueOf(itemDescriptionId)),
+        SelectField[] selectFields = new SelectField[]{
+                param(ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID.getName(), ULong.valueOf(itemDescriptionId)),
                 param(ITEM_DESCRIPTION.ITEM_ID.getName(), ULong.valueOf(itemId)),
                 param(ITEM_DESCRIPTION.ITEM_VARIATION_ID.getName(), ULong.valueOf(itemVariationId)),
                 param(ITEM_DESCRIPTION.CONTENT.getName(), description),
@@ -131,6 +132,6 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
         Consumer<ItemDescriptionRecord> existsRecordUpdateAction = itemDescriptionRecord -> {
             updateDescriptionDbOp(itemDescriptionRecord.getItemDescriptionId().longValue(), description, opUserId);
         };
-        return insertOrUpdate(dataSource, ITEM_DESCRIPTION, forUpdateRecordSelector, insertIntoSelectFields, existsRecordUpdateAction, ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID);
+        return insertOrUpdate(dataSource, ITEM_DESCRIPTION, insertIntoSelectFields, existsRecordSelector, existsRecordUpdateAction, ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID);
     }
 }

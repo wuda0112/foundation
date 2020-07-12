@@ -35,7 +35,7 @@ public class ItemManagerTest extends TestBase {
     @Test
     public void testCreateOrUpdateDescription(){
         ItemManager itemManager = getItemManager();
-        itemManager.createOrUpdateDescription(1024L, Constant.NOT_EXISTS_ID,"update-4",keyGenerator,opUserId);
+        itemManager.createOrUpdateDescription(1024L, Constant.NOT_EXISTS_ID,"update-7",keyGenerator,opUserId);
     }
 
     private ItemManager getItemManager() {

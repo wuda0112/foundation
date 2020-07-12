@@ -60,7 +60,7 @@ public class UserManagerImpl extends AbstractUserManager {
                 UserEmailRecord userEmailRecord = new UserEmailRecord(ULong.valueOf(id),
                         ULong.valueOf(userId),
                         ULong.valueOf(emailId),
-                        UByte.valueOf(BuiltinEmailUsage.ZERO.getCode()),
+                        UByte.valueOf(BuiltinEmailUse.ZERO.getCode()),
                         UByte.valueOf(BuiltinUserEmailState.ZERO.getCode()),
                         "",
                         now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
@@ -74,7 +74,7 @@ public class UserManagerImpl extends AbstractUserManager {
                 UserPhoneRecord userPhoneRecord = new UserPhoneRecord(ULong.valueOf(id),
                         ULong.valueOf(userId),
                         ULong.valueOf(phoneId),
-                        UByte.valueOf(BuiltinPhoneUsage.ZERO.getCode()),
+                        UByte.valueOf(BuiltinPhoneUse.ZERO.getCode()),
                         UByte.valueOf(BuiltinUserPhoneState.ZERO.getCode()),
                         "",
                         now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));

@@ -5,7 +5,7 @@ package com.wuda.foundation.commons;
  *
  * @author wuda
  */
-public interface PhoneUsage {
+public interface PhoneUse {
 
     /**
      * 获取code.

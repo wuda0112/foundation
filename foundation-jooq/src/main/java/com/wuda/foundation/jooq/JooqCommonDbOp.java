@@ -19,8 +19,8 @@ public interface JooqCommonDbOp {
      *
      * @param dataSource               datasource
      * @param table                    操作的表
-     * @param forUpdateRecordSelector  用于查询准备更新的记录,只能查询出一条,如果查询出多条记录会抛出异常
      * @param insertIntoSelectFields   如果记录不存在,则使用这些字段新增一条记录,即insert into ...select fields语法的select fields.
+     * @param existsRecordSelector     用于查询准备更新的记录,只能查询出一条,如果查询出多条记录会抛出异常
      * @param existsRecordUpdateAction 如果记录存在,则用于更新selector查询出的那条记录
      * @param idColumn                 该记录的id列,用于返回记录的ID
      * @param <R>                      被操作的记录的类型
@@ -28,24 +28,45 @@ public interface JooqCommonDbOp {
      */
     default <R extends Record> long insertOrUpdate(DataSource dataSource,
                                                    Table<R> table,
-                                                   SelectConditionStep<R> forUpdateRecordSelector,
                                                    SelectSelectStep<R> insertIntoSelectFields,
+                                                   SelectConditionStep<R> existsRecordSelector,
                                                    Consumer<R> existsRecordUpdateAction,
                                                    TableField<R, ULong> idColumn) {
-        R affectedRecord;
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        affectedRecord = dslContext.insertInto(table)
-                .select(
-                        insertIntoSelectFields
-                                .from(table)
-                                .whereNotExists(
-                                        forUpdateRecordSelector
-                                )
-                ).returning(idColumn).fetchOne();
+        R affectedRecord = insertIfNotExists(dataSource, table, insertIntoSelectFields, existsRecordSelector, idColumn);
         if (affectedRecord == null) {
-            affectedRecord = forUpdateRecordSelector.fetchOne();
+            affectedRecord = existsRecordSelector.fetchOne();
             existsRecordUpdateAction.accept(affectedRecord);
         }
         return affectedRecord.get(idColumn).longValue();
     }
+
+    /**
+     * 执行insert into ... select ... from where not exists语句.
+     *
+     * @param dataSource             datasource
+     * @param table                  操作的表
+     * @param existsRecordSelector   用于查询已经存在的记录,只能查询出一条,如果查询出多条记录会抛出异常
+     * @param insertIntoSelectFields 如果记录不存在,则使用这些字段新增一条记录,即insert into ...select fields语法的select fields.
+     * @param <R>                    被操作的记录的类型
+     * @return 如果已经存在, 则返回已有的记录, 否则返回新增的记录
+     */
+    default <R extends Record> R insertIfNotExists(DataSource dataSource,
+                                                   Table<R> table,
+                                                   SelectSelectStep<R> insertIntoSelectFields,
+                                                   SelectConditionStep<R> existsRecordSelector,
+                                                   TableField<R, ULong> idColumn) {
+
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
+        InsertOnDuplicateStep<R> insertSetStep = dslContext.insertInto(table)
+                .select(
+                        insertIntoSelectFields
+                                // .from(table) from dual
+                                .whereNotExists(
+                                        existsRecordSelector
+                                )
+                );
+        InsertResultStep<R> insertResultStep = insertSetStep.returning(idColumn);
+        return insertResultStep.fetchOne();
+    }
+
 }

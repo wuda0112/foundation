@@ -5,7 +5,7 @@ package com.wuda.foundation.commons;
  *
  * @author wuda
  */
-public interface EmailUsage {
+public interface EmailUse {
 
     /**
      * 获取code.

@@ -1,19 +1,20 @@
 
 
-### ------------------------Web开发也能面向对象编程，拒绝面条代码。-------------------------------
-
+### ------------------------Java中台项目，Web开发也能面向对象编程，拒绝面条代码。-------------------------------
+###  [Github地址](https://github.com/wuda0112/foundation)
 
 # 数据库设计
-[数据库源文件 DB-Design.mwb ](https://github.com/wuda0112/foundation/blob/master/DB-Design.mwb)
+- 目前已经有47个表
+- [数据库源文件 DB-Design.mwb ](https://github.com/wuda0112/foundation/blob/master/DB-Design.mwb)
 
-使用 **MySQL Workbench** 打开
+- 使用 **MySQL Workbench** 打开
 
 包含的数据库表有用户体系，权限控制体系，店铺，商品，订单，消息通知体系，异步任务等等，持续更新中......
 
 # 系统设计文档
-[系统文档源文件 System-Design.mm](https://github.com/wuda0112/foundation/blob/master/System-Design.mm)
+- [系统文档源文件 System-Design.mm](https://github.com/wuda0112/foundation/blob/master/System-Design.mm)
 
-使用**FreeMind**或者**XMind**打开
+- 使用**FreeMind**或者**XMind**打开
 
 包含数据库设计文档，系统约束说明，专有名词说明等等，持续更新中......
 
@@ -22,15 +23,22 @@
 
 # 模块简介
 - foundation-lang：定义了很多工具类，常用的与业务无关的基础类，比如，[树形结构](https://github.com/wuda0112/foundation/tree/master/foundation-lang/src/main/java/com/wuda/foundation/lang/tree/)，[Snowflake唯一ID生成器](https://github.com/wuda0112/foundation/blob/master/foundation-lang/src/main/java/com/wuda/foundation/lang/keygen/KeyGeneratorSnowflake.java)等等。没有数据库相关的维护。
-
-- foundation-commons：用于维护与业务无关，通用的数据库表，比如用于保存行政区划省市区的表
+- foundation-store: 维护店铺模块
+- foundation-item: 维护Item模块，Item可以表示很多概念，比如最常见的商品
+- foundation-commons：用于维护与业务无关，通用的数据库表，比如维护email,phone,通用的实体属性等
 - foundation-user：维护用户体系，最主要的就是维护数据库表的完整性
 - foundation-security：维护权限控制体系
 - foundation-test：测试用例，前提是先根据数据库设计文档建立好数据库。比如[测试添加用户接口](https://github.com/wuda0112/foundation/blob/master/foundation-test/src/test/java/com/wuda/foundation/test/user/UserManagerTest.java)
-- 未来还有店铺体系，商品体系，订单体系等等，持续更新中......
+- 未来还有订单体系，消息通知体系等等，持续更新中......
 
 # 如何搭建完整系统
-比如想做一个CMS系统，则引入foundation-lang，foundation-commons，foundation-user，以及即将提交的foundation-item等模块即可
+比如想做一个电商系统，则引入foundation-lang，foundation-commons，foundation-user，foundation-security,foundation-store,foundation-item等模块即可
+
+# 推荐的优势
+- 数据库中台项目，不耦合业务，基于这个中台可以发展出各种业务
+- 像使用开源组件一样，100%面向对象编程，绝对不是dao,mapper这样一路下来的面条代码
+- 数据库设计很抽象，不为特点业务开发，比如像权限体系，很多都是user-role这样的模式，而我们这里使用subject,target,action等这样的抽象概念，参考[JAAS](https://docs.oracle.com/javase/7/docs/technotes/guides/security/jaas/JAASRefGuide.html)，几乎可以表示所有的权限体系。
+- 丰富的文档，注释
 
 # 简介
 建房子需要打地基，软件开发也一样，优先的基础设施才能支撑复杂的业务。这个项目不是开箱即用的成品软件，而是一个中台项目，主要关注开发过程中常用的基本组件定义，包括

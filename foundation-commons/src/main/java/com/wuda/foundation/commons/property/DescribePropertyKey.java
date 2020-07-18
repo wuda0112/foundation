@@ -2,7 +2,7 @@ package com.wuda.foundation.commons.property;
 
 import com.wuda.foundation.lang.BasicAttribute;
 import com.wuda.foundation.lang.DataType;
-import com.wuda.foundation.lang.Identifier;
+import com.wuda.foundation.lang.identify.Identifier;
 import lombok.Data;
 
 /**

@@ -1,8 +1,8 @@
 package com.wuda.foundation.user;
 
-import com.wuda.foundation.lang.BuiltinIdentifierType;
-import com.wuda.foundation.lang.Identifier;
-import com.wuda.foundation.lang.IdentifierType;
+import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
+import com.wuda.foundation.lang.identify.Identifier;
+import com.wuda.foundation.lang.identify.IdentifierType;
 
 import java.util.Objects;
 

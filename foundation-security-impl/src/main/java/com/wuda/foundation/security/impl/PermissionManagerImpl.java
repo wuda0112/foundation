@@ -4,6 +4,9 @@ import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.UniqueCodeDescriptorRegistry;
+import com.wuda.foundation.lang.identify.IdentifierType;
+import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
+import com.wuda.foundation.lang.identify.LongIdentifier;
 import com.wuda.foundation.security.*;
 import com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAction;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionActionRecord;
@@ -80,7 +83,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
                 param(PERMISSION_ACTION.NAME.getName(), action.getName().getCode()),
                 param(PERMISSION_ACTION.DESCRIPTION.getName(), action.getDescription()),
                 param(PERMISSION_ACTION.REFERENCED_TYPE.getName(), UByte.valueOf(action.getReferencedIdentifier().getType().getCode())),
-                param(PERMISSION_ACTION.REFERENCED_IDENFIER.getName(), ULong.valueOf(action.getReferencedIdentifier().getValue())),
+                param(PERMISSION_ACTION.REFERENCED_IDENTIFIER.getName(), ULong.valueOf(action.getReferencedIdentifier().getValue())),
                 param(PERMISSION_ACTION.CREATE_TIME.getName(), now),
                 param(PERMISSION_ACTION.CREATE_USER_ID.getName(), ULong.valueOf(opUserId)),
                 param(PERMISSION_ACTION.LAST_MODIFY_TIME.getName(), now),
@@ -192,6 +195,9 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
         describePermissionTarget.setName(target.getName());
         PermissionTargetType permissionTargetType = UniqueCodeDescriptorRegistry.defaultRegistry.lookup(PermissionTargetTypeSchema.class, target.getType().intValue());
         describePermissionTarget.setType(permissionTargetType);
+        IdentifierType identifierType = IdentifierTypeRegistry.defaultRegistry.lookup(target.getReferencedType().intValue());
+        LongIdentifier referencedIdentifier = new LongIdentifier(target.getReferencedIdentifier().longValue(), identifierType);
+        describePermissionTarget.setReferencedIdentifier(referencedIdentifier);
         describePermissionTarget.setDescription(target.getDescription());
         return describePermissionTarget;
     }
@@ -202,7 +208,10 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
         describePermissionAction.setPermissionTargetId(action.getPermissionTargetId().longValue());
         PermissionActionName permissionActionName = UniqueCodeDescriptorRegistry.defaultRegistry.lookup(PermissionActionNameSchema.class, action.getName());
         describePermissionAction.setName(permissionActionName);
+        IdentifierType identifierType = IdentifierTypeRegistry.defaultRegistry.lookup(action.getReferencedType().intValue());
+        LongIdentifier identifier = new LongIdentifier(action.getReferencedIdentifier().longValue(), identifierType);
         describePermissionAction.setDescription(action.getDescription());
+        describePermissionAction.setReferencedIdentifier(identifier);
         return describePermissionAction;
     }
 

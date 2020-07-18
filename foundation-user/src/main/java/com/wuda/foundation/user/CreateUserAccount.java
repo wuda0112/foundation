@@ -1,6 +1,6 @@
 package com.wuda.foundation.user;
 
-import com.wuda.foundation.lang.Identifier;
+import com.wuda.foundation.lang.identify.Identifier;
 import lombok.Getter;
 
 import java.util.List;

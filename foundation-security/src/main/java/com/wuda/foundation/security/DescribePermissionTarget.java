@@ -1,5 +1,6 @@
 package com.wuda.foundation.security;
 
+import com.wuda.foundation.lang.identify.LongIdentifier;
 import lombok.Data;
 import lombok.ToString;
 
@@ -35,7 +36,7 @@ public class DescribePermissionTarget {
     /**
      * 关联的外部对象的identifier.
      */
-    private PermissionTargetReferencedIdentifier referencedIdentifier;
+    private LongIdentifier referencedIdentifier;
     /**
      * 描述.
      */

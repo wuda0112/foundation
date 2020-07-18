@@ -1,5 +1,6 @@
 package com.wuda.foundation.security;
 
+import com.wuda.foundation.lang.identify.LongIdentifier;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -34,7 +35,7 @@ public class CreatePermissionTarget {
     /**
      * 关联的外部对象的identifier.
      */
-    private PermissionTargetReferencedIdentifier referencedIdentifier;
+    private LongIdentifier referencedIdentifier;
     /**
      * 描述.
      */
@@ -52,7 +53,7 @@ public class CreatePermissionTarget {
         private Long categoryId;
         private String name;
         private PermissionTargetType type;
-        private PermissionTargetReferencedIdentifier referencedIdentifier;
+        private LongIdentifier referencedIdentifier;
         private String description;
 
         public Builder setId(Long id) {
@@ -75,7 +76,7 @@ public class CreatePermissionTarget {
             return this;
         }
 
-        public Builder setReferencedIdentifier(PermissionTargetReferencedIdentifier referencedIdentifier) {
+        public Builder setReferencedIdentifier(LongIdentifier referencedIdentifier) {
             this.referencedIdentifier = referencedIdentifier;
             return this;
         }

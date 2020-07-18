@@ -1,6 +1,6 @@
 package com.wuda.foundation.commons.property;
 
-import com.wuda.foundation.lang.Identifier;
+import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
 
 /**

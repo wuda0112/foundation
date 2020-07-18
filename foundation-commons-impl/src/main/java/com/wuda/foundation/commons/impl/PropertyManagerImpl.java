@@ -10,7 +10,7 @@ import com.wuda.foundation.commons.property.PropertyKeyUse;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.DataType;
-import com.wuda.foundation.lang.Identifier;
+import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.datatype.MySQLDataTypes;
 import com.wuda.foundation.lang.keygen.KeyGenerator;

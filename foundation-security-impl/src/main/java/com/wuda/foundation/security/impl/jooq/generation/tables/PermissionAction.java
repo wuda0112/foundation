@@ -33,12 +33,12 @@ import org.jooq.types.ULong;
 
 /**
  * permission允许的行为。参考: java.security.Permission#getActions。为什么要把作用对象和对该对象的action分开呢？因为对于同一个作用对象，可能有多个action，比如对于一个文件可以有读和写权限。action可以关联外部对象，具体的解释可以参考permission 
- * targe ,它们对于关联外部对象的定义是一样的。t
+ * targe ,它们对于关联外部对象的定义是一样的。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAction extends TableImpl<PermissionActionRecord> {
 
-    private static final long serialVersionUID = -1545571434;
+    private static final long serialVersionUID = 986037323;
 
     /**
      * The reference instance of <code>foundation_security.permission_action</code>
@@ -79,9 +79,9 @@ public class PermissionAction extends TableImpl<PermissionActionRecord> {
     public final TableField<PermissionActionRecord, UByte> REFERENCED_TYPE = createField(DSL.name("referenced_type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINTUNSIGNED)), this, "关联的外部对象的类型，0表示没有关联其他外部对象。");
 
     /**
-     * The column <code>foundation_security.permission_action.referenced_idenfier</code>. 关联的外部对象的identifier，0表示没有关联外部对象。
+     * The column <code>foundation_security.permission_action.referenced_identifier</code>. 关联的外部对象的identifier，0表示没有关联外部对象。
      */
-    public final TableField<PermissionActionRecord, ULong> REFERENCED_IDENFIER = createField(DSL.name("referenced_idenfier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "关联的外部对象的identifier，0表示没有关联外部对象。");
+    public final TableField<PermissionActionRecord, ULong> REFERENCED_IDENTIFIER = createField(DSL.name("referenced_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "关联的外部对象的identifier，0表示没有关联外部对象。");
 
     /**
      * The column <code>foundation_security.permission_action.create_time</code>.
@@ -134,7 +134,7 @@ public class PermissionAction extends TableImpl<PermissionActionRecord> {
     }
 
     private PermissionAction(Name alias, Table<PermissionActionRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("permission允许的行为。参考: java.security.Permission#getActions。为什么要把作用对象和对该对象的action分开呢？因为对于同一个作用对象，可能有多个action，比如对于一个文件可以有读和写权限。action可以关联外部对象，具体的解释可以参考permission targe ,它们对于关联外部对象的定义是一样的。t"), TableOptions.table());
+        super(alias, null, aliased, parameters, DSL.comment("permission允许的行为。参考: java.security.Permission#getActions。为什么要把作用对象和对该对象的action分开呢？因为对于同一个作用对象，可能有多个action，比如对于一个文件可以有读和写权限。action可以关联外部对象，具体的解释可以参考permission targe ,它们对于关联外部对象的定义是一样的。"), TableOptions.table());
     }
 
     public <O extends Record> PermissionAction(Table<O> child, ForeignKey<O, PermissionActionRecord> key) {

@@ -23,7 +23,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationSecurity extends SchemaImpl {
 
-    private static final long serialVersionUID = -651647056;
+    private static final long serialVersionUID = -1313231566;
 
     /**
      * The reference instance of <code>foundation_security</code>
@@ -31,7 +31,7 @@ public class FoundationSecurity extends SchemaImpl {
     public static final FoundationSecurity FOUNDATION_SECURITY = new FoundationSecurity();
 
     /**
-     * permission允许的行为。参考: java.security.Permission#getActions。为什么要把作用对象和对该对象的action分开呢？因为对于同一个作用对象，可能有多个action，比如对于一个文件可以有读和写权限。action可以关联外部对象，具体的解释可以参考permission targe ,它们对于关联外部对象的定义是一样的。t
+     * permission允许的行为。参考: java.security.Permission#getActions。为什么要把作用对象和对该对象的action分开呢？因为对于同一个作用对象，可能有多个action，比如对于一个文件可以有读和写权限。action可以关联外部对象，具体的解释可以参考permission targe ,它们对于关联外部对象的定义是一样的。
      */
     public final PermissionAction PERMISSION_ACTION = PermissionAction.PERMISSION_ACTION;
 

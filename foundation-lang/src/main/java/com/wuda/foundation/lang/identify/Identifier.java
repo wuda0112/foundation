@@ -1,4 +1,4 @@
-package com.wuda.foundation.lang;
+package com.wuda.foundation.lang.identify;
 
 /**
  * 唯一标记一个对象,比如username;比如数据库的primary key等等.

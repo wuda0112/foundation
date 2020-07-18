@@ -1,4 +1,4 @@
-package com.wuda.foundation.lang;
+package com.wuda.foundation.lang.identify;
 
 /**
  * {@link Identifier}的类型.推荐用枚举实现该类.
@@ -21,4 +21,11 @@ public interface IdentifierType {
      * @return 描述
      */
     String getDescription();
+
+    /**
+     * 注册到{@link IdentifierTypeRegistry#defaultRegistry}.
+     */
+    default void register() {
+        IdentifierTypeRegistry.defaultRegistry.register(this);
+    }
 }

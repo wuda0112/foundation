@@ -1,5 +1,9 @@
 package com.wuda.foundation.lang;
 
+import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
+import com.wuda.foundation.lang.identify.Identifier;
+import com.wuda.foundation.lang.identify.IdentifierType;
+
 import java.util.Objects;
 
 /**

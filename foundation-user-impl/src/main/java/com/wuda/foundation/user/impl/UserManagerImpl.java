@@ -3,6 +3,8 @@ package com.wuda.foundation.user.impl;
 import com.wuda.foundation.commons.*;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.*;
+import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
+import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
 import com.wuda.foundation.user.*;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserAccountRecord;

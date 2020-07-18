@@ -2,7 +2,7 @@ package com.wuda.foundation.user;
 
 import com.wuda.foundation.commons.EmailManager;
 import com.wuda.foundation.commons.PhoneManager;
-import com.wuda.foundation.lang.Identifier;
+import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
 
 public interface UserManager {

@@ -19,12 +19,12 @@ import org.jooq.types.ULong;
 
 /**
  * permission允许的行为。参考: java.security.Permission#getActions。为什么要把作用对象和对该对象的action分开呢？因为对于同一个作用对象，可能有多个action，比如对于一个文件可以有读和写权限。action可以关联外部对象，具体的解释可以参考permission 
- * targe ,它们对于关联外部对象的定义是一样的。t
+ * targe ,它们对于关联外部对象的定义是一样的。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionActionRecord extends UpdatableRecordImpl<PermissionActionRecord> implements Record11<ULong, ULong, String, String, UByte, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -1611814053;
+    private static final long serialVersionUID = 556154375;
 
     /**
      * Setter for <code>foundation_security.permission_action.permission_action_id</code>.
@@ -97,16 +97,16 @@ public class PermissionActionRecord extends UpdatableRecordImpl<PermissionAction
     }
 
     /**
-     * Setter for <code>foundation_security.permission_action.referenced_idenfier</code>. 关联的外部对象的identifier，0表示没有关联外部对象。
+     * Setter for <code>foundation_security.permission_action.referenced_identifier</code>. 关联的外部对象的identifier，0表示没有关联外部对象。
      */
-    public void setReferencedIdenfier(ULong value) {
+    public void setReferencedIdentifier(ULong value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>foundation_security.permission_action.referenced_idenfier</code>. 关联的外部对象的identifier，0表示没有关联外部对象。
+     * Getter for <code>foundation_security.permission_action.referenced_identifier</code>. 关联的外部对象的identifier，0表示没有关联外部对象。
      */
-    public ULong getReferencedIdenfier() {
+    public ULong getReferencedIdentifier() {
         return (ULong) get(5);
     }
 
@@ -230,7 +230,7 @@ public class PermissionActionRecord extends UpdatableRecordImpl<PermissionAction
 
     @Override
     public Field<ULong> field6() {
-        return PermissionAction.PERMISSION_ACTION.REFERENCED_IDENFIER;
+        return PermissionAction.PERMISSION_ACTION.REFERENCED_IDENTIFIER;
     }
 
     @Override
@@ -285,7 +285,7 @@ public class PermissionActionRecord extends UpdatableRecordImpl<PermissionAction
 
     @Override
     public ULong component6() {
-        return getReferencedIdenfier();
+        return getReferencedIdentifier();
     }
 
     @Override
@@ -340,7 +340,7 @@ public class PermissionActionRecord extends UpdatableRecordImpl<PermissionAction
 
     @Override
     public ULong value6() {
-        return getReferencedIdenfier();
+        return getReferencedIdentifier();
     }
 
     @Override
@@ -400,7 +400,7 @@ public class PermissionActionRecord extends UpdatableRecordImpl<PermissionAction
 
     @Override
     public PermissionActionRecord value6(ULong value) {
-        setReferencedIdenfier(value);
+        setReferencedIdentifier(value);
         return this;
     }
 
@@ -464,7 +464,7 @@ public class PermissionActionRecord extends UpdatableRecordImpl<PermissionAction
     /**
      * Create a detached, initialised PermissionActionRecord
      */
-    public PermissionActionRecord(ULong permissionActionId, ULong permissionTargetId, String name, String description, UByte referencedType, ULong referencedIdenfier, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public PermissionActionRecord(ULong permissionActionId, ULong permissionTargetId, String name, String description, UByte referencedType, ULong referencedIdentifier, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(PermissionAction.PERMISSION_ACTION);
 
         set(0, permissionActionId);
@@ -472,7 +472,7 @@ public class PermissionActionRecord extends UpdatableRecordImpl<PermissionAction
         set(2, name);
         set(3, description);
         set(4, referencedType);
-        set(5, referencedIdenfier);
+        set(5, referencedIdentifier);
         set(6, createTime);
         set(7, createUserId);
         set(8, lastModifyTime);

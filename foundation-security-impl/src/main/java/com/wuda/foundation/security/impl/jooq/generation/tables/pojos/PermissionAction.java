@@ -13,19 +13,19 @@ import org.jooq.types.ULong;
 
 /**
  * permission允许的行为。参考: java.security.Permission#getActions。为什么要把作用对象和对该对象的action分开呢？因为对于同一个作用对象，可能有多个action，比如对于一个文件可以有读和写权限。action可以关联外部对象，具体的解释可以参考permission 
- * targe ,它们对于关联外部对象的定义是一样的。t
+ * targe ,它们对于关联外部对象的定义是一样的。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAction implements Serializable {
 
-    private static final long serialVersionUID = -1333607704;
+    private static final long serialVersionUID = 1033446103;
 
     private ULong         permissionActionId;
     private ULong         permissionTargetId;
     private String        name;
     private String        description;
     private UByte         referencedType;
-    private ULong         referencedIdenfier;
+    private ULong         referencedIdentifier;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private LocalDateTime lastModifyTime;
@@ -40,7 +40,7 @@ public class PermissionAction implements Serializable {
         this.name = value.name;
         this.description = value.description;
         this.referencedType = value.referencedType;
-        this.referencedIdenfier = value.referencedIdenfier;
+        this.referencedIdentifier = value.referencedIdentifier;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.lastModifyTime = value.lastModifyTime;
@@ -54,7 +54,7 @@ public class PermissionAction implements Serializable {
         String        name,
         String        description,
         UByte         referencedType,
-        ULong         referencedIdenfier,
+        ULong         referencedIdentifier,
         LocalDateTime createTime,
         ULong         createUserId,
         LocalDateTime lastModifyTime,
@@ -66,7 +66,7 @@ public class PermissionAction implements Serializable {
         this.name = name;
         this.description = description;
         this.referencedType = referencedType;
-        this.referencedIdenfier = referencedIdenfier;
+        this.referencedIdentifier = referencedIdentifier;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.lastModifyTime = lastModifyTime;
@@ -114,12 +114,12 @@ public class PermissionAction implements Serializable {
         this.referencedType = referencedType;
     }
 
-    public ULong getReferencedIdenfier() {
-        return this.referencedIdenfier;
+    public ULong getReferencedIdentifier() {
+        return this.referencedIdentifier;
     }
 
-    public void setReferencedIdenfier(ULong referencedIdenfier) {
-        this.referencedIdenfier = referencedIdenfier;
+    public void setReferencedIdentifier(ULong referencedIdentifier) {
+        this.referencedIdentifier = referencedIdentifier;
     }
 
     public LocalDateTime getCreateTime() {
@@ -171,7 +171,7 @@ public class PermissionAction implements Serializable {
         sb.append(", ").append(name);
         sb.append(", ").append(description);
         sb.append(", ").append(referencedType);
-        sb.append(", ").append(referencedIdenfier);
+        sb.append(", ").append(referencedIdentifier);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(lastModifyTime);

@@ -18,7 +18,7 @@ import org.jooq.types.ULong;
 
 /**
  * permission允许的行为。参考: java.security.Permission#getActions。为什么要把作用对象和对该对象的action分开呢？因为对于同一个作用对象，可能有多个action，比如对于一个文件可以有读和写权限。action可以关联外部对象，具体的解释可以参考permission 
- * targe ,它们对于关联外部对象的定义是一样的。t
+ * targe ,它们对于关联外部对象的定义是一样的。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionActionDao extends DAOImpl<PermissionActionRecord, com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAction, ULong> {
@@ -120,17 +120,17 @@ public class PermissionActionDao extends DAOImpl<PermissionActionRecord, com.wud
     }
 
     /**
-     * Fetch records that have <code>referenced_idenfier BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>referenced_identifier BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAction> fetchRangeOfReferencedIdenfier(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(PermissionAction.PERMISSION_ACTION.REFERENCED_IDENFIER, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAction> fetchRangeOfReferencedIdentifier(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(PermissionAction.PERMISSION_ACTION.REFERENCED_IDENTIFIER, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>referenced_idenfier IN (values)</code>
+     * Fetch records that have <code>referenced_identifier IN (values)</code>
      */
-    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAction> fetchByReferencedIdenfier(ULong... values) {
-        return fetch(PermissionAction.PERMISSION_ACTION.REFERENCED_IDENFIER, values);
+    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAction> fetchByReferencedIdentifier(ULong... values) {
+        return fetch(PermissionAction.PERMISSION_ACTION.REFERENCED_IDENTIFIER, values);
     }
 
     /**

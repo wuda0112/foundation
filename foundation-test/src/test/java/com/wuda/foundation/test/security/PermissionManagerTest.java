@@ -1,6 +1,8 @@
 package com.wuda.foundation.test.security;
 
 import com.wuda.foundation.TestBase;
+import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
+import com.wuda.foundation.lang.identify.LongIdentifier;
 import com.wuda.foundation.security.*;
 import com.wuda.foundation.security.impl.PermissionManagerImpl;
 import org.junit.Test;
@@ -20,27 +22,7 @@ public class PermissionManagerTest extends TestBase {
                 .setPermissionTargetType(BuiltinPermissionTargetType.ZERO)
                 .setDescription("target-desc")
                 .setName("target-name")
-                .setReferencedIdentifier(new PermissionTargetReferencedIdentifier() {
-                    @Override
-                    public PermissionTargetReferencedType getType() {
-                        return new PermissionTargetReferencedType() {
-                            @Override
-                            public int getCode() {
-                                return 0;
-                            }
-
-                            @Override
-                            public String getDescription() {
-                                return null;
-                            }
-                        };
-                    }
-
-                    @Override
-                    public Long getValue() {
-                        return opUserId;
-                    }
-                })
+                .setReferencedIdentifier(new LongIdentifier(0L,BuiltinIdentifierType.MOCK))
                 .build();
 
         PermissionActionName permissionActionName = new PermissionActionName() {
@@ -59,27 +41,7 @@ public class PermissionManagerTest extends TestBase {
                 .setId(keyGenerator.next())
                 .setPermissionTargetId(permissionTargetId)
                 .setPermissionActionName(permissionActionName)
-                .setPermissionActionReferencedIdentifier(new PermissionActionReferencedIdentifier() {
-                    @Override
-                    public PermissionActionReferencedType getType() {
-                        return new PermissionActionReferencedType() {
-                            @Override
-                            public int getCode() {
-                                return 0;
-                            }
-
-                            @Override
-                            public String getDescription() {
-                                return null;
-                            }
-                        };
-                    }
-
-                    @Override
-                    public Long getValue() {
-                        return opUserId;
-                    }
-                })
+                .setReferencedIdentifier(new LongIdentifier(0L, BuiltinIdentifierType.MOCK))
                 .setDescription("action-desc")
                 .build();
 

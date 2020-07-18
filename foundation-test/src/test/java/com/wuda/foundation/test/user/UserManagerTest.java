@@ -6,6 +6,7 @@ import com.wuda.foundation.commons.PhoneManager;
 import com.wuda.foundation.commons.impl.EmailManagerImpl;
 import com.wuda.foundation.commons.impl.PhoneManagerImpl;
 import com.wuda.foundation.lang.*;
+import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.user.*;
 import com.wuda.foundation.user.impl.UserManagerImpl;
 import org.junit.Test;

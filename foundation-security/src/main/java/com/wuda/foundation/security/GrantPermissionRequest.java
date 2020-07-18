@@ -7,18 +7,17 @@ import java.util.*;
 /**
  * 为目标对象分配/取消{@link Permission}时使用的参数.
  *
- * @param <T> {@link Subject#getValue()}的数据类型
  * @author wuda
  * @since 1.0.0
  */
 @ToString
-public class GrantPermissionRequest<T> {
+public class GrantPermissionRequest {
 
-    private Subject<T> subject;
+    private Subject subject;
     private Long permissionTargetId;
     private Set<Long> permissionActionIdSet;
 
-    public Subject<T> getSubject() {
+    public Subject getSubject() {
         return subject;
     }
 
@@ -29,7 +28,7 @@ public class GrantPermissionRequest<T> {
      * @param permissionTargetId    permission target id
      * @param permissionActionIdSet permission action id set,可以为<code>null</code>,表示不分配action
      */
-    public GrantPermissionRequest(Subject<T> subject, Long permissionTargetId, Set<Long> permissionActionIdSet) {
+    public GrantPermissionRequest(Subject subject, Long permissionTargetId, Set<Long> permissionActionIdSet) {
         Objects.requireNonNull(subject);
         Objects.requireNonNull(permissionTargetId);
         this.subject = subject;
@@ -43,7 +42,7 @@ public class GrantPermissionRequest<T> {
      * @param subject            subject
      * @param permissionTargetId permission target id
      */
-    public GrantPermissionRequest(Subject<T> subject, Long permissionTargetId) {
+    public GrantPermissionRequest(Subject subject, Long permissionTargetId) {
         this(subject, permissionTargetId, null);
     }
 
@@ -53,13 +52,13 @@ public class GrantPermissionRequest<T> {
      * @param requestList 待合并的{@link GrantPermissionRequest}
      * @return 合并后的结果
      */
-    public static <T> List<? extends GrantPermissionRequest> merge(final List<GrantPermissionRequest<T>> requestList) {
+    public static <T> List<? extends GrantPermissionRequest> merge(final List<GrantPermissionRequest> requestList) {
         if (requestList == null || requestList.isEmpty()) {
             return null;
         }
-        Map<Subject<T>, Map<Long, Set<Long>>> map = new HashMap<>();
+        Map<Subject, Map<Long, Set<Long>>> map = new HashMap<>();
         for (GrantPermissionRequest grantPermissionRequest : requestList) {
-            Subject<T> subject = grantPermissionRequest.getSubject();
+            Subject subject = grantPermissionRequest.getSubject();
             Map<Long, Set<Long>> targetToActionMap;
             Set<Long> permissionActionIdSet;
             if ((targetToActionMap = map.get(subject)) == null) {
@@ -82,16 +81,16 @@ public class GrantPermissionRequest<T> {
      * @param map key: subject; value: permission target id to permission action ids map
      * @return list of {@link GrantPermissionRequest}
      */
-    public static <T> List<GrantPermissionRequest> from(Map<Subject<T>, Map<Long, Set<Long>>> map) {
+    public static <T> List<GrantPermissionRequest> from(Map<Subject, Map<Long, Set<Long>>> map) {
         if (map == null || map.isEmpty()) {
             return null;
         }
-        Set<Map.Entry<Subject<T>, Map<Long, Set<Long>>>> entrySet = map.entrySet();
+        Set<Map.Entry<Subject, Map<Long, Set<Long>>>> entrySet = map.entrySet();
         List<GrantPermissionRequest> list = new ArrayList<>();
-        Subject<T> subject;
+        Subject subject;
         Long permissionTargetId;
         Set<Long> permissionActionIdSet;
-        for (Map.Entry<Subject<T>, Map<Long, Set<Long>>> entry : entrySet) {
+        for (Map.Entry<Subject, Map<Long, Set<Long>>> entry : entrySet) {
             subject = entry.getKey();
             Map<Long, Set<Long>> targetToActionMap = entry.getValue();
             if (targetToActionMap == null || targetToActionMap.isEmpty()) {
@@ -101,7 +100,7 @@ public class GrantPermissionRequest<T> {
             for (Map.Entry<Long, Set<Long>> targetAndActionEntry : targetAndActionEntrySet) {
                 permissionTargetId = targetAndActionEntry.getKey();
                 permissionActionIdSet = targetAndActionEntry.getValue();
-                GrantPermissionRequest<T> grantPermissionRequest = new GrantPermissionRequest<T>(subject, permissionTargetId, permissionActionIdSet);
+                GrantPermissionRequest grantPermissionRequest = new GrantPermissionRequest(subject, permissionTargetId, permissionActionIdSet);
                 list.add(grantPermissionRequest);
             }
         }

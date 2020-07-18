@@ -29,25 +29,22 @@ public interface PermissionGrantManager {
     /**
      * 给{@link Subject}授权.
      *
-     * @param <T>     {@link Subject#getValue()}的数据类型
      * @param request request
      */
-    <T> void grantPermission(GrantPermissionRequest<T> request);
+    void grantPermission(GrantPermissionRequest request);
 
     /**
      * 取消授权.
      *
-     * @param <T>     {@link Subject#getValue()}的数据类型
      * @param request request
      */
-    <T> void revokePermission(GrantPermissionRequest<T> request);
+    void revokePermission(GrantPermissionRequest request);
 
     /**
      * 获取{@link Subject}的{@link SubjectPermission}.
      *
-     * @param <T>     {@link Subject#getValue()}的数据类型
      * @param subject subject
      * @return 该用户的permission
      */
-    <T> List<SubjectPermission> getPermission(Subject<T> subject);
+    List<SubjectPermission> getPermission(Subject subject);
 }

@@ -1,6 +1,6 @@
 package com.wuda.foundation.security;
 
-import com.wuda.foundation.lang.IdentifierType;
+import com.wuda.foundation.lang.identify.IdentifierType;
 
 /**
  * permission target关联的外部对象的类型.实现类推荐使用枚举实现该接口.

@@ -3,6 +3,12 @@ package com.wuda.foundation.lang.datatype;
 import com.wuda.foundation.lang.DataType;
 import com.wuda.foundation.lang.DataTypeSchema;
 
+/**
+ * 使用MySQL的数据类型.
+ *
+ * @author wuda
+ * @since 1.0.0
+ */
 public enum MySQLDataTypes implements DataType {
 
     VARCHAR(BuiltinDataTypeSchema.MySQL, "VARCHAR", false);

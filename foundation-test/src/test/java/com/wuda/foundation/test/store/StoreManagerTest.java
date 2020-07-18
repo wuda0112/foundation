@@ -17,9 +17,10 @@ public class StoreManagerTest extends TestBase {
         long storeId = storeManager.createStore(createStore, opUserId, keyGenerator, opUserId);
 
         CreateStoreGeneral createStoreGeneral = new CreateStoreGeneral.Builder()
+                .setStoreId(storeId)
                 .setStoreName("卖卖小店")
                 .build();
-        long storeGeneralId = storeManager.createStoreGeneral(storeId, createStoreGeneral, keyGenerator, opUserId);
+        long storeGeneralId = storeManager.createStoreGeneral(createStoreGeneral, keyGenerator, opUserId);
 
         UpdateStoreGeneral updateStoreGeneral = new UpdateStoreGeneral.Builder()
                 .setStoreName("卖卖百年老店")

@@ -32,12 +32,13 @@ public interface JooqCommonDbOp {
                                                    SelectConditionStep<R> existsRecordSelector,
                                                    Consumer<R> existsRecordUpdateAction,
                                                    TableField<R, ULong> idColumn) {
-        R affectedRecord = insertIfNotExists(dataSource, table, insertIntoSelectFields, existsRecordSelector, idColumn);
-        if (affectedRecord == null) {
-            affectedRecord = existsRecordSelector.fetchOne();
+        Long id = insertIfNotExists(dataSource, table, insertIntoSelectFields, existsRecordSelector, idColumn);
+        if (id == null) {
+            R affectedRecord = existsRecordSelector.fetchOne();
             existsRecordUpdateAction.accept(affectedRecord);
+            id = affectedRecord.get(idColumn).longValue();
         }
-        return affectedRecord.get(idColumn).longValue();
+        return id;
     }
 
     /**
@@ -48,13 +49,13 @@ public interface JooqCommonDbOp {
      * @param existsRecordSelector   用于查询已经存在的记录,只能查询出一条,如果查询出多条记录会抛出异常
      * @param insertIntoSelectFields 如果记录不存在,则使用这些字段新增一条记录,即insert into ...select fields语法的select fields.
      * @param <R>                    被操作的记录的类型
-     * @return 如果已经存在, 则返回已有的记录, 否则返回新增的记录
+     * @return 如果已经存在, 则返回<code>null</code>; 否则返回新增记录的ID
      */
-    default <R extends Record> R insertIfNotExists(DataSource dataSource,
-                                                   Table<R> table,
-                                                   SelectSelectStep<R> insertIntoSelectFields,
-                                                   SelectConditionStep<R> existsRecordSelector,
-                                                   TableField<R, ULong> idColumn) {
+    default <R extends Record> Long insertIfNotExists(DataSource dataSource,
+                                                      Table<R> table,
+                                                      SelectSelectStep<R> insertIntoSelectFields,
+                                                      SelectConditionStep<R> existsRecordSelector,
+                                                      TableField<R, ULong> idColumn) {
 
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
         InsertOnDuplicateStep<R> insertSetStep = dslContext.insertInto(table)
@@ -66,7 +67,11 @@ public interface JooqCommonDbOp {
                                 )
                 );
         InsertResultStep<R> insertResultStep = insertSetStep.returning(idColumn);
-        return insertResultStep.fetchOne();
+        R r = insertResultStep.fetchOne();
+        if (r != null) {
+            return r.get(idColumn).longValue();
+        }
+        return null;
     }
 
 }

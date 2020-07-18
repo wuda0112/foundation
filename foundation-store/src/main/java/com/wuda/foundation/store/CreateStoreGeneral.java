@@ -13,6 +13,7 @@ import java.util.Objects;
 @Getter
 public class CreateStoreGeneral {
 
+    private Long storeId;
     private String storeName;
 
     /**
@@ -30,7 +31,13 @@ public class CreateStoreGeneral {
      */
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateStoreGeneral> {
 
+        private Long storeId;
         private String storeName;
+
+        public Builder setStoreId(Long storeId) {
+            this.storeId = storeId;
+            return this;
+        }
 
         public Builder setStoreName(String storeName) {
             this.storeName = storeName;
@@ -40,6 +47,7 @@ public class CreateStoreGeneral {
         @Override
         public CreateStoreGeneral build() {
             CreateStoreGeneral createStoreGeneral = new CreateStoreGeneral();
+            createStoreGeneral.storeId = Objects.requireNonNull(this.storeId);
             createStoreGeneral.storeName = Objects.requireNonNull(this.storeName);
             return createStoreGeneral;
         }

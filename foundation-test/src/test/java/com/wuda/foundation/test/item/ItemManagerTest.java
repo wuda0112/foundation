@@ -12,30 +12,33 @@ public class ItemManagerTest extends TestBase {
     public void testCreateItem() {
         ItemManager itemManager = getItemManager();
         CreateItem createItem = new CreateItem.Builder()
+                .setStoreId(0L)
                 .setItemType(BuiltinItemType.ZERO)
                 .setItemState(BuiltinItemState.ZERO)
                 .setCategoryId(0L)
                 .build();
-        long itemId = itemManager.createItem(0L, createItem, keyGenerator, opUserId);
+        long itemId = itemManager.createItem(createItem, keyGenerator, opUserId);
 
         CreateItemGeneral createItemGeneral = new CreateItemGeneral.Builder()
+                .setItemId(itemId)
                 .setName("item-0")
                 .build();
-        itemManager.createItemGeneral(itemId, createItemGeneral, keyGenerator, opUserId);
+        itemManager.createItemGeneral(createItemGeneral, keyGenerator, opUserId);
 
         CreateItemVariation createItemVariation = new CreateItemVariation.Builder()
+                .setItemId(itemId)
                 .setState(BuiltinItemState.ZERO)
                 .setName("item-0-variation")
                 .build();
-        long itemVariationId = itemManager.createItemVariation(itemId, createItemVariation, keyGenerator, opUserId);
+        long itemVariationId = itemManager.createItemVariation(createItemVariation, keyGenerator, opUserId);
 
         itemManager.createDescription(itemId, itemVariationId, "description", keyGenerator, opUserId);
     }
 
     @Test
-    public void testCreateOrUpdateDescription(){
+    public void testCreateOrUpdateDescription() {
         ItemManager itemManager = getItemManager();
-        itemManager.createOrUpdateDescription(1024L, Constant.NOT_EXISTS_ID,"update-7",keyGenerator,opUserId);
+        itemManager.createOrUpdateDescription(1024L, Constant.NOT_EXISTS_ID, "update-7", keyGenerator, opUserId);
     }
 
     private ItemManager getItemManager() {

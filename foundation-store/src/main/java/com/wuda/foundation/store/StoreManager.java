@@ -24,13 +24,12 @@ public interface StoreManager {
     /**
      * 为店铺新增基本信息.
      *
-     * @param storeId            店铺ID
      * @param createStoreGeneral 创建基本信息的参数
      * @param keyGenerator       主键生成器
      * @param opUserId           操作人用户ID,是谁正在添加这个店铺的基本信息
      * @return 基本信息的ID
      */
-    long createStoreGeneral(Long storeId, CreateStoreGeneral createStoreGeneral, KeyGenerator<Long> keyGenerator, Long opUserId);
+    long createStoreGeneral( CreateStoreGeneral createStoreGeneral, KeyGenerator<Long> keyGenerator, Long opUserId);
 
     /**
      * 更新店铺新增基本信息.

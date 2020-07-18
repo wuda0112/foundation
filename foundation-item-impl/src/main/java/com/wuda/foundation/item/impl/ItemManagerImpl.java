@@ -37,11 +37,11 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     }
 
     @Override
-    protected long createItemDbOp(Long storeId, CreateItem createItem, KeyGenerator<Long> keyGenerator, Long opUserId) {
+    protected long createItemDbOp(CreateItem createItem, KeyGenerator<Long> keyGenerator, Long opUserId) {
         long itemId = keyGenerator.next();
         LocalDateTime now = LocalDateTime.now();
         ItemRecord itemRecord = new ItemRecord(ULong.valueOf(itemId),
-                ULong.valueOf(storeId),
+                ULong.valueOf(createItem.getStoreId()),
                 UByte.valueOf(createItem.getItemType().getCode()),
                 UByte.valueOf(createItem.getItemState().getCode()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
@@ -53,11 +53,11 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     }
 
     @Override
-    protected long createItemGeneralDbOp(Long itemId, CreateItemGeneral createItemGeneral, KeyGenerator<Long> keyGenerator, Long opUserId) {
+    protected long createItemGeneralDbOp(CreateItemGeneral createItemGeneral, KeyGenerator<Long> keyGenerator, Long opUserId) {
         long itemGeneralId = keyGenerator.next();
         LocalDateTime now = LocalDateTime.now();
         ItemGeneralRecord itemGeneralRecord = new ItemGeneralRecord(ULong.valueOf(itemGeneralId),
-                ULong.valueOf(itemId),
+                ULong.valueOf(createItemGeneral.getItemId()),
                 createItemGeneral.getName(),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
         Configuration configuration = JooqContext.getConfiguration(dataSource);
@@ -67,11 +67,11 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     }
 
     @Override
-    protected long createItemVariationDbOp(Long itemId, CreateItemVariation createItemVariation, KeyGenerator<Long> keyGenerator, Long opUserId) {
+    protected long createItemVariationDbOp(CreateItemVariation createItemVariation, KeyGenerator<Long> keyGenerator, Long opUserId) {
         long itemVariationId = keyGenerator.next();
         LocalDateTime now = LocalDateTime.now();
         ItemVariationRecord itemVariationRecord = new ItemVariationRecord(ULong.valueOf(itemVariationId),
-                ULong.valueOf(itemId),
+                ULong.valueOf(createItemVariation.getItemId()),
                 createItemVariation.getName(),
                 UByte.valueOf(createItemVariation.getState().getCode()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));

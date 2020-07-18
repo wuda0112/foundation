@@ -13,42 +13,36 @@ public interface ItemManager {
     /**
      * 新增一个item.
      *
-     * @param storeId      该item所属店铺
      * @param createItem   创建item的参数
      * @param keyGenerator 用于生成主键
      * @param opUserId     操作人用户ID,是谁正在添加这个新item
      * @return 新增的item ID
      */
-    long createItem(Long storeId,
-                    CreateItem createItem,
+    long createItem(CreateItem createItem,
                     KeyGenerator<Long> keyGenerator,
                     Long opUserId);
 
     /**
      * 给定的item新增基本信息.
      *
-     * @param itemId            item id
      * @param createItemGeneral 创建item general的参数
      * @param keyGenerator      用于生成主键
      * @param opUserId          操作人用户ID,是谁正在添加这个新item variation
      * @return 新增的item variation ID
      */
-    long createItemGeneral(Long itemId,
-                           CreateItemGeneral createItemGeneral,
+    long createItemGeneral(CreateItemGeneral createItemGeneral,
                            KeyGenerator<Long> keyGenerator,
                            Long opUserId);
 
     /**
      * 给定的item新增一个规格.
      *
-     * @param itemId              item id
      * @param createItemVariation 创建item variation的参数
      * @param keyGenerator        用于生成主键
      * @param opUserId            操作人用户ID,是谁正在添加这个新item variation
      * @return 新增的item variation ID
      */
-    long createItemVariation(Long itemId,
-                             CreateItemVariation createItemVariation,
+    long createItemVariation(CreateItemVariation createItemVariation,
                              KeyGenerator<Long> keyGenerator,
                              Long opUserId);
 

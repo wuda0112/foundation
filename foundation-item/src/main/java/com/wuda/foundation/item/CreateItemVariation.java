@@ -13,6 +13,7 @@ import java.util.Objects;
 @Getter
 public class CreateItemVariation {
 
+    private Long itemId;
     private String name;
     private ItemState state;
 
@@ -30,9 +31,14 @@ public class CreateItemVariation {
      * @since 1.0.0
      */
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateItemVariation> {
-
+        private Long itemId;
         private String name;
         private ItemState state;
+
+        public Builder setItemId(Long itemId) {
+            this.itemId = itemId;
+            return this;
+        }
 
         public Builder setName(String name) {
             this.name = name;
@@ -47,6 +53,7 @@ public class CreateItemVariation {
         @Override
         public CreateItemVariation build() {
             CreateItemVariation createItemVariation = new CreateItemVariation();
+            createItemVariation.itemId = Objects.requireNonNull(itemId);
             createItemVariation.name = Objects.requireNonNull(this.name);
             createItemVariation.state = Objects.requireNonNull(this.state);
             return createItemVariation;

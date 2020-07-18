@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>foundation</artifactId>
+        <groupId>com.wuda</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <description>security的实现</description>
+
+    <artifactId>foundation-security-impl</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.wuda</groupId>
+            <artifactId>foundation-jooq</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.wuda</groupId>
+            <artifactId>foundation-security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>jooq-code-generate</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-codegen-maven</artifactId>
+                        <version>${jooq.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>mysql</groupId>
+                                <artifactId>mysql-connector-java</artifactId>
+                                <version>${mysql.connector.java.version}</version>
+                            </dependency>
+                        </dependencies>
+
+                        <configuration>
+                            <jdbc>
+                                <driver>${mysql.jdbc.driver}</driver>
+                                <url>jdbc:mysql://localhost:3306/?serverTimezone=UTC</url>
+                                <username>root</username>
+                                <password>123456</password>
+                            </jdbc>
+
+                            <generator>
+                                <database>
+                                    <name>org.jooq.meta.mysql.MySQLDatabase</name>
+                                    <!--include和exclude用于控制为数据库中哪些表生成代码-->
+                                    <includes>.*</includes>
+                                    <!--<excludes></excludes>-->
+
+                                    <!--数据库名称-->
+                                    <inputSchema>foundation_security</inputSchema>
+                                </database>
+
+                                <generate>
+                                    <!--生成dao和pojo-->
+                                    <daos>true</daos>
+                                    <pojos>true</pojos>
+                                    <!--把数据库时间类型映射到java 8时间类型-->
+                                    <javaTimeTypes>true</javaTimeTypes>
+                                    <!--<interfaces>true</interfaces>-->
+                                    <!--不在生成的代码中添加spring注释，比如@Repository-->
+                                    <springAnnotations>false</springAnnotations>
+                                </generate>
+
+                                <target>
+                                    <!--生成代码文件的包名及放置目录-->
+                                    <packageName>com.wuda.foundation.security.impl.jooq.generation</packageName>
+                                    <directory>src/main/java</directory>
+                                </target>
+
+                            </generator>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+</project>

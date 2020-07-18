@@ -1,7 +1,5 @@
 package com.wuda.foundation.commons.property;
 
-import com.wuda.foundation.commons.EmailUse;
-
 public enum BuiltinPropertyKeyType implements PropertyKeyType {
 
     ZERO(0, "MOCK");
@@ -15,11 +13,11 @@ public enum BuiltinPropertyKeyType implements PropertyKeyType {
     }
 
     @Override
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 }

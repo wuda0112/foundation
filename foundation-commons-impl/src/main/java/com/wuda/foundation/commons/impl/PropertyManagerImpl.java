@@ -69,11 +69,12 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                 param(PROPERTY_KEY.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
                 param(PROPERTY_KEY.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))};
         SelectSelectStep insertIntoSelectFields = select(selectFields);
-        PropertyKeyRecord propertyKeyRecord = insertIfNotExists(dataSource, PROPERTY_KEY, insertIntoSelectFields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
-        if (propertyKeyRecord == null) {
-            propertyKeyRecord = existsRecordSelector.fetchOne();
+        Long id = insertIfNotExists(dataSource, PROPERTY_KEY, insertIntoSelectFields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
+        if (id == null) {
+            PropertyKeyRecord propertyKeyRecord = existsRecordSelector.fetchOne();
+            id = propertyKeyRecord.get(PROPERTY_KEY.PROPERTY_KEY_ID).longValue();
         }
-        return propertyKeyRecord.get(PROPERTY_KEY.PROPERTY_KEY_ID).longValue();
+        return id;
     }
 
     @Override

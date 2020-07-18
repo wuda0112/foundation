@@ -13,6 +13,7 @@ import java.util.Objects;
 @Getter
 public class CreateItemGeneral {
 
+    private Long itemId;
     private String name;
 
     /**
@@ -29,8 +30,13 @@ public class CreateItemGeneral {
      * @since 1.0.0
      */
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateItemGeneral> {
-
+        private Long itemId;
         private String name;
+
+        public Builder setItemId(Long itemId) {
+            this.itemId = itemId;
+            return this;
+        }
 
         public Builder setName(String name) {
             this.name = name;
@@ -40,6 +46,7 @@ public class CreateItemGeneral {
         @Override
         public CreateItemGeneral build() {
             CreateItemGeneral createItemGeneral = new CreateItemGeneral();
+            createItemGeneral.itemId = Objects.requireNonNull(itemId);
             createItemGeneral.name = Objects.requireNonNull(this.name);
             return createItemGeneral;
         }

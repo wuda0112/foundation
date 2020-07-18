@@ -39,11 +39,12 @@ public class StoreManagerImpl extends AbstractStoreManager {
         return storeId;
     }
 
-    public long createStoreGeneralDbOp(Long storeId, CreateStoreGeneral createStoreGeneral, KeyGenerator<Long> keyGenerator, Long opUserId) {
+    @Override
+    public long createStoreGeneralDbOp(CreateStoreGeneral createStoreGeneral, KeyGenerator<Long> keyGenerator, Long opUserId) {
         long storeGeneralId = keyGenerator.next();
         LocalDateTime now = LocalDateTime.now();
         StoreGeneralRecord storeGeneralRecord = new StoreGeneralRecord(ULong.valueOf(storeGeneralId),
-                ULong.valueOf(storeId),
+                ULong.valueOf(createStoreGeneral.getStoreId()),
                 createStoreGeneral.getStoreName(),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
 

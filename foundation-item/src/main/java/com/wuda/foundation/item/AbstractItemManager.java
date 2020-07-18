@@ -6,58 +6,55 @@ import com.wuda.foundation.lang.keygen.KeyGenerator;
 public abstract class AbstractItemManager implements ItemManager {
 
     @Override
-    public long createItem(Long storeId, CreateItem createItem, KeyGenerator<Long> keyGenerator, Long opUserId) {
-        ExtObjects.requireNonNull(storeId, createItem, opUserId);
-        return createItemDbOp(storeId, createItem, keyGenerator, opUserId);
+    public long createItem(CreateItem createItem, KeyGenerator<Long> keyGenerator, Long opUserId) {
+        ExtObjects.requireNonNull(createItem, opUserId);
+        return createItemDbOp(createItem, keyGenerator, opUserId);
     }
 
     /**
      * 作为{@link #createItem}方法的一部分,参数的校验已经在{@link #createItem}
      * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
      *
-     * @param storeId      该item所属店铺
      * @param createItem   创建item的参数
      * @param keyGenerator 用于生成主键
      * @param opUserId     操作人用户ID,是谁正在添加这个新item
      * @return 新增的item ID
      */
-    protected abstract long createItemDbOp(Long storeId, CreateItem createItem, KeyGenerator<Long> keyGenerator, Long opUserId);
+    protected abstract long createItemDbOp(CreateItem createItem, KeyGenerator<Long> keyGenerator, Long opUserId);
 
     @Override
-    public long createItemGeneral(Long itemId, CreateItemGeneral createItemGeneral, KeyGenerator<Long> keyGenerator, Long opUserId) {
-        ExtObjects.requireNonNull(itemId, createItemGeneral, opUserId);
-        return createItemGeneralDbOp(itemId, createItemGeneral, keyGenerator, opUserId);
+    public long createItemGeneral(CreateItemGeneral createItemGeneral, KeyGenerator<Long> keyGenerator, Long opUserId) {
+        ExtObjects.requireNonNull(createItemGeneral, opUserId);
+        return createItemGeneralDbOp(createItemGeneral, keyGenerator, opUserId);
     }
 
     /**
      * 作为{@link #createItemGeneral}方法的一部分,参数的校验已经在{@link #createItemGeneral}
      * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
      *
-     * @param itemId            item id
      * @param createItemGeneral 创建item general的参数
      * @param opUserId          操作人用户ID,是谁正在添加这个新item variation
      * @param keyGenerator      用于生成主键
      * @return 新增的item variation ID
      */
-    protected abstract long createItemGeneralDbOp(Long itemId, CreateItemGeneral createItemGeneral, KeyGenerator<Long> keyGenerator, Long opUserId);
+    protected abstract long createItemGeneralDbOp(CreateItemGeneral createItemGeneral, KeyGenerator<Long> keyGenerator, Long opUserId);
 
     @Override
-    public long createItemVariation(Long itemId, CreateItemVariation createItemVariation, KeyGenerator<Long> keyGenerator, Long opUserId) {
-        ExtObjects.requireNonNull(itemId, createItemVariation, opUserId);
-        return createItemVariationDbOp(itemId, createItemVariation, keyGenerator, opUserId);
+    public long createItemVariation(CreateItemVariation createItemVariation, KeyGenerator<Long> keyGenerator, Long opUserId) {
+        ExtObjects.requireNonNull(createItemVariation, opUserId);
+        return createItemVariationDbOp(createItemVariation, keyGenerator, opUserId);
     }
 
     /**
      * 作为{@link #createItemVariation}方法的一部分,参数的校验已经在{@link #createItemVariation}
      * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
      *
-     * @param itemId              item id
      * @param createItemVariation 创建item variation的参数
      * @param keyGenerator        用于生成主键
      * @param opUserId            操作人用户ID,是谁正在添加这个新item variation
      * @return 新增的item variation ID
      */
-    protected abstract long createItemVariationDbOp(Long itemId, CreateItemVariation createItemVariation, KeyGenerator<Long> keyGenerator, Long opUserId);
+    protected abstract long createItemVariationDbOp(CreateItemVariation createItemVariation, KeyGenerator<Long> keyGenerator, Long opUserId);
 
     @Override
     public long createDescription(Long itemId, Long itemVariationId, String description, KeyGenerator<Long> keyGenerator, Long opUserId) {

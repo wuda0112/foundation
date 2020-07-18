@@ -18,6 +18,7 @@
         <module>foundation-store-impl</module>
         <module>foundation-item</module>
         <module>foundation-item-impl</module>
+        <module>foundation-security-impl</module>
     </modules>
 
     <groupId>com.wuda</groupId>

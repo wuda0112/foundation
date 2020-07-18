@@ -33,6 +33,11 @@
             <artifactId>foundation-item-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.wuda</groupId>
+            <artifactId>foundation-security-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.tomcat</groupId>

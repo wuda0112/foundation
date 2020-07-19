@@ -16,7 +16,11 @@ public enum BuiltinIdentifierType implements IdentifierType {
     /**
      * 邮箱作为唯一标记.
      */
-    EMAIL(3, "email");
+    EMAIL(3, "email"),
+    /**
+     * 表示item表.
+     */
+    TABLE_ITEM(4,"表示item表");
 
     private int code;
     private String description;

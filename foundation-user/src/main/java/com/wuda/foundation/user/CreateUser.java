@@ -13,6 +13,7 @@ import java.util.Objects;
 @Getter
 public class CreateUser {
 
+    private Long id;
     private UserType userType;
     private UserState userState;
     private CreateUserAccount userAccount;
@@ -32,9 +33,15 @@ public class CreateUser {
      */
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateUser> {
 
+        private Long id;
         private UserType userType;
         private UserState userState;
         private CreateUserAccount userAccount;
+
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+        }
 
         public Builder setUserType(UserType userType) {
             this.userType = userType;
@@ -54,9 +61,13 @@ public class CreateUser {
         @Override
         public CreateUser build() {
             CreateUser createUser = new CreateUser();
+            createUser.id = Objects.requireNonNull(this.id);
             createUser.userType = Objects.requireNonNull(this.userType);
             createUser.userState = Objects.requireNonNull(this.userState);
             createUser.userAccount = Objects.requireNonNull(this.userAccount);
+            if (!createUser.id.equals(userAccount.getUserId())) {
+                throw new IllegalStateException("用户Id不一致");
+            }
             return createUser;
         }
     }

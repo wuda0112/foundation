@@ -2,7 +2,8 @@ package com.wuda.foundation.commons;
 
 public enum BuiltinPhoneUse implements PhoneUse {
 
-    ZERO(0, "MOCK");
+    ZERO(0, "MOCK"),
+    FOR_SIGN_IN(1, "用于登录");
 
     private int code;
     private String description;

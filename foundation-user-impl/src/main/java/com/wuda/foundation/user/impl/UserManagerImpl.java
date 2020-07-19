@@ -2,7 +2,9 @@ package com.wuda.foundation.user.impl;
 
 import com.wuda.foundation.commons.*;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.*;
+import com.wuda.foundation.lang.EmailIdentifier;
+import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.lang.MobilePhoneIdentifier;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
@@ -34,10 +36,10 @@ public class UserManagerImpl extends AbstractUserManager {
 
     @Override
     public long createUserDbOp(CreateUser createUser, EmailManager emailManager, PhoneManager phoneManager, KeyGenerator<Long> keyGenerator, Long opUserId) {
+        long userId = createUser.getId();
         Configuration configuration = JooqContext.getConfiguration(dataSource);
-        long userId = keyGenerator.next();
         LocalDateTime now = LocalDateTime.now();
-        UserRecord userRecord = new UserRecord(ULong.valueOf(userId),
+        UserRecord userRecord = new UserRecord(ULong.valueOf(createUser.getId()),
                 UByte.valueOf(createUser.getUserType().getCode()),
                 UByte.valueOf(createUser.getUserState().getCode()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
@@ -47,9 +49,8 @@ public class UserManagerImpl extends AbstractUserManager {
         CreateUserAccount createUserAccount = createUser.getUserAccount();
         for (Identifier<String> identifier : createUserAccount.getPrincipals()) {
             if (identifier.getType() == BuiltinIdentifierType.USERNAME) {
-                long userAccountId = keyGenerator.next();
-                UserAccountRecord userAccountRecord = new UserAccountRecord(ULong.valueOf(userAccountId),
-                        ULong.valueOf(userId),
+                UserAccountRecord userAccountRecord = new UserAccountRecord(ULong.valueOf(createUserAccount.getId()),
+                        ULong.valueOf(createUserAccount.getUserId()),
                         identifier.getValue(), createUserAccount.getPassword(),
                         UByte.valueOf(createUserAccount.getState().getCode()),
                         now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
@@ -62,7 +63,7 @@ public class UserManagerImpl extends AbstractUserManager {
                 UserEmailRecord userEmailRecord = new UserEmailRecord(ULong.valueOf(id),
                         ULong.valueOf(userId),
                         ULong.valueOf(emailId),
-                        UByte.valueOf(BuiltinEmailUse.ZERO.getCode()),
+                        UByte.valueOf(BuiltinEmailUse.FOR_SIGN_IN.getCode()),
                         UByte.valueOf(BuiltinUserEmailState.ZERO.getCode()),
                         "",
                         now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
@@ -76,7 +77,7 @@ public class UserManagerImpl extends AbstractUserManager {
                 UserPhoneRecord userPhoneRecord = new UserPhoneRecord(ULong.valueOf(id),
                         ULong.valueOf(userId),
                         ULong.valueOf(phoneId),
-                        UByte.valueOf(BuiltinPhoneUse.ZERO.getCode()),
+                        UByte.valueOf(BuiltinPhoneUse.FOR_SIGN_IN.getCode()),
                         UByte.valueOf(BuiltinUserPhoneState.ZERO.getCode()),
                         "",
                         now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));

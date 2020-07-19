@@ -20,12 +20,16 @@ public class UserManagerTest extends TestBase {
     public void testAddUser() {
 
         UserManager userManager = getUserManager();
+        long userId = keyGenerator.next();
         CreateUserAccount userAccount = new CreateUserAccount.Builder()
+                .setId(keyGenerator.next())
+                .setUserId(userId)
                 .setPassword("124456")
                 .setPrincipals(generateIdentifiers())
                 .setState(BuiltinUserAccountState.ZERO)
                 .build();
         CreateUser user = new CreateUser.Builder()
+                .setId(userId)
                 .setUserType(BuiltinUserType.ZERO)
                 .setUserState(BuiltinUserState.ZERO)
                 .setUserAccount(userAccount)

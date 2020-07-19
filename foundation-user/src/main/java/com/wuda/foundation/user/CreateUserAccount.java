@@ -15,6 +15,8 @@ import java.util.Objects;
 @Getter
 public class CreateUserAccount {
 
+    private Long id;
+    private Long userId;
     private List<Identifier<String>> principals;
     private String password;
     private UserAccountState state;
@@ -33,9 +35,21 @@ public class CreateUserAccount {
      * @since 1.0.0
      */
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateUserAccount> {
+        private Long id;
+        private Long userId;
         private List<Identifier<String>> principals;
         private String password;
         private UserAccountState state;
+
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setUserId(Long userId) {
+            this.userId = userId;
+            return this;
+        }
 
         public Builder setPrincipals(List<Identifier<String>> principals) {
             this.principals = principals;
@@ -55,7 +69,9 @@ public class CreateUserAccount {
         @Override
         public CreateUserAccount build() {
             CreateUserAccount createUserAccount = new CreateUserAccount();
-            createUserAccount.principals = this.principals;
+            createUserAccount.id = Objects.requireNonNull(id);
+            createUserAccount.userId = Objects.requireNonNull(userId);
+            createUserAccount.principals = Objects.requireNonNull(this.principals);
             createUserAccount.password = Objects.requireNonNull(this.password);
             createUserAccount.state = Objects.requireNonNull(this.state);
             return createUserAccount;

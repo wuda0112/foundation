@@ -23,115 +23,115 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Record8<ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 439761598;
+    private static final long serialVersionUID = 1467469342;
 
     /**
-     * Setter for <code>user.user.user_id</code>.
+     * Setter for <code>foundation_user.user.user_id</code>.
      */
     public void setUserId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>user.user.user_id</code>.
+     * Getter for <code>foundation_user.user.user_id</code>.
      */
     public ULong getUserId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>user.user.type</code>. 用户类型
+     * Setter for <code>foundation_user.user.type</code>. 用户类型
      */
     public void setType(UByte value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>user.user.type</code>. 用户类型
+     * Getter for <code>foundation_user.user.type</code>. 用户类型
      */
     public UByte getType() {
         return (UByte) get(1);
     }
 
     /**
-     * Setter for <code>user.user.state</code>. 用户状态
+     * Setter for <code>foundation_user.user.state</code>. 用户状态
      */
     public void setState(UByte value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>user.user.state</code>. 用户状态
+     * Getter for <code>foundation_user.user.state</code>. 用户状态
      */
     public UByte getState() {
         return (UByte) get(2);
     }
 
     /**
-     * Setter for <code>user.user.create_time</code>.
+     * Setter for <code>foundation_user.user.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>user.user.create_time</code>.
+     * Getter for <code>foundation_user.user.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(3);
     }
 
     /**
-     * Setter for <code>user.user.create_user_id</code>.
+     * Setter for <code>foundation_user.user.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>user.user.create_user_id</code>.
+     * Getter for <code>foundation_user.user.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(4);
     }
 
     /**
-     * Setter for <code>user.user.last_modify_time</code>.
+     * Setter for <code>foundation_user.user.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>user.user.last_modify_time</code>.
+     * Getter for <code>foundation_user.user.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(5);
     }
 
     /**
-     * Setter for <code>user.user.last_modify_user_id</code>.
+     * Setter for <code>foundation_user.user.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>user.user.last_modify_user_id</code>.
+     * Getter for <code>foundation_user.user.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(6);
     }
 
     /**
-     * Setter for <code>user.user.is_deleted</code>.
+     * Setter for <code>foundation_user.user.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>user.user.is_deleted</code>.
+     * Getter for <code>foundation_user.user.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(7);
@@ -162,42 +162,42 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
 
     @Override
     public Field<ULong> field1() {
-        return User.USER_.USER_ID;
+        return User.USER.USER_ID;
     }
 
     @Override
     public Field<UByte> field2() {
-        return User.USER_.TYPE;
+        return User.USER.TYPE;
     }
 
     @Override
     public Field<UByte> field3() {
-        return User.USER_.STATE;
+        return User.USER.STATE;
     }
 
     @Override
     public Field<LocalDateTime> field4() {
-        return User.USER_.CREATE_TIME;
+        return User.USER.CREATE_TIME;
     }
 
     @Override
     public Field<ULong> field5() {
-        return User.USER_.CREATE_USER_ID;
+        return User.USER.CREATE_USER_ID;
     }
 
     @Override
     public Field<LocalDateTime> field6() {
-        return User.USER_.LAST_MODIFY_TIME;
+        return User.USER.LAST_MODIFY_TIME;
     }
 
     @Override
     public Field<ULong> field7() {
-        return User.USER_.LAST_MODIFY_USER_ID;
+        return User.USER.LAST_MODIFY_USER_ID;
     }
 
     @Override
     public Field<ULong> field8() {
-        return User.USER_.IS_DELETED;
+        return User.USER.IS_DELETED;
     }
 
     @Override
@@ -349,14 +349,14 @@ public class UserRecord extends UpdatableRecordImpl<UserRecord> implements Recor
      * Create a detached UserRecord
      */
     public UserRecord() {
-        super(User.USER_);
+        super(User.USER);
     }
 
     /**
      * Create a detached, initialised UserRecord
      */
     public UserRecord(ULong userId, UByte type, UByte state, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
-        super(User.USER_);
+        super(User.USER);
 
         set(0, userId);
         set(1, type);

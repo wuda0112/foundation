@@ -4,9 +4,9 @@
 package com.wuda.foundation.user.impl.jooq.generation.tables;
 
 
+import com.wuda.foundation.user.impl.jooq.generation.FoundationUser;
 import com.wuda.foundation.user.impl.jooq.generation.Indexes;
 import com.wuda.foundation.user.impl.jooq.generation.Keys;
-import com.wuda.foundation.user.impl.jooq.generation.User;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserEmailRecord;
 
 import java.time.LocalDateTime;
@@ -37,10 +37,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserEmail extends TableImpl<UserEmailRecord> {
 
-    private static final long serialVersionUID = 1837392821;
+    private static final long serialVersionUID = 1892568541;
 
     /**
-     * The reference instance of <code>user.user_email</code>
+     * The reference instance of <code>foundation_user.user_email</code>
      */
     public static final UserEmail USER_EMAIL = new UserEmail();
 
@@ -53,76 +53,76 @@ public class UserEmail extends TableImpl<UserEmailRecord> {
     }
 
     /**
-     * The column <code>user.user_email.id</code>.
+     * The column <code>foundation_user.user_email.id</code>.
      */
     public final TableField<UserEmailRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>user.user_email.user_id</code>.
+     * The column <code>foundation_user.user_email.user_id</code>.
      */
     public final TableField<UserEmailRecord, ULong> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.user_email.email_id</code>.
+     * The column <code>foundation_user.user_email.email_id</code>.
      */
     public final TableField<UserEmailRecord, ULong> EMAIL_ID = createField(DSL.name("email_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.user_email.use</code>. emai;l的用途。比如用于登录
+     * The column <code>foundation_user.user_email.use</code>. 用途。比如用于登录
      */
-    public final TableField<UserEmailRecord, UByte> USE = createField(DSL.name("use"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "emai;l的用途。比如用于登录");
+    public final TableField<UserEmailRecord, UByte> USE = createField(DSL.name("use"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "用途。比如用于登录");
 
     /**
-     * The column <code>user.user_email.state</code>. 状态，每种用途的email状态可能不同，比如如果用于登录的email，状态可以是禁止登录状态
+     * The column <code>foundation_user.user_email.state</code>. 状态，每种用途的email状态可能不同，比如如果用于登录的email，状态可以是禁止登录状态
      */
     public final TableField<UserEmailRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "状态，每种用途的email状态可能不同，比如如果用于登录的email，状态可以是禁止登录状态");
 
     /**
-     * The column <code>user.user_email.description</code>. 简单描述
+     * The column <code>foundation_user.user_email.description</code>. 简单描述
      */
     public final TableField<UserEmailRecord, String> DESCRIPTION = createField(DSL.name("description"), org.jooq.impl.SQLDataType.VARCHAR(45), this, "简单描述");
 
     /**
-     * The column <code>user.user_email.create_time</code>.
+     * The column <code>foundation_user.user_email.create_time</code>.
      */
     public final TableField<UserEmailRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>user.user_email.create_user_id</code>.
+     * The column <code>foundation_user.user_email.create_user_id</code>.
      */
     public final TableField<UserEmailRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.user_email.last_modify_time</code>.
+     * The column <code>foundation_user.user_email.last_modify_time</code>.
      */
     public final TableField<UserEmailRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>user.user_email.last_modify_user_id</code>.
+     * The column <code>foundation_user.user_email.last_modify_user_id</code>.
      */
     public final TableField<UserEmailRecord, ULong> LAST_MODIFY_USER_ID = createField(DSL.name("last_modify_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.user_email.is_deleted</code>.
+     * The column <code>foundation_user.user_email.is_deleted</code>.
      */
     public final TableField<UserEmailRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>user.user_email</code> table reference
+     * Create a <code>foundation_user.user_email</code> table reference
      */
     public UserEmail() {
         this(DSL.name("user_email"), null);
     }
 
     /**
-     * Create an aliased <code>user.user_email</code> table reference
+     * Create an aliased <code>foundation_user.user_email</code> table reference
      */
     public UserEmail(String alias) {
         this(DSL.name(alias), USER_EMAIL);
     }
 
     /**
-     * Create an aliased <code>user.user_email</code> table reference
+     * Create an aliased <code>foundation_user.user_email</code> table reference
      */
     public UserEmail(Name alias) {
         this(alias, USER_EMAIL);
@@ -142,7 +142,7 @@ public class UserEmail extends TableImpl<UserEmailRecord> {
 
     @Override
     public Schema getSchema() {
-        return User.USER;
+        return FoundationUser.FOUNDATION_USER;
     }
 
     @Override

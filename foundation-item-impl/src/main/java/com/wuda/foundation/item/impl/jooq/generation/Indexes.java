@@ -15,7 +15,8 @@ import org.jooq.impl.Internal;
 
 
 /**
- * A class modelling indexes of tables of the <code>item</code> schema.
+ * A class modelling indexes of tables of the <code>foundation_item</code> 
+ * schema.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Indexes {
@@ -35,7 +36,7 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
-        public static Index ITEM_FK_STORE_ID = Internal.createIndex("fk_store_id", Item.ITEM_, new OrderField[] { Item.ITEM_.STORE_ID }, false);
+        public static Index ITEM_FK_STORE_ID = Internal.createIndex("fk_store_id", Item.ITEM, new OrderField[] { Item.ITEM.STORE_ID }, false);
         public static Index ITEM_DESCRIPTION_FK_ITEM_ID = Internal.createIndex("fk_item_id", ItemDescription.ITEM_DESCRIPTION, new OrderField[] { ItemDescription.ITEM_DESCRIPTION.ITEM_ID }, false);
         public static Index ITEM_DESCRIPTION_FK_ITEM_VARIATION_ID = Internal.createIndex("fk_item_variation_id", ItemDescription.ITEM_DESCRIPTION, new OrderField[] { ItemDescription.ITEM_DESCRIPTION.ITEM_VARIATION_ID }, false);
         public static Index ITEM_GENERAL_FK_ITEM_ID = Internal.createIndex("fk_item_id", ItemGeneral.ITEM_GENERAL, new OrderField[] { ItemGeneral.ITEM_GENERAL.ITEM_ID }, false);

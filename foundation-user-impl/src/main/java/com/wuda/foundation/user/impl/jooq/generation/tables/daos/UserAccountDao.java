@@ -77,6 +77,13 @@ public class UserAccountDao extends DAOImpl<UserAccountRecord, com.wuda.foundati
     }
 
     /**
+     * Fetch a unique record that has <code>user_id = value</code>
+     */
+    public com.wuda.foundation.user.impl.jooq.generation.tables.pojos.UserAccount fetchOneByUserId(ULong value) {
+        return fetchOne(UserAccount.USER_ACCOUNT.USER_ID, value);
+    }
+
+    /**
      * Fetch records that have <code>username BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.user.impl.jooq.generation.tables.pojos.UserAccount> fetchRangeOfUsername(String lowerInclusive, String upperInclusive) {

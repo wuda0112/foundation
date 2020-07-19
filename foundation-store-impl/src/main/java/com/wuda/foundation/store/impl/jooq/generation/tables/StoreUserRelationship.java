@@ -4,9 +4,9 @@
 package com.wuda.foundation.store.impl.jooq.generation.tables;
 
 
+import com.wuda.foundation.store.impl.jooq.generation.FoundationStore;
 import com.wuda.foundation.store.impl.jooq.generation.Indexes;
 import com.wuda.foundation.store.impl.jooq.generation.Keys;
-import com.wuda.foundation.store.impl.jooq.generation.Store;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreUserRelationshipRecord;
 
 import java.time.LocalDateTime;
@@ -36,10 +36,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class StoreUserRelationship extends TableImpl<StoreUserRelationshipRecord> {
 
-    private static final long serialVersionUID = 1604861030;
+    private static final long serialVersionUID = -133352630;
 
     /**
-     * The reference instance of <code>store.store_user_relationship</code>
+     * The reference instance of <code>foundation_store.store_user_relationship</code>
      */
     public static final StoreUserRelationship STORE_USER_RELATIONSHIP = new StoreUserRelationship();
 
@@ -52,56 +52,56 @@ public class StoreUserRelationship extends TableImpl<StoreUserRelationshipRecord
     }
 
     /**
-     * The column <code>store.store_user_relationship.id</code>.
+     * The column <code>foundation_store.store_user_relationship.id</code>.
      */
     public final TableField<StoreUserRelationshipRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>store.store_user_relationship.store_id</code>. store id
+     * The column <code>foundation_store.store_user_relationship.store_id</code>. store id
      */
     public final TableField<StoreUserRelationshipRecord, ULong> STORE_ID = createField(DSL.name("store_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "store id");
 
     /**
-     * The column <code>store.store_user_relationship.user_id</code>. user id
+     * The column <code>foundation_store.store_user_relationship.user_id</code>. user id
      */
     public final TableField<StoreUserRelationshipRecord, ULong> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "user id");
 
     /**
-     * The column <code>store.store_user_relationship.is_store_owner</code>. 该用户是否店铺的owner。一个店铺只能有一个owner，就好像在store表中放入user id字段，表明一对一的关系一样。
+     * The column <code>foundation_store.store_user_relationship.is_store_owner</code>. 该用户是否店铺的owner。一个店铺只能有一个owner，就好像在store表中放入user id字段，表明一对一的关系一样。
      */
     public final TableField<StoreUserRelationshipRecord, Boolean> IS_STORE_OWNER = createField(DSL.name("is_store_owner"), org.jooq.impl.SQLDataType.BIT.nullable(false), this, "该用户是否店铺的owner。一个店铺只能有一个owner，就好像在store表中放入user id字段，表明一对一的关系一样。");
 
     /**
-     * The column <code>store.store_user_relationship.create_time</code>.
+     * The column <code>foundation_store.store_user_relationship.create_time</code>.
      */
     public final TableField<StoreUserRelationshipRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>store.store_user_relationship.create_user_id</code>.
+     * The column <code>foundation_store.store_user_relationship.create_user_id</code>.
      */
     public final TableField<StoreUserRelationshipRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>store.store_user_relationship.is_deleted</code>.
+     * The column <code>foundation_store.store_user_relationship.is_deleted</code>.
      */
     public final TableField<StoreUserRelationshipRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>store.store_user_relationship</code> table reference
+     * Create a <code>foundation_store.store_user_relationship</code> table reference
      */
     public StoreUserRelationship() {
         this(DSL.name("store_user_relationship"), null);
     }
 
     /**
-     * Create an aliased <code>store.store_user_relationship</code> table reference
+     * Create an aliased <code>foundation_store.store_user_relationship</code> table reference
      */
     public StoreUserRelationship(String alias) {
         this(DSL.name(alias), STORE_USER_RELATIONSHIP);
     }
 
     /**
-     * Create an aliased <code>store.store_user_relationship</code> table reference
+     * Create an aliased <code>foundation_store.store_user_relationship</code> table reference
      */
     public StoreUserRelationship(Name alias) {
         this(alias, STORE_USER_RELATIONSHIP);
@@ -121,7 +121,7 @@ public class StoreUserRelationship extends TableImpl<StoreUserRelationshipRecord
 
     @Override
     public Schema getSchema() {
-        return Store.STORE;
+        return FoundationStore.FOUNDATION_STORE;
     }
 
     @Override

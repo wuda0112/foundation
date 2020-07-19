@@ -23,157 +23,157 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implements Record11<ULong, ULong, ULong, UByte, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 835043987;
+    private static final long serialVersionUID = 531217047;
 
     /**
-     * Setter for <code>user.user_phone.id</code>.
+     * Setter for <code>foundation_user.user_phone.id</code>.
      */
     public void setId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>user.user_phone.id</code>.
+     * Getter for <code>foundation_user.user_phone.id</code>.
      */
     public ULong getId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>user.user_phone.user_id</code>.
+     * Setter for <code>foundation_user.user_phone.user_id</code>.
      */
     public void setUserId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>user.user_phone.user_id</code>.
+     * Getter for <code>foundation_user.user_phone.user_id</code>.
      */
     public ULong getUserId() {
         return (ULong) get(1);
     }
 
     /**
-     * Setter for <code>user.user_phone.phone_id</code>.
+     * Setter for <code>foundation_user.user_phone.phone_id</code>.
      */
     public void setPhoneId(ULong value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>user.user_phone.phone_id</code>.
+     * Getter for <code>foundation_user.user_phone.phone_id</code>.
      */
     public ULong getPhoneId() {
         return (ULong) get(2);
     }
 
     /**
-     * Setter for <code>user.user_phone.use</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
+     * Setter for <code>foundation_user.user_phone.use</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
      */
     public void setUse(UByte value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>user.user_phone.use</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
+     * Getter for <code>foundation_user.user_phone.use</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
      */
     public UByte getUse() {
         return (UByte) get(3);
     }
 
     /**
-     * Setter for <code>user.user_phone.state</code>. 状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态
+     * Setter for <code>foundation_user.user_phone.state</code>. 状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态
      */
     public void setState(UByte value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>user.user_phone.state</code>. 状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态
+     * Getter for <code>foundation_user.user_phone.state</code>. 状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态
      */
     public UByte getState() {
         return (UByte) get(4);
     }
 
     /**
-     * Setter for <code>user.user_phone.description</code>. 简单描述
+     * Setter for <code>foundation_user.user_phone.description</code>. 简单描述
      */
     public void setDescription(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>user.user_phone.description</code>. 简单描述
+     * Getter for <code>foundation_user.user_phone.description</code>. 简单描述
      */
     public String getDescription() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>user.user_phone.create_time</code>.
+     * Setter for <code>foundation_user.user_phone.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>user.user_phone.create_time</code>.
+     * Getter for <code>foundation_user.user_phone.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(6);
     }
 
     /**
-     * Setter for <code>user.user_phone.create_user_id</code>.
+     * Setter for <code>foundation_user.user_phone.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>user.user_phone.create_user_id</code>.
+     * Getter for <code>foundation_user.user_phone.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(7);
     }
 
     /**
-     * Setter for <code>user.user_phone.last_modify_time</code>.
+     * Setter for <code>foundation_user.user_phone.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>user.user_phone.last_modify_time</code>.
+     * Getter for <code>foundation_user.user_phone.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(8);
     }
 
     /**
-     * Setter for <code>user.user_phone.last_modify_user_id</code>.
+     * Setter for <code>foundation_user.user_phone.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>user.user_phone.last_modify_user_id</code>.
+     * Getter for <code>foundation_user.user_phone.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(9);
     }
 
     /**
-     * Setter for <code>user.user_phone.is_deleted</code>.
+     * Setter for <code>foundation_user.user_phone.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>user.user_phone.is_deleted</code>.
+     * Getter for <code>foundation_user.user_phone.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(10);

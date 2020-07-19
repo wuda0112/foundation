@@ -23,129 +23,129 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemRecord extends UpdatableRecordImpl<ItemRecord> implements Record9<ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -320513304;
+    private static final long serialVersionUID = -726790479;
 
     /**
-     * Setter for <code>item.item.item_id</code>.
+     * Setter for <code>foundation_item.item.item_id</code>.
      */
     public void setItemId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>item.item.item_id</code>.
+     * Getter for <code>foundation_item.item.item_id</code>.
      */
     public ULong getItemId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>item.item.store_id</code>. 所属店铺ID
+     * Setter for <code>foundation_item.item.store_id</code>. 所属店铺ID
      */
     public void setStoreId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>item.item.store_id</code>. 所属店铺ID
+     * Getter for <code>foundation_item.item.store_id</code>. 所属店铺ID
      */
     public ULong getStoreId() {
         return (ULong) get(1);
     }
 
     /**
-     * Setter for <code>item.item.type</code>. 商品类型 . 不同类型的商品, 保存到各自不同的表中. 参考 https://learnwoo.com/woocommerce-different-product-types/
+     * Setter for <code>foundation_item.item.type</code>. 商品类型 . 不同类型的商品, 保存到各自不同的表中. 参考 https://learnwoo.com/woocommerce-different-product-types/
      */
     public void setType(UByte value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>item.item.type</code>. 商品类型 . 不同类型的商品, 保存到各自不同的表中. 参考 https://learnwoo.com/woocommerce-different-product-types/
+     * Getter for <code>foundation_item.item.type</code>. 商品类型 . 不同类型的商品, 保存到各自不同的表中. 参考 https://learnwoo.com/woocommerce-different-product-types/
      */
     public UByte getType() {
         return (UByte) get(2);
     }
 
     /**
-     * Setter for <code>item.item.state</code>. 状态
+     * Setter for <code>foundation_item.item.state</code>. 状态
      */
     public void setState(UByte value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>item.item.state</code>. 状态
+     * Getter for <code>foundation_item.item.state</code>. 状态
      */
     public UByte getState() {
         return (UByte) get(3);
     }
 
     /**
-     * Setter for <code>item.item.create_time</code>.
+     * Setter for <code>foundation_item.item.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>item.item.create_time</code>.
+     * Getter for <code>foundation_item.item.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(4);
     }
 
     /**
-     * Setter for <code>item.item.create_user_id</code>.
+     * Setter for <code>foundation_item.item.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>item.item.create_user_id</code>.
+     * Getter for <code>foundation_item.item.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(5);
     }
 
     /**
-     * Setter for <code>item.item.last_modify_time</code>.
+     * Setter for <code>foundation_item.item.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>item.item.last_modify_time</code>.
+     * Getter for <code>foundation_item.item.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(6);
     }
 
     /**
-     * Setter for <code>item.item.last_modify_user_id</code>.
+     * Setter for <code>foundation_item.item.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>item.item.last_modify_user_id</code>.
+     * Getter for <code>foundation_item.item.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(7);
     }
 
     /**
-     * Setter for <code>item.item.is_deleted</code>.
+     * Setter for <code>foundation_item.item.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>item.item.is_deleted</code>.
+     * Getter for <code>foundation_item.item.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(8);
@@ -176,47 +176,47 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> implements Recor
 
     @Override
     public Field<ULong> field1() {
-        return Item.ITEM_.ITEM_ID;
+        return Item.ITEM.ITEM_ID;
     }
 
     @Override
     public Field<ULong> field2() {
-        return Item.ITEM_.STORE_ID;
+        return Item.ITEM.STORE_ID;
     }
 
     @Override
     public Field<UByte> field3() {
-        return Item.ITEM_.TYPE;
+        return Item.ITEM.TYPE;
     }
 
     @Override
     public Field<UByte> field4() {
-        return Item.ITEM_.STATE;
+        return Item.ITEM.STATE;
     }
 
     @Override
     public Field<LocalDateTime> field5() {
-        return Item.ITEM_.CREATE_TIME;
+        return Item.ITEM.CREATE_TIME;
     }
 
     @Override
     public Field<ULong> field6() {
-        return Item.ITEM_.CREATE_USER_ID;
+        return Item.ITEM.CREATE_USER_ID;
     }
 
     @Override
     public Field<LocalDateTime> field7() {
-        return Item.ITEM_.LAST_MODIFY_TIME;
+        return Item.ITEM.LAST_MODIFY_TIME;
     }
 
     @Override
     public Field<ULong> field8() {
-        return Item.ITEM_.LAST_MODIFY_USER_ID;
+        return Item.ITEM.LAST_MODIFY_USER_ID;
     }
 
     @Override
     public Field<ULong> field9() {
-        return Item.ITEM_.IS_DELETED;
+        return Item.ITEM.IS_DELETED;
     }
 
     @Override
@@ -385,14 +385,14 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> implements Recor
      * Create a detached ItemRecord
      */
     public ItemRecord() {
-        super(Item.ITEM_);
+        super(Item.ITEM);
     }
 
     /**
      * Create a detached, initialised ItemRecord
      */
     public ItemRecord(ULong itemId, ULong storeId, UByte type, UByte state, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
-        super(Item.ITEM_);
+        super(Item.ITEM);
 
         set(0, itemId);
         set(1, storeId);

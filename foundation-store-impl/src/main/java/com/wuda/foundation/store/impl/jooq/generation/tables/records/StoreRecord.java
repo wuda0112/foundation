@@ -23,115 +23,115 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Record8<ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 486804112;
+    private static final long serialVersionUID = -2106179596;
 
     /**
-     * Setter for <code>store.store.store_id</code>.
+     * Setter for <code>foundation_store.store.store_id</code>.
      */
     public void setStoreId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>store.store.store_id</code>.
+     * Getter for <code>foundation_store.store.store_id</code>.
      */
     public ULong getStoreId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>store.store.type</code>. 店铺类型
+     * Setter for <code>foundation_store.store.type</code>. 店铺类型
      */
     public void setType(UByte value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>store.store.type</code>. 店铺类型
+     * Getter for <code>foundation_store.store.type</code>. 店铺类型
      */
     public UByte getType() {
         return (UByte) get(1);
     }
 
     /**
-     * Setter for <code>store.store.state</code>. 店铺状态
+     * Setter for <code>foundation_store.store.state</code>. 店铺状态
      */
     public void setState(UByte value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>store.store.state</code>. 店铺状态
+     * Getter for <code>foundation_store.store.state</code>. 店铺状态
      */
     public UByte getState() {
         return (UByte) get(2);
     }
 
     /**
-     * Setter for <code>store.store.create_time</code>.
+     * Setter for <code>foundation_store.store.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>store.store.create_time</code>.
+     * Getter for <code>foundation_store.store.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(3);
     }
 
     /**
-     * Setter for <code>store.store.create_user_id</code>.
+     * Setter for <code>foundation_store.store.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>store.store.create_user_id</code>.
+     * Getter for <code>foundation_store.store.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(4);
     }
 
     /**
-     * Setter for <code>store.store.last_modify_time</code>.
+     * Setter for <code>foundation_store.store.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>store.store.last_modify_time</code>.
+     * Getter for <code>foundation_store.store.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(5);
     }
 
     /**
-     * Setter for <code>store.store.last_modify_user_id</code>.
+     * Setter for <code>foundation_store.store.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>store.store.last_modify_user_id</code>.
+     * Getter for <code>foundation_store.store.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(6);
     }
 
     /**
-     * Setter for <code>store.store.is_deleted</code>.
+     * Setter for <code>foundation_store.store.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>store.store.is_deleted</code>.
+     * Getter for <code>foundation_store.store.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(7);
@@ -162,42 +162,42 @@ public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Rec
 
     @Override
     public Field<ULong> field1() {
-        return Store.STORE_.STORE_ID;
+        return Store.STORE.STORE_ID;
     }
 
     @Override
     public Field<UByte> field2() {
-        return Store.STORE_.TYPE;
+        return Store.STORE.TYPE;
     }
 
     @Override
     public Field<UByte> field3() {
-        return Store.STORE_.STATE;
+        return Store.STORE.STATE;
     }
 
     @Override
     public Field<LocalDateTime> field4() {
-        return Store.STORE_.CREATE_TIME;
+        return Store.STORE.CREATE_TIME;
     }
 
     @Override
     public Field<ULong> field5() {
-        return Store.STORE_.CREATE_USER_ID;
+        return Store.STORE.CREATE_USER_ID;
     }
 
     @Override
     public Field<LocalDateTime> field6() {
-        return Store.STORE_.LAST_MODIFY_TIME;
+        return Store.STORE.LAST_MODIFY_TIME;
     }
 
     @Override
     public Field<ULong> field7() {
-        return Store.STORE_.LAST_MODIFY_USER_ID;
+        return Store.STORE.LAST_MODIFY_USER_ID;
     }
 
     @Override
     public Field<ULong> field8() {
-        return Store.STORE_.IS_DELETED;
+        return Store.STORE.IS_DELETED;
     }
 
     @Override
@@ -349,14 +349,14 @@ public class StoreRecord extends UpdatableRecordImpl<StoreRecord> implements Rec
      * Create a detached StoreRecord
      */
     public StoreRecord() {
-        super(Store.STORE_);
+        super(Store.STORE);
     }
 
     /**
      * Create a detached, initialised StoreRecord
      */
     public StoreRecord(ULong storeId, UByte type, UByte state, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
-        super(Store.STORE_);
+        super(Store.STORE);
 
         set(0, storeId);
         set(1, type);

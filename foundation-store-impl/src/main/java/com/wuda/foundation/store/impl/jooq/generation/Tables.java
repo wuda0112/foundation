@@ -10,7 +10,7 @@ import com.wuda.foundation.store.impl.jooq.generation.tables.StoreUserRelationsh
 
 
 /**
- * Convenience access to all tables in store
+ * Convenience access to all tables in foundation_store
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
@@ -18,7 +18,7 @@ public class Tables {
     /**
      * 店铺信息
      */
-    public static final Store STORE_ = Store.STORE_;
+    public static final Store STORE = Store.STORE;
 
     /**
      * 店铺基本信息

@@ -22,7 +22,7 @@ import org.jooq.types.ULong;
 
 /**
  * A class modelling foreign key relationships and constraints of tables of 
- * the <code>item</code> schema.
+ * the <code>foundation_item</code> schema.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Keys {
@@ -31,7 +31,7 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
-    public static final Identity<ItemRecord, ULong> IDENTITY_ITEM_ = Identities0.IDENTITY_ITEM_;
+    public static final Identity<ItemRecord, ULong> IDENTITY_ITEM = Identities0.IDENTITY_ITEM;
     public static final Identity<ItemDescriptionRecord, ULong> IDENTITY_ITEM_DESCRIPTION = Identities0.IDENTITY_ITEM_DESCRIPTION;
     public static final Identity<ItemGeneralRecord, ULong> IDENTITY_ITEM_GENERAL = Identities0.IDENTITY_ITEM_GENERAL;
 
@@ -54,13 +54,13 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class Identities0 {
-        public static Identity<ItemRecord, ULong> IDENTITY_ITEM_ = Internal.createIdentity(Item.ITEM_, Item.ITEM_.ITEM_ID);
+        public static Identity<ItemRecord, ULong> IDENTITY_ITEM = Internal.createIdentity(Item.ITEM, Item.ITEM.ITEM_ID);
         public static Identity<ItemDescriptionRecord, ULong> IDENTITY_ITEM_DESCRIPTION = Internal.createIdentity(ItemDescription.ITEM_DESCRIPTION, ItemDescription.ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID);
         public static Identity<ItemGeneralRecord, ULong> IDENTITY_ITEM_GENERAL = Internal.createIdentity(ItemGeneral.ITEM_GENERAL, ItemGeneral.ITEM_GENERAL.ITEM_GENERAL_ID);
     }
 
     private static class UniqueKeys0 {
-        public static final UniqueKey<ItemRecord> KEY_ITEM_PRIMARY = Internal.createUniqueKey(Item.ITEM_, "KEY_item_PRIMARY", new TableField[] { Item.ITEM_.ITEM_ID }, true);
+        public static final UniqueKey<ItemRecord> KEY_ITEM_PRIMARY = Internal.createUniqueKey(Item.ITEM, "KEY_item_PRIMARY", new TableField[] { Item.ITEM.ITEM_ID }, true);
         public static final UniqueKey<ItemDescriptionRecord> KEY_ITEM_DESCRIPTION_PRIMARY = Internal.createUniqueKey(ItemDescription.ITEM_DESCRIPTION, "KEY_item_description_PRIMARY", new TableField[] { ItemDescription.ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID }, true);
         public static final UniqueKey<ItemGeneralRecord> KEY_ITEM_GENERAL_PRIMARY = Internal.createUniqueKey(ItemGeneral.ITEM_GENERAL, "KEY_item_general_PRIMARY", new TableField[] { ItemGeneral.ITEM_GENERAL.ITEM_GENERAL_ID }, true);
         public static final UniqueKey<ItemVariationRecord> KEY_ITEM_VARIATION_PRIMARY = Internal.createUniqueKey(ItemVariation.ITEM_VARIATION, "KEY_item_variation_PRIMARY", new TableField[] { ItemVariation.ITEM_VARIATION.ITEM_VARIATION_ID }, true);

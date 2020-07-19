@@ -4,9 +4,9 @@
 package com.wuda.foundation.user.impl.jooq.generation.tables;
 
 
+import com.wuda.foundation.user.impl.jooq.generation.FoundationUser;
 import com.wuda.foundation.user.impl.jooq.generation.Indexes;
 import com.wuda.foundation.user.impl.jooq.generation.Keys;
-import com.wuda.foundation.user.impl.jooq.generation.User;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserPhoneRecord;
 
 import java.time.LocalDateTime;
@@ -37,10 +37,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserPhone extends TableImpl<UserPhoneRecord> {
 
-    private static final long serialVersionUID = -1363743657;
+    private static final long serialVersionUID = 345770939;
 
     /**
-     * The reference instance of <code>user.user_phone</code>
+     * The reference instance of <code>foundation_user.user_phone</code>
      */
     public static final UserPhone USER_PHONE = new UserPhone();
 
@@ -53,76 +53,76 @@ public class UserPhone extends TableImpl<UserPhoneRecord> {
     }
 
     /**
-     * The column <code>user.user_phone.id</code>.
+     * The column <code>foundation_user.user_phone.id</code>.
      */
     public final TableField<UserPhoneRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>user.user_phone.user_id</code>.
+     * The column <code>foundation_user.user_phone.user_id</code>.
      */
     public final TableField<UserPhoneRecord, ULong> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.user_phone.phone_id</code>.
+     * The column <code>foundation_user.user_phone.phone_id</code>.
      */
     public final TableField<UserPhoneRecord, ULong> PHONE_ID = createField(DSL.name("phone_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.user_phone.use</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
+     * The column <code>foundation_user.user_phone.use</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
      */
     public final TableField<UserPhoneRecord, UByte> USE = createField(DSL.name("use"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "电话的用途。比如用于400电话。也就是电话使用的业务场景。");
 
     /**
-     * The column <code>user.user_phone.state</code>. 状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态
+     * The column <code>foundation_user.user_phone.state</code>. 状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态
      */
     public final TableField<UserPhoneRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "状态，每种用途的phone的il状态可能不同，比如如果用于登录的phone，状态可以是禁止登录状态");
 
     /**
-     * The column <code>user.user_phone.description</code>. 简单描述
+     * The column <code>foundation_user.user_phone.description</code>. 简单描述
      */
     public final TableField<UserPhoneRecord, String> DESCRIPTION = createField(DSL.name("description"), org.jooq.impl.SQLDataType.VARCHAR(45), this, "简单描述");
 
     /**
-     * The column <code>user.user_phone.create_time</code>.
+     * The column <code>foundation_user.user_phone.create_time</code>.
      */
     public final TableField<UserPhoneRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>user.user_phone.create_user_id</code>.
+     * The column <code>foundation_user.user_phone.create_user_id</code>.
      */
     public final TableField<UserPhoneRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.user_phone.last_modify_time</code>.
+     * The column <code>foundation_user.user_phone.last_modify_time</code>.
      */
     public final TableField<UserPhoneRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>user.user_phone.last_modify_user_id</code>.
+     * The column <code>foundation_user.user_phone.last_modify_user_id</code>.
      */
     public final TableField<UserPhoneRecord, ULong> LAST_MODIFY_USER_ID = createField(DSL.name("last_modify_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.user_phone.is_deleted</code>.
+     * The column <code>foundation_user.user_phone.is_deleted</code>.
      */
     public final TableField<UserPhoneRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>user.user_phone</code> table reference
+     * Create a <code>foundation_user.user_phone</code> table reference
      */
     public UserPhone() {
         this(DSL.name("user_phone"), null);
     }
 
     /**
-     * Create an aliased <code>user.user_phone</code> table reference
+     * Create an aliased <code>foundation_user.user_phone</code> table reference
      */
     public UserPhone(String alias) {
         this(DSL.name(alias), USER_PHONE);
     }
 
     /**
-     * Create an aliased <code>user.user_phone</code> table reference
+     * Create an aliased <code>foundation_user.user_phone</code> table reference
      */
     public UserPhone(Name alias) {
         this(alias, USER_PHONE);
@@ -142,7 +142,7 @@ public class UserPhone extends TableImpl<UserPhoneRecord> {
 
     @Override
     public Schema getSchema() {
-        return User.USER;
+        return FoundationUser.FOUNDATION_USER;
     }
 
     @Override

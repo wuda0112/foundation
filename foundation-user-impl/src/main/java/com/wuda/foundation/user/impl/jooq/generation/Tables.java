@@ -5,16 +5,14 @@ package com.wuda.foundation.user.impl.jooq.generation;
 
 
 import com.wuda.foundation.user.impl.jooq.generation.tables.IndividualUserGeneral;
-import com.wuda.foundation.user.impl.jooq.generation.tables.Role;
 import com.wuda.foundation.user.impl.jooq.generation.tables.User;
 import com.wuda.foundation.user.impl.jooq.generation.tables.UserAccount;
 import com.wuda.foundation.user.impl.jooq.generation.tables.UserEmail;
 import com.wuda.foundation.user.impl.jooq.generation.tables.UserPhone;
-import com.wuda.foundation.user.impl.jooq.generation.tables.UserRoleRelationship;
 
 
 /**
- * Convenience access to all tables in user
+ * Convenience access to all tables in foundation_user
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
@@ -25,14 +23,9 @@ public class Tables {
     public static final IndividualUserGeneral INDIVIDUAL_USER_GENERAL = IndividualUserGeneral.INDIVIDUAL_USER_GENERAL;
 
     /**
-     * 角色。role本身就是一类用户的统称，有category的意味，因此没有role_category这样的表设计。如果有层级关系，比如一级管理员，二级管理员，并且它们之间又有联系，那么可以考虑在role表中增加parent_id这样的字段表示层级关系。
-     */
-    public static final Role ROLE = Role.ROLE;
-
-    /**
      * 用户有很多类型，比如一种分类方法是把用户分成个人用户和企业用户，而不同类型的用户需要的字段不一样，但是他们都是用户，即 is-a user。这个表属于所有用户的基本信息，其他不同类型的用户有自己专属的表，然后用用户ID关联回这个表。这样做还有一个好处，那就是其他表中的用户ID都统一关联回这个表，这样用户ID就不会有歧义了。
      */
-    public static final User USER_ = User.USER_;
+    public static final User USER = User.USER;
 
     /**
      * 用户账号信息，适用各种类型的用户
@@ -48,9 +41,4 @@ public class Tables {
      * 用户的电话
      */
     public static final UserPhone USER_PHONE = UserPhone.USER_PHONE;
-
-    /**
-     * 用户与角色的关联关系
-     */
-    public static final UserRoleRelationship USER_ROLE_RELATIONSHIP = UserRoleRelationship.USER_ROLE_RELATIONSHIP;
 }

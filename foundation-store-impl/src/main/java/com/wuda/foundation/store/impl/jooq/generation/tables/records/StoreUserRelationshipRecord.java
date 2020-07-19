@@ -22,101 +22,101 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class StoreUserRelationshipRecord extends UpdatableRecordImpl<StoreUserRelationshipRecord> implements Record7<ULong, ULong, ULong, Boolean, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 877985576;
+    private static final long serialVersionUID = 1127853390;
 
     /**
-     * Setter for <code>store.store_user_relationship.id</code>.
+     * Setter for <code>foundation_store.store_user_relationship.id</code>.
      */
     public void setId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>store.store_user_relationship.id</code>.
+     * Getter for <code>foundation_store.store_user_relationship.id</code>.
      */
     public ULong getId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>store.store_user_relationship.store_id</code>. store id
+     * Setter for <code>foundation_store.store_user_relationship.store_id</code>. store id
      */
     public void setStoreId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>store.store_user_relationship.store_id</code>. store id
+     * Getter for <code>foundation_store.store_user_relationship.store_id</code>. store id
      */
     public ULong getStoreId() {
         return (ULong) get(1);
     }
 
     /**
-     * Setter for <code>store.store_user_relationship.user_id</code>. user id
+     * Setter for <code>foundation_store.store_user_relationship.user_id</code>. user id
      */
     public void setUserId(ULong value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>store.store_user_relationship.user_id</code>. user id
+     * Getter for <code>foundation_store.store_user_relationship.user_id</code>. user id
      */
     public ULong getUserId() {
         return (ULong) get(2);
     }
 
     /**
-     * Setter for <code>store.store_user_relationship.is_store_owner</code>. 该用户是否店铺的owner。一个店铺只能有一个owner，就好像在store表中放入user id字段，表明一对一的关系一样。
+     * Setter for <code>foundation_store.store_user_relationship.is_store_owner</code>. 该用户是否店铺的owner。一个店铺只能有一个owner，就好像在store表中放入user id字段，表明一对一的关系一样。
      */
     public void setIsStoreOwner(Boolean value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>store.store_user_relationship.is_store_owner</code>. 该用户是否店铺的owner。一个店铺只能有一个owner，就好像在store表中放入user id字段，表明一对一的关系一样。
+     * Getter for <code>foundation_store.store_user_relationship.is_store_owner</code>. 该用户是否店铺的owner。一个店铺只能有一个owner，就好像在store表中放入user id字段，表明一对一的关系一样。
      */
     public Boolean getIsStoreOwner() {
         return (Boolean) get(3);
     }
 
     /**
-     * Setter for <code>store.store_user_relationship.create_time</code>.
+     * Setter for <code>foundation_store.store_user_relationship.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>store.store_user_relationship.create_time</code>.
+     * Getter for <code>foundation_store.store_user_relationship.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(4);
     }
 
     /**
-     * Setter for <code>store.store_user_relationship.create_user_id</code>.
+     * Setter for <code>foundation_store.store_user_relationship.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>store.store_user_relationship.create_user_id</code>.
+     * Getter for <code>foundation_store.store_user_relationship.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(5);
     }
 
     /**
-     * Setter for <code>store.store_user_relationship.is_deleted</code>.
+     * Setter for <code>foundation_store.store_user_relationship.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>store.store_user_relationship.is_deleted</code>.
+     * Getter for <code>foundation_store.store_user_relationship.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(6);

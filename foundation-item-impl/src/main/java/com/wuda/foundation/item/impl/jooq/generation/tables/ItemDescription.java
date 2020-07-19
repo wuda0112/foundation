@@ -4,8 +4,8 @@
 package com.wuda.foundation.item.impl.jooq.generation.tables;
 
 
+import com.wuda.foundation.item.impl.jooq.generation.FoundationItem;
 import com.wuda.foundation.item.impl.jooq.generation.Indexes;
-import com.wuda.foundation.item.impl.jooq.generation.Item;
 import com.wuda.foundation.item.impl.jooq.generation.Keys;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemDescriptionRecord;
 
@@ -37,10 +37,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemDescription extends TableImpl<ItemDescriptionRecord> {
 
-    private static final long serialVersionUID = 466333264;
+    private static final long serialVersionUID = -2092159952;
 
     /**
-     * The reference instance of <code>item.item_description</code>
+     * The reference instance of <code>foundation_item.item_description</code>
      */
     public static final ItemDescription ITEM_DESCRIPTION = new ItemDescription();
 
@@ -53,66 +53,66 @@ public class ItemDescription extends TableImpl<ItemDescriptionRecord> {
     }
 
     /**
-     * The column <code>item.item_description.item_description_id</code>.
+     * The column <code>foundation_item.item_description.item_description_id</code>.
      */
     public final TableField<ItemDescriptionRecord, ULong> ITEM_DESCRIPTION_ID = createField(DSL.name("item_description_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>item.item_description.item_id</code>.
+     * The column <code>foundation_item.item_description.item_id</code>.
      */
     public final TableField<ItemDescriptionRecord, ULong> ITEM_ID = createField(DSL.name("item_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>item.item_description.item_variation_id</code>.
+     * The column <code>foundation_item.item_description.item_variation_id</code>.
      */
     public final TableField<ItemDescriptionRecord, ULong> ITEM_VARIATION_ID = createField(DSL.name("item_variation_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * The column <code>item.item_description.content</code>. 描述内容
+     * The column <code>foundation_item.item_description.content</code>. 描述内容
      */
     public final TableField<ItemDescriptionRecord, String> CONTENT = createField(DSL.name("content"), org.jooq.impl.SQLDataType.CLOB, this, "描述内容");
 
     /**
-     * The column <code>item.item_description.create_time</code>.
+     * The column <code>foundation_item.item_description.create_time</code>.
      */
     public final TableField<ItemDescriptionRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>item.item_description.create_user_id</code>.
+     * The column <code>foundation_item.item_description.create_user_id</code>.
      */
     public final TableField<ItemDescriptionRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>item.item_description.last_modify_time</code>.
+     * The column <code>foundation_item.item_description.last_modify_time</code>.
      */
     public final TableField<ItemDescriptionRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>item.item_description.last_modify_user_id</code>.
+     * The column <code>foundation_item.item_description.last_modify_user_id</code>.
      */
     public final TableField<ItemDescriptionRecord, ULong> LAST_MODIFY_USER_ID = createField(DSL.name("last_modify_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>item.item_description.is_deleted</code>.
+     * The column <code>foundation_item.item_description.is_deleted</code>.
      */
     public final TableField<ItemDescriptionRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>item.item_description</code> table reference
+     * Create a <code>foundation_item.item_description</code> table reference
      */
     public ItemDescription() {
         this(DSL.name("item_description"), null);
     }
 
     /**
-     * Create an aliased <code>item.item_description</code> table reference
+     * Create an aliased <code>foundation_item.item_description</code> table reference
      */
     public ItemDescription(String alias) {
         this(DSL.name(alias), ITEM_DESCRIPTION);
     }
 
     /**
-     * Create an aliased <code>item.item_description</code> table reference
+     * Create an aliased <code>foundation_item.item_description</code> table reference
      */
     public ItemDescription(Name alias) {
         this(alias, ITEM_DESCRIPTION);
@@ -132,7 +132,7 @@ public class ItemDescription extends TableImpl<ItemDescriptionRecord> {
 
     @Override
     public Schema getSchema() {
-        return Item.ITEM;
+        return FoundationItem.FOUNDATION_ITEM;
     }
 
     @Override

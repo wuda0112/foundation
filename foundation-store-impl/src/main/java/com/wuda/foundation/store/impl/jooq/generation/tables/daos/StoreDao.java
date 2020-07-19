@@ -26,14 +26,14 @@ public class StoreDao extends DAOImpl<StoreRecord, com.wuda.foundation.store.imp
      * Create a new StoreDao without any configuration
      */
     public StoreDao() {
-        super(Store.STORE_, com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store.class);
+        super(Store.STORE, com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store.class);
     }
 
     /**
      * Create a new StoreDao with an attached configuration
      */
     public StoreDao(Configuration configuration) {
-        super(Store.STORE_, com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store.class, configuration);
+        super(Store.STORE, com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store.class, configuration);
     }
 
     @Override
@@ -45,118 +45,118 @@ public class StoreDao extends DAOImpl<StoreRecord, com.wuda.foundation.store.imp
      * Fetch records that have <code>store_id BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchRangeOfStoreId(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(Store.STORE_.STORE_ID, lowerInclusive, upperInclusive);
+        return fetchRange(Store.STORE.STORE_ID, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>store_id IN (values)</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchByStoreId(ULong... values) {
-        return fetch(Store.STORE_.STORE_ID, values);
+        return fetch(Store.STORE.STORE_ID, values);
     }
 
     /**
      * Fetch a unique record that has <code>store_id = value</code>
      */
     public com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store fetchOneByStoreId(ULong value) {
-        return fetchOne(Store.STORE_.STORE_ID, value);
+        return fetchOne(Store.STORE.STORE_ID, value);
     }
 
     /**
      * Fetch records that have <code>type BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchRangeOfType(UByte lowerInclusive, UByte upperInclusive) {
-        return fetchRange(Store.STORE_.TYPE, lowerInclusive, upperInclusive);
+        return fetchRange(Store.STORE.TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>type IN (values)</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchByType(UByte... values) {
-        return fetch(Store.STORE_.TYPE, values);
+        return fetch(Store.STORE.TYPE, values);
     }
 
     /**
      * Fetch records that have <code>state BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchRangeOfState(UByte lowerInclusive, UByte upperInclusive) {
-        return fetchRange(Store.STORE_.STATE, lowerInclusive, upperInclusive);
+        return fetchRange(Store.STORE.STATE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>state IN (values)</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchByState(UByte... values) {
-        return fetch(Store.STORE_.STATE, values);
+        return fetch(Store.STORE.STATE, values);
     }
 
     /**
      * Fetch records that have <code>create_time BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchRangeOfCreateTime(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
-        return fetchRange(Store.STORE_.CREATE_TIME, lowerInclusive, upperInclusive);
+        return fetchRange(Store.STORE.CREATE_TIME, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>create_time IN (values)</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchByCreateTime(LocalDateTime... values) {
-        return fetch(Store.STORE_.CREATE_TIME, values);
+        return fetch(Store.STORE.CREATE_TIME, values);
     }
 
     /**
      * Fetch records that have <code>create_user_id BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchRangeOfCreateUserId(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(Store.STORE_.CREATE_USER_ID, lowerInclusive, upperInclusive);
+        return fetchRange(Store.STORE.CREATE_USER_ID, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>create_user_id IN (values)</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchByCreateUserId(ULong... values) {
-        return fetch(Store.STORE_.CREATE_USER_ID, values);
+        return fetch(Store.STORE.CREATE_USER_ID, values);
     }
 
     /**
      * Fetch records that have <code>last_modify_time BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchRangeOfLastModifyTime(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
-        return fetchRange(Store.STORE_.LAST_MODIFY_TIME, lowerInclusive, upperInclusive);
+        return fetchRange(Store.STORE.LAST_MODIFY_TIME, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>last_modify_time IN (values)</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchByLastModifyTime(LocalDateTime... values) {
-        return fetch(Store.STORE_.LAST_MODIFY_TIME, values);
+        return fetch(Store.STORE.LAST_MODIFY_TIME, values);
     }
 
     /**
      * Fetch records that have <code>last_modify_user_id BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchRangeOfLastModifyUserId(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(Store.STORE_.LAST_MODIFY_USER_ID, lowerInclusive, upperInclusive);
+        return fetchRange(Store.STORE.LAST_MODIFY_USER_ID, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>last_modify_user_id IN (values)</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchByLastModifyUserId(ULong... values) {
-        return fetch(Store.STORE_.LAST_MODIFY_USER_ID, values);
+        return fetch(Store.STORE.LAST_MODIFY_USER_ID, values);
     }
 
     /**
      * Fetch records that have <code>is_deleted BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchRangeOfIsDeleted(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(Store.STORE_.IS_DELETED, lowerInclusive, upperInclusive);
+        return fetchRange(Store.STORE.IS_DELETED, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>is_deleted IN (values)</code>
      */
     public List<com.wuda.foundation.store.impl.jooq.generation.tables.pojos.Store> fetchByIsDeleted(ULong... values) {
-        return fetch(Store.STORE_.IS_DELETED, values);
+        return fetch(Store.STORE.IS_DELETED, values);
     }
 }

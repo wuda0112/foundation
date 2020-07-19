@@ -23,143 +23,143 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> implements Record10<ULong, ULong, String, String, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1224694228;
+    private static final long serialVersionUID = -727928838;
 
     /**
-     * Setter for <code>user.user_account.user_account_id</code>.
+     * Setter for <code>foundation_user.user_account.user_account_id</code>.
      */
     public void setUserAccountId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>user.user_account.user_account_id</code>.
+     * Getter for <code>foundation_user.user_account.user_account_id</code>.
      */
     public ULong getUserAccountId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>user.user_account.user_id</code>. 用户ID
+     * Setter for <code>foundation_user.user_account.user_id</code>. 用户ID
      */
     public void setUserId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>user.user_account.user_id</code>. 用户ID
+     * Getter for <code>foundation_user.user_account.user_id</code>. 用户ID
      */
     public ULong getUserId() {
         return (ULong) get(1);
     }
 
     /**
-     * Setter for <code>user.user_account.username</code>. 只能是英文模式下的字母，数字，下划线，中划线，必须明确检查保证不是邮箱。设置以后不能修改(github可以修改)，可用作用户主页URL的一部分，参考github。注意和昵称的区别
+     * Setter for <code>foundation_user.user_account.username</code>. 只能是英文模式下的字母，数字，下划线，中划线，必须明确检查保证不是邮箱。设置以后不能修改(github可以修改)，可用作用户主页URL的一部分，参考github。注意和昵称的区别
      */
     public void setUsername(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>user.user_account.username</code>. 只能是英文模式下的字母，数字，下划线，中划线，必须明确检查保证不是邮箱。设置以后不能修改(github可以修改)，可用作用户主页URL的一部分，参考github。注意和昵称的区别
+     * Getter for <code>foundation_user.user_account.username</code>. 只能是英文模式下的字母，数字，下划线，中划线，必须明确检查保证不是邮箱。设置以后不能修改(github可以修改)，可用作用户主页URL的一部分，参考github。注意和昵称的区别
      */
     public String getUsername() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>user.user_account.password</code>. 只能是ASCII表中的可打印字符
+     * Setter for <code>foundation_user.user_account.password</code>. 只能是ASCII表中的可打印字符
      */
     public void setPassword(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>user.user_account.password</code>. 只能是ASCII表中的可打印字符
+     * Getter for <code>foundation_user.user_account.password</code>. 只能是ASCII表中的可打印字符
      */
     public String getPassword() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>user.user_account.state</code>. 账号的状态
+     * Setter for <code>foundation_user.user_account.state</code>. 账号的状态
      */
     public void setState(UByte value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>user.user_account.state</code>. 账号的状态
+     * Getter for <code>foundation_user.user_account.state</code>. 账号的状态
      */
     public UByte getState() {
         return (UByte) get(4);
     }
 
     /**
-     * Setter for <code>user.user_account.create_time</code>.
+     * Setter for <code>foundation_user.user_account.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>user.user_account.create_time</code>.
+     * Getter for <code>foundation_user.user_account.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(5);
     }
 
     /**
-     * Setter for <code>user.user_account.create_user_id</code>.
+     * Setter for <code>foundation_user.user_account.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>user.user_account.create_user_id</code>.
+     * Getter for <code>foundation_user.user_account.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(6);
     }
 
     /**
-     * Setter for <code>user.user_account.last_modify_time</code>.
+     * Setter for <code>foundation_user.user_account.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>user.user_account.last_modify_time</code>.
+     * Getter for <code>foundation_user.user_account.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(7);
     }
 
     /**
-     * Setter for <code>user.user_account.last_modify_user_id</code>.
+     * Setter for <code>foundation_user.user_account.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>user.user_account.last_modify_user_id</code>.
+     * Getter for <code>foundation_user.user_account.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(8);
     }
 
     /**
-     * Setter for <code>user.user_account.is_deleted</code>.
+     * Setter for <code>foundation_user.user_account.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>user.user_account.is_deleted</code>.
+     * Getter for <code>foundation_user.user_account.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(9);

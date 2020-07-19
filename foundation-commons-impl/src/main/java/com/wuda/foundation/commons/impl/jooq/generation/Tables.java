@@ -11,7 +11,7 @@ import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyValue;
 
 
 /**
- * Convenience access to all tables in commons
+ * Convenience access to all tables in foundation_commons
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {

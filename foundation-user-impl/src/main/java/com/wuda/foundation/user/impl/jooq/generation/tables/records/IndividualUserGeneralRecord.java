@@ -22,143 +22,143 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IndividualUserGeneralRecord extends UpdatableRecordImpl<IndividualUserGeneralRecord> implements Record10<ULong, ULong, String, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -837679334;
+    private static final long serialVersionUID = 1765394266;
 
     /**
-     * Setter for <code>user.individual_user_general.individual_user_general_id</code>.
+     * Setter for <code>foundation_user.individual_user_general.individual_user_general_id</code>.
      */
     public void setIndividualUserGeneralId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>user.individual_user_general.individual_user_general_id</code>.
+     * Getter for <code>foundation_user.individual_user_general.individual_user_general_id</code>.
      */
     public ULong getIndividualUserGeneralId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>user.individual_user_general.user_id</code>.
+     * Setter for <code>foundation_user.individual_user_general.user_id</code>.
      */
     public void setUserId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>user.individual_user_general.user_id</code>.
+     * Getter for <code>foundation_user.individual_user_general.user_id</code>.
      */
     public ULong getUserId() {
         return (ULong) get(1);
     }
 
     /**
-     * Setter for <code>user.individual_user_general.nickname</code>. 昵称
+     * Setter for <code>foundation_user.individual_user_general.nickname</code>. 昵称
      */
     public void setNickname(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>user.individual_user_general.nickname</code>. 昵称
+     * Getter for <code>foundation_user.individual_user_general.nickname</code>. 昵称
      */
     public String getNickname() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>user.individual_user_general.biography</code>. 个人简介。简短的介绍
+     * Setter for <code>foundation_user.individual_user_general.biography</code>. 个人简介。简短的介绍
      */
     public void setBiography(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>user.individual_user_general.biography</code>. 个人简介。简短的介绍
+     * Getter for <code>foundation_user.individual_user_general.biography</code>. 个人简介。简短的介绍
      */
     public String getBiography() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>user.individual_user_general.picture</code>. 用户图像。保存的是图片地址。命名来源：github
+     * Setter for <code>foundation_user.individual_user_general.picture</code>. 用户图像。保存的是图片地址。命名来源：github
      */
     public void setPicture(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>user.individual_user_general.picture</code>. 用户图像。保存的是图片地址。命名来源：github
+     * Getter for <code>foundation_user.individual_user_general.picture</code>. 用户图像。保存的是图片地址。命名来源：github
      */
     public String getPicture() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>user.individual_user_general.create_time</code>.
+     * Setter for <code>foundation_user.individual_user_general.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>user.individual_user_general.create_time</code>.
+     * Getter for <code>foundation_user.individual_user_general.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(5);
     }
 
     /**
-     * Setter for <code>user.individual_user_general.create_user_id</code>.
+     * Setter for <code>foundation_user.individual_user_general.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>user.individual_user_general.create_user_id</code>.
+     * Getter for <code>foundation_user.individual_user_general.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(6);
     }
 
     /**
-     * Setter for <code>user.individual_user_general.last_modify_time</code>.
+     * Setter for <code>foundation_user.individual_user_general.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>user.individual_user_general.last_modify_time</code>.
+     * Getter for <code>foundation_user.individual_user_general.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(7);
     }
 
     /**
-     * Setter for <code>user.individual_user_general.last_modify_user_id</code>.
+     * Setter for <code>foundation_user.individual_user_general.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>user.individual_user_general.last_modify_user_id</code>.
+     * Getter for <code>foundation_user.individual_user_general.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(8);
     }
 
     /**
-     * Setter for <code>user.individual_user_general.is_deleted</code>.
+     * Setter for <code>foundation_user.individual_user_general.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>user.individual_user_general.is_deleted</code>.
+     * Getter for <code>foundation_user.individual_user_general.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(9);

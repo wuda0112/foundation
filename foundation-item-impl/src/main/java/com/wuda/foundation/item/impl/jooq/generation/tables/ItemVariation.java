@@ -4,8 +4,8 @@
 package com.wuda.foundation.item.impl.jooq.generation.tables;
 
 
+import com.wuda.foundation.item.impl.jooq.generation.FoundationItem;
 import com.wuda.foundation.item.impl.jooq.generation.Indexes;
-import com.wuda.foundation.item.impl.jooq.generation.Item;
 import com.wuda.foundation.item.impl.jooq.generation.Keys;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemVariationRecord;
 
@@ -37,10 +37,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemVariation extends TableImpl<ItemVariationRecord> {
 
-    private static final long serialVersionUID = -1720576539;
+    private static final long serialVersionUID = -931623687;
 
     /**
-     * The reference instance of <code>item.item_variation</code>
+     * The reference instance of <code>foundation_item.item_variation</code>
      */
     public static final ItemVariation ITEM_VARIATION = new ItemVariation();
 
@@ -53,66 +53,66 @@ public class ItemVariation extends TableImpl<ItemVariationRecord> {
     }
 
     /**
-     * The column <code>item.item_variation.item_variation_id</code>.
+     * The column <code>foundation_item.item_variation.item_variation_id</code>.
      */
     public final TableField<ItemVariationRecord, ULong> ITEM_VARIATION_ID = createField(DSL.name("item_variation_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>item.item_variation.item_id</code>.
+     * The column <code>foundation_item.item_variation.item_id</code>.
      */
     public final TableField<ItemVariationRecord, ULong> ITEM_ID = createField(DSL.name("item_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>item.item_variation.name</code>. 规格名称。方便管理。
+     * The column <code>foundation_item.item_variation.name</code>. 规格名称。方便管理。
      */
     public final TableField<ItemVariationRecord, String> NAME = createField(DSL.name("name"), org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "规格名称。方便管理。");
 
     /**
-     * The column <code>item.item_variation.state</code>. 状态
+     * The column <code>foundation_item.item_variation.state</code>. 状态
      */
     public final TableField<ItemVariationRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "状态");
 
     /**
-     * The column <code>item.item_variation.create_time</code>.
+     * The column <code>foundation_item.item_variation.create_time</code>.
      */
     public final TableField<ItemVariationRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>item.item_variation.create_user_id</code>.
+     * The column <code>foundation_item.item_variation.create_user_id</code>.
      */
     public final TableField<ItemVariationRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>item.item_variation.last_modify_time</code>.
+     * The column <code>foundation_item.item_variation.last_modify_time</code>.
      */
     public final TableField<ItemVariationRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>item.item_variation.last_modify_user_id</code>.
+     * The column <code>foundation_item.item_variation.last_modify_user_id</code>.
      */
     public final TableField<ItemVariationRecord, ULong> LAST_MODIFY_USER_ID = createField(DSL.name("last_modify_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>item.item_variation.is_deleted</code>.
+     * The column <code>foundation_item.item_variation.is_deleted</code>.
      */
     public final TableField<ItemVariationRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>item.item_variation</code> table reference
+     * Create a <code>foundation_item.item_variation</code> table reference
      */
     public ItemVariation() {
         this(DSL.name("item_variation"), null);
     }
 
     /**
-     * Create an aliased <code>item.item_variation</code> table reference
+     * Create an aliased <code>foundation_item.item_variation</code> table reference
      */
     public ItemVariation(String alias) {
         this(DSL.name(alias), ITEM_VARIATION);
     }
 
     /**
-     * Create an aliased <code>item.item_variation</code> table reference
+     * Create an aliased <code>foundation_item.item_variation</code> table reference
      */
     public ItemVariation(Name alias) {
         this(alias, ITEM_VARIATION);
@@ -132,7 +132,7 @@ public class ItemVariation extends TableImpl<ItemVariationRecord> {
 
     @Override
     public Schema getSchema() {
-        return Item.ITEM;
+        return FoundationItem.FOUNDATION_ITEM;
     }
 
     @Override

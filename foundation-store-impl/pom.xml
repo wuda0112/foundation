@@ -31,7 +31,7 @@
 
     <profiles>
         <profile>
-            <id>dev</id>
+            <id>jooq-code-generate</id>
             <build>
                 <plugins>
                     <plugin>
@@ -70,7 +70,7 @@
                                     <!--<excludes></excludes>-->
 
                                     <!--数据库名称-->
-                                    <inputSchema>store</inputSchema>
+                                    <inputSchema>foundation_store</inputSchema>
                                 </database>
 
                                 <generate>

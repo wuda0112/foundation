@@ -4,6 +4,7 @@
 package com.wuda.foundation.store.impl.jooq.generation.tables;
 
 
+import com.wuda.foundation.store.impl.jooq.generation.FoundationStore;
 import com.wuda.foundation.store.impl.jooq.generation.Keys;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreRecord;
 
@@ -34,12 +35,12 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Store extends TableImpl<StoreRecord> {
 
-    private static final long serialVersionUID = 786669899;
+    private static final long serialVersionUID = 1430309159;
 
     /**
-     * The reference instance of <code>store.store</code>
+     * The reference instance of <code>foundation_store.store</code>
      */
-    public static final Store STORE_ = new Store();
+    public static final Store STORE = new Store();
 
     /**
      * The class holding records for this type
@@ -50,64 +51,64 @@ public class Store extends TableImpl<StoreRecord> {
     }
 
     /**
-     * The column <code>store.store.store_id</code>.
+     * The column <code>foundation_store.store.store_id</code>.
      */
     public final TableField<StoreRecord, ULong> STORE_ID = createField(DSL.name("store_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>store.store.type</code>. 店铺类型
+     * The column <code>foundation_store.store.type</code>. 店铺类型
      */
     public final TableField<StoreRecord, UByte> TYPE = createField(DSL.name("type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "店铺类型");
 
     /**
-     * The column <code>store.store.state</code>. 店铺状态
+     * The column <code>foundation_store.store.state</code>. 店铺状态
      */
     public final TableField<StoreRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "店铺状态");
 
     /**
-     * The column <code>store.store.create_time</code>.
+     * The column <code>foundation_store.store.create_time</code>.
      */
     public final TableField<StoreRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>store.store.create_user_id</code>.
+     * The column <code>foundation_store.store.create_user_id</code>.
      */
     public final TableField<StoreRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>store.store.last_modify_time</code>.
+     * The column <code>foundation_store.store.last_modify_time</code>.
      */
     public final TableField<StoreRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>store.store.last_modify_user_id</code>.
+     * The column <code>foundation_store.store.last_modify_user_id</code>.
      */
     public final TableField<StoreRecord, ULong> LAST_MODIFY_USER_ID = createField(DSL.name("last_modify_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>store.store.is_deleted</code>.
+     * The column <code>foundation_store.store.is_deleted</code>.
      */
     public final TableField<StoreRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>store.store</code> table reference
+     * Create a <code>foundation_store.store</code> table reference
      */
     public Store() {
         this(DSL.name("store"), null);
     }
 
     /**
-     * Create an aliased <code>store.store</code> table reference
+     * Create an aliased <code>foundation_store.store</code> table reference
      */
     public Store(String alias) {
-        this(DSL.name(alias), STORE_);
+        this(DSL.name(alias), STORE);
     }
 
     /**
-     * Create an aliased <code>store.store</code> table reference
+     * Create an aliased <code>foundation_store.store</code> table reference
      */
     public Store(Name alias) {
-        this(alias, STORE_);
+        this(alias, STORE);
     }
 
     private Store(Name alias, Table<StoreRecord> aliased) {
@@ -119,17 +120,17 @@ public class Store extends TableImpl<StoreRecord> {
     }
 
     public <O extends Record> Store(Table<O> child, ForeignKey<O, StoreRecord> key) {
-        super(child, key, STORE_);
+        super(child, key, STORE);
     }
 
     @Override
     public Schema getSchema() {
-        return com.wuda.foundation.store.impl.jooq.generation.Store.STORE;
+        return FoundationStore.FOUNDATION_STORE;
     }
 
     @Override
     public Identity<StoreRecord, ULong> getIdentity() {
-        return Keys.IDENTITY_STORE_;
+        return Keys.IDENTITY_STORE;
     }
 
     @Override

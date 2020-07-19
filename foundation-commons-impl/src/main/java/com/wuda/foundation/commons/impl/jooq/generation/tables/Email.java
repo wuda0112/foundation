@@ -4,7 +4,7 @@
 package com.wuda.foundation.commons.impl.jooq.generation.tables;
 
 
-import com.wuda.foundation.commons.impl.jooq.generation.Commons;
+import com.wuda.foundation.commons.impl.jooq.generation.FoundationCommons;
 import com.wuda.foundation.commons.impl.jooq.generation.Keys;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.EmailRecord;
 
@@ -34,10 +34,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Email extends TableImpl<EmailRecord> {
 
-    private static final long serialVersionUID = -1947946280;
+    private static final long serialVersionUID = -493372717;
 
     /**
-     * The reference instance of <code>commons.email</code>
+     * The reference instance of <code>foundation_commons.email</code>
      */
     public static final Email EMAIL = new Email();
 
@@ -50,61 +50,61 @@ public class Email extends TableImpl<EmailRecord> {
     }
 
     /**
-     * The column <code>commons.email.email_id</code>.
+     * The column <code>foundation_commons.email.email_id</code>.
      */
     public final TableField<EmailRecord, ULong> EMAIL_ID = createField(DSL.name("email_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>commons.email.address</code>. email address
+     * The column <code>foundation_commons.email.address</code>. email address
      */
     public final TableField<EmailRecord, String> ADDRESS = createField(DSL.name("address"), org.jooq.impl.SQLDataType.VARCHAR(20).nullable(false), this, "email address");
 
     /**
-     * The column <code>commons.email.state</code>. 邮箱状态。0-验证不通过，1-验证通过，2-未验证
+     * The column <code>foundation_commons.email.state</code>. 邮箱状态。1比如：验证不通过，验证通过，未验证
      */
-    public final TableField<EmailRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("2", org.jooq.impl.SQLDataType.TINYINTUNSIGNED)), this, "邮箱状态。0-验证不通过，1-验证通过，2-未验证");
+    public final TableField<EmailRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "邮箱状态。1比如：验证不通过，验证通过，未验证");
 
     /**
-     * The column <code>commons.email.create_time</code>.
+     * The column <code>foundation_commons.email.create_time</code>.
      */
     public final TableField<EmailRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>commons.email.create_user_id</code>.
+     * The column <code>foundation_commons.email.create_user_id</code>.
      */
     public final TableField<EmailRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>commons.email.last_modify_time</code>.
+     * The column <code>foundation_commons.email.last_modify_time</code>.
      */
     public final TableField<EmailRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>commons.email.last_modify_user_id</code>.
+     * The column <code>foundation_commons.email.last_modify_user_id</code>.
      */
     public final TableField<EmailRecord, ULong> LAST_MODIFY_USER_ID = createField(DSL.name("last_modify_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>commons.email.is_deleted</code>.
+     * The column <code>foundation_commons.email.is_deleted</code>.
      */
     public final TableField<EmailRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>commons.email</code> table reference
+     * Create a <code>foundation_commons.email</code> table reference
      */
     public Email() {
         this(DSL.name("email"), null);
     }
 
     /**
-     * Create an aliased <code>commons.email</code> table reference
+     * Create an aliased <code>foundation_commons.email</code> table reference
      */
     public Email(String alias) {
         this(DSL.name(alias), EMAIL);
     }
 
     /**
-     * Create an aliased <code>commons.email</code> table reference
+     * Create an aliased <code>foundation_commons.email</code> table reference
      */
     public Email(Name alias) {
         this(alias, EMAIL);
@@ -124,7 +124,7 @@ public class Email extends TableImpl<EmailRecord> {
 
     @Override
     public Schema getSchema() {
-        return Commons.COMMONS;
+        return FoundationCommons.FOUNDATION_COMMONS;
     }
 
     @Override
@@ -134,7 +134,7 @@ public class Email extends TableImpl<EmailRecord> {
 
     @Override
     public List<UniqueKey<EmailRecord>> getKeys() {
-        return Arrays.<UniqueKey<EmailRecord>>asList(Keys.KEY_EMAIL_PRIMARY, Keys.KEY_EMAIL_IDX_EMAIL_UNIQUE);
+        return Arrays.<UniqueKey<EmailRecord>>asList(Keys.KEY_EMAIL_PRIMARY, Keys.KEY_EMAIL_EMAIL_ID, Keys.KEY_EMAIL_IDX_EMAIL_UNIQUE);
     }
 
     @Override

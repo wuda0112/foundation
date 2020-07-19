@@ -4,7 +4,7 @@
 package com.wuda.foundation.commons.impl.jooq.generation.tables;
 
 
-import com.wuda.foundation.commons.impl.jooq.generation.Commons;
+import com.wuda.foundation.commons.impl.jooq.generation.FoundationCommons;
 import com.wuda.foundation.commons.impl.jooq.generation.Keys;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyValueRecord;
 
@@ -33,10 +33,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyValue extends TableImpl<PropertyValueRecord> {
 
-    private static final long serialVersionUID = 534245613;
+    private static final long serialVersionUID = 1861137543;
 
     /**
-     * The reference instance of <code>commons.property_value</code>
+     * The reference instance of <code>foundation_commons.property_value</code>
      */
     public static final PropertyValue PROPERTY_VALUE = new PropertyValue();
 
@@ -49,61 +49,61 @@ public class PropertyValue extends TableImpl<PropertyValueRecord> {
     }
 
     /**
-     * The column <code>commons.property_value.property_value_id</code>.
+     * The column <code>foundation_commons.property_value.property_value_id</code>.
      */
     public final TableField<PropertyValueRecord, ULong> PROPERTY_VALUE_ID = createField(DSL.name("property_value_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>commons.property_value.property_key_id</code>. 所属的key
+     * The column <code>foundation_commons.property_value.property_key_id</code>. 所属的key
      */
     public final TableField<PropertyValueRecord, ULong> PROPERTY_KEY_ID = createField(DSL.name("property_key_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "所属的key");
 
     /**
-     * The column <code>commons.property_value.value</code>. 属性值
+     * The column <code>foundation_commons.property_value.value</code>. 属性值
      */
     public final TableField<PropertyValueRecord, String> VALUE = createField(DSL.name("value"), org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "属性值");
 
     /**
-     * The column <code>commons.property_value.create_time</code>.
+     * The column <code>foundation_commons.property_value.create_time</code>.
      */
     public final TableField<PropertyValueRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>commons.property_value.create_user_id</code>.
+     * The column <code>foundation_commons.property_value.create_user_id</code>.
      */
     public final TableField<PropertyValueRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>commons.property_value.last_modify_time</code>.
+     * The column <code>foundation_commons.property_value.last_modify_time</code>.
      */
     public final TableField<PropertyValueRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>commons.property_value.last_modify_user_id</code>.
+     * The column <code>foundation_commons.property_value.last_modify_user_id</code>.
      */
     public final TableField<PropertyValueRecord, ULong> LAST_MODIFY_USER_ID = createField(DSL.name("last_modify_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>commons.property_value.is_deleted</code>.
+     * The column <code>foundation_commons.property_value.is_deleted</code>.
      */
     public final TableField<PropertyValueRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>commons.property_value</code> table reference
+     * Create a <code>foundation_commons.property_value</code> table reference
      */
     public PropertyValue() {
         this(DSL.name("property_value"), null);
     }
 
     /**
-     * Create an aliased <code>commons.property_value</code> table reference
+     * Create an aliased <code>foundation_commons.property_value</code> table reference
      */
     public PropertyValue(String alias) {
         this(DSL.name(alias), PROPERTY_VALUE);
     }
 
     /**
-     * Create an aliased <code>commons.property_value</code> table reference
+     * Create an aliased <code>foundation_commons.property_value</code> table reference
      */
     public PropertyValue(Name alias) {
         this(alias, PROPERTY_VALUE);
@@ -123,7 +123,7 @@ public class PropertyValue extends TableImpl<PropertyValueRecord> {
 
     @Override
     public Schema getSchema() {
-        return Commons.COMMONS;
+        return FoundationCommons.FOUNDATION_COMMONS;
     }
 
     @Override

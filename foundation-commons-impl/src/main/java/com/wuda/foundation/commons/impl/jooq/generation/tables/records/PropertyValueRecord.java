@@ -22,115 +22,115 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyValueRecord extends UpdatableRecordImpl<PropertyValueRecord> implements Record8<ULong, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1984429864;
+    private static final long serialVersionUID = 629769634;
 
     /**
-     * Setter for <code>commons.property_value.property_value_id</code>.
+     * Setter for <code>foundation_commons.property_value.property_value_id</code>.
      */
     public void setPropertyValueId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>commons.property_value.property_value_id</code>.
+     * Getter for <code>foundation_commons.property_value.property_value_id</code>.
      */
     public ULong getPropertyValueId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>commons.property_value.property_key_id</code>. 所属的key
+     * Setter for <code>foundation_commons.property_value.property_key_id</code>. 所属的key
      */
     public void setPropertyKeyId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>commons.property_value.property_key_id</code>. 所属的key
+     * Getter for <code>foundation_commons.property_value.property_key_id</code>. 所属的key
      */
     public ULong getPropertyKeyId() {
         return (ULong) get(1);
     }
 
     /**
-     * Setter for <code>commons.property_value.value</code>. 属性值
+     * Setter for <code>foundation_commons.property_value.value</code>. 属性值
      */
     public void setValue(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>commons.property_value.value</code>. 属性值
+     * Getter for <code>foundation_commons.property_value.value</code>. 属性值
      */
     public String getValue() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>commons.property_value.create_time</code>.
+     * Setter for <code>foundation_commons.property_value.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>commons.property_value.create_time</code>.
+     * Getter for <code>foundation_commons.property_value.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(3);
     }
 
     /**
-     * Setter for <code>commons.property_value.create_user_id</code>.
+     * Setter for <code>foundation_commons.property_value.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>commons.property_value.create_user_id</code>.
+     * Getter for <code>foundation_commons.property_value.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(4);
     }
 
     /**
-     * Setter for <code>commons.property_value.last_modify_time</code>.
+     * Setter for <code>foundation_commons.property_value.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>commons.property_value.last_modify_time</code>.
+     * Getter for <code>foundation_commons.property_value.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(5);
     }
 
     /**
-     * Setter for <code>commons.property_value.last_modify_user_id</code>.
+     * Setter for <code>foundation_commons.property_value.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>commons.property_value.last_modify_user_id</code>.
+     * Getter for <code>foundation_commons.property_value.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(6);
     }
 
     /**
-     * Setter for <code>commons.property_value.is_deleted</code>.
+     * Setter for <code>foundation_commons.property_value.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>commons.property_value.is_deleted</code>.
+     * Getter for <code>foundation_commons.property_value.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(7);

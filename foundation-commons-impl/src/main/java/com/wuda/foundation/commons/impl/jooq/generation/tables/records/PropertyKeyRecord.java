@@ -23,157 +23,157 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyKeyRecord extends UpdatableRecordImpl<PropertyKeyRecord> implements Record11<ULong, String, UByte, UByte, ULong, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -1983023069;
+    private static final long serialVersionUID = -120969719;
 
     /**
-     * Setter for <code>commons.property_key.property_key_id</code>.
+     * Setter for <code>foundation_commons.property_key.property_key_id</code>.
      */
     public void setPropertyKeyId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>commons.property_key.property_key_id</code>.
+     * Getter for <code>foundation_commons.property_key.property_key_id</code>.
      */
     public ULong getPropertyKeyId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>commons.property_key.key</code>. 属性名
+     * Setter for <code>foundation_commons.property_key.key</code>. 属性名
      */
     public void setKey(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>commons.property_key.key</code>. 属性名
+     * Getter for <code>foundation_commons.property_key.key</code>. 属性名
      */
     public String getKey() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>commons.property_key.type</code>. 属性的类型，比如最常用的就是“字面量”类型；比如该属性表示图片，属性值保存图片的链接；比如该属性表示颜色，因为在一些应用中，可以使用调色盘选取颜色，或者在显示时，可以显示颜色，而不是白色这样的纯文本
+     * Setter for <code>foundation_commons.property_key.type</code>. 属性的类型，比如最常用的就是“字面量”类型；比如该属性表示图片，属性值保存图片的链接；比如该属性表示颜色，因为在一些应用中，可以使用调色盘选取颜色，或者在显示时，可以显示颜色，而不是白色这样的纯文本
      */
     public void setType(UByte value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>commons.property_key.type</code>. 属性的类型，比如最常用的就是“字面量”类型；比如该属性表示图片，属性值保存图片的链接；比如该属性表示颜色，因为在一些应用中，可以使用调色盘选取颜色，或者在显示时，可以显示颜色，而不是白色这样的纯文本
+     * Getter for <code>foundation_commons.property_key.type</code>. 属性的类型，比如最常用的就是“字面量”类型；比如该属性表示图片，属性值保存图片的链接；比如该属性表示颜色，因为在一些应用中，可以使用调色盘选取颜色，或者在显示时，可以显示颜色，而不是白色这样的纯文本
      */
     public UByte getType() {
         return (UByte) get(2);
     }
 
     /**
-     * Setter for <code>commons.property_key.owner_type</code>. 该属性的owner的类型
+     * Setter for <code>foundation_commons.property_key.owner_type</code>. 该属性的owner的类型
      */
     public void setOwnerType(UByte value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>commons.property_key.owner_type</code>. 该属性的owner的类型
+     * Getter for <code>foundation_commons.property_key.owner_type</code>. 该属性的owner的类型
      */
     public UByte getOwnerType() {
         return (UByte) get(3);
     }
 
     /**
-     * Setter for <code>commons.property_key.owner_identifier</code>. 该属性的owner的id
+     * Setter for <code>foundation_commons.property_key.owner_identifier</code>. 该属性的owner的id
      */
     public void setOwnerIdentifier(ULong value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>commons.property_key.owner_identifier</code>. 该属性的owner的id
+     * Getter for <code>foundation_commons.property_key.owner_identifier</code>. 该属性的owner的id
      */
     public ULong getOwnerIdentifier() {
         return (ULong) get(4);
     }
 
     /**
-     * Setter for <code>commons.property_key.use</code>. 用途。比如用于属性模板；比如用于某个具体的商品的属性；比如用于系统的环境变量；比如用于任意的key/value pair
+     * Setter for <code>foundation_commons.property_key.use</code>. 用途。比如用于属性模板；比如用于某个具体的商品的属性；比如用于系统的环境变量；比如用于任意的key/value pair
      */
     public void setUse(UByte value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>commons.property_key.use</code>. 用途。比如用于属性模板；比如用于某个具体的商品的属性；比如用于系统的环境变量；比如用于任意的key/value pair
+     * Getter for <code>foundation_commons.property_key.use</code>. 用途。比如用于属性模板；比如用于某个具体的商品的属性；比如用于系统的环境变量；比如用于任意的key/value pair
      */
     public UByte getUse() {
         return (UByte) get(5);
     }
 
     /**
-     * Setter for <code>commons.property_key.create_time</code>.
+     * Setter for <code>foundation_commons.property_key.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>commons.property_key.create_time</code>.
+     * Getter for <code>foundation_commons.property_key.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(6);
     }
 
     /**
-     * Setter for <code>commons.property_key.create_user_id</code>.
+     * Setter for <code>foundation_commons.property_key.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>commons.property_key.create_user_id</code>.
+     * Getter for <code>foundation_commons.property_key.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(7);
     }
 
     /**
-     * Setter for <code>commons.property_key.last_modify_time</code>.
+     * Setter for <code>foundation_commons.property_key.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>commons.property_key.last_modify_time</code>.
+     * Getter for <code>foundation_commons.property_key.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(8);
     }
 
     /**
-     * Setter for <code>commons.property_key.last_modify_user_id</code>.
+     * Setter for <code>foundation_commons.property_key.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>commons.property_key.last_modify_user_id</code>.
+     * Getter for <code>foundation_commons.property_key.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(9);
     }
 
     /**
-     * Setter for <code>commons.property_key.is_deleted</code>.
+     * Setter for <code>foundation_commons.property_key.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>commons.property_key.is_deleted</code>.
+     * Getter for <code>foundation_commons.property_key.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(10);

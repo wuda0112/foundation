@@ -23,129 +23,129 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemDescriptionRecord extends UpdatableRecordImpl<ItemDescriptionRecord> implements Record9<ULong, ULong, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -1622211278;
+    private static final long serialVersionUID = 1632296630;
 
     /**
-     * Setter for <code>item.item_description.item_description_id</code>.
+     * Setter for <code>foundation_item.item_description.item_description_id</code>.
      */
     public void setItemDescriptionId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>item.item_description.item_description_id</code>.
+     * Getter for <code>foundation_item.item_description.item_description_id</code>.
      */
     public ULong getItemDescriptionId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>item.item_description.item_id</code>.
+     * Setter for <code>foundation_item.item_description.item_id</code>.
      */
     public void setItemId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>item.item_description.item_id</code>.
+     * Getter for <code>foundation_item.item_description.item_id</code>.
      */
     public ULong getItemId() {
         return (ULong) get(1);
     }
 
     /**
-     * Setter for <code>item.item_description.item_variation_id</code>.
+     * Setter for <code>foundation_item.item_description.item_variation_id</code>.
      */
     public void setItemVariationId(ULong value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>item.item_description.item_variation_id</code>.
+     * Getter for <code>foundation_item.item_description.item_variation_id</code>.
      */
     public ULong getItemVariationId() {
         return (ULong) get(2);
     }
 
     /**
-     * Setter for <code>item.item_description.content</code>. 描述内容
+     * Setter for <code>foundation_item.item_description.content</code>. 描述内容
      */
     public void setContent(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>item.item_description.content</code>. 描述内容
+     * Getter for <code>foundation_item.item_description.content</code>. 描述内容
      */
     public String getContent() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>item.item_description.create_time</code>.
+     * Setter for <code>foundation_item.item_description.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>item.item_description.create_time</code>.
+     * Getter for <code>foundation_item.item_description.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(4);
     }
 
     /**
-     * Setter for <code>item.item_description.create_user_id</code>.
+     * Setter for <code>foundation_item.item_description.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>item.item_description.create_user_id</code>.
+     * Getter for <code>foundation_item.item_description.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(5);
     }
 
     /**
-     * Setter for <code>item.item_description.last_modify_time</code>.
+     * Setter for <code>foundation_item.item_description.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>item.item_description.last_modify_time</code>.
+     * Getter for <code>foundation_item.item_description.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(6);
     }
 
     /**
-     * Setter for <code>item.item_description.last_modify_user_id</code>.
+     * Setter for <code>foundation_item.item_description.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>item.item_description.last_modify_user_id</code>.
+     * Getter for <code>foundation_item.item_description.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(7);
     }
 
     /**
-     * Setter for <code>item.item_description.is_deleted</code>.
+     * Setter for <code>foundation_item.item_description.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>item.item_description.is_deleted</code>.
+     * Getter for <code>foundation_item.item_description.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(8);

@@ -20,7 +20,7 @@ import org.jooq.types.ULong;
 
 /**
  * A class modelling foreign key relationships and constraints of tables of 
- * the <code>store</code> schema.
+ * the <code>foundation_store</code> schema.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Keys {
@@ -29,7 +29,7 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
-    public static final Identity<StoreRecord, ULong> IDENTITY_STORE_ = Identities0.IDENTITY_STORE_;
+    public static final Identity<StoreRecord, ULong> IDENTITY_STORE = Identities0.IDENTITY_STORE;
     public static final Identity<StoreGeneralRecord, ULong> IDENTITY_STORE_GENERAL = Identities0.IDENTITY_STORE_GENERAL;
     public static final Identity<StoreUserRelationshipRecord, ULong> IDENTITY_STORE_USER_RELATIONSHIP = Identities0.IDENTITY_STORE_USER_RELATIONSHIP;
 
@@ -51,13 +51,13 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class Identities0 {
-        public static Identity<StoreRecord, ULong> IDENTITY_STORE_ = Internal.createIdentity(Store.STORE_, Store.STORE_.STORE_ID);
+        public static Identity<StoreRecord, ULong> IDENTITY_STORE = Internal.createIdentity(Store.STORE, Store.STORE.STORE_ID);
         public static Identity<StoreGeneralRecord, ULong> IDENTITY_STORE_GENERAL = Internal.createIdentity(StoreGeneral.STORE_GENERAL, StoreGeneral.STORE_GENERAL.STORE_GENERAL_ID);
         public static Identity<StoreUserRelationshipRecord, ULong> IDENTITY_STORE_USER_RELATIONSHIP = Internal.createIdentity(StoreUserRelationship.STORE_USER_RELATIONSHIP, StoreUserRelationship.STORE_USER_RELATIONSHIP.ID);
     }
 
     private static class UniqueKeys0 {
-        public static final UniqueKey<StoreRecord> KEY_STORE_PRIMARY = Internal.createUniqueKey(Store.STORE_, "KEY_store_PRIMARY", new TableField[] { Store.STORE_.STORE_ID }, true);
+        public static final UniqueKey<StoreRecord> KEY_STORE_PRIMARY = Internal.createUniqueKey(Store.STORE, "KEY_store_PRIMARY", new TableField[] { Store.STORE.STORE_ID }, true);
         public static final UniqueKey<StoreGeneralRecord> KEY_STORE_GENERAL_PRIMARY = Internal.createUniqueKey(StoreGeneral.STORE_GENERAL, "KEY_store_general_PRIMARY", new TableField[] { StoreGeneral.STORE_GENERAL.STORE_GENERAL_ID }, true);
         public static final UniqueKey<StoreUserRelationshipRecord> KEY_STORE_USER_RELATIONSHIP_PRIMARY = Internal.createUniqueKey(StoreUserRelationship.STORE_USER_RELATIONSHIP, "KEY_store_user_relationship_PRIMARY", new TableField[] { StoreUserRelationship.STORE_USER_RELATIONSHIP.ID }, true);
     }

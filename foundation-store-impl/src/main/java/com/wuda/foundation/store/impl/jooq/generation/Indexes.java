@@ -13,7 +13,8 @@ import org.jooq.impl.Internal;
 
 
 /**
- * A class modelling indexes of tables of the <code>store</code> schema.
+ * A class modelling indexes of tables of the <code>foundation_store</code> 
+ * schema.
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Indexes {

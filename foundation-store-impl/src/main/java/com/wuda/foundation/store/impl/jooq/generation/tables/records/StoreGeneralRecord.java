@@ -22,115 +22,115 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class StoreGeneralRecord extends UpdatableRecordImpl<StoreGeneralRecord> implements Record8<ULong, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 968232198;
+    private static final long serialVersionUID = 1366171182;
 
     /**
-     * Setter for <code>store.store_general.store_general_id</code>.
+     * Setter for <code>foundation_store.store_general.store_general_id</code>.
      */
     public void setStoreGeneralId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>store.store_general.store_general_id</code>.
+     * Getter for <code>foundation_store.store_general.store_general_id</code>.
      */
     public ULong getStoreGeneralId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>store.store_general.store_id</code>. 主键
+     * Setter for <code>foundation_store.store_general.store_id</code>. 主键
      */
     public void setStoreId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>store.store_general.store_id</code>. 主键
+     * Getter for <code>foundation_store.store_general.store_id</code>. 主键
      */
     public ULong getStoreId() {
         return (ULong) get(1);
     }
 
     /**
-     * Setter for <code>store.store_general.store_name</code>. 店铺名称
+     * Setter for <code>foundation_store.store_general.store_name</code>. 店铺名称
      */
     public void setStoreName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>store.store_general.store_name</code>. 店铺名称
+     * Getter for <code>foundation_store.store_general.store_name</code>. 店铺名称
      */
     public String getStoreName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>store.store_general.create_time</code>.
+     * Setter for <code>foundation_store.store_general.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>store.store_general.create_time</code>.
+     * Getter for <code>foundation_store.store_general.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(3);
     }
 
     /**
-     * Setter for <code>store.store_general.create_user_id</code>.
+     * Setter for <code>foundation_store.store_general.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>store.store_general.create_user_id</code>.
+     * Getter for <code>foundation_store.store_general.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(4);
     }
 
     /**
-     * Setter for <code>store.store_general.last_modify_time</code>.
+     * Setter for <code>foundation_store.store_general.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>store.store_general.last_modify_time</code>.
+     * Getter for <code>foundation_store.store_general.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(5);
     }
 
     /**
-     * Setter for <code>store.store_general.last_modify_user_id</code>.
+     * Setter for <code>foundation_store.store_general.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>store.store_general.last_modify_user_id</code>.
+     * Getter for <code>foundation_store.store_general.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(6);
     }
 
     /**
-     * Setter for <code>store.store_general.is_deleted</code>.
+     * Setter for <code>foundation_store.store_general.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>store.store_general.is_deleted</code>.
+     * Getter for <code>foundation_store.store_general.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(7);

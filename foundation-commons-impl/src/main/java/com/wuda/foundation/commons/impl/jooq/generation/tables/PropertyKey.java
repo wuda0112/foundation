@@ -4,7 +4,7 @@
 package com.wuda.foundation.commons.impl.jooq.generation.tables;
 
 
-import com.wuda.foundation.commons.impl.jooq.generation.Commons;
+import com.wuda.foundation.commons.impl.jooq.generation.FoundationCommons;
 import com.wuda.foundation.commons.impl.jooq.generation.Keys;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyKeyRecord;
 
@@ -35,10 +35,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyKey extends TableImpl<PropertyKeyRecord> {
 
-    private static final long serialVersionUID = -888723135;
+    private static final long serialVersionUID = 1784418339;
 
     /**
-     * The reference instance of <code>commons.property_key</code>
+     * The reference instance of <code>foundation_commons.property_key</code>
      */
     public static final PropertyKey PROPERTY_KEY = new PropertyKey();
 
@@ -51,76 +51,76 @@ public class PropertyKey extends TableImpl<PropertyKeyRecord> {
     }
 
     /**
-     * The column <code>commons.property_key.property_key_id</code>.
+     * The column <code>foundation_commons.property_key.property_key_id</code>.
      */
     public final TableField<PropertyKeyRecord, ULong> PROPERTY_KEY_ID = createField(DSL.name("property_key_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>commons.property_key.key</code>. 属性名
+     * The column <code>foundation_commons.property_key.key</code>. 属性名
      */
     public final TableField<PropertyKeyRecord, String> KEY = createField(DSL.name("key"), org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "属性名");
 
     /**
-     * The column <code>commons.property_key.type</code>. 属性的类型，比如最常用的就是“字面量”类型；比如该属性表示图片，属性值保存图片的链接；比如该属性表示颜色，因为在一些应用中，可以使用调色盘选取颜色，或者在显示时，可以显示颜色，而不是白色这样的纯文本
+     * The column <code>foundation_commons.property_key.type</code>. 属性的类型，比如最常用的就是“字面量”类型；比如该属性表示图片，属性值保存图片的链接；比如该属性表示颜色，因为在一些应用中，可以使用调色盘选取颜色，或者在显示时，可以显示颜色，而不是白色这样的纯文本
      */
     public final TableField<PropertyKeyRecord, UByte> TYPE = createField(DSL.name("type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "属性的类型，比如最常用的就是“字面量”类型；比如该属性表示图片，属性值保存图片的链接；比如该属性表示颜色，因为在一些应用中，可以使用调色盘选取颜色，或者在显示时，可以显示颜色，而不是白色这样的纯文本");
 
     /**
-     * The column <code>commons.property_key.owner_type</code>. 该属性的owner的类型
+     * The column <code>foundation_commons.property_key.owner_type</code>. 该属性的owner的类型
      */
     public final TableField<PropertyKeyRecord, UByte> OWNER_TYPE = createField(DSL.name("owner_type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "该属性的owner的类型");
 
     /**
-     * The column <code>commons.property_key.owner_identifier</code>. 该属性的owner的id
+     * The column <code>foundation_commons.property_key.owner_identifier</code>. 该属性的owner的id
      */
     public final TableField<PropertyKeyRecord, ULong> OWNER_IDENTIFIER = createField(DSL.name("owner_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "该属性的owner的id");
 
     /**
-     * The column <code>commons.property_key.use</code>. 用途。比如用于属性模板；比如用于某个具体的商品的属性；比如用于系统的环境变量；比如用于任意的key/value pair
+     * The column <code>foundation_commons.property_key.use</code>. 用途。比如用于属性模板；比如用于某个具体的商品的属性；比如用于系统的环境变量；比如用于任意的key/value pair
      */
     public final TableField<PropertyKeyRecord, UByte> USE = createField(DSL.name("use"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "用途。比如用于属性模板；比如用于某个具体的商品的属性；比如用于系统的环境变量；比如用于任意的key/value pair");
 
     /**
-     * The column <code>commons.property_key.create_time</code>.
+     * The column <code>foundation_commons.property_key.create_time</code>.
      */
     public final TableField<PropertyKeyRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>commons.property_key.create_user_id</code>.
+     * The column <code>foundation_commons.property_key.create_user_id</code>.
      */
     public final TableField<PropertyKeyRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>commons.property_key.last_modify_time</code>.
+     * The column <code>foundation_commons.property_key.last_modify_time</code>.
      */
     public final TableField<PropertyKeyRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>commons.property_key.last_modify_user_id</code>.
+     * The column <code>foundation_commons.property_key.last_modify_user_id</code>.
      */
     public final TableField<PropertyKeyRecord, ULong> LAST_MODIFY_USER_ID = createField(DSL.name("last_modify_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>commons.property_key.is_deleted</code>.
+     * The column <code>foundation_commons.property_key.is_deleted</code>.
      */
     public final TableField<PropertyKeyRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>commons.property_key</code> table reference
+     * Create a <code>foundation_commons.property_key</code> table reference
      */
     public PropertyKey() {
         this(DSL.name("property_key"), null);
     }
 
     /**
-     * Create an aliased <code>commons.property_key</code> table reference
+     * Create an aliased <code>foundation_commons.property_key</code> table reference
      */
     public PropertyKey(String alias) {
         this(DSL.name(alias), PROPERTY_KEY);
     }
 
     /**
-     * Create an aliased <code>commons.property_key</code> table reference
+     * Create an aliased <code>foundation_commons.property_key</code> table reference
      */
     public PropertyKey(Name alias) {
         this(alias, PROPERTY_KEY);
@@ -140,7 +140,7 @@ public class PropertyKey extends TableImpl<PropertyKeyRecord> {
 
     @Override
     public Schema getSchema() {
-        return Commons.COMMONS;
+        return FoundationCommons.FOUNDATION_COMMONS;
     }
 
     @Override

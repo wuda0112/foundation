@@ -23,129 +23,129 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PhoneRecord extends UpdatableRecordImpl<PhoneRecord> implements Record9<ULong, String, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -831679482;
+    private static final long serialVersionUID = -1420240818;
 
     /**
-     * Setter for <code>commons.phone.phone_id</code>.
+     * Setter for <code>foundation_commons.phone.phone_id</code>.
      */
     public void setPhoneId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>commons.phone.phone_id</code>.
+     * Getter for <code>foundation_commons.phone.phone_id</code>.
      */
     public ULong getPhoneId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>commons.phone.number</code>. 电话号码
+     * Setter for <code>foundation_commons.phone.number</code>. 电话号码
      */
     public void setNumber(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>commons.phone.number</code>. 电话号码
+     * Getter for <code>foundation_commons.phone.number</code>. 电话号码
      */
     public String getNumber() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>commons.phone.type</code>. 电话类型。1-手机，2-固话。注意：不是用来区分【客服电话还是400电话】这种类型，这些属于业务，应该由具体的业务表关联到这个表。
+     * Setter for <code>foundation_commons.phone.type</code>. 电话类型。用于区分手机，-固话等。注意：不是用来区分【客服电话还是400电话】这种类型，这些属于业务，应该由具体的业务表关联到这个表。
      */
     public void setType(UByte value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>commons.phone.type</code>. 电话类型。1-手机，2-固话。注意：不是用来区分【客服电话还是400电话】这种类型，这些属于业务，应该由具体的业务表关联到这个表。
+     * Getter for <code>foundation_commons.phone.type</code>. 电话类型。用于区分手机，-固话等。注意：不是用来区分【客服电话还是400电话】这种类型，这些属于业务，应该由具体的业务表关联到这个表。
      */
     public UByte getType() {
         return (UByte) get(2);
     }
 
     /**
-     * Setter for <code>commons.phone.state</code>. 手机状态
+     * Setter for <code>foundation_commons.phone.state</code>. 手机状态
      */
     public void setState(UByte value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>commons.phone.state</code>. 手机状态
+     * Getter for <code>foundation_commons.phone.state</code>. 手机状态
      */
     public UByte getState() {
         return (UByte) get(3);
     }
 
     /**
-     * Setter for <code>commons.phone.create_time</code>.
+     * Setter for <code>foundation_commons.phone.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>commons.phone.create_time</code>.
+     * Getter for <code>foundation_commons.phone.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(4);
     }
 
     /**
-     * Setter for <code>commons.phone.create_user_id</code>.
+     * Setter for <code>foundation_commons.phone.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>commons.phone.create_user_id</code>.
+     * Getter for <code>foundation_commons.phone.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(5);
     }
 
     /**
-     * Setter for <code>commons.phone.last_modify_time</code>.
+     * Setter for <code>foundation_commons.phone.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>commons.phone.last_modify_time</code>.
+     * Getter for <code>foundation_commons.phone.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(6);
     }
 
     /**
-     * Setter for <code>commons.phone.last_modify_user_id</code>.
+     * Setter for <code>foundation_commons.phone.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>commons.phone.last_modify_user_id</code>.
+     * Getter for <code>foundation_commons.phone.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(7);
     }
 
     /**
-     * Setter for <code>commons.phone.is_deleted</code>.
+     * Setter for <code>foundation_commons.phone.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>commons.phone.is_deleted</code>.
+     * Getter for <code>foundation_commons.phone.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(8);

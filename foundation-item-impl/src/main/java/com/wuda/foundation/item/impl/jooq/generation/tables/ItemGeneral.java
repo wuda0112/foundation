@@ -4,8 +4,8 @@
 package com.wuda.foundation.item.impl.jooq.generation.tables;
 
 
+import com.wuda.foundation.item.impl.jooq.generation.FoundationItem;
 import com.wuda.foundation.item.impl.jooq.generation.Indexes;
-import com.wuda.foundation.item.impl.jooq.generation.Item;
 import com.wuda.foundation.item.impl.jooq.generation.Keys;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemGeneralRecord;
 
@@ -36,10 +36,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemGeneral extends TableImpl<ItemGeneralRecord> {
 
-    private static final long serialVersionUID = -1226513171;
+    private static final long serialVersionUID = 104115875;
 
     /**
-     * The reference instance of <code>item.item_general</code>
+     * The reference instance of <code>foundation_item.item_general</code>
      */
     public static final ItemGeneral ITEM_GENERAL = new ItemGeneral();
 
@@ -52,61 +52,61 @@ public class ItemGeneral extends TableImpl<ItemGeneralRecord> {
     }
 
     /**
-     * The column <code>item.item_general.item_general_id</code>.
+     * The column <code>foundation_item.item_general.item_general_id</code>.
      */
     public final TableField<ItemGeneralRecord, ULong> ITEM_GENERAL_ID = createField(DSL.name("item_general_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>item.item_general.item_id</code>.
+     * The column <code>foundation_item.item_general.item_id</code>.
      */
     public final TableField<ItemGeneralRecord, ULong> ITEM_ID = createField(DSL.name("item_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>item.item_general.name</code>.
+     * The column <code>foundation_item.item_general.name</code>.
      */
     public final TableField<ItemGeneralRecord, String> NAME = createField(DSL.name("name"), org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
-     * The column <code>item.item_general.create_time</code>.
+     * The column <code>foundation_item.item_general.create_time</code>.
      */
     public final TableField<ItemGeneralRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>item.item_general.create_user_id</code>.
+     * The column <code>foundation_item.item_general.create_user_id</code>.
      */
     public final TableField<ItemGeneralRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>item.item_general.last_modify_time</code>.
+     * The column <code>foundation_item.item_general.last_modify_time</code>.
      */
     public final TableField<ItemGeneralRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>item.item_general.last_modify_user_id</code>.
+     * The column <code>foundation_item.item_general.last_modify_user_id</code>.
      */
     public final TableField<ItemGeneralRecord, ULong> LAST_MODIFY_USER_ID = createField(DSL.name("last_modify_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>item.item_general.is_deleted</code>.
+     * The column <code>foundation_item.item_general.is_deleted</code>.
      */
     public final TableField<ItemGeneralRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>item.item_general</code> table reference
+     * Create a <code>foundation_item.item_general</code> table reference
      */
     public ItemGeneral() {
         this(DSL.name("item_general"), null);
     }
 
     /**
-     * Create an aliased <code>item.item_general</code> table reference
+     * Create an aliased <code>foundation_item.item_general</code> table reference
      */
     public ItemGeneral(String alias) {
         this(DSL.name(alias), ITEM_GENERAL);
     }
 
     /**
-     * Create an aliased <code>item.item_general</code> table reference
+     * Create an aliased <code>foundation_item.item_general</code> table reference
      */
     public ItemGeneral(Name alias) {
         this(alias, ITEM_GENERAL);
@@ -126,7 +126,7 @@ public class ItemGeneral extends TableImpl<ItemGeneralRecord> {
 
     @Override
     public Schema getSchema() {
-        return Item.ITEM;
+        return FoundationItem.FOUNDATION_ITEM;
     }
 
     @Override

@@ -4,6 +4,7 @@
 package com.wuda.foundation.item.impl.jooq.generation.tables;
 
 
+import com.wuda.foundation.item.impl.jooq.generation.FoundationItem;
 import com.wuda.foundation.item.impl.jooq.generation.Indexes;
 import com.wuda.foundation.item.impl.jooq.generation.Keys;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemRecord;
@@ -36,12 +37,12 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Item extends TableImpl<ItemRecord> {
 
-    private static final long serialVersionUID = 1821105814;
+    private static final long serialVersionUID = -1353635800;
 
     /**
-     * The reference instance of <code>item.item</code>
+     * The reference instance of <code>foundation_item.item</code>
      */
-    public static final Item ITEM_ = new Item();
+    public static final Item ITEM = new Item();
 
     /**
      * The class holding records for this type
@@ -52,69 +53,69 @@ public class Item extends TableImpl<ItemRecord> {
     }
 
     /**
-     * The column <code>item.item.item_id</code>.
+     * The column <code>foundation_item.item.item_id</code>.
      */
     public final TableField<ItemRecord, ULong> ITEM_ID = createField(DSL.name("item_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>item.item.store_id</code>. 所属店铺ID
+     * The column <code>foundation_item.item.store_id</code>. 所属店铺ID
      */
     public final TableField<ItemRecord, ULong> STORE_ID = createField(DSL.name("store_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "所属店铺ID");
 
     /**
-     * The column <code>item.item.type</code>. 商品类型 . 不同类型的商品, 保存到各自不同的表中. 参考 https://learnwoo.com/woocommerce-different-product-types/
+     * The column <code>foundation_item.item.type</code>. 商品类型 . 不同类型的商品, 保存到各自不同的表中. 参考 https://learnwoo.com/woocommerce-different-product-types/
      */
     public final TableField<ItemRecord, UByte> TYPE = createField(DSL.name("type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "商品类型 . 不同类型的商品, 保存到各自不同的表中. 参考 https://learnwoo.com/woocommerce-different-product-types/");
 
     /**
-     * The column <code>item.item.state</code>. 状态
+     * The column <code>foundation_item.item.state</code>. 状态
      */
     public final TableField<ItemRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "状态");
 
     /**
-     * The column <code>item.item.create_time</code>.
+     * The column <code>foundation_item.item.create_time</code>.
      */
     public final TableField<ItemRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>item.item.create_user_id</code>.
+     * The column <code>foundation_item.item.create_user_id</code>.
      */
     public final TableField<ItemRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>item.item.last_modify_time</code>.
+     * The column <code>foundation_item.item.last_modify_time</code>.
      */
     public final TableField<ItemRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>item.item.last_modify_user_id</code>.
+     * The column <code>foundation_item.item.last_modify_user_id</code>.
      */
     public final TableField<ItemRecord, ULong> LAST_MODIFY_USER_ID = createField(DSL.name("last_modify_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>item.item.is_deleted</code>.
+     * The column <code>foundation_item.item.is_deleted</code>.
      */
     public final TableField<ItemRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>item.item</code> table reference
+     * Create a <code>foundation_item.item</code> table reference
      */
     public Item() {
         this(DSL.name("item"), null);
     }
 
     /**
-     * Create an aliased <code>item.item</code> table reference
+     * Create an aliased <code>foundation_item.item</code> table reference
      */
     public Item(String alias) {
-        this(DSL.name(alias), ITEM_);
+        this(DSL.name(alias), ITEM);
     }
 
     /**
-     * Create an aliased <code>item.item</code> table reference
+     * Create an aliased <code>foundation_item.item</code> table reference
      */
     public Item(Name alias) {
-        this(alias, ITEM_);
+        this(alias, ITEM);
     }
 
     private Item(Name alias, Table<ItemRecord> aliased) {
@@ -126,12 +127,12 @@ public class Item extends TableImpl<ItemRecord> {
     }
 
     public <O extends Record> Item(Table<O> child, ForeignKey<O, ItemRecord> key) {
-        super(child, key, ITEM_);
+        super(child, key, ITEM);
     }
 
     @Override
     public Schema getSchema() {
-        return com.wuda.foundation.item.impl.jooq.generation.Item.ITEM;
+        return FoundationItem.FOUNDATION_ITEM;
     }
 
     @Override
@@ -141,7 +142,7 @@ public class Item extends TableImpl<ItemRecord> {
 
     @Override
     public Identity<ItemRecord, ULong> getIdentity() {
-        return Keys.IDENTITY_ITEM_;
+        return Keys.IDENTITY_ITEM;
     }
 
     @Override

@@ -39,7 +39,7 @@
 
     <profiles>
         <profile>
-            <id>dev</id>
+            <id>jooq-code-generate</id>
             <build>
                 <plugins>
                     <plugin>
@@ -78,7 +78,7 @@
                                     <!--<excludes></excludes>-->
 
                                     <!--数据库名称-->
-                                    <inputSchema>user</inputSchema>
+                                    <inputSchema>foundation_user</inputSchema>
                                 </database>
 
                                 <generate>

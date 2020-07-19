@@ -4,7 +4,7 @@
 package com.wuda.foundation.commons.impl.jooq.generation.tables;
 
 
-import com.wuda.foundation.commons.impl.jooq.generation.Commons;
+import com.wuda.foundation.commons.impl.jooq.generation.FoundationCommons;
 import com.wuda.foundation.commons.impl.jooq.generation.Keys;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PhoneRecord;
 
@@ -34,10 +34,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Phone extends TableImpl<PhoneRecord> {
 
-    private static final long serialVersionUID = 1086992207;
+    private static final long serialVersionUID = 1759418470;
 
     /**
-     * The reference instance of <code>commons.phone</code>
+     * The reference instance of <code>foundation_commons.phone</code>
      */
     public static final Phone PHONE = new Phone();
 
@@ -50,66 +50,66 @@ public class Phone extends TableImpl<PhoneRecord> {
     }
 
     /**
-     * The column <code>commons.phone.phone_id</code>.
+     * The column <code>foundation_commons.phone.phone_id</code>.
      */
     public final TableField<PhoneRecord, ULong> PHONE_ID = createField(DSL.name("phone_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>commons.phone.number</code>. 电话号码
+     * The column <code>foundation_commons.phone.number</code>. 电话号码
      */
     public final TableField<PhoneRecord, String> NUMBER = createField(DSL.name("number"), org.jooq.impl.SQLDataType.VARCHAR(20).nullable(false), this, "电话号码");
 
     /**
-     * The column <code>commons.phone.type</code>. 电话类型。1-手机，2-固话。注意：不是用来区分【客服电话还是400电话】这种类型，这些属于业务，应该由具体的业务表关联到这个表。
+     * The column <code>foundation_commons.phone.type</code>. 电话类型。用于区分手机，-固话等。注意：不是用来区分【客服电话还是400电话】这种类型，这些属于业务，应该由具体的业务表关联到这个表。
      */
-    public final TableField<PhoneRecord, UByte> TYPE = createField(DSL.name("type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "电话类型。1-手机，2-固话。注意：不是用来区分【客服电话还是400电话】这种类型，这些属于业务，应该由具体的业务表关联到这个表。");
+    public final TableField<PhoneRecord, UByte> TYPE = createField(DSL.name("type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "电话类型。用于区分手机，-固话等。注意：不是用来区分【客服电话还是400电话】这种类型，这些属于业务，应该由具体的业务表关联到这个表。");
 
     /**
-     * The column <code>commons.phone.state</code>. 手机状态
+     * The column <code>foundation_commons.phone.state</code>. 手机状态
      */
     public final TableField<PhoneRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "手机状态");
 
     /**
-     * The column <code>commons.phone.create_time</code>.
+     * The column <code>foundation_commons.phone.create_time</code>.
      */
     public final TableField<PhoneRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>commons.phone.create_user_id</code>.
+     * The column <code>foundation_commons.phone.create_user_id</code>.
      */
     public final TableField<PhoneRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>commons.phone.last_modify_time</code>.
+     * The column <code>foundation_commons.phone.last_modify_time</code>.
      */
     public final TableField<PhoneRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>commons.phone.last_modify_user_id</code>.
+     * The column <code>foundation_commons.phone.last_modify_user_id</code>.
      */
     public final TableField<PhoneRecord, ULong> LAST_MODIFY_USER_ID = createField(DSL.name("last_modify_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>commons.phone.is_deleted</code>.
+     * The column <code>foundation_commons.phone.is_deleted</code>.
      */
     public final TableField<PhoneRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>commons.phone</code> table reference
+     * Create a <code>foundation_commons.phone</code> table reference
      */
     public Phone() {
         this(DSL.name("phone"), null);
     }
 
     /**
-     * Create an aliased <code>commons.phone</code> table reference
+     * Create an aliased <code>foundation_commons.phone</code> table reference
      */
     public Phone(String alias) {
         this(DSL.name(alias), PHONE);
     }
 
     /**
-     * Create an aliased <code>commons.phone</code> table reference
+     * Create an aliased <code>foundation_commons.phone</code> table reference
      */
     public Phone(Name alias) {
         this(alias, PHONE);
@@ -129,7 +129,7 @@ public class Phone extends TableImpl<PhoneRecord> {
 
     @Override
     public Schema getSchema() {
-        return Commons.COMMONS;
+        return FoundationCommons.FOUNDATION_COMMONS;
     }
 
     @Override
@@ -139,7 +139,7 @@ public class Phone extends TableImpl<PhoneRecord> {
 
     @Override
     public List<UniqueKey<PhoneRecord>> getKeys() {
-        return Arrays.<UniqueKey<PhoneRecord>>asList(Keys.KEY_PHONE_PRIMARY, Keys.KEY_PHONE_IDX_PHONE_NUMBER);
+        return Arrays.<UniqueKey<PhoneRecord>>asList(Keys.KEY_PHONE_PRIMARY, Keys.KEY_PHONE_PHONE_ID, Keys.KEY_PHONE_IDX_PHONE_NUMBER);
     }
 
     @Override

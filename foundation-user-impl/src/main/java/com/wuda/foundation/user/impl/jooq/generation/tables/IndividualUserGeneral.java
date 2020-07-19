@@ -4,9 +4,9 @@
 package com.wuda.foundation.user.impl.jooq.generation.tables;
 
 
+import com.wuda.foundation.user.impl.jooq.generation.FoundationUser;
 import com.wuda.foundation.user.impl.jooq.generation.Indexes;
 import com.wuda.foundation.user.impl.jooq.generation.Keys;
-import com.wuda.foundation.user.impl.jooq.generation.User;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.IndividualUserGeneralRecord;
 
 import java.time.LocalDateTime;
@@ -36,10 +36,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IndividualUserGeneral extends TableImpl<IndividualUserGeneralRecord> {
 
-    private static final long serialVersionUID = -1366493699;
+    private static final long serialVersionUID = 1029680785;
 
     /**
-     * The reference instance of <code>user.individual_user_general</code>
+     * The reference instance of <code>foundation_user.individual_user_general</code>
      */
     public static final IndividualUserGeneral INDIVIDUAL_USER_GENERAL = new IndividualUserGeneral();
 
@@ -52,71 +52,71 @@ public class IndividualUserGeneral extends TableImpl<IndividualUserGeneralRecord
     }
 
     /**
-     * The column <code>user.individual_user_general.individual_user_general_id</code>.
+     * The column <code>foundation_user.individual_user_general.individual_user_general_id</code>.
      */
     public final TableField<IndividualUserGeneralRecord, ULong> INDIVIDUAL_USER_GENERAL_ID = createField(DSL.name("individual_user_general_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>user.individual_user_general.user_id</code>.
+     * The column <code>foundation_user.individual_user_general.user_id</code>.
      */
     public final TableField<IndividualUserGeneralRecord, ULong> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.individual_user_general.nickname</code>. 昵称
+     * The column <code>foundation_user.individual_user_general.nickname</code>. 昵称
      */
     public final TableField<IndividualUserGeneralRecord, String> NICKNAME = createField(DSL.name("nickname"), org.jooq.impl.SQLDataType.VARCHAR(20), this, "昵称");
 
     /**
-     * The column <code>user.individual_user_general.biography</code>. 个人简介。简短的介绍
+     * The column <code>foundation_user.individual_user_general.biography</code>. 个人简介。简短的介绍
      */
     public final TableField<IndividualUserGeneralRecord, String> BIOGRAPHY = createField(DSL.name("biography"), org.jooq.impl.SQLDataType.VARCHAR(128), this, "个人简介。简短的介绍");
 
     /**
-     * The column <code>user.individual_user_general.picture</code>. 用户图像。保存的是图片地址。命名来源：github
+     * The column <code>foundation_user.individual_user_general.picture</code>. 用户图像。保存的是图片地址。命名来源：github
      */
     public final TableField<IndividualUserGeneralRecord, String> PICTURE = createField(DSL.name("picture"), org.jooq.impl.SQLDataType.VARCHAR(45), this, "用户图像。保存的是图片地址。命名来源：github");
 
     /**
-     * The column <code>user.individual_user_general.create_time</code>.
+     * The column <code>foundation_user.individual_user_general.create_time</code>.
      */
     public final TableField<IndividualUserGeneralRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>user.individual_user_general.create_user_id</code>.
+     * The column <code>foundation_user.individual_user_general.create_user_id</code>.
      */
     public final TableField<IndividualUserGeneralRecord, ULong> CREATE_USER_ID = createField(DSL.name("create_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.individual_user_general.last_modify_time</code>.
+     * The column <code>foundation_user.individual_user_general.last_modify_time</code>.
      */
     public final TableField<IndividualUserGeneralRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
-     * The column <code>user.individual_user_general.last_modify_user_id</code>.
+     * The column <code>foundation_user.individual_user_general.last_modify_user_id</code>.
      */
     public final TableField<IndividualUserGeneralRecord, ULong> LAST_MODIFY_USER_ID = createField(DSL.name("last_modify_user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>user.individual_user_general.is_deleted</code>.
+     * The column <code>foundation_user.individual_user_general.is_deleted</code>.
      */
     public final TableField<IndividualUserGeneralRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
-     * Create a <code>user.individual_user_general</code> table reference
+     * Create a <code>foundation_user.individual_user_general</code> table reference
      */
     public IndividualUserGeneral() {
         this(DSL.name("individual_user_general"), null);
     }
 
     /**
-     * Create an aliased <code>user.individual_user_general</code> table reference
+     * Create an aliased <code>foundation_user.individual_user_general</code> table reference
      */
     public IndividualUserGeneral(String alias) {
         this(DSL.name(alias), INDIVIDUAL_USER_GENERAL);
     }
 
     /**
-     * Create an aliased <code>user.individual_user_general</code> table reference
+     * Create an aliased <code>foundation_user.individual_user_general</code> table reference
      */
     public IndividualUserGeneral(Name alias) {
         this(alias, INDIVIDUAL_USER_GENERAL);
@@ -136,7 +136,7 @@ public class IndividualUserGeneral extends TableImpl<IndividualUserGeneralRecord
 
     @Override
     public Schema getSchema() {
-        return User.USER;
+        return FoundationUser.FOUNDATION_USER;
     }
 
     @Override

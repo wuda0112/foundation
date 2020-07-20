@@ -42,7 +42,53 @@ public interface JooqCommonDbOp {
     }
 
     /**
-     * 执行insert into ... select ... from where not exists语句.
+     * 先查询数据库中是否存在,如果不存在再执行插入操作.
+     *
+     * @param dataSource             datasource
+     * @param table                  操作的表
+     * @param existsRecordSelector   用于查询已经存在的记录,只能查询出一条,如果查询出多条记录会抛出异常
+     * @param insertIntoSelectFields 如果记录不存在,则使用这些字段新增一条记录,即insert into ...select fields语法的select fields.
+     * @param <R>                    被操作的记录的类型
+     * @return 如果已经存在, 则返回<code>null</code>; 否则返回新增记录的ID
+     */
+    default <R extends Record> Long insertAfterSelectCheck(DataSource dataSource,
+                                                           Table<R> table,
+                                                           SelectSelectStep<R> insertIntoSelectFields,
+                                                           SelectConditionStep<R> existsRecordSelector,
+                                                           TableField<R, ULong> idColumn) {
+
+        R existsRecord = existsRecordSelector.fetchOne();
+        if (existsRecord != null) {
+            return existsRecord.get(idColumn).longValue();
+        }
+        return insert(dataSource, table, insertIntoSelectFields, idColumn);
+    }
+
+    /**
+     * 直接插入数据库.
+     *
+     * @param dataSource             datasource
+     * @param table                  操作的表
+     * @param insertIntoSelectFields 如果记录不存在,则使用这些字段新增一条记录,即insert into ...select fields语法的select fields.
+     * @param <R>                    被操作的记录的类型
+     * @return 返回新增记录的ID
+     */
+    default <R extends Record> Long insert(DataSource dataSource,
+                                           Table<R> table,
+                                           SelectSelectStep<R> insertIntoSelectFields,
+                                           TableField<R, ULong> idColumn) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
+        InsertOnDuplicateStep<R> insertSetStep = dslContext.insertInto(table)
+                .select(
+                        insertIntoSelectFields
+                );
+        InsertResultStep<R> insertResultStep = insertSetStep.returning(idColumn);
+        R r = insertResultStep.fetchOne();
+        return r.get(idColumn).longValue();
+    }
+
+    /**
+     * 执行insert into ... select ... from dual where not exists语句.
      *
      * @param dataSource             datasource
      * @param table                  操作的表
@@ -68,10 +114,10 @@ public interface JooqCommonDbOp {
                 );
         InsertResultStep<R> insertResultStep = insertSetStep.returning(idColumn);
         R r = insertResultStep.fetchOne();
-        if (r != null) {
-            return r.get(idColumn).longValue();
+        if (r == null) {
+            r = existsRecordSelector.fetchOne();
         }
-        return null;
+        return r.get(idColumn).longValue();
     }
 
 }

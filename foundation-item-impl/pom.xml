@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>foundation</artifactId>
-        <groupId>com.wuda0112</groupId>
-        <version>1.0.1-SNAPSHOT</version>
+        <groupId>io.github.wuda0112</groupId>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -11,13 +11,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.wuda0112</groupId>
+            <groupId>io.github.wuda0112</groupId>
             <artifactId>foundation-jooq</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.wuda0112</groupId>
+            <groupId>io.github.wuda0112</groupId>
             <artifactId>foundation-item</artifactId>
             <version>${project.version}</version>
         </dependency>

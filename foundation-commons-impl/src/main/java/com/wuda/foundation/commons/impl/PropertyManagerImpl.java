@@ -10,9 +10,10 @@ import com.wuda.foundation.commons.property.PropertyKeyUse;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.DataType;
-import com.wuda.foundation.lang.identify.Identifier;
+import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.datatype.MySQLDataTypes;
+import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -47,7 +48,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     }
 
     @Override
-    protected long createPropertyKeyDbOp(Identifier<Long> owner, String key, PropertyKeyType propertyKeyType, PropertyKeyUse propertyKeyUse, KeyGenerator<Long> keyGenerator, Long opUserId) {
+    protected long createPropertyKeyDbOp(Identifier<Long> owner, String key, PropertyKeyType propertyKeyType, PropertyKeyUse propertyKeyUse, InsertMode insertMode, KeyGenerator<Long> keyGenerator, Long opUserId) {
         Long propertyKeyId = keyGenerator.next();
         LocalDateTime now = LocalDateTime.now();
         Configuration configuration = JooqContext.getConfiguration(dataSource);
@@ -55,7 +56,8 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                 .selectFrom(PROPERTY_KEY)
                 .where(PROPERTY_KEY.OWNER_TYPE.eq(UByte.valueOf(owner.getType().getCode())))
                 .and(PROPERTY_KEY.OWNER_IDENTIFIER.eq(ULong.valueOf(owner.getValue())))
-                .and(PROPERTY_KEY.KEY.eq(key));
+                .and(PROPERTY_KEY.KEY.eq(key))
+                .and(PROPERTY_KEY.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
         SelectField[] selectFields = new SelectField[]{
                 param(PROPERTY_KEY.PROPERTY_KEY_ID.getName(), ULong.valueOf(propertyKeyId)),
                 param(PROPERTY_KEY.KEY.getName(), key),
@@ -69,10 +71,20 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                 param(PROPERTY_KEY.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
                 param(PROPERTY_KEY.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))};
         SelectSelectStep insertIntoSelectFields = select(selectFields);
-        Long id = insertIfNotExists(dataSource, PROPERTY_KEY, insertIntoSelectFields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
-        if (id == null) {
-            PropertyKeyRecord propertyKeyRecord = existsRecordSelector.fetchOne();
-            id = propertyKeyRecord.get(PROPERTY_KEY.PROPERTY_KEY_ID).longValue();
+        Long id;
+        switch (insertMode) {
+            case DIRECT:
+                id = insert(dataSource, PROPERTY_KEY, insertIntoSelectFields, PROPERTY_KEY.PROPERTY_KEY_ID);
+                break;
+            case INSERT_AFTER_SELECT_CHECK:
+                id = insertAfterSelectCheck(dataSource, PROPERTY_KEY, insertIntoSelectFields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
+                break;
+            case INSERT_WHERE_NOT_EXISTS:
+                id = insertIfNotExists(dataSource, PROPERTY_KEY, insertIntoSelectFields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
+                break;
+            default:
+                id = insertAfterSelectCheck(dataSource, PROPERTY_KEY, insertIntoSelectFields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
+                break;
         }
         return id;
     }

@@ -19,7 +19,7 @@
         <module>foundation-security-impl</module>
     </modules>
 
-    <groupId>com.wuda0112</groupId>
+    <groupId>io.github.wuda0112</groupId>
     <artifactId>foundation</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 

@@ -1,5 +1,6 @@
 package com.wuda.foundation.commons.property;
 
+import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
 
@@ -37,11 +38,12 @@ public interface PropertyManager {
      * @param key             key
      * @param propertyKeyType {@link PropertyKeyType}
      * @param propertyKeyUse  {@link PropertyKeyUse}
+     * @param insertMode      数据插入模式
      * @param keyGenerator    主键生成器
      * @param opUserId        操作人用户ID,是谁正在添加这个店铺的基本信息
      * @return 如果owner已经拥有这样的key, 则返回已经存在的property key id;如果不存在,则返回新创建的记录的id
      */
-    long createPropertyKey(Identifier<Long> owner, String key, PropertyKeyType propertyKeyType, PropertyKeyUse propertyKeyUse, KeyGenerator<Long> keyGenerator, Long opUserId);
+    long createPropertyKey(Identifier<Long> owner, String key, PropertyKeyType propertyKeyType, PropertyKeyUse propertyKeyUse, InsertMode insertMode, KeyGenerator<Long> keyGenerator, Long opUserId);
 
     /**
      * 如果给定的property key已经有给定的value,则不执行任何操作;如果没有,就需要分情况处理:

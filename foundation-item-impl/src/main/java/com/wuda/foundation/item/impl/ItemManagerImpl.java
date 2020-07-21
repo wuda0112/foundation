@@ -13,9 +13,8 @@ import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
 import org.jooq.Configuration;
+import org.jooq.Field;
 import org.jooq.SelectConditionStep;
-import org.jooq.SelectField;
-import org.jooq.SelectSelectStep;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
@@ -26,7 +25,6 @@ import java.util.function.Consumer;
 
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemDescription.ITEM_DESCRIPTION;
 import static org.jooq.impl.DSL.param;
-import static org.jooq.impl.DSL.select;
 
 public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDbOp {
 
@@ -117,7 +115,7 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
                 .selectFrom(ITEM_DESCRIPTION)
                 .where(ITEM_DESCRIPTION.ITEM_ID.eq(ULong.valueOf(itemId)))
                 .and(ITEM_DESCRIPTION.ITEM_VARIATION_ID.eq(ULong.valueOf(itemVariationId)));
-        SelectField[] selectFields = new SelectField[]{
+        Field[] fields = new Field[]{
                 param(ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID.getName(), ULong.valueOf(itemDescriptionId)),
                 param(ITEM_DESCRIPTION.ITEM_ID.getName(), ULong.valueOf(itemId)),
                 param(ITEM_DESCRIPTION.ITEM_VARIATION_ID.getName(), ULong.valueOf(itemVariationId)),
@@ -127,11 +125,10 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
                 param(ITEM_DESCRIPTION.LAST_MODIFY_TIME.getName(), now),
                 param(ITEM_DESCRIPTION.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
                 param(ITEM_DESCRIPTION.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))};
-        SelectSelectStep insertIntoSelectFields = select(selectFields);
 
         Consumer<ItemDescriptionRecord> existsRecordUpdateAction = itemDescriptionRecord -> {
             updateDescriptionDbOp(itemDescriptionRecord.getItemDescriptionId().longValue(), description, opUserId);
         };
-        return insertOrUpdate(dataSource, ITEM_DESCRIPTION, insertIntoSelectFields, existsRecordSelector, existsRecordUpdateAction, ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID);
+        return insertOrUpdate(dataSource, ITEM_DESCRIPTION, fields, existsRecordSelector, existsRecordUpdateAction, ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID);
     }
 }

@@ -25,7 +25,6 @@ import java.util.Set;
 import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAction.PERMISSION_ACTION;
 import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionTarget.PERMISSION_TARGET;
 import static org.jooq.impl.DSL.param;
-import static org.jooq.impl.DSL.select;
 
 public class PermissionManagerImpl extends AbstractPermissionManager implements JooqCommonDbOp {
 
@@ -46,7 +45,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
                 .and(PERMISSION_TARGET.REFERENCED_TYPE.eq(UByte.valueOf(target.getReferencedIdentifier().getType().getCode())))
                 .and(PERMISSION_TARGET.REFERENCED_IDENTIFIER.eq(ULong.valueOf(target.getReferencedIdentifier().getValue())))
                 .and(PERMISSION_TARGET.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        SelectField[] selectFields = new SelectField[]{
+        Field[] fields = new Field[]{
                 param(PERMISSION_TARGET.PERMISSION_TARGET_ID.getName(), ULong.valueOf(target.getId())),
                 param(PERMISSION_TARGET.PERMISSION_CATEGORY_ID.getName(), ULong.valueOf(target.getCategoryId())),
                 param(PERMISSION_TARGET.NAME.getName(), target.getName()),
@@ -59,8 +58,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
                 param(PERMISSION_TARGET.LAST_MODIFY_TIME.getName(), now),
                 param(PERMISSION_TARGET.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
                 param(PERMISSION_TARGET.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))};
-        SelectSelectStep insertIntoSelectFields = select(selectFields);
-        Long id = insertIfNotExists(dataSource, PERMISSION_TARGET, insertIntoSelectFields, existsRecordSelector, PERMISSION_TARGET.PERMISSION_TARGET_ID);
+        Long id = insertIfNotExists(dataSource, PERMISSION_TARGET, fields, existsRecordSelector, PERMISSION_TARGET.PERMISSION_TARGET_ID);
         if (id == null) {
             PermissionTargetRecord permissionTargetRecord = existsRecordSelector.fetchOne();
             id = permissionTargetRecord.get(PERMISSION_TARGET.PERMISSION_TARGET_ID).longValue();
@@ -77,7 +75,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
                 .selectFrom(PERMISSION_ACTION)
                 .where(PERMISSION_ACTION.PERMISSION_TARGET_ID.eq(ULong.valueOf(action.getPermissionTargetId())))
                 .and(PERMISSION_ACTION.NAME.eq(action.getName().getCode()));
-        SelectField[] selectFields = new SelectField[]{
+        Field[] fields = new Field[]{
                 param(PERMISSION_ACTION.PERMISSION_ACTION_ID.getName(), ULong.valueOf(action.getId())),
                 param(PERMISSION_ACTION.PERMISSION_TARGET_ID.getName(), ULong.valueOf(action.getPermissionTargetId())),
                 param(PERMISSION_ACTION.NAME.getName(), action.getName().getCode()),
@@ -89,8 +87,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
                 param(PERMISSION_ACTION.LAST_MODIFY_TIME.getName(), now),
                 param(PERMISSION_ACTION.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
                 param(PERMISSION_ACTION.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))};
-        SelectSelectStep insertIntoSelectFields = select(selectFields);
-        Long id = insertIfNotExists(dataSource, PERMISSION_ACTION, insertIntoSelectFields, existsRecordSelector, PERMISSION_ACTION.PERMISSION_ACTION_ID);
+        Long id = insertIfNotExists(dataSource, PERMISSION_ACTION, fields, existsRecordSelector, PERMISSION_ACTION.PERMISSION_ACTION_ID);
         if (id == null) {
             PermissionActionRecord permissionActionRecord = existsRecordSelector.fetchOne();
             id = permissionActionRecord.get(PERMISSION_ACTION.PERMISSION_ACTION_ID).longValue();

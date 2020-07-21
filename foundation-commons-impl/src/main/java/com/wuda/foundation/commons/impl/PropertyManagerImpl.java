@@ -58,7 +58,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                 .and(PROPERTY_KEY.OWNER_IDENTIFIER.eq(ULong.valueOf(owner.getValue())))
                 .and(PROPERTY_KEY.KEY.eq(key))
                 .and(PROPERTY_KEY.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        SelectField[] selectFields = new SelectField[]{
+        Field[] fields = new Field[]{
                 param(PROPERTY_KEY.PROPERTY_KEY_ID.getName(), ULong.valueOf(propertyKeyId)),
                 param(PROPERTY_KEY.KEY.getName(), key),
                 param(PROPERTY_KEY.TYPE.getName(), UByte.valueOf(propertyKeyType.getCode())),
@@ -69,21 +69,21 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                 param(PROPERTY_KEY.CREATE_USER_ID.getName(), ULong.valueOf(opUserId)),
                 param(PROPERTY_KEY.LAST_MODIFY_TIME.getName(), now),
                 param(PROPERTY_KEY.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(PROPERTY_KEY.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))};
-        SelectSelectStep insertIntoSelectFields = select(selectFields);
+                param(PROPERTY_KEY.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))
+        };
         Long id;
         switch (insertMode) {
             case DIRECT:
-                id = insert(dataSource, PROPERTY_KEY, insertIntoSelectFields, PROPERTY_KEY.PROPERTY_KEY_ID);
+                id = insert(dataSource, PROPERTY_KEY, fields, PROPERTY_KEY.PROPERTY_KEY_ID);
                 break;
             case INSERT_AFTER_SELECT_CHECK:
-                id = insertAfterSelectCheck(dataSource, PROPERTY_KEY, insertIntoSelectFields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
+                id = insertAfterSelectCheck(dataSource, PROPERTY_KEY, fields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
                 break;
             case INSERT_WHERE_NOT_EXISTS:
-                id = insertIfNotExists(dataSource, PROPERTY_KEY, insertIntoSelectFields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
+                id = insertIfNotExists(dataSource, PROPERTY_KEY, fields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
                 break;
             default:
-                id = insertAfterSelectCheck(dataSource, PROPERTY_KEY, insertIntoSelectFields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
+                id = insertAfterSelectCheck(dataSource, PROPERTY_KEY, fields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
                 break;
         }
         return id;

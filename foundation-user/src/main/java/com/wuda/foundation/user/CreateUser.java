@@ -16,7 +16,6 @@ public class CreateUser {
     private Long id;
     private UserType userType;
     private UserState userState;
-    private CreateUserAccount userAccount;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -64,10 +63,6 @@ public class CreateUser {
             createUser.id = Objects.requireNonNull(this.id);
             createUser.userType = Objects.requireNonNull(this.userType);
             createUser.userState = Objects.requireNonNull(this.userState);
-            createUser.userAccount = Objects.requireNonNull(this.userAccount);
-            if (!createUser.id.equals(userAccount.getUserId())) {
-                throw new IllegalStateException("用户Id不一致");
-            }
             return createUser;
         }
     }

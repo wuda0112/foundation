@@ -1,6 +1,8 @@
 package com.wuda.foundation.commons;
 
-import com.wuda.foundation.lang.PhoneState;
+import com.wuda.foundation.lang.InsertMode;
+
+import java.util.List;
 
 /**
  * phone manager.
@@ -10,13 +12,21 @@ import com.wuda.foundation.lang.PhoneState;
 public interface PhoneManager {
 
     /**
-     * 添加手机.
+     * 添加phone.
      *
-     * @param phoneNumber    phone number
-     * @param phoneState phone state
-     * @param phoneType  phone type
-     * @param opUserId 操作人用户ID,是谁正在添加这个新用户
-     * @return phone id
+     * @param createPhone phone
+     * @param insertMode  insert mode
+     * @param opUserId    操作人用户ID
+     * @return 记录的ID, 虽然设置了ID, 但是如果数据库中已经存在相同的phone,
+     * 并且insert mode 是先检查,则返回的是已有记录的ID;如果数据库中不存在,则返回新增记录的ID
      */
-    long addPhone(String phoneNumber, PhoneState phoneState, PhoneType phoneType, Long opUserId);
+    Long createPhone(CreatePhone createPhone, InsertMode insertMode, Long opUserId);
+
+    /**
+     * 批量添加phone.
+     *
+     * @param phones   phone
+     * @param opUserId 操作人用户ID
+     */
+    void createPhone(List<CreatePhone> phones, Long opUserId);
 }

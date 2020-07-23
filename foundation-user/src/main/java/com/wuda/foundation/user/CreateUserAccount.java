@@ -1,9 +1,9 @@
 package com.wuda.foundation.user;
 
-import com.wuda.foundation.lang.identify.Identifier;
+import com.wuda.foundation.commons.CreateEmail;
+import com.wuda.foundation.commons.CreatePhone;
 import lombok.Getter;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -17,7 +17,7 @@ public class CreateUserAccount {
 
     private Long id;
     private Long userId;
-    private List<Identifier<String>> principals;
+    private String username;
     private String password;
     private UserAccountState state;
 
@@ -37,7 +37,9 @@ public class CreateUserAccount {
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateUserAccount> {
         private Long id;
         private Long userId;
-        private List<Identifier<String>> principals;
+        private String username;
+        private CreateEmail email;
+        private CreatePhone phone;
         private String password;
         private UserAccountState state;
 
@@ -51,8 +53,18 @@ public class CreateUserAccount {
             return this;
         }
 
-        public Builder setPrincipals(List<Identifier<String>> principals) {
-            this.principals = principals;
+        public Builder setUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Builder setEmail(CreateEmail email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder setPhone(CreatePhone phone) {
+            this.phone = phone;
             return this;
         }
 
@@ -71,7 +83,7 @@ public class CreateUserAccount {
             CreateUserAccount createUserAccount = new CreateUserAccount();
             createUserAccount.id = Objects.requireNonNull(id);
             createUserAccount.userId = Objects.requireNonNull(userId);
-            createUserAccount.principals = Objects.requireNonNull(this.principals);
+            createUserAccount.username = Objects.requireNonNull(this.username);
             createUserAccount.password = Objects.requireNonNull(this.password);
             createUserAccount.state = Objects.requireNonNull(this.state);
             return createUserAccount;

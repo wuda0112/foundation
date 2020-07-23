@@ -1,5 +1,7 @@
 package com.wuda.foundation.user;
 
+import com.wuda.foundation.lang.UniqueCodeDescriptorSchema;
+
 /**
  * 内置state.
  *
@@ -18,7 +20,7 @@ public enum BuiltinUserEmailState implements UserEmailState {
     }
 
     @Override
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 

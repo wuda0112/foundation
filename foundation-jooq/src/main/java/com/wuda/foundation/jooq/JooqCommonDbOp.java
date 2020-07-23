@@ -1,5 +1,6 @@
 package com.wuda.foundation.jooq;
 
+import com.wuda.foundation.lang.InsertMode;
 import org.jooq.*;
 import org.jooq.types.ULong;
 
@@ -21,7 +22,7 @@ public interface JooqCommonDbOp {
      *
      * @param dataSource               datasource
      * @param table                    操作的表
-     * @param fields   如果记录不存在,则使用这些字段新增一条记录
+     * @param fields                   如果记录不存在,则使用这些字段新增一条记录
      * @param existsRecordSelector     用于查询准备更新的记录,只能查询出一条,如果查询出多条记录会抛出异常
      * @param existsRecordUpdateAction 如果记录存在,则用于更新selector查询出的那条记录
      * @param idColumn                 该记录的id列,用于返回记录的ID
@@ -84,7 +85,20 @@ public interface JooqCommonDbOp {
                 .values(fields);
         InsertResultStep<R> insertResultStep = insertSetStep.returning(idColumn);
         R r = insertResultStep.fetchOne();
+        if (r == null) {
+            Field<ULong> idField = find(fields,idColumn);
+            r = dslContext.selectFrom(table).where(idColumn.eq(idField)).fetchOne();
+        }
         return r.get(idColumn).longValue();
+    }
+
+    default <R extends Record> Field find(Field[] fields, TableField<R, ULong> idColumn) {
+        for (Field field : fields) {
+            if (field.getName().equals(idColumn.getName())) {
+                return field;
+            }
+        }
+        return null;
     }
 
     /**
@@ -119,6 +133,40 @@ public interface JooqCommonDbOp {
             r = existsRecordSelector.fetchOne();
         }
         return r.get(idColumn).longValue();
+    }
+
+    /**
+     * 执行insert into语句,根据{@link InsertMode}不同,执行的方式也不同.
+     *
+     * @param dataSource           datasource
+     * @param table                操作的表
+     * @param existsRecordSelector 用于查询已经存在的记录,只能查询出一条,如果查询出多条记录会抛出异常
+     * @param fields               如果记录不存在,则使用这些字段新增一条记录,即insert into ...select fields语法的select fields.
+     * @param <R>                  被操作的记录的类型
+     * @return 如果已经存在, 则返回<code>null</code>; 否则返回新增记录的ID
+     */
+    default <R extends Record> Long insertDispatcher(DataSource dataSource,
+                                                     InsertMode insertMode,
+                                                     Table<R> table,
+                                                     Field[] fields,
+                                                     SelectConditionStep<R> existsRecordSelector,
+                                                     TableField<R, ULong> idColumn) {
+        long id;
+        switch (insertMode) {
+            case DIRECT:
+                id = insert(dataSource, table, fields, idColumn);
+                break;
+            case INSERT_AFTER_SELECT_CHECK:
+                id = insertAfterSelectCheck(dataSource, table, fields, existsRecordSelector, idColumn);
+                break;
+            case INSERT_WHERE_NOT_EXISTS:
+                id = insertIfNotExists(dataSource, table, fields, existsRecordSelector, idColumn);
+                break;
+            default:
+                id = insertAfterSelectCheck(dataSource, table, fields, existsRecordSelector, idColumn);
+                break;
+        }
+        return id;
     }
 
 }

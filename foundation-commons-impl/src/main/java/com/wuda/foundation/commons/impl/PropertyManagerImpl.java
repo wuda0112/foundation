@@ -15,7 +15,10 @@ import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.datatype.MySQLDataTypes;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
-import org.jooq.*;
+import org.jooq.Configuration;
+import org.jooq.DSLContext;
+import org.jooq.Field;
+import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
@@ -26,7 +29,6 @@ import java.util.List;
 
 import static com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKey.PROPERTY_KEY;
 import static org.jooq.impl.DSL.param;
-import static org.jooq.impl.DSL.select;
 
 public class PropertyManagerImpl extends AbstractPropertyManager implements JooqCommonDbOp {
     private DataSource dataSource;
@@ -71,22 +73,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                 param(PROPERTY_KEY.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
                 param(PROPERTY_KEY.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))
         };
-        Long id;
-        switch (insertMode) {
-            case DIRECT:
-                id = insert(dataSource, PROPERTY_KEY, fields, PROPERTY_KEY.PROPERTY_KEY_ID);
-                break;
-            case INSERT_AFTER_SELECT_CHECK:
-                id = insertAfterSelectCheck(dataSource, PROPERTY_KEY, fields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
-                break;
-            case INSERT_WHERE_NOT_EXISTS:
-                id = insertIfNotExists(dataSource, PROPERTY_KEY, fields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
-                break;
-            default:
-                id = insertAfterSelectCheck(dataSource, PROPERTY_KEY, fields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
-                break;
-        }
-        return id;
+        return insertDispatcher(dataSource, insertMode, PROPERTY_KEY, fields, existsRecordSelector, PROPERTY_KEY.PROPERTY_KEY_ID);
     }
 
     @Override

@@ -86,15 +86,23 @@ public interface JooqCommonDbOp {
         InsertResultStep<R> insertResultStep = insertSetStep.returning(idColumn);
         R r = insertResultStep.fetchOne();
         if (r == null) {
-            Field<ULong> idField = find(fields,idColumn);
+            Field<ULong> idField = find(fields, idColumn);
             r = dslContext.selectFrom(table).where(idColumn.eq(idField)).fetchOne();
         }
         return r.get(idColumn).longValue();
     }
 
-    default <R extends Record> Field find(Field[] fields, TableField<R, ULong> idColumn) {
+    /**
+     * 从给定的fields中找寻.
+     *
+     * @param fields 代查找的fields
+     * @param seek   查找的field
+     * @param <R>    record的类型
+     * @return 如果找到则返回, 找不到则返回<code>null</code>
+     */
+    default <R extends Record> Field find(Field[] fields, TableField<R, ULong> seek) {
         for (Field field : fields) {
-            if (field.getName().equals(idColumn.getName())) {
+            if (field.getName().equals(seek.getName())) {
                 return field;
             }
         }

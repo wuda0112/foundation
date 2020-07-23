@@ -31,6 +31,8 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
+    public static final Identity<EmailRecord, ULong> IDENTITY_EMAIL = Identities0.IDENTITY_EMAIL;
+    public static final Identity<PhoneRecord, ULong> IDENTITY_PHONE = Identities0.IDENTITY_PHONE;
     public static final Identity<PropertyKeyRecord, ULong> IDENTITY_PROPERTY_KEY = Identities0.IDENTITY_PROPERTY_KEY;
 
     // -------------------------------------------------------------------------
@@ -58,6 +60,8 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class Identities0 {
+        public static Identity<EmailRecord, ULong> IDENTITY_EMAIL = Internal.createIdentity(Email.EMAIL, Email.EMAIL.EMAIL_ID);
+        public static Identity<PhoneRecord, ULong> IDENTITY_PHONE = Internal.createIdentity(Phone.PHONE, Phone.PHONE.PHONE_ID);
         public static Identity<PropertyKeyRecord, ULong> IDENTITY_PROPERTY_KEY = Internal.createIdentity(PropertyKey.PROPERTY_KEY, PropertyKey.PROPERTY_KEY.PROPERTY_KEY_ID);
     }
 
@@ -69,7 +73,7 @@ public class Keys {
         public static final UniqueKey<PhoneRecord> KEY_PHONE_PHONE_ID = Internal.createUniqueKey(Phone.PHONE, "KEY_phone_phone_id", new TableField[] { Phone.PHONE.PHONE_ID }, true);
         public static final UniqueKey<PhoneRecord> KEY_PHONE_IDX_PHONE_NUMBER = Internal.createUniqueKey(Phone.PHONE, "KEY_phone_idx_phone_number", new TableField[] { Phone.PHONE.NUMBER, Phone.PHONE.IS_DELETED }, true);
         public static final UniqueKey<PropertyKeyRecord> KEY_PROPERTY_KEY_PRIMARY = Internal.createUniqueKey(PropertyKey.PROPERTY_KEY, "KEY_property_key_PRIMARY", new TableField[] { PropertyKey.PROPERTY_KEY.PROPERTY_KEY_ID }, true);
-        public static final UniqueKey<PropertyKeyRecord> KEY_PROPERTY_KEY_IDX_UNIQUE = Internal.createUniqueKey(PropertyKey.PROPERTY_KEY, "KEY_property_key_idx_unique", new TableField[] { PropertyKey.PROPERTY_KEY.OWNER_TYPE, PropertyKey.PROPERTY_KEY.OWNER_IDENTIFIER, PropertyKey.PROPERTY_KEY.KEY, PropertyKey.PROPERTY_KEY.IS_DELETED }, true);
+        public static final UniqueKey<PropertyKeyRecord> KEY_PROPERTY_KEY_IDX_UNIQUE = Internal.createUniqueKey(PropertyKey.PROPERTY_KEY, "KEY_property_key_idx_unique", new TableField[] { PropertyKey.PROPERTY_KEY.OWNER_IDENTIFIER, PropertyKey.PROPERTY_KEY.OWNER_TYPE, PropertyKey.PROPERTY_KEY.KEY, PropertyKey.PROPERTY_KEY.IS_DELETED }, true);
         public static final UniqueKey<PropertyValueRecord> KEY_PROPERTY_VALUE_PRIMARY = Internal.createUniqueKey(PropertyValue.PROPERTY_VALUE, "KEY_property_value_PRIMARY", new TableField[] { PropertyValue.PROPERTY_VALUE.PROPERTY_VALUE_ID }, true);
         public static final UniqueKey<PropertyValueRecord> KEY_PROPERTY_VALUE_IDX_ATTR_VALUE = Internal.createUniqueKey(PropertyValue.PROPERTY_VALUE, "KEY_property_value_idx_attr_value", new TableField[] { PropertyValue.PROPERTY_VALUE.PROPERTY_KEY_ID, PropertyValue.PROPERTY_VALUE.VALUE, PropertyValue.PROPERTY_VALUE.IS_DELETED }, true);
     }

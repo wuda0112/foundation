@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row9;
@@ -34,7 +35,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Phone extends TableImpl<PhoneRecord> {
 
-    private static final long serialVersionUID = 1759418470;
+    private static final long serialVersionUID = -574541370;
 
     /**
      * The reference instance of <code>foundation_commons.phone</code>
@@ -52,7 +53,7 @@ public class Phone extends TableImpl<PhoneRecord> {
     /**
      * The column <code>foundation_commons.phone.phone_id</code>.
      */
-    public final TableField<PhoneRecord, ULong> PHONE_ID = createField(DSL.name("phone_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<PhoneRecord, ULong> PHONE_ID = createField(DSL.name("phone_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>foundation_commons.phone.number</code>. 电话号码
@@ -130,6 +131,11 @@ public class Phone extends TableImpl<PhoneRecord> {
     @Override
     public Schema getSchema() {
         return FoundationCommons.FOUNDATION_COMMONS;
+    }
+
+    @Override
+    public Identity<PhoneRecord, ULong> getIdentity() {
+        return Keys.IDENTITY_PHONE;
     }
 
     @Override

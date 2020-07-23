@@ -1,14 +1,8 @@
 package com.wuda.foundation;
 
 import com.wuda.foundation.lang.keygen.KeyGeneratorSnowflake;
-import org.apache.logging.log4j.LogManager;
-import org.jooq.tools.LoggerListener;
-import org.junit.Before;
-import org.junit.BeforeClass;
 
 import javax.sql.DataSource;
-import java.net.MalformedURLException;
-import java.util.logging.Level;
 
 public class TestBase {
 

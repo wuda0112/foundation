@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row8;
@@ -34,7 +35,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Email extends TableImpl<EmailRecord> {
 
-    private static final long serialVersionUID = -493372717;
+    private static final long serialVersionUID = 29967623;
 
     /**
      * The reference instance of <code>foundation_commons.email</code>
@@ -52,7 +53,7 @@ public class Email extends TableImpl<EmailRecord> {
     /**
      * The column <code>foundation_commons.email.email_id</code>.
      */
-    public final TableField<EmailRecord, ULong> EMAIL_ID = createField(DSL.name("email_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<EmailRecord, ULong> EMAIL_ID = createField(DSL.name("email_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>foundation_commons.email.address</code>. email address
@@ -125,6 +126,11 @@ public class Email extends TableImpl<EmailRecord> {
     @Override
     public Schema getSchema() {
         return FoundationCommons.FOUNDATION_COMMONS;
+    }
+
+    @Override
+    public Identity<EmailRecord, ULong> getIdentity() {
+        return Keys.IDENTITY_EMAIL;
     }
 
     @Override

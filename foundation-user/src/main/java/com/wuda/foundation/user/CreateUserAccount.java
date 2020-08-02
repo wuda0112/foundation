@@ -1,7 +1,5 @@
 package com.wuda.foundation.user;
 
-import com.wuda.foundation.commons.CreateEmail;
-import com.wuda.foundation.commons.CreatePhone;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -38,8 +36,6 @@ public class CreateUserAccount {
         private Long id;
         private Long userId;
         private String username;
-        private CreateEmail email;
-        private CreatePhone phone;
         private String password;
         private UserAccountState state;
 
@@ -55,16 +51,6 @@ public class CreateUserAccount {
 
         public Builder setUsername(String username) {
             this.username = username;
-            return this;
-        }
-
-        public Builder setEmail(CreateEmail email) {
-            this.email = email;
-            return this;
-        }
-
-        public Builder setPhone(CreatePhone phone) {
-            this.phone = phone;
             return this;
         }
 

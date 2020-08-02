@@ -28,5 +28,5 @@ public interface PhoneManager {
      * @param phones   phone
      * @param opUserId 操作人用户ID
      */
-    void createPhone(List<CreatePhone> phones, Long opUserId);
+    void directBatchInsertPhone(List<CreatePhone> phones, Long opUserId);
 }

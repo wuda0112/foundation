@@ -35,7 +35,6 @@ public class CreateUser {
         private Long id;
         private UserType userType;
         private UserState userState;
-        private CreateUserAccount userAccount;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -49,11 +48,6 @@ public class CreateUser {
 
         public Builder setUserState(UserState userState) {
             this.userState = userState;
-            return this;
-        }
-
-        public Builder setUserAccount(CreateUserAccount userAccount) {
-            this.userAccount = userAccount;
             return this;
         }
 

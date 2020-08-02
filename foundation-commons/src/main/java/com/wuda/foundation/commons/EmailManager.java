@@ -28,5 +28,5 @@ public interface EmailManager {
      * @param emails   email
      * @param opUserId 操作人用户ID
      */
-    void createEmail(List<CreateEmail> emails, Long opUserId);
+    void directBatchInsertEmail(List<CreateEmail> emails, Long opUserId);
 }

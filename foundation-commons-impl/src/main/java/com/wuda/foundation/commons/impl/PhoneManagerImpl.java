@@ -7,17 +7,20 @@ import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.IsDeleted;
-import org.jooq.*;
+import org.jooq.Configuration;
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.wuda.foundation.commons.impl.jooq.generation.tables.Phone.PHONE;
-import static org.jooq.impl.DSL.param;
 
 public class PhoneManagerImpl extends AbstractPhoneManager implements JooqCommonDbOp {
 
@@ -31,38 +34,34 @@ public class PhoneManagerImpl extends AbstractPhoneManager implements JooqCommon
     protected Long createPhoneDbOp(CreatePhone createPhone, InsertMode insertMode, Long opUserId) {
 
         Configuration configuration = JooqContext.getConfiguration(dataSource);
-        SelectConditionStep<PhoneRecord> existsRecordSelector = DSL.using(configuration)
-                .selectFrom(PHONE)
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+                .select(PHONE.PHONE_ID)
+                .from(PHONE)
                 .where(PHONE.NUMBER.eq(createPhone.getNumber()))
                 .and(PHONE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        Field[] fields = generateFields(createPhone, opUserId);
-        return insertDispatcher(dataSource, insertMode, PHONE, fields, existsRecordSelector, PHONE.PHONE_ID);
+        Field[] fields = phoneRecordForInsert(createPhone, opUserId).fields();
+        return insertDispatcher(dataSource, insertMode, PHONE, fields, existsRecordSelector).getRecordId();
     }
 
     @Override
-    protected void createPhoneDbOp(List<CreatePhone> phones, Long opUserId) {
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        InsertSetStep<PhoneRecord> insertSetStep = dslContext.insertInto(PHONE);
-        int last = phones.size() - 1;
-        for (int i = 0; i < last; i++) {
-            CreatePhone createPhone = phones.get(i);
-            insertSetStep.values(generateFields(createPhone, opUserId));
-        }
-        insertSetStep.values(phones.get(last), opUserId).execute();
+    protected void directBatchInsertPhoneDbOp(List<CreatePhone> phones, Long opUserId) {
+        batchInsert(dataSource, PHONE, phoneRecordsForInsert(phones, opUserId));
     }
 
-    private Field[] generateFields(CreatePhone createPhone, Long opUserId) {
+    private PhoneRecord phoneRecordForInsert(CreatePhone createPhone, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
-        return new Field[]{
-                param(PHONE.PHONE_ID.getName(), ULong.valueOf(createPhone.getId())),
-                param(PHONE.NUMBER.getName(), createPhone.getNumber()),
-                param(PHONE.TYPE.getName(), UByte.valueOf(createPhone.getType().getCode())),
-                param(PHONE.STATE.getName(), UByte.valueOf(createPhone.getState().getCode())),
-                param(PHONE.CREATE_TIME.getName(), now),
-                param(PHONE.CREATE_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(PHONE.LAST_MODIFY_TIME.getName(), now),
-                param(PHONE.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(PHONE.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))
-        };
+        return new PhoneRecord(ULong.valueOf(createPhone.getId()),
+                createPhone.getNumber(),
+                UByte.valueOf(createPhone.getType().getCode()),
+                UByte.valueOf(createPhone.getState().getCode()),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private List<PhoneRecord> phoneRecordsForInsert(List<CreatePhone> createPhones, Long opUserId) {
+        List<PhoneRecord> list = new ArrayList<>(createPhones.size());
+        for (CreatePhone createPhone : createPhones) {
+            list.add(phoneRecordForInsert(createPhone, opUserId));
+        }
+        return list;
     }
 }

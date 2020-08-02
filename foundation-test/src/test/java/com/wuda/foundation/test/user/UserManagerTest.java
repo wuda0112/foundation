@@ -11,11 +11,10 @@ import com.wuda.foundation.lang.MobilePhoneIdentifier;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.user.*;
 import com.wuda.foundation.user.impl.UserManagerImpl;
-import org.jooq.tools.JooqLogger;
-import org.jooq.tools.LoggerListener;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -42,11 +41,11 @@ public class UserManagerTest extends TestBase {
                 .setUsername("wuda-username")
                 .setState(BuiltinUserAccountState.ZERO)
                 .build();
+        userManager.directBatchInsertUserAccount(Collections.singletonList(userAccount),opUserId);
         CreateUser user = new CreateUser.Builder()
                 .setId(userId)
                 .setUserType(BuiltinUserType.ZERO)
                 .setUserState(BuiltinUserState.ZERO)
-                .setUserAccount(userAccount)
                 .build();
         CreatePhone createPhone = new CreatePhone.Builder()
                 .setId(keyGenerator.next())

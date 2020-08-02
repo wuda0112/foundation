@@ -2,6 +2,8 @@ package com.wuda.foundation.store;
 
 import com.wuda.foundation.lang.keygen.KeyGenerator;
 
+import java.util.List;
+
 /**
  * 店铺管理.
  *
@@ -22,14 +24,37 @@ public interface StoreManager {
     long createStore(CreateStore createStore, Long ownerUserId, KeyGenerator<Long> keyGenerator, Long opUserId);
 
     /**
+     * 新增一个新店铺.
+     *
+     * @param createStores 创建店铺的参数
+     * @param opUserId     操作人用户ID,是谁正在添加这个新店铺
+     */
+    void directBatchInsertStore(List<CreateStore> createStores, Long opUserId);
+
+    /**
      * 为店铺新增基本信息.
      *
      * @param createStoreGeneral 创建基本信息的参数
-     * @param keyGenerator       主键生成器
      * @param opUserId           操作人用户ID,是谁正在添加这个店铺的基本信息
      * @return 基本信息的ID
      */
-    long createStoreGeneral( CreateStoreGeneral createStoreGeneral, KeyGenerator<Long> keyGenerator, Long opUserId);
+    long createStoreGeneral(CreateStoreGeneral createStoreGeneral, Long opUserId);
+
+    /**
+     * 为店铺新增基本信息.
+     *
+     * @param createStoreGenerals 创建基本信息的参数
+     * @param opUserId            操作人用户ID
+     */
+    void directBatchInsertStoreGeneral(List<CreateStoreGeneral> createStoreGenerals, Long opUserId);
+
+    /**
+     * 为绑定用户和店铺.
+     *
+     * @param bindStoreUserList 绑定用户和店铺的参数
+     * @param opUserId          操作人用户ID
+     */
+    void directBatchBindStoreUser(List<BindStoreUser> bindStoreUserList, Long opUserId);
 
     /**
      * 更新店铺新增基本信息.

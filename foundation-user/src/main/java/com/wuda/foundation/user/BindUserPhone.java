@@ -19,6 +19,7 @@ public class BindUserPhone {
     private Long phoneId;
     private PhoneUse use;
     private UserPhoneState state;
+    private String description;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -40,6 +41,7 @@ public class BindUserPhone {
         private Long phoneId;
         private PhoneUse use;
         private UserPhoneState state;
+        private String description;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -63,6 +65,12 @@ public class BindUserPhone {
 
         public Builder setUse(PhoneUse use) {
             this.use = use;
+            return this;
+        }
+
+
+        public Builder setDescription(String description) {
+            this.description = description;
             return this;
         }
 

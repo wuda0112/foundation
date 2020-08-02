@@ -13,6 +13,7 @@ import java.util.Objects;
 @Getter
 public class CreateItem {
 
+    private Long id;
     private Long storeId;
     private Long categoryId;
     private ItemType itemType;
@@ -33,10 +34,16 @@ public class CreateItem {
      */
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateItem> {
 
+        private Long id;
         private Long storeId;
         private Long categoryId;
         private ItemType itemType;
         private ItemState itemState;
+
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+        }
 
         public Builder setItemType(ItemType itemType) {
             this.itemType = itemType;
@@ -61,6 +68,7 @@ public class CreateItem {
         @Override
         public CreateItem build() {
             CreateItem createItem = new CreateItem();
+            createItem.id = Objects.requireNonNull(this.id);
             createItem.itemType = Objects.requireNonNull(this.itemType);
             createItem.itemState = Objects.requireNonNull(this.itemState);
             createItem.categoryId = Objects.requireNonNull(this.categoryId);

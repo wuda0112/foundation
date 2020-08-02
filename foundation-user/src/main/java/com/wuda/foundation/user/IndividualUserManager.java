@@ -1,7 +1,10 @@
 package com.wuda.foundation.user;
 
 
-import com.wuda.foundation.lang.AlreadyExistsException;
+import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.SingleInsertResult;
+
+import java.util.List;
 
 /**
  * 个人用户管理.
@@ -12,12 +15,29 @@ import com.wuda.foundation.lang.AlreadyExistsException;
 public interface IndividualUserManager {
 
     /**
-     * 为用户添加profile,每个用户只有一个profile,因此必须检查该用户是否已经存在profile,
-     * 只有当不存在是才能添加,否则抛出异常.
+     * 为用户新增基本信息.
      *
-     * @return 新增的基本信息的id
-     * @throws AlreadyExistsException 该用户已经拥有基本信息
+     * @param createIndividualUserGeneral 基本信息
+     * @param insertMode                  insert mode
+     * @param opUserId                    操作人用户ID
+     * @return 创建的结果
      */
-    long addGeneral(IndividualUserGeneral general) throws AlreadyExistsException;
+    SingleInsertResult createGeneral(CreateIndividualUserGeneral createIndividualUserGeneral, InsertMode insertMode, Long opUserId);
+
+    /**
+     * 为用户新增基本信息.
+     *
+     * @param createIndividualUserGenerals 基本信息
+     * @param opUserId                     操作人用户ID
+     */
+    void directBatchInsertGeneral(List<CreateIndividualUserGeneral> createIndividualUserGenerals, Long opUserId);
+
+    /**
+     * 更新基本信息.
+     *
+     * @param updateIndividualUserGeneral 基本信息
+     * @param opUserId                    操作人用户ID
+     */
+    void updateGeneral(UpdateIndividualUserGeneral updateIndividualUserGeneral, Long opUserId);
 
 }

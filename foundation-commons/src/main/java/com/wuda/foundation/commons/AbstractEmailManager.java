@@ -23,18 +23,18 @@ public abstract class AbstractEmailManager implements EmailManager {
     protected abstract Long createEmailDbOp(CreateEmail createEmail, InsertMode insertMode, Long opUserId);
 
     @Override
-    public void createEmail(List<CreateEmail> emails, Long opUserId) {
+    public void directBatchInsertEmail(List<CreateEmail> emails, Long opUserId) {
         ExtObjects.requireNonNull(emails, opUserId);
-        createEmailDbOp(emails, opUserId);
+        directBatchInsertEmailDbOp(emails, opUserId);
     }
 
     /**
-     * 作为{@link #createEmail(List, Long)}方法的一部分,参数的校验已经在{@link #createEmail(List, Long)}
+     * 作为{@link #directBatchInsertEmail(List, Long)}方法的一部分,参数的校验已经在{@link #directBatchInsertEmail(List, Long)}
      * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
      *
      * @param emails   email
      * @param opUserId 操作人用户ID
      */
-    protected abstract void createEmailDbOp(List<CreateEmail> emails, Long opUserId);
+    protected abstract void directBatchInsertEmailDbOp(List<CreateEmail> emails, Long opUserId);
 
 }

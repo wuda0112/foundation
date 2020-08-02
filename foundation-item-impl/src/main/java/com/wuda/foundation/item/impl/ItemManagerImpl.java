@@ -1,19 +1,18 @@
 package com.wuda.foundation.item.impl;
 
-import com.wuda.foundation.item.AbstractItemManager;
-import com.wuda.foundation.item.CreateItem;
-import com.wuda.foundation.item.CreateItemGeneral;
-import com.wuda.foundation.item.CreateItemVariation;
+import com.wuda.foundation.item.*;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemDescriptionRecord;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemGeneralRecord;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemRecord;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemVariationRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
+import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
 import org.jooq.Configuration;
 import org.jooq.Field;
+import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
@@ -21,10 +20,14 @@ import org.jooq.types.ULong;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
+import static com.wuda.foundation.item.impl.jooq.generation.tables.Item.ITEM;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemDescription.ITEM_DESCRIPTION;
-import static org.jooq.impl.DSL.param;
+import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemGeneral.ITEM_GENERAL;
+import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemVariation.ITEM_VARIATION;
 
 public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDbOp {
 
@@ -35,48 +38,53 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     }
 
     @Override
-    protected long createItemDbOp(CreateItem createItem, KeyGenerator<Long> keyGenerator, Long opUserId) {
-        long itemId = keyGenerator.next();
-        LocalDateTime now = LocalDateTime.now();
-        ItemRecord itemRecord = new ItemRecord(ULong.valueOf(itemId),
-                ULong.valueOf(createItem.getStoreId()),
-                UByte.valueOf(createItem.getItemType().getCode()),
-                UByte.valueOf(createItem.getItemState().getCode()),
-                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
-        Configuration configuration = JooqContext.getConfiguration(dataSource);
-        itemRecord.attach(configuration);
-        itemRecord.insert();
-
-        return itemId;
+    protected void directBatchInsertItemDbOp(List<CreateItem> createItems, Long opUserId) {
+        batchInsert(dataSource, ITEM, itemRecordsForInsert(createItems, opUserId));
     }
 
     @Override
-    protected long createItemGeneralDbOp(CreateItemGeneral createItemGeneral, KeyGenerator<Long> keyGenerator, Long opUserId) {
-        long itemGeneralId = keyGenerator.next();
-        LocalDateTime now = LocalDateTime.now();
-        ItemGeneralRecord itemGeneralRecord = new ItemGeneralRecord(ULong.valueOf(itemGeneralId),
-                ULong.valueOf(createItemGeneral.getItemId()),
-                createItemGeneral.getName(),
-                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
-        Configuration configuration = JooqContext.getConfiguration(dataSource);
-        itemGeneralRecord.attach(configuration);
-        itemGeneralRecord.insert();
-        return itemGeneralId;
+    protected long createItemDbOp(CreateItem createItem, Long opUserId) {
+        Field[] fields = itemRecordForInsert(createItem, opUserId).fields();
+        return insert(dataSource, ITEM, fields).getRecordId();
     }
 
     @Override
-    protected long createItemVariationDbOp(CreateItemVariation createItemVariation, KeyGenerator<Long> keyGenerator, Long opUserId) {
-        long itemVariationId = keyGenerator.next();
-        LocalDateTime now = LocalDateTime.now();
-        ItemVariationRecord itemVariationRecord = new ItemVariationRecord(ULong.valueOf(itemVariationId),
-                ULong.valueOf(createItemVariation.getItemId()),
-                createItemVariation.getName(),
-                UByte.valueOf(createItemVariation.getState().getCode()),
-                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    protected void directBatchInsertItemGeneralDbOp(List<CreateItemGeneral> createItemGenerals, Long opUserId) {
+        batchInsert(dataSource, ITEM_GENERAL, itemGeneralRecordsForInsert(createItemGenerals, opUserId));
+    }
+
+    @Override
+    protected long createItemGeneralDbOp(CreateItemGeneral createItemGeneral, Long opUserId) {
+        Field[] fields = itemGeneralRecordForInsert(createItemGeneral, opUserId).fields();
+        return insert(dataSource, ITEM_GENERAL, fields).getRecordId();
+    }
+
+    @Override
+    protected void directBatchInsertItemVariationDbOp(List<CreateItemVariation> createItemVariations, Long opUserId) {
+        batchInsert(dataSource, ITEM_VARIATION, itemVariationRecordsForInsert(createItemVariations, opUserId));
+    }
+
+    @Override
+    protected void directBatchInsertItemDescriptionDbOp(List<CreateItemDescription> createItemDescriptions, Long opUserId) {
+        batchInsert(dataSource, ITEM_DESCRIPTION, itemDescriptionRecordsForInsert(createItemDescriptions, opUserId));
+    }
+
+    @Override
+    protected long createItemDescriptionDbOp(CreateItemDescription createItemDescription, InsertMode insertMode, Long opUserId) {
+        Field[] fields = itemDescriptionRecordForInsert(createItemDescription, opUserId).fields();
         Configuration configuration = JooqContext.getConfiguration(dataSource);
-        itemVariationRecord.attach(configuration);
-        itemVariationRecord.insert();
-        return itemVariationId;
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+                .select(ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID)
+                .from(ITEM_DESCRIPTION)
+                .where(ITEM_DESCRIPTION.ITEM_ID.eq(ULong.valueOf(createItemDescription.getItemId())))
+                .and(ITEM_DESCRIPTION.ITEM_VARIATION_ID.eq(ULong.valueOf(createItemDescription.getItemVariationId())));
+        return insertDispatcher(dataSource, insertMode, ITEM_DESCRIPTION, fields, existsRecordSelector).getRecordId();
+    }
+
+    @Override
+    protected long createItemVariationDbOp(CreateItemVariation createItemVariation, Long opUserId) {
+        Field[] fields = itemVariationRecordForInsert(createItemVariation, opUserId).fields();
+        return insert(dataSource, ITEM_VARIATION, fields).getRecordId();
     }
 
     @Override
@@ -108,27 +116,90 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
 
     @Override
     protected long createOrUpdateDescriptionDbOp(Long itemId, Long itemVariationId, String description, KeyGenerator<Long> keyGenerator, Long opUserId) {
-        Long itemDescriptionId = keyGenerator.next();
-        LocalDateTime now = LocalDateTime.now();
         Configuration configuration = JooqContext.getConfiguration(dataSource);
-        SelectConditionStep<ItemDescriptionRecord> existsRecordSelector = DSL.using(configuration)
-                .selectFrom(ITEM_DESCRIPTION)
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+                .select(ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID)
+                .from(ITEM_DESCRIPTION)
                 .where(ITEM_DESCRIPTION.ITEM_ID.eq(ULong.valueOf(itemId)))
                 .and(ITEM_DESCRIPTION.ITEM_VARIATION_ID.eq(ULong.valueOf(itemVariationId)));
-        Field[] fields = new Field[]{
-                param(ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID.getName(), ULong.valueOf(itemDescriptionId)),
-                param(ITEM_DESCRIPTION.ITEM_ID.getName(), ULong.valueOf(itemId)),
-                param(ITEM_DESCRIPTION.ITEM_VARIATION_ID.getName(), ULong.valueOf(itemVariationId)),
-                param(ITEM_DESCRIPTION.CONTENT.getName(), description),
-                param(ITEM_DESCRIPTION.CREATE_TIME.getName(), now),
-                param(ITEM_DESCRIPTION.CREATE_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(ITEM_DESCRIPTION.LAST_MODIFY_TIME.getName(), now),
-                param(ITEM_DESCRIPTION.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(ITEM_DESCRIPTION.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))};
+        CreateItemDescription createItemDescription = new CreateItemDescription.Builder()
+                .setId(keyGenerator.next())
+                .setItemId(itemId)
+                .setItemVariationId(itemVariationId)
+                .setContent(description)
+                .build();
+        Field[] fields = itemDescriptionRecordForInsert(createItemDescription, opUserId).fields();
 
-        Consumer<ItemDescriptionRecord> existsRecordUpdateAction = itemDescriptionRecord -> {
-            updateDescriptionDbOp(itemDescriptionRecord.getItemDescriptionId().longValue(), description, opUserId);
+        Consumer<Long> existsRecordUpdateAction = itemDescriptionRecordId -> {
+            updateDescriptionDbOp(itemDescriptionRecordId, description, opUserId);
         };
-        return insertOrUpdate(dataSource, ITEM_DESCRIPTION, fields, existsRecordSelector, existsRecordUpdateAction, ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID);
+        return insertOrUpdate(InsertMode.INSERT_AFTER_SELECT_CHECK, dataSource, ITEM_DESCRIPTION, fields, existsRecordSelector, existsRecordUpdateAction);
+    }
+
+    private ItemRecord itemRecordForInsert(CreateItem createItem, long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new ItemRecord(ULong.valueOf(createItem.getId()),
+                ULong.valueOf(createItem.getStoreId()),
+                UByte.valueOf(createItem.getItemType().getCode()),
+                UByte.valueOf(createItem.getItemState().getCode()),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private List<ItemRecord> itemRecordsForInsert(List<CreateItem> createItems, Long opUserId) {
+        List<ItemRecord> list = new ArrayList<>(createItems.size());
+        for (CreateItem createItem : createItems) {
+            list.add(itemRecordForInsert(createItem, opUserId));
+        }
+        return list;
+    }
+
+    private ItemGeneralRecord itemGeneralRecordForInsert(CreateItemGeneral createItemGeneral, Long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new ItemGeneralRecord(ULong.valueOf(createItemGeneral.getId()),
+                ULong.valueOf(createItemGeneral.getItemId()),
+                createItemGeneral.getName(),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private List<ItemGeneralRecord> itemGeneralRecordsForInsert(List<CreateItemGeneral> createItemGenerals, Long opUserId) {
+        List<ItemGeneralRecord> list = new ArrayList<>(createItemGenerals.size());
+        for (CreateItemGeneral createItemGeneral : createItemGenerals) {
+            list.add(itemGeneralRecordForInsert(createItemGeneral, opUserId));
+        }
+        return list;
+    }
+
+    private ItemVariationRecord itemVariationRecordForInsert(CreateItemVariation createItemVariation, Long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new ItemVariationRecord(ULong.valueOf(createItemVariation.getId()),
+                ULong.valueOf(createItemVariation.getItemId()),
+                createItemVariation.getName(),
+                UByte.valueOf(createItemVariation.getState().getCode()),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private List<ItemVariationRecord> itemVariationRecordsForInsert(List<CreateItemVariation> createItemVariations, Long opUserId) {
+        List<ItemVariationRecord> list = new ArrayList<>(createItemVariations.size());
+        for (CreateItemVariation createItemVariation : createItemVariations) {
+            list.add(itemVariationRecordForInsert(createItemVariation, opUserId));
+        }
+        return list;
+    }
+
+    private ItemDescriptionRecord itemDescriptionRecordForInsert(CreateItemDescription createItemDescription, Long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new ItemDescriptionRecord(ULong.valueOf(createItemDescription.getId()),
+                ULong.valueOf(createItemDescription.getItemId()),
+                ULong.valueOf(createItemDescription.getItemVariationId()),
+                createItemDescription.getContent(),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private List<ItemDescriptionRecord> itemDescriptionRecordsForInsert(List<CreateItemDescription> createItemDescriptions, Long opUserId) {
+        List<ItemDescriptionRecord> list = new ArrayList<>(createItemDescriptions.size());
+        for (CreateItemDescription createItemDescription : createItemDescriptions) {
+            list.add(itemDescriptionRecordForInsert(createItemDescription, opUserId));
+        }
+        return list;
     }
 }

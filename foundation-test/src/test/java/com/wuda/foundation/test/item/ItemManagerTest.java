@@ -12,25 +12,28 @@ public class ItemManagerTest extends TestBase {
     public void testCreateItem() {
         ItemManager itemManager = getItemManager();
         CreateItem createItem = new CreateItem.Builder()
+                .setId(keyGenerator.next())
                 .setStoreId(0L)
                 .setItemType(BuiltinItemType.ZERO)
                 .setItemState(BuiltinItemState.ZERO)
                 .setCategoryId(0L)
                 .build();
-        long itemId = itemManager.createItem(createItem, keyGenerator, opUserId);
+        long itemId = itemManager.createItem(createItem, opUserId);
 
         CreateItemGeneral createItemGeneral = new CreateItemGeneral.Builder()
+                .setId(keyGenerator.next())
                 .setItemId(itemId)
-                .setName("item-0")
+                .setName("item-" + itemId)
                 .build();
-        itemManager.createItemGeneral(createItemGeneral, keyGenerator, opUserId);
+        itemManager.createItemGeneral(createItemGeneral, opUserId);
 
         CreateItemVariation createItemVariation = new CreateItemVariation.Builder()
+                .setId(keyGenerator.next())
                 .setItemId(itemId)
                 .setState(BuiltinItemState.ZERO)
                 .setName("item-0-variation")
                 .build();
-        long itemVariationId = itemManager.createItemVariation(createItemVariation, keyGenerator, opUserId);
+        long itemVariationId = itemManager.createItemVariation(createItemVariation, opUserId);
 
         itemManager.createDescription(itemId, itemVariationId, "description", keyGenerator, opUserId);
     }
@@ -38,7 +41,7 @@ public class ItemManagerTest extends TestBase {
     @Test
     public void testCreateOrUpdateDescription() {
         ItemManager itemManager = getItemManager();
-        itemManager.createOrUpdateDescription(1024L, Constant.NOT_EXISTS_ID, "update-7", keyGenerator, opUserId);
+        itemManager.createOrUpdateDescription(1024L, Constant.NOT_EXISTS_ID, "update-" + keyGenerator.next(), keyGenerator, opUserId);
     }
 
     private ItemManager getItemManager() {

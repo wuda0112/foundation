@@ -1,32 +1,48 @@
 package com.wuda.foundation.item;
 
 import com.wuda.foundation.lang.ExtObjects;
+import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
+
+import java.util.List;
 
 public abstract class AbstractItemManager implements ItemManager {
 
     @Override
-    public long createItem(CreateItem createItem, KeyGenerator<Long> keyGenerator, Long opUserId) {
+    public long createItem(CreateItem createItem, Long opUserId) {
         ExtObjects.requireNonNull(createItem, opUserId);
-        return createItemDbOp(createItem, keyGenerator, opUserId);
+        return createItemDbOp(createItem, opUserId);
     }
+
+    @Override
+    public void directBatchInsertItem(List<CreateItem> createItems, Long opUserId) {
+        directBatchInsertItemDbOp(createItems, opUserId);
+    }
+
+    protected abstract void directBatchInsertItemDbOp(List<CreateItem> createItems, Long opUserId);
 
     /**
      * 作为{@link #createItem}方法的一部分,参数的校验已经在{@link #createItem}
      * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
      *
-     * @param createItem   创建item的参数
-     * @param keyGenerator 用于生成主键
-     * @param opUserId     操作人用户ID,是谁正在添加这个新item
+     * @param createItem 创建item的参数
+     * @param opUserId   操作人用户ID
      * @return 新增的item ID
      */
-    protected abstract long createItemDbOp(CreateItem createItem, KeyGenerator<Long> keyGenerator, Long opUserId);
+    protected abstract long createItemDbOp(CreateItem createItem, Long opUserId);
 
     @Override
-    public long createItemGeneral(CreateItemGeneral createItemGeneral, KeyGenerator<Long> keyGenerator, Long opUserId) {
+    public long createItemGeneral(CreateItemGeneral createItemGeneral, Long opUserId) {
         ExtObjects.requireNonNull(createItemGeneral, opUserId);
-        return createItemGeneralDbOp(createItemGeneral, keyGenerator, opUserId);
+        return createItemGeneralDbOp(createItemGeneral, opUserId);
     }
+
+    @Override
+    public void directBatchInsertItemGeneral(List<CreateItemGeneral> createItemGenerals, Long opUserId) {
+        directBatchInsertItemGeneralDbOp(createItemGenerals, opUserId);
+    }
+
+    protected abstract void directBatchInsertItemGeneralDbOp(List<CreateItemGeneral> createItemGenerals, Long opUserId);
 
     /**
      * 作为{@link #createItemGeneral}方法的一部分,参数的校验已经在{@link #createItemGeneral}
@@ -34,27 +50,46 @@ public abstract class AbstractItemManager implements ItemManager {
      *
      * @param createItemGeneral 创建item general的参数
      * @param opUserId          操作人用户ID,是谁正在添加这个新item variation
-     * @param keyGenerator      用于生成主键
      * @return 新增的item variation ID
      */
-    protected abstract long createItemGeneralDbOp(CreateItemGeneral createItemGeneral, KeyGenerator<Long> keyGenerator, Long opUserId);
+    protected abstract long createItemGeneralDbOp(CreateItemGeneral createItemGeneral, Long opUserId);
 
     @Override
-    public long createItemVariation(CreateItemVariation createItemVariation, KeyGenerator<Long> keyGenerator, Long opUserId) {
+    public long createItemVariation(CreateItemVariation createItemVariation, Long opUserId) {
         ExtObjects.requireNonNull(createItemVariation, opUserId);
-        return createItemVariationDbOp(createItemVariation, keyGenerator, opUserId);
+        return createItemVariationDbOp(createItemVariation, opUserId);
     }
+
+    @Override
+    public void directBatchInsertItemVariation(List<CreateItemVariation> createItemVariations, Long opUserId) {
+        directBatchInsertItemVariationDbOp(createItemVariations, opUserId);
+    }
+
+    protected abstract void directBatchInsertItemVariationDbOp(List<CreateItemVariation> createItemVariations, Long opUserId);
+
+    @Override
+    public long createItemDescription(CreateItemDescription createItemDescription, InsertMode insertMode, Long opUserId) {
+        return createItemDescriptionDbOp(createItemDescription, insertMode, opUserId);
+    }
+
+    @Override
+    public void directBatchInsertItemDescription(List<CreateItemDescription> createItemDescriptions, Long opUserId) {
+        directBatchInsertItemDescriptionDbOp(createItemDescriptions, opUserId);
+    }
+
+    protected abstract void directBatchInsertItemDescriptionDbOp(List<CreateItemDescription> createItemDescriptions, Long opUserId);
+
+    protected abstract long createItemDescriptionDbOp(CreateItemDescription createItemDescription, InsertMode insertMode, Long opUserId);
 
     /**
      * 作为{@link #createItemVariation}方法的一部分,参数的校验已经在{@link #createItemVariation}
      * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
      *
      * @param createItemVariation 创建item variation的参数
-     * @param keyGenerator        用于生成主键
      * @param opUserId            操作人用户ID,是谁正在添加这个新item variation
      * @return 新增的item variation ID
      */
-    protected abstract long createItemVariationDbOp(CreateItemVariation createItemVariation, KeyGenerator<Long> keyGenerator, Long opUserId);
+    protected abstract long createItemVariationDbOp(CreateItemVariation createItemVariation, Long opUserId);
 
     @Override
     public long createDescription(Long itemId, Long itemVariationId, String description, KeyGenerator<Long> keyGenerator, Long opUserId) {

@@ -19,6 +19,7 @@ public class BindUserEmail {
     private Long emailId;
     private EmailUse use;
     private UserEmailState state;
+    private String description;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -40,6 +41,7 @@ public class BindUserEmail {
         private Long emailId;
         private EmailUse use;
         private UserEmailState state;
+        private String description;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -65,6 +67,11 @@ public class BindUserEmail {
             this.use = use;
             return this;
         }
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
 
         @Override
         public BindUserEmail build() {
@@ -74,6 +81,7 @@ public class BindUserEmail {
             bindUserEmail.emailId = Objects.requireNonNull(this.emailId);
             bindUserEmail.use = Objects.requireNonNull(this.use);
             bindUserEmail.state = Objects.requireNonNull(this.state);
+            bindUserEmail.description = this.description;
             return bindUserEmail;
         }
     }

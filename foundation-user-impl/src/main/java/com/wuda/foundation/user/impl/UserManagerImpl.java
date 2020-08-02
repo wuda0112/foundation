@@ -12,20 +12,23 @@ import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserAccountR
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserEmailRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserPhoneRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserRecord;
-import org.jooq.*;
+import org.jooq.Configuration;
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.wuda.foundation.user.impl.jooq.generation.tables.User.USER;
 import static com.wuda.foundation.user.impl.jooq.generation.tables.UserAccount.USER_ACCOUNT;
 import static com.wuda.foundation.user.impl.jooq.generation.tables.UserEmail.USER_EMAIL;
 import static com.wuda.foundation.user.impl.jooq.generation.tables.UserPhone.USER_PHONE;
-import static org.jooq.impl.DSL.param;
 
 public class UserManagerImpl extends AbstractUserManager implements JooqCommonDbOp {
 
@@ -39,85 +42,59 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
     @Override
     protected void createUserDbOp(CreateUser createUser, Long opUserId) {
         Field[] fields = generateFields(createUser, opUserId);
-        insert(dataSource, USER, fields, USER.USER_ID);
+        insert(dataSource, USER, fields);
     }
 
     @Override
-    protected void createUserDbOp(List<CreateUser> userList, Long opUserId) {
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        InsertSetStep<UserRecord> insertSetStep = dslContext.insertInto(USER);
-        int last = userList.size() - 1;
-        for (int i = 0; i < last; i++) {
-            CreateUser createUser = userList.get(i);
-            insertSetStep.values(generateFields(createUser, opUserId));
-        }
-        insertSetStep.values(userList.get(last), opUserId).execute();
+    protected void directBatchInsertUserDbOp(List<CreateUser> userList, Long opUserId) {
+        batchInsert(dataSource, USER, userRecordsForInsert(userList, opUserId));
     }
 
     @Override
     protected void createUserAccountDbOp(CreateUserAccount createUserAccount, Long opUserId) {
-        Field[] fields = generateFields(createUserAccount, opUserId);
-        insert(dataSource, USER_ACCOUNT, fields, USER_ACCOUNT.USER_ACCOUNT_ID);
+        Field[] fields = userAccountRecordForInsert(createUserAccount, opUserId).fields();
+        insert(dataSource, USER_ACCOUNT, fields);
     }
 
     @Override
-    protected void createUserAccountDbOp(List<CreateUserAccount> userAccounts, Long opUserId) {
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        InsertSetStep<UserAccountRecord> insertSetStep = dslContext.insertInto(USER_ACCOUNT);
-        int last = userAccounts.size() - 1;
-        for (int i = 0; i < last; i++) {
-            CreateUserAccount createUserAccount = userAccounts.get(i);
-            insertSetStep.values(generateFields(createUserAccount, opUserId));
-        }
-        insertSetStep.values(userAccounts.get(last), opUserId).execute();
+    protected void directBatchInsertUserAccountDbOp(List<CreateUserAccount> userAccounts, Long opUserId) {
+        batchInsert(dataSource, USER_ACCOUNT, userAccountRecordsForInsert(userAccounts, opUserId));
     }
 
     @Override
     protected Long bindUserEmailDbOp(BindUserEmail bindUserEmail, InsertMode insertMode, Long opUserId) {
         Configuration configuration = JooqContext.getConfiguration(dataSource);
-        SelectConditionStep<UserEmailRecord> existsRecordSelector = DSL.using(configuration)
-                .selectFrom(USER_EMAIL)
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+                .select(USER_EMAIL.ID)
+                .from(USER_EMAIL)
                 .where(USER_EMAIL.USER_ID.eq(ULong.valueOf(bindUserEmail.getUserId())))
                 .and(USER_EMAIL.EMAIL_ID.eq(ULong.valueOf(bindUserEmail.getEmailId())))
                 .and(USER_EMAIL.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        Field[] fields = generateFields(bindUserEmail, opUserId);
-        return insertDispatcher(dataSource, insertMode, USER_EMAIL, fields, existsRecordSelector, USER_EMAIL.ID);
+        Field[] fields = userEmailRecordForInsert(bindUserEmail, opUserId).fields();
+        return insertDispatcher(dataSource, insertMode, USER_EMAIL, fields, existsRecordSelector).getRecordId();
     }
 
     @Override
-    protected void bindUserEmailDbOp(List<BindUserEmail> bindUserEmails, Long opUserId) {
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        InsertSetStep<UserEmailRecord> insertSetStep = dslContext.insertInto(USER_EMAIL);
-        int last = bindUserEmails.size() - 1;
-        for (int i = 0; i < last; i++) {
-            BindUserEmail bindUserEmail = bindUserEmails.get(i);
-            insertSetStep.values(generateFields(bindUserEmail, opUserId));
-        }
-        insertSetStep.values(bindUserEmails.get(last), opUserId).execute();
+    protected void directBatchBindUserEmailDbOp(List<BindUserEmail> bindUserEmails, Long opUserId) {
+        batchInsert(dataSource, USER_EMAIL, userEmailRecordsForInsert(bindUserEmails, opUserId));
     }
 
     @Override
     protected Long bindUserPhoneDbOp(BindUserPhone bindUserPhone, InsertMode insertMode, Long opUserId) {
         Configuration configuration = JooqContext.getConfiguration(dataSource);
-        SelectConditionStep<UserPhoneRecord> existsRecordSelector = DSL.using(configuration)
-                .selectFrom(USER_PHONE)
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+                .select(USER_PHONE.ID)
+                .from(USER_PHONE)
                 .where(USER_PHONE.USER_ID.eq(ULong.valueOf(bindUserPhone.getUserId())))
                 .and(USER_PHONE.PHONE_ID.eq(ULong.valueOf(bindUserPhone.getPhoneId())))
                 .and(USER_PHONE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        Field[] fields = generateFields(bindUserPhone, opUserId);
-        return insertDispatcher(dataSource, insertMode, USER_PHONE, fields, existsRecordSelector, USER_PHONE.ID);
+        Field[] fields = userPhoneRecordForInsert(bindUserPhone, opUserId).fields();
+        return insertDispatcher(dataSource, insertMode, USER_PHONE, fields, existsRecordSelector).getRecordId();
     }
 
     @Override
-    protected void bindUserPhoneDbOp(List<BindUserPhone> bindUserPhones, InsertMode insertMode, Long opUserId) {
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        InsertSetStep<UserPhoneRecord> insertSetStep = dslContext.insertInto(USER_PHONE);
-        int last = bindUserPhones.size() - 1;
-        for (int i = 0; i < last; i++) {
-            BindUserPhone bindUserPhone = bindUserPhones.get(i);
-            insertSetStep.values(generateFields(bindUserPhone, opUserId));
-        }
-        insertSetStep.values(bindUserPhones.get(last), opUserId).execute();
+    protected void directBatchBindUserPhoneDbOp(List<BindUserPhone> bindUserPhones, Long opUserId) {
+        batchInsert(dataSource, USER_PHONE, userPhoneRecordsForInsert(bindUserPhones, opUserId));
     }
 
     @Override
@@ -163,66 +140,78 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
     }
 
     private Field[] generateFields(CreateUser createUser, Long opUserId) {
-        LocalDateTime now = LocalDateTime.now();
-        return new Field[]{
-                param(USER.USER_ID.getName(), ULong.valueOf(createUser.getId())),
-                param(USER.TYPE.getName(), UByte.valueOf(createUser.getUserType().getCode())),
-                param(USER.STATE.getName(), UByte.valueOf(createUser.getUserState().getCode())),
-                param(USER.CREATE_TIME.getName(), now),
-                param(USER.CREATE_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(USER.LAST_MODIFY_TIME.getName(), now),
-                param(USER.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(USER.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))
-        };
+        return userRecordForInsert(createUser, opUserId).fields();
     }
 
-    private Field[] generateFields(CreateUserAccount createUserAccount, Long opUserId) {
-        LocalDateTime now = LocalDateTime.now();
-        return new Field[]{
-                param(USER_ACCOUNT.USER_ACCOUNT_ID.getName(), ULong.valueOf(createUserAccount.getId())),
-                param(USER_ACCOUNT.USER_ID.getName(), ULong.valueOf(createUserAccount.getUserId())),
-                param(USER_ACCOUNT.USERNAME.getName(), createUserAccount.getUsername()),
-                param(USER_ACCOUNT.PASSWORD.getName(), createUserAccount.getPassword()),
-                param(USER_ACCOUNT.STATE.getName(), UByte.valueOf(createUserAccount.getState().getCode())),
-                param(USER_ACCOUNT.CREATE_TIME.getName(), now),
-                param(USER_ACCOUNT.CREATE_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(USER_ACCOUNT.LAST_MODIFY_TIME.getName(), now),
-                param(USER_ACCOUNT.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(USER_ACCOUNT.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))
-        };
+    private List<UserRecord> userRecordsForInsert(List<CreateUser> createUsers, Long opUserId) {
+        List<UserRecord> list = new ArrayList<>(createUsers.size());
+        for (CreateUser createUser : createUsers) {
+            list.add(userRecordForInsert(createUser, opUserId));
+        }
+        return list;
     }
 
-    private Field[] generateFields(BindUserEmail bindUserEmail, Long opUserId) {
+    private UserRecord userRecordForInsert(CreateUser createUser, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
-        return new Field[]{
-                param(USER_EMAIL.ID.getName(), ULong.valueOf(bindUserEmail.getId())),
-                param(USER_EMAIL.USER_ID.getName(), ULong.valueOf(bindUserEmail.getUserId())),
-                param(USER_EMAIL.EMAIL_ID.getName(), ULong.valueOf(bindUserEmail.getEmailId())),
-                param(USER_EMAIL.USE.getName(), UByte.valueOf(bindUserEmail.getUse().getCode())),
-                param(USER_EMAIL.STATE.getName(), UByte.valueOf(bindUserEmail.getState().getCode())),
-                param(USER_EMAIL.DESCRIPTION.getName(), "desc"),
-                param(USER_EMAIL.CREATE_TIME.getName(), now),
-                param(USER_EMAIL.CREATE_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(USER_EMAIL.LAST_MODIFY_TIME.getName(), now),
-                param(USER_EMAIL.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(USER_EMAIL.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))
-        };
+        return new UserRecord(ULong.valueOf(createUser.getId()),
+                UByte.valueOf(createUser.getUserType().getCode()),
+                UByte.valueOf(createUser.getUserState().getCode()),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
-    private Field[] generateFields(BindUserPhone bindUserPhone, Long opUserId) {
+    private UserAccountRecord userAccountRecordForInsert(CreateUserAccount createUserAccount, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
-        return new Field[]{
-                param(USER_PHONE.ID.getName(), ULong.valueOf(bindUserPhone.getId())),
-                param(USER_PHONE.USER_ID.getName(), ULong.valueOf(bindUserPhone.getUserId())),
-                param(USER_PHONE.PHONE_ID.getName(), ULong.valueOf(bindUserPhone.getPhoneId())),
-                param(USER_PHONE.USE.getName(), UByte.valueOf(bindUserPhone.getUse().getCode())),
-                param(USER_PHONE.STATE.getName(), UByte.valueOf(bindUserPhone.getState().getCode())),
-                param(USER_PHONE.DESCRIPTION.getName(), "desc"),
-                param(USER_PHONE.CREATE_TIME.getName(), now),
-                param(USER_PHONE.CREATE_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(USER_PHONE.LAST_MODIFY_TIME.getName(), now),
-                param(USER_PHONE.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(USER_PHONE.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))
-        };
+        return new UserAccountRecord(ULong.valueOf(createUserAccount.getId()),
+                ULong.valueOf(createUserAccount.getUserId()),
+                createUserAccount.getUsername(),
+                createUserAccount.getPassword(),
+                UByte.valueOf(createUserAccount.getState().getCode()),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private List<UserAccountRecord> userAccountRecordsForInsert(List<CreateUserAccount> createUserAccounts, Long opUserId) {
+        List<UserAccountRecord> list = new ArrayList<>(createUserAccounts.size());
+        for (CreateUserAccount createUserAccount : createUserAccounts) {
+            list.add(userAccountRecordForInsert(createUserAccount, opUserId));
+        }
+        return list;
+    }
+
+    private UserEmailRecord userEmailRecordForInsert(BindUserEmail bindUserEmail, Long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new UserEmailRecord(ULong.valueOf(bindUserEmail.getId()),
+                ULong.valueOf(bindUserEmail.getUserId()),
+                ULong.valueOf(bindUserEmail.getEmailId()),
+                UByte.valueOf(bindUserEmail.getUse().getCode()),
+                UByte.valueOf(bindUserEmail.getState().getCode()),
+                bindUserEmail.getDescription(),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private List<UserEmailRecord> userEmailRecordsForInsert(List<BindUserEmail> bindUserEmails, Long opUserId) {
+        List<UserEmailRecord> list = new ArrayList<>(bindUserEmails.size());
+        for (BindUserEmail bindUserEmail : bindUserEmails) {
+            list.add(userEmailRecordForInsert(bindUserEmail, opUserId));
+        }
+        return list;
+    }
+
+    private UserPhoneRecord userPhoneRecordForInsert(BindUserPhone bindUserPhone, Long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new UserPhoneRecord(ULong.valueOf(bindUserPhone.getId()),
+                ULong.valueOf(bindUserPhone.getUserId()),
+                ULong.valueOf(bindUserPhone.getPhoneId()),
+                UByte.valueOf(bindUserPhone.getUse().getCode()),
+                UByte.valueOf(bindUserPhone.getState().getCode()),
+                bindUserPhone.getDescription(),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private List<UserPhoneRecord> userPhoneRecordsForInsert(List<BindUserPhone> bindUserPhones, Long opUserId) {
+        List<UserPhoneRecord> list = new ArrayList<>(bindUserPhones.size());
+        for (BindUserPhone bindUserPhone : bindUserPhones) {
+            list.add(userPhoneRecordForInsert(bindUserPhone, opUserId));
+        }
+        return list;
     }
 }

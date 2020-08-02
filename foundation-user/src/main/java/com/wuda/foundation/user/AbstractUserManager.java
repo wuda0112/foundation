@@ -32,18 +32,18 @@ public abstract class AbstractUserManager implements UserManager {
     protected abstract void createUserDbOp(CreateUser createUser, Long opUserId);
 
     @Override
-    public void createUser(List<CreateUser> userList, Long opUserId) {
-        createUserDbOp(userList, opUserId);
+    public void directBatchInsertUser(List<CreateUser> userList, Long opUserId) {
+        directBatchInsertUserDbOp(userList, opUserId);
     }
 
     /**
-     * 作为{@link #createUser(List, Long)}方法的一部分,参数的校验已经完成,
+     * 作为{@link #directBatchInsertUser(List, Long)}方法的一部分,参数的校验已经完成,
      * 剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
      *
      * @param userList user list
      * @param opUserId 操作人用户ID
      */
-    protected abstract void createUserDbOp(List<CreateUser> userList, Long opUserId);
+    protected abstract void directBatchInsertUserDbOp(List<CreateUser> userList, Long opUserId);
 
     @Override
     public void createUserAccount(CreateUserAccount createUserAccount, Long opUserId) {
@@ -53,11 +53,11 @@ public abstract class AbstractUserManager implements UserManager {
     protected abstract void createUserAccountDbOp(CreateUserAccount createUserAccount, Long opUserId);
 
     @Override
-    public void createUserAccount(List<CreateUserAccount> userAccounts, Long opUserId) {
-        createUserAccountDbOp(userAccounts, opUserId);
+    public void directBatchInsertUserAccount(List<CreateUserAccount> userAccounts, Long opUserId) {
+        directBatchInsertUserAccountDbOp(userAccounts, opUserId);
     }
 
-    protected abstract void createUserAccountDbOp(List<CreateUserAccount> userAccounts, Long opUserId);
+    protected abstract void directBatchInsertUserAccountDbOp(List<CreateUserAccount> userAccounts, Long opUserId);
 
     @Override
     public Long bindUserEmail(BindUserEmail bindUserEmail, InsertMode insertMode, Long opUserId) {
@@ -67,11 +67,11 @@ public abstract class AbstractUserManager implements UserManager {
     protected abstract Long bindUserEmailDbOp(BindUserEmail bindUserEmail, InsertMode insertMode, Long opUserId);
 
     @Override
-    public void bindUserEmail(List<BindUserEmail> bindUserEmails, Long opUserId) {
-        bindUserEmailDbOp(bindUserEmails, opUserId);
+    public void directBatchBindUserEmail(List<BindUserEmail> bindUserEmails, Long opUserId) {
+        directBatchBindUserEmailDbOp(bindUserEmails, opUserId);
     }
 
-    protected abstract void bindUserEmailDbOp(List<BindUserEmail> bindUserEmails, Long opUserId);
+    protected abstract void directBatchBindUserEmailDbOp(List<BindUserEmail> bindUserEmails, Long opUserId);
 
     @Override
     public Long bindUserPhone(BindUserPhone bindUserPhone, InsertMode insertMode, Long opUserId) {
@@ -81,11 +81,11 @@ public abstract class AbstractUserManager implements UserManager {
     protected abstract Long bindUserPhoneDbOp(BindUserPhone bindUserPhone, InsertMode insertMode, Long opUserId);
 
     @Override
-    public void bindUserPhone(List<BindUserPhone> bindUserPhones, InsertMode insertMode, Long opUserId) {
-        bindUserPhoneDbOp(bindUserPhones, insertMode, opUserId);
+    public void directBatchBindUserPhone(List<BindUserPhone> bindUserPhones, Long opUserId) {
+        directBatchBindUserPhoneDbOp(bindUserPhones, opUserId);
     }
 
-    protected abstract void bindUserPhoneDbOp(List<BindUserPhone> bindUserPhones, InsertMode insertMode, Long opUserId);
+    protected abstract void directBatchBindUserPhoneDbOp(List<BindUserPhone> bindUserPhones, Long opUserId);
 
     @Override
     public boolean exists(Identifier<String> identifier) {

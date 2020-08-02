@@ -13,13 +13,14 @@ import java.util.Objects;
 @Getter
 public class CreateStore {
 
+    private Long id;
     private StoreType storeType;
     private StoreState storeState;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
      */
-    private CreateStore(){
+    private CreateStore() {
 
     }
 
@@ -31,8 +32,14 @@ public class CreateStore {
      */
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateStore> {
 
+        private Long id;
         private StoreType storeType;
         private StoreState storeState;
+
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+        }
 
         public Builder setStoreType(StoreType storeType) {
             this.storeType = storeType;
@@ -47,6 +54,7 @@ public class CreateStore {
         @Override
         public CreateStore build() {
             CreateStore createStore = new CreateStore();
+            createStore.id = Objects.requireNonNull(this.id);
             createStore.storeType = Objects.requireNonNull(this.storeType);
             createStore.storeState = Objects.requireNonNull(this.storeState);
             return createStore;

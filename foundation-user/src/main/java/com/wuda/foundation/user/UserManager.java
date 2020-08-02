@@ -24,7 +24,7 @@ public interface UserManager {
      * @param userList user list
      * @param opUserId 操作人用户ID
      */
-    void createUser(List<CreateUser> userList, Long opUserId);
+    void directBatchInsertUser(List<CreateUser> userList, Long opUserId);
 
     /**
      * 添加user.
@@ -40,7 +40,7 @@ public interface UserManager {
      * @param userAccounts user account list
      * @param opUserId     操作人用户ID
      */
-    void createUserAccount(List<CreateUserAccount> userAccounts, Long opUserId);
+    void directBatchInsertUserAccount(List<CreateUserAccount> userAccounts, Long opUserId);
 
     /**
      * 绑定用户和Email.
@@ -59,7 +59,7 @@ public interface UserManager {
      * @param opUserId       操作人用户ID
      * @return 绑定关系的记录的ID
      */
-    void bindUserEmail(List<BindUserEmail> bindUserEmails, Long opUserId);
+    void directBatchBindUserEmail(List<BindUserEmail> bindUserEmails, Long opUserId);
 
     /**
      * 绑定用户和Phone.
@@ -75,11 +75,10 @@ public interface UserManager {
      * 绑定用户和Phone.
      *
      * @param bindUserPhones binding
-     * @param insertMode     insert mode
      * @param opUserId       操作人用户ID
      * @return 绑定关系的记录的ID
      */
-    void bindUserPhone(List<BindUserPhone> bindUserPhones, InsertMode insertMode, Long opUserId);
+    void directBatchBindUserPhone(List<BindUserPhone> bindUserPhones, Long opUserId);
 
     /**
      * 检查用户是否存在.

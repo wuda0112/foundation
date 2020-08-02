@@ -3,6 +3,7 @@ package com.wuda.foundation.security.impl;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.lang.SingleInsertResult;
 import com.wuda.foundation.lang.UniqueCodeDescriptorRegistry;
 import com.wuda.foundation.lang.identify.IdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
@@ -38,8 +39,9 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
     protected long createPermissionTargetDbOp(CreatePermissionTarget target, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         Configuration configuration = JooqContext.getConfiguration(dataSource);
-        SelectConditionStep<PermissionTargetRecord> existsRecordSelector = DSL.using(configuration)
-                .selectFrom(PERMISSION_TARGET)
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+                .select(PERMISSION_TARGET.PERMISSION_TARGET_ID)
+                .from(PERMISSION_TARGET)
                 .where(PERMISSION_TARGET.PERMISSION_CATEGORY_ID.eq(ULong.valueOf(target.getCategoryId())))
                 .and(PERMISSION_TARGET.NAME.eq(target.getName()))
                 .and(PERMISSION_TARGET.REFERENCED_TYPE.eq(UByte.valueOf(target.getReferencedIdentifier().getType().getCode())))
@@ -58,12 +60,8 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
                 param(PERMISSION_TARGET.LAST_MODIFY_TIME.getName(), now),
                 param(PERMISSION_TARGET.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
                 param(PERMISSION_TARGET.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))};
-        Long id = insertIfNotExists(dataSource, PERMISSION_TARGET, fields, existsRecordSelector, PERMISSION_TARGET.PERMISSION_TARGET_ID);
-        if (id == null) {
-            PermissionTargetRecord permissionTargetRecord = existsRecordSelector.fetchOne();
-            id = permissionTargetRecord.get(PERMISSION_TARGET.PERMISSION_TARGET_ID).longValue();
-        }
-        return id;
+        SingleInsertResult singleInsertResult = insertIfNotExists(dataSource, PERMISSION_TARGET, fields, existsRecordSelector);
+        return singleInsertResult.getRecordId();
     }
 
     @Override
@@ -71,10 +69,12 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
 
         LocalDateTime now = LocalDateTime.now();
         Configuration configuration = JooqContext.getConfiguration(dataSource);
-        SelectConditionStep<PermissionActionRecord> existsRecordSelector = DSL.using(configuration)
-                .selectFrom(PERMISSION_ACTION)
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+                .select(PERMISSION_ACTION.PERMISSION_ACTION_ID)
+                .from(PERMISSION_ACTION)
                 .where(PERMISSION_ACTION.PERMISSION_TARGET_ID.eq(ULong.valueOf(action.getPermissionTargetId())))
-                .and(PERMISSION_ACTION.NAME.eq(action.getName().getCode()));
+                .and(PERMISSION_ACTION.NAME.eq(action.getName().getCode()))
+                .and(PERMISSION_ACTION.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
         Field[] fields = new Field[]{
                 param(PERMISSION_ACTION.PERMISSION_ACTION_ID.getName(), ULong.valueOf(action.getId())),
                 param(PERMISSION_ACTION.PERMISSION_TARGET_ID.getName(), ULong.valueOf(action.getPermissionTargetId())),
@@ -87,12 +87,8 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
                 param(PERMISSION_ACTION.LAST_MODIFY_TIME.getName(), now),
                 param(PERMISSION_ACTION.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
                 param(PERMISSION_ACTION.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))};
-        Long id = insertIfNotExists(dataSource, PERMISSION_ACTION, fields, existsRecordSelector, PERMISSION_ACTION.PERMISSION_ACTION_ID);
-        if (id == null) {
-            PermissionActionRecord permissionActionRecord = existsRecordSelector.fetchOne();
-            id = permissionActionRecord.get(PERMISSION_ACTION.PERMISSION_ACTION_ID).longValue();
-        }
-        return id;
+        SingleInsertResult singleInsertResult = insertIfNotExists(dataSource, PERMISSION_ACTION, fields, existsRecordSelector);
+        return singleInsertResult.getRecordId();
     }
 
     @Override

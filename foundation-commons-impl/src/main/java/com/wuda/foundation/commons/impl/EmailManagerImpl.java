@@ -39,8 +39,7 @@ public class EmailManagerImpl extends AbstractEmailManager implements JooqCommon
                 .from(EMAIL)
                 .where(EMAIL.ADDRESS.eq(createEmail.getAddress()))
                 .and(EMAIL.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        Field[] fields = emailRecordForInsert(createEmail, opUserId).fields();
-        return insertDispatcher(dataSource, insertMode, EMAIL, fields, existsRecordSelector).getRecordId();
+        return insertDispatcher(dataSource, insertMode, EMAIL, emailRecordForInsert(createEmail, opUserId), existsRecordSelector).getRecordId();
     }
 
     @Override

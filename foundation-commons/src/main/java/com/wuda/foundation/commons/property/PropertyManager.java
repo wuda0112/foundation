@@ -41,6 +41,16 @@ public interface PropertyManager {
     long createPropertyKey(CreatePropertyKey createPropertyKey, InsertMode insertMode, Long opUserId);
 
     /**
+     * 创建property key.只要owner有了给定的名称的key,就不会执行任何操作,即使已经存在的key的定义和当前给定的key的定义不一样,
+     * 也不会更新已经存在的key以及该key的定义.调用者可以根据返回的key id和{@link CreatePropertyKey#getId()}的值做对比,如果
+     * 不一样,则表示数据库中已经存在该名称的key了.
+     *
+     * @param opUserId 操作人用户ID
+     * @return 如果owner已经拥有这样的key, 则返回已经存在的property key id;如果不存在,则返回新创建的记录的id
+     */
+    long createPropertyKey(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId);
+
+    /**
      * 创建property key.
      *
      * @param createPropertyKeys 创建key的参数
@@ -86,4 +96,47 @@ public interface PropertyManager {
      * @param opUserId             操作人用户ID
      */
     void directBatchUpdatePropertyValue(List<UpdatePropertyValue> updatePropertyValues, Long opUserId);
+
+    /**
+     * 获取property key的value.
+     *
+     * @param propertyKeyId property key id
+     * @return <code>null</code>-如果不存在
+     */
+    List<DescribePropertyValue> getValueByPropertyKey(Long propertyKeyId);
+
+    /**
+     * 获取property key的definition.
+     *
+     * @param propertyKeyId property key id
+     * @return <code>null</code>-如果不存在
+     */
+    DescribePropertyDefinition getDefinitionByPropertyKey(Long propertyKeyId);
+
+    /**
+     * 获取实体指定的property.
+     *
+     * @param owner 该属性的拥有者
+     * @param key   property的key
+     * @return 如果不存在则返回<code>null</code>
+     */
+    DescribeProperty getProperty(Identifier<Long> owner, String key);
+
+    /**
+     * 获取实体指定的property.
+     *
+     * @param owner 该属性的拥有者
+     * @return 如果不存在则返回<code>null</code>
+     */
+    List<DescribeProperty> getProperties(Identifier<Long> owner);
+
+    /**
+     * 为property key设值definition.如果该Property key已经有definition,则不做任何处理,不能随意更改property key的definition,
+     * 就好像在MySQL中不能随意改变Column的数据类型一样.
+     *
+     * @param definition 创建definition
+     * @param opUserId   操作人用户ID
+     * @return 如果已经存在, 则返回已经存在的记录的definition的id;如果不存在,返回新增的definition的id
+     */
+    long createPropertyDefinition(CreatePropertyDefinition definition, Long opUserId);
 }

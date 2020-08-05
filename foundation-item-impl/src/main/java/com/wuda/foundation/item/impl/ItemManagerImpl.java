@@ -1,6 +1,10 @@
 package com.wuda.foundation.item.impl;
 
-import com.wuda.foundation.item.*;
+import com.wuda.foundation.item.AbstractItemManager;
+import com.wuda.foundation.item.CreateItem;
+import com.wuda.foundation.item.CreateItemDescription;
+import com.wuda.foundation.item.CreateItemGeneral;
+import com.wuda.foundation.item.CreateItemVariation;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemDescriptionRecord;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemGeneralRecord;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemRecord;
@@ -44,8 +48,7 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
 
     @Override
     protected long createItemDbOp(CreateItem createItem, Long opUserId) {
-        Field[] fields = itemRecordForInsert(createItem, opUserId).fields();
-        return insert(dataSource, ITEM, fields).getRecordId();
+        return insert(dataSource, ITEM, itemRecordForInsert(createItem, opUserId)).getRecordId();
     }
 
     @Override
@@ -55,8 +58,7 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
 
     @Override
     protected long createItemGeneralDbOp(CreateItemGeneral createItemGeneral, Long opUserId) {
-        Field[] fields = itemGeneralRecordForInsert(createItemGeneral, opUserId).fields();
-        return insert(dataSource, ITEM_GENERAL, fields).getRecordId();
+        return insert(dataSource, ITEM_GENERAL, itemGeneralRecordForInsert(createItemGeneral, opUserId)).getRecordId();
     }
 
     @Override
@@ -71,20 +73,19 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
 
     @Override
     protected long createItemDescriptionDbOp(CreateItemDescription createItemDescription, InsertMode insertMode, Long opUserId) {
-        Field[] fields = itemDescriptionRecordForInsert(createItemDescription, opUserId).fields();
+        ItemDescriptionRecord record = itemDescriptionRecordForInsert(createItemDescription, opUserId);
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
                 .select(ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID)
                 .from(ITEM_DESCRIPTION)
                 .where(ITEM_DESCRIPTION.ITEM_ID.eq(ULong.valueOf(createItemDescription.getItemId())))
                 .and(ITEM_DESCRIPTION.ITEM_VARIATION_ID.eq(ULong.valueOf(createItemDescription.getItemVariationId())));
-        return insertDispatcher(dataSource, insertMode, ITEM_DESCRIPTION, fields, existsRecordSelector).getRecordId();
+        return insertDispatcher(dataSource, insertMode, ITEM_DESCRIPTION, record, existsRecordSelector).getRecordId();
     }
 
     @Override
     protected long createItemVariationDbOp(CreateItemVariation createItemVariation, Long opUserId) {
-        Field[] fields = itemVariationRecordForInsert(createItemVariation, opUserId).fields();
-        return insert(dataSource, ITEM_VARIATION, fields).getRecordId();
+        return insert(dataSource, ITEM_VARIATION, itemVariationRecordForInsert(createItemVariation, opUserId)).getRecordId();
     }
 
     @Override
@@ -128,12 +129,12 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
                 .setItemVariationId(itemVariationId)
                 .setContent(description)
                 .build();
-        Field[] fields = itemDescriptionRecordForInsert(createItemDescription, opUserId).fields();
+        ItemDescriptionRecord record = itemDescriptionRecordForInsert(createItemDescription, opUserId);
 
         Consumer<Long> existsRecordUpdateAction = itemDescriptionRecordId -> {
             updateDescriptionDbOp(itemDescriptionRecordId, description, opUserId);
         };
-        return insertOrUpdate(InsertMode.INSERT_AFTER_SELECT_CHECK, dataSource, ITEM_DESCRIPTION, fields, existsRecordSelector, existsRecordUpdateAction);
+        return insertOrUpdate(InsertMode.INSERT_AFTER_SELECT_CHECK, dataSource, ITEM_DESCRIPTION, record, existsRecordSelector, existsRecordUpdateAction);
     }
 
     private ItemRecord itemRecordForInsert(CreateItem createItem, long opUserId) {

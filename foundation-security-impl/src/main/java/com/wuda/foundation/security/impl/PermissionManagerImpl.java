@@ -8,11 +8,24 @@ import com.wuda.foundation.lang.UniqueCodeDescriptorRegistry;
 import com.wuda.foundation.lang.identify.IdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
-import com.wuda.foundation.security.*;
+import com.wuda.foundation.security.AbstractPermissionManager;
+import com.wuda.foundation.security.CreatePermissionAction;
+import com.wuda.foundation.security.CreatePermissionTarget;
+import com.wuda.foundation.security.DescribePermissionAction;
+import com.wuda.foundation.security.DescribePermissionTarget;
+import com.wuda.foundation.security.Permission;
+import com.wuda.foundation.security.PermissionActionName;
+import com.wuda.foundation.security.PermissionActionNameSchema;
+import com.wuda.foundation.security.PermissionTargetType;
+import com.wuda.foundation.security.PermissionTargetTypeSchema;
 import com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAction;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionActionRecord;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionTargetRecord;
-import org.jooq.*;
+import org.jooq.Configuration;
+import org.jooq.DSLContext;
+import org.jooq.Record1;
+import org.jooq.RecordMapper;
+import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
@@ -25,7 +38,6 @@ import java.util.Set;
 
 import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAction.PERMISSION_ACTION;
 import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionTarget.PERMISSION_TARGET;
-import static org.jooq.impl.DSL.param;
 
 public class PermissionManagerImpl extends AbstractPermissionManager implements JooqCommonDbOp {
 
@@ -37,7 +49,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
 
     @Override
     protected long createPermissionTargetDbOp(CreatePermissionTarget target, Long opUserId) {
-        LocalDateTime now = LocalDateTime.now();
+
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
                 .select(PERMISSION_TARGET.PERMISSION_TARGET_ID)
@@ -47,27 +59,26 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
                 .and(PERMISSION_TARGET.REFERENCED_TYPE.eq(UByte.valueOf(target.getReferencedIdentifier().getType().getCode())))
                 .and(PERMISSION_TARGET.REFERENCED_IDENTIFIER.eq(ULong.valueOf(target.getReferencedIdentifier().getValue())))
                 .and(PERMISSION_TARGET.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        Field[] fields = new Field[]{
-                param(PERMISSION_TARGET.PERMISSION_TARGET_ID.getName(), ULong.valueOf(target.getId())),
-                param(PERMISSION_TARGET.PERMISSION_CATEGORY_ID.getName(), ULong.valueOf(target.getCategoryId())),
-                param(PERMISSION_TARGET.NAME.getName(), target.getName()),
-                param(PERMISSION_TARGET.TYPE.getName(), UByte.valueOf(target.getType().getCode())),
-                param(PERMISSION_TARGET.REFERENCED_TYPE.getName(), UByte.valueOf(target.getReferencedIdentifier().getType().getCode())),
-                param(PERMISSION_TARGET.REFERENCED_IDENTIFIER.getName(), ULong.valueOf(target.getReferencedIdentifier().getValue())),
-                param(PERMISSION_TARGET.DESCRIPTION.getName(), target.getDescription()),
-                param(PERMISSION_TARGET.CREATE_TIME.getName(), now),
-                param(PERMISSION_TARGET.CREATE_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(PERMISSION_TARGET.LAST_MODIFY_TIME.getName(), now),
-                param(PERMISSION_TARGET.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(PERMISSION_TARGET.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))};
-        SingleInsertResult singleInsertResult = insertIfNotExists(dataSource, PERMISSION_TARGET, fields, existsRecordSelector);
+        PermissionTargetRecord permissionTargetRecord = permissionTargetRecordForInsert(target, opUserId);
+        SingleInsertResult singleInsertResult = insertIfNotExists(dataSource, PERMISSION_TARGET, permissionTargetRecord, existsRecordSelector);
         return singleInsertResult.getRecordId();
+    }
+
+    private PermissionTargetRecord permissionTargetRecordForInsert(CreatePermissionTarget target, Long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new PermissionTargetRecord(ULong.valueOf(target.getId()),
+                ULong.valueOf(target.getCategoryId()),
+                target.getName(),
+                UByte.valueOf(target.getType().getCode()),
+                UByte.valueOf(target.getReferencedIdentifier().getType().getCode()),
+                ULong.valueOf(target.getReferencedIdentifier().getValue()),
+                target.getDescription(),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
     @Override
     protected long createPermissionActionDbOp(CreatePermissionAction action, Long opUserId) {
 
-        LocalDateTime now = LocalDateTime.now();
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
                 .select(PERMISSION_ACTION.PERMISSION_ACTION_ID)
@@ -75,20 +86,20 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
                 .where(PERMISSION_ACTION.PERMISSION_TARGET_ID.eq(ULong.valueOf(action.getPermissionTargetId())))
                 .and(PERMISSION_ACTION.NAME.eq(action.getName().getCode()))
                 .and(PERMISSION_ACTION.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        Field[] fields = new Field[]{
-                param(PERMISSION_ACTION.PERMISSION_ACTION_ID.getName(), ULong.valueOf(action.getId())),
-                param(PERMISSION_ACTION.PERMISSION_TARGET_ID.getName(), ULong.valueOf(action.getPermissionTargetId())),
-                param(PERMISSION_ACTION.NAME.getName(), action.getName().getCode()),
-                param(PERMISSION_ACTION.DESCRIPTION.getName(), action.getDescription()),
-                param(PERMISSION_ACTION.REFERENCED_TYPE.getName(), UByte.valueOf(action.getReferencedIdentifier().getType().getCode())),
-                param(PERMISSION_ACTION.REFERENCED_IDENTIFIER.getName(), ULong.valueOf(action.getReferencedIdentifier().getValue())),
-                param(PERMISSION_ACTION.CREATE_TIME.getName(), now),
-                param(PERMISSION_ACTION.CREATE_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(PERMISSION_ACTION.LAST_MODIFY_TIME.getName(), now),
-                param(PERMISSION_ACTION.LAST_MODIFY_USER_ID.getName(), ULong.valueOf(opUserId)),
-                param(PERMISSION_ACTION.IS_DELETED.getName(), ULong.valueOf(IsDeleted.NO.getValue()))};
-        SingleInsertResult singleInsertResult = insertIfNotExists(dataSource, PERMISSION_ACTION, fields, existsRecordSelector);
+        PermissionActionRecord permissionActionRecord = permissionActionRecordForInsert(action, opUserId);
+        SingleInsertResult singleInsertResult = insertIfNotExists(dataSource, PERMISSION_ACTION, permissionActionRecord, existsRecordSelector);
         return singleInsertResult.getRecordId();
+    }
+
+    private PermissionActionRecord permissionActionRecordForInsert(CreatePermissionAction action, Long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new PermissionActionRecord(ULong.valueOf(action.getId()),
+                ULong.valueOf(action.getPermissionTargetId()),
+                action.getName().getCode(),
+                action.getDescription(),
+                UByte.valueOf(action.getReferencedIdentifier().getType().getCode()),
+                ULong.valueOf(action.getReferencedIdentifier().getValue()),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
     @Override

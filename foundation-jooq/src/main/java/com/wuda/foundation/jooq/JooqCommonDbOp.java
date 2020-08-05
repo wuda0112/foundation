@@ -2,7 +2,20 @@ package com.wuda.foundation.jooq;
 
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.SingleInsertResult;
-import org.jooq.*;
+import org.jooq.Configuration;
+import org.jooq.DSLContext;
+import org.jooq.Field;
+import org.jooq.InsertOnDuplicateStep;
+import org.jooq.InsertResultStep;
+import org.jooq.InsertSetStep;
+import org.jooq.InsertValuesStepN;
+import org.jooq.Record;
+import org.jooq.Record1;
+import org.jooq.SelectConditionStep;
+import org.jooq.SelectSelectStep;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.UniqueKey;
 import org.jooq.types.ULong;
 
 import javax.sql.DataSource;
@@ -27,7 +40,7 @@ public interface JooqCommonDbOp {
      * @param insertMode               insert阶段的模式.不支持{@link InsertMode#DIRECT},因为这种模式下,不会去检查记录是否存在,而是直接执行insert into语句
      * @param dataSource               datasource
      * @param table                    操作的表
-     * @param fields                   如果记录不存在,则使用这些字段新增一条记录
+     * @param record                   如果记录不存在,则使用这些字段新增一条记录
      * @param existsRecordPKSelector   在insert时,用于检测记录是否已经存在,如果存在,也用于查询出该记录,被查询出的这条记录用于后续的update操作.只能查询出一条,如果查询出多条记录会抛出异常.
      * @param existsRecordUpdateAction 如果记录存在,则用于更新查询出的那条记录,传递的是已经存在的记录的ID
      * @param <R>                      被操作的记录的类型
@@ -36,14 +49,14 @@ public interface JooqCommonDbOp {
     default <R extends Record> long insertOrUpdate(InsertMode insertMode,
                                                    DataSource dataSource,
                                                    Table<R> table,
-                                                   Field[] fields,
+                                                   R record,
                                                    SelectConditionStep<Record1<ULong>> existsRecordPKSelector,
                                                    Consumer<Long> existsRecordUpdateAction) {
         if (insertMode == InsertMode.DIRECT) {
             throw new UnsupportedOperationException("不支持的InsertMode," + insertMode);
         }
         checkKeys(table);
-        SingleInsertResult singleInsertResult = insertDispatcher(dataSource, insertMode, table, fields, existsRecordPKSelector);
+        SingleInsertResult singleInsertResult = insertDispatcher(dataSource, insertMode, table, record, existsRecordPKSelector);
         singleInsertResult.valid();
         long id;
         if (singleInsertResult.getExistsRecordId() != null) {
@@ -60,14 +73,14 @@ public interface JooqCommonDbOp {
      *
      * @param dataSource             datasource
      * @param table                  操作的表
-     * @param fields                 如果记录不存在,则使用这些字段新增一条记录
+     * @param record                 如果记录不存在,则使用这些字段新增一条记录
      * @param existsRecordPKSelector 用于查询已经存在的记录,只能查询出一条,并且只查询primary key.如果查询出多条记录会抛出异常
      * @param <R>                    被操作的记录的类型
      * @return 执行的结果
      */
     default <R extends Record> SingleInsertResult insertAfterSelectCheck(DataSource dataSource,
                                                                          Table<R> table,
-                                                                         Field[] fields,
+                                                                         R record,
                                                                          SelectConditionStep<Record1<ULong>> existsRecordPKSelector) {
         checkKeys(table);
         attach(dataSource, existsRecordPKSelector);
@@ -77,7 +90,7 @@ public interface JooqCommonDbOp {
             long existsRecordId = existsRecord.get(idColumn).longValue();
             return new SingleInsertResult(InsertMode.INSERT_AFTER_SELECT_CHECK, false, 0, existsRecordId, null);
         }
-        return insert(dataSource, table, fields);
+        return insert(dataSource, table, record);
     }
 
     /**
@@ -85,17 +98,17 @@ public interface JooqCommonDbOp {
      *
      * @param dataSource datasource
      * @param table      操作的表
-     * @param fields     如果记录不存在,则使用这些字段新增一条记录
+     * @param record     如果记录不存在,则使用这些字段新增一条记录
      * @param <R>        被操作的记录的类型
      * @return 执行的结果
      */
     default <R extends Record> SingleInsertResult insert(DataSource dataSource,
                                                          Table<R> table,
-                                                         Field[] fields) {
+                                                         R record) {
         checkKeys(table);
         TableField<R, ULong> idColumn = getPrimaryKeyField(table);
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        InsertOnDuplicateStep<R> insertSetStep = dslContext.insertInto(table).values(fields);
+        InsertOnDuplicateStep<R> insertSetStep = dslContext.insertInto(table).set(record);
         InsertResultStep<R> insertResultStep = insertSetStep.returning(idColumn);
         R r = insertResultStep.fetchOne();
         long id = r.get(idColumn).longValue();
@@ -108,16 +121,17 @@ public interface JooqCommonDbOp {
      * @param dataSource             datasource
      * @param table                  操作的表
      * @param existsRecordPKSelector 用于查询已经存在的记录,只能查询出一条,并且只查询primary key.如果查询出多条记录会抛出异常
-     * @param insertIntoSelectFields 如果记录不存在,则使用这些字段新增一条记录,即insert into ...select fields语法的select fields.
+     * @param record                 如果记录不存在,则使用{@link Record#fields()}这些字段新增一条记录,即insert into ...select fields语法的select fields.
      * @param <R>                    被操作的记录的类型
      * @return 如果已经存在, 则返回<code>null</code>; 否则返回新增记录的ID
      */
     default <R extends Record> SingleInsertResult insertIfNotExists(DataSource dataSource,
                                                                     Table<R> table,
-                                                                    Field[] insertIntoSelectFields,
+                                                                    R record,
                                                                     SelectConditionStep<Record1<ULong>> existsRecordPKSelector) {
         checkKeys(table);
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
+        Field[] insertIntoSelectFields = record.fields();
         SelectSelectStep<R> selectFields = (SelectSelectStep<R>) select(insertIntoSelectFields);
         InsertOnDuplicateStep<R> insertSetStep = dslContext.insertInto(table)
                 .select(
@@ -150,28 +164,28 @@ public interface JooqCommonDbOp {
      * @param dataSource             datasource
      * @param table                  操作的表
      * @param existsRecordPKSelector 用于查询已经存在的记录,只能查询出一条,并且只查询primary key.如果查询出多条记录会抛出异常.如果{@link InsertMode}是{@link InsertMode#DIRECT},则此参数可以是<code>null</code>
-     * @param fields                 如果记录不存在,则使用这些字段新增一条记录,即insert into ...select fields语法的select fields.
+     * @param record                 如果记录不存在,则使用这些字段新增一条记录,即insert into ...select fields语法的select fields.
      * @param <R>                    被操作的记录的类型
      * @return 如果已经存在, 则返回<code>null</code>; 否则返回新增记录的ID
      */
     default <R extends Record> SingleInsertResult insertDispatcher(DataSource dataSource,
                                                                    InsertMode insertMode,
                                                                    Table<R> table,
-                                                                   Field[] fields,
+                                                                   R record,
                                                                    SelectConditionStep<Record1<ULong>> existsRecordPKSelector) {
         SingleInsertResult result;
         switch (insertMode) {
             case DIRECT:
-                result = insert(dataSource, table, fields);
+                result = insert(dataSource, table, record);
                 break;
             case INSERT_AFTER_SELECT_CHECK:
-                result = insertAfterSelectCheck(dataSource, table, fields, existsRecordPKSelector);
+                result = insertAfterSelectCheck(dataSource, table, record, existsRecordPKSelector);
                 break;
             case INSERT_WHERE_NOT_EXISTS:
-                result = insertIfNotExists(dataSource, table, fields, existsRecordPKSelector);
+                result = insertIfNotExists(dataSource, table, record, existsRecordPKSelector);
                 break;
             default:
-                result = insertAfterSelectCheck(dataSource, table, fields, existsRecordPKSelector);
+                result = insertAfterSelectCheck(dataSource, table, record, existsRecordPKSelector);
                 break;
         }
         return result;

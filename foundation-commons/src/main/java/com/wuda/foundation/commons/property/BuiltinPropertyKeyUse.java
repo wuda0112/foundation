@@ -13,11 +13,11 @@ public enum BuiltinPropertyKeyUse implements PropertyKeyUse {
     }
 
     @Override
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 }

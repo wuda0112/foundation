@@ -39,8 +39,7 @@ public class PhoneManagerImpl extends AbstractPhoneManager implements JooqCommon
                 .from(PHONE)
                 .where(PHONE.NUMBER.eq(createPhone.getNumber()))
                 .and(PHONE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        Field[] fields = phoneRecordForInsert(createPhone, opUserId).fields();
-        return insertDispatcher(dataSource, insertMode, PHONE, fields, existsRecordSelector).getRecordId();
+        return insertDispatcher(dataSource, insertMode, PHONE, phoneRecordForInsert(createPhone, opUserId), existsRecordSelector).getRecordId();
     }
 
     @Override

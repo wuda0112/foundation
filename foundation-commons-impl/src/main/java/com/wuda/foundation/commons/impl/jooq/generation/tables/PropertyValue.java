@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row8;
@@ -33,7 +34,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyValue extends TableImpl<PropertyValueRecord> {
 
-    private static final long serialVersionUID = 1861137543;
+    private static final long serialVersionUID = 629332268;
 
     /**
      * The reference instance of <code>foundation_commons.property_value</code>
@@ -51,7 +52,7 @@ public class PropertyValue extends TableImpl<PropertyValueRecord> {
     /**
      * The column <code>foundation_commons.property_value.property_value_id</code>.
      */
-    public final TableField<PropertyValueRecord, ULong> PROPERTY_VALUE_ID = createField(DSL.name("property_value_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<PropertyValueRecord, ULong> PROPERTY_VALUE_ID = createField(DSL.name("property_value_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>foundation_commons.property_value.property_key_id</code>. 所属的key
@@ -124,6 +125,11 @@ public class PropertyValue extends TableImpl<PropertyValueRecord> {
     @Override
     public Schema getSchema() {
         return FoundationCommons.FOUNDATION_COMMONS;
+    }
+
+    @Override
+    public Identity<PropertyValueRecord, ULong> getIdentity() {
+        return Keys.IDENTITY_PROPERTY_VALUE;
     }
 
     @Override

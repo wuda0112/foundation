@@ -39,7 +39,7 @@ public class IndividualUserManagerImpl extends AbstractIndividualUserManager imp
                 .from(INDIVIDUAL_USER_GENERAL)
                 .where(INDIVIDUAL_USER_GENERAL.USER_ID.equal(ULong.valueOf(createIndividualUserGeneral.getUserId())))
                 .and(INDIVIDUAL_USER_GENERAL.IS_DELETED.equal(ULong.valueOf(IsDeleted.NO.getValue())));
-        return insertDispatcher(dataSource, insertMode, INDIVIDUAL_USER_GENERAL, record.fields(), existsRecordPKSelector);
+        return insertDispatcher(dataSource, insertMode, INDIVIDUAL_USER_GENERAL, record, existsRecordPKSelector);
     }
 
     @Override

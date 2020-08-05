@@ -1,7 +1,8 @@
 package com.wuda.foundation.lang.identify;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * {@link IdentifierType}的注册中心.
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class IdentifierTypeRegistry {
 
-    private List<IdentifierType> identifierTypes = new ArrayList<>();
+    private Map<Integer, IdentifierType> byCodeMap = new ConcurrentHashMap<>();
 
     public static IdentifierTypeRegistry defaultRegistry = new IdentifierTypeRegistry();
 
@@ -21,26 +22,36 @@ public class IdentifierTypeRegistry {
      * @param identifierType {@link IdentifierType}
      */
     public void register(IdentifierType identifierType) {
-        identifierTypes.add(identifierType);
+        IdentifierType exists = byCodeMap.get(identifierType.getCode());
+        if (exists != null && !exists.getClass().equals(identifierType.getClass())) {
+            throw new IllegalStateException("identifier type code= " + identifierType.getCode() + ",Duplicate !");
+        }
+        byCodeMap.put(identifierType.getCode(), identifierType);
     }
 
     /**
      * 查询指定的code值对应的{@link IdentifierType},前提是
      * {@link IdentifierType}必须首先调用{@link IdentifierType#register()}
-     * 将自己注册进来.
+     * 将自己注册进来.如果没有找到会抛出{@link IllegalStateException}异常.
      *
      * @param typeCode identifier type code
-     * @return 该code对应的identifier type, <code>null</code>-如果没有找到
+     * @return 该code对应的identifier type
      */
     public <U extends IdentifierType> U lookup(Integer typeCode) {
         if (typeCode == null) {
             return null;
         }
-        for (IdentifierType identifierType : identifierTypes) {
+        U result = null;
+        Set<Map.Entry<Integer, IdentifierType>> entrySet = byCodeMap.entrySet();
+        for (Map.Entry<Integer, IdentifierType> entry : entrySet) {
+            IdentifierType identifierType = entry.getValue();
             if (identifierType.getCode() == typeCode) {
-                return (U) identifierType;
+                result = (U) identifierType;
             }
         }
-        return null;
+        if (result == null) {
+            throw new IllegalStateException("identifier type code= " + typeCode + ",没有,可能是没有注册 !");
+        }
+        return result;
     }
 }

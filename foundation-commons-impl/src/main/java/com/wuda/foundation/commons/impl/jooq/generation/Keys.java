@@ -34,6 +34,7 @@ public class Keys {
     public static final Identity<EmailRecord, ULong> IDENTITY_EMAIL = Identities0.IDENTITY_EMAIL;
     public static final Identity<PhoneRecord, ULong> IDENTITY_PHONE = Identities0.IDENTITY_PHONE;
     public static final Identity<PropertyKeyRecord, ULong> IDENTITY_PROPERTY_KEY = Identities0.IDENTITY_PROPERTY_KEY;
+    public static final Identity<PropertyValueRecord, ULong> IDENTITY_PROPERTY_VALUE = Identities0.IDENTITY_PROPERTY_VALUE;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -63,6 +64,7 @@ public class Keys {
         public static Identity<EmailRecord, ULong> IDENTITY_EMAIL = Internal.createIdentity(Email.EMAIL, Email.EMAIL.EMAIL_ID);
         public static Identity<PhoneRecord, ULong> IDENTITY_PHONE = Internal.createIdentity(Phone.PHONE, Phone.PHONE.PHONE_ID);
         public static Identity<PropertyKeyRecord, ULong> IDENTITY_PROPERTY_KEY = Internal.createIdentity(PropertyKey.PROPERTY_KEY, PropertyKey.PROPERTY_KEY.PROPERTY_KEY_ID);
+        public static Identity<PropertyValueRecord, ULong> IDENTITY_PROPERTY_VALUE = Internal.createIdentity(PropertyValue.PROPERTY_VALUE, PropertyValue.PROPERTY_VALUE.PROPERTY_VALUE_ID);
     }
 
     private static class UniqueKeys0 {

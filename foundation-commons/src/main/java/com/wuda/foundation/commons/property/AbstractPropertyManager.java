@@ -5,6 +5,7 @@ import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.identify.Identifier;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class AbstractPropertyManager implements PropertyManager {
     @Override
@@ -43,6 +44,13 @@ public abstract class AbstractPropertyManager implements PropertyManager {
     }
 
     @Override
+    public long createPropertyKey(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) {
+        return createPropertyKeyDbOp(createPropertyKeyWithDefinition, opUserId);
+    }
+
+    protected abstract long createPropertyKeyDbOp(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId);
+
+    @Override
     public void directBatchInsertPropertyKey(List<CreatePropertyKey> createPropertyKeys, Long opUserId) {
         directBatchInsertPropertyKeyDbOp(createPropertyKeys, opUserId);
     }
@@ -78,5 +86,43 @@ public abstract class AbstractPropertyManager implements PropertyManager {
     }
 
     protected abstract void directBatchUpdatePropertyValueDbOp(List<UpdatePropertyValue> updatePropertyValues, Long opUserId);
+
+    @Override
+    public List<DescribePropertyValue> getValueByPropertyKey(Long propertyKeyId) {
+        return getValueByPropertyKeyDbOp(Objects.requireNonNull(propertyKeyId));
+    }
+
+    protected abstract List<DescribePropertyValue> getValueByPropertyKeyDbOp(Long propertyKeyId);
+
+    @Override
+    public DescribePropertyDefinition getDefinitionByPropertyKey(Long propertyKeyId) {
+        return getDefinitionByPropertyKeyDbOp(Objects.requireNonNull(propertyKeyId));
+    }
+
+    protected abstract DescribePropertyDefinition getDefinitionByPropertyKeyDbOp(Long propertyKeyId);
+
+    @Override
+    public DescribeProperty getProperty(Identifier<Long> owner, String key) {
+        ExtObjects.requireNonNull(owner, key);
+        return getPropertyDbOp(owner, key);
+    }
+
+    protected abstract DescribeProperty getPropertyDbOp(Identifier<Long> owner, String key);
+
+    @Override
+    public List<DescribeProperty> getProperties(Identifier<Long> owner) {
+        Objects.requireNonNull(owner);
+        return getPropertiesDbOp(owner);
+    }
+
+    protected abstract List<DescribeProperty> getPropertiesDbOp(Identifier<Long> owner);
+
+    @Override
+    public long createPropertyDefinition(CreatePropertyDefinition definition, Long opUserId) {
+        ExtObjects.requireNonNull(definition, opUserId);
+        return createPropertyDefinitionDbOp(definition, opUserId);
+    }
+
+    protected abstract long createPropertyDefinitionDbOp(CreatePropertyDefinition definition, Long opUserId);
 
 }

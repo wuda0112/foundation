@@ -2,6 +2,8 @@ package com.wuda.foundation.lang;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * {@link UniqueCodeDescriptor}的注册中心.
@@ -11,7 +13,7 @@ import java.util.List;
  */
 public class UniqueCodeDescriptorRegistry {
 
-    private List<UniqueCodeDescriptor> descriptors = new ArrayList<>();
+    private Map<Class<UniqueCodeDescriptorSchema>, List<UniqueCodeDescriptor>> bySchemaMap = new ConcurrentHashMap<>();
 
     public static UniqueCodeDescriptorRegistry defaultRegistry = new UniqueCodeDescriptorRegistry();
 
@@ -21,7 +23,18 @@ public class UniqueCodeDescriptorRegistry {
      * @param descriptor {@link UniqueCodeDescriptor}
      */
     public void register(UniqueCodeDescriptor descriptor) {
-        descriptors.add(descriptor);
+        List<UniqueCodeDescriptor> uniqueCodeDescriptors = bySchemaMap.get(descriptor.getSchemaClass());
+        if (uniqueCodeDescriptors != null) {
+            for (UniqueCodeDescriptor uniqueCodeDescriptor : uniqueCodeDescriptors) {
+                if (descriptor.getCode().equals(uniqueCodeDescriptor.getCode())) {
+                    throw new IllegalStateException("UniqueCodeDescriptor schema = " + descriptor.getSchemaClass() + ",UniqueCodeDescriptor code = " + descriptor.getCode() + ",Duplicate!");
+                }
+            }
+        } else {
+            uniqueCodeDescriptors = new ArrayList<>();
+            bySchemaMap.put(descriptor.getSchemaClass(), uniqueCodeDescriptors);
+        }
+        uniqueCodeDescriptors.add(descriptor);
     }
 
     /**
@@ -37,12 +50,19 @@ public class UniqueCodeDescriptorRegistry {
         if (code == null) {
             return null;
         }
-        for (UniqueCodeDescriptor uniqueCodeDescriptor : descriptors) {
-            if (uniqueCodeDescriptor.getSchemaClass().equals(schemaClass)
-                    && uniqueCodeDescriptor.getCode().equals(code)) {
-                return (U) uniqueCodeDescriptor;
+        U result = null;
+        List<UniqueCodeDescriptor> descriptors = bySchemaMap.get(schemaClass);
+        if (descriptors != null) {
+            for (UniqueCodeDescriptor uniqueCodeDescriptor : descriptors) {
+                if (uniqueCodeDescriptor.getSchemaClass().equals(schemaClass)
+                        && uniqueCodeDescriptor.getCode().equals(code)) {
+                    result = (U) uniqueCodeDescriptor;
+                }
             }
         }
-        return null;
+        if (result == null) {
+            throw new IllegalStateException("UniqueCodeDescriptor schema = " + schemaClass + ",code = " + code + ",没有,可能是没有注册");
+        }
+        return result;
     }
 }

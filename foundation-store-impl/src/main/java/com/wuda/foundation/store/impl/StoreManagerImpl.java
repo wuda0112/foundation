@@ -4,12 +4,15 @@ import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
-import com.wuda.foundation.store.*;
+import com.wuda.foundation.store.AbstractStoreManager;
+import com.wuda.foundation.store.BindStoreUser;
+import com.wuda.foundation.store.CreateStore;
+import com.wuda.foundation.store.CreateStoreGeneral;
+import com.wuda.foundation.store.UpdateStoreGeneral;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreGeneralRecord;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreRecord;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreUserRelationshipRecord;
 import org.jooq.Configuration;
-import org.jooq.Field;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
@@ -42,8 +45,7 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
 
     @Override
     public long createStoreDbOp(CreateStore createStore, Long ownerUserId, KeyGenerator<Long> keyGenerator, Long opUserId) {
-        Field[] storeFields = generateField(createStore, opUserId);
-        long storeId = insert(dataSource, STORE, storeFields).getRecordId();
+        long storeId = insert(dataSource, STORE, newStoreRecord(createStore, opUserId)).getRecordId();
 
         BindStoreUser bindStoreUser = new BindStoreUser.Builder()
                 .setId(keyGenerator.next())
@@ -51,9 +53,8 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
                 .setUserId(opUserId)
                 .isStoreOwner(true)
                 .build();
-        Field[] storeUserRelationshipFields = generateField(bindStoreUser, opUserId);
 
-        insert(dataSource, STORE_USER_RELATIONSHIP, storeUserRelationshipFields);
+        insert(dataSource, STORE_USER_RELATIONSHIP, storeUserRelationshipRecordForInsert(bindStoreUser, opUserId));
         return storeId;
     }
 
@@ -73,8 +74,7 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
 
     @Override
     public long createStoreGeneralDbOp(CreateStoreGeneral createStoreGeneral, Long opUserId) {
-        Field[] fields = newStoreGeneralRecord(createStoreGeneral, opUserId).fields();
-        return insert(dataSource, STORE_GENERAL, fields).getRecordId();
+        return insert(dataSource, STORE_GENERAL, newStoreGeneralRecord(createStoreGeneral, opUserId)).getRecordId();
     }
 
     public void updateStoreGeneralByIdDbOp(Long storeGeneralId, UpdateStoreGeneral updateStoreGeneral, Long opUserId) {
@@ -123,15 +123,5 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
                 UByte.valueOf(createStore.getStoreType().getCode()),
                 UByte.valueOf(createStore.getStoreState().getCode()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
-    }
-
-    private Field[] generateField(CreateStore createStore, Long opUserId) {
-        StoreRecord storeRecord = newStoreRecord(createStore, opUserId);
-        return storeRecord.fields();
-    }
-
-    private Field[] generateField(BindStoreUser bindStoreUser, Long opUserId) {
-        StoreUserRelationshipRecord storeUserRelationshipRecord = storeUserRelationshipRecordForInsert(bindStoreUser, opUserId);
-        return storeUserRelationshipRecord.fields();
     }
 }

@@ -1,19 +1,30 @@
 package com.wuda.foundation.user.impl;
 
-import com.wuda.foundation.commons.*;
+import com.wuda.foundation.commons.BuiltinEmailUse;
+import com.wuda.foundation.commons.BuiltinPhoneUse;
+import com.wuda.foundation.commons.CreateEmail;
+import com.wuda.foundation.commons.CreatePhone;
+import com.wuda.foundation.commons.EmailManager;
+import com.wuda.foundation.commons.PhoneManager;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
-import com.wuda.foundation.user.*;
+import com.wuda.foundation.user.AbstractUserManager;
+import com.wuda.foundation.user.BindUserEmail;
+import com.wuda.foundation.user.BindUserPhone;
+import com.wuda.foundation.user.BuiltinUserEmailState;
+import com.wuda.foundation.user.BuiltinUserPhoneState;
+import com.wuda.foundation.user.CreateUser;
+import com.wuda.foundation.user.CreateUserAccount;
+import com.wuda.foundation.user.CreateUserWithAccount;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserAccountRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserEmailRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserPhoneRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserRecord;
 import org.jooq.Configuration;
-import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
@@ -41,8 +52,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
 
     @Override
     protected void createUserDbOp(CreateUser createUser, Long opUserId) {
-        Field[] fields = generateFields(createUser, opUserId);
-        insert(dataSource, USER, fields);
+        insert(dataSource, USER, userRecordForInsert(createUser, opUserId));
     }
 
     @Override
@@ -52,8 +62,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
 
     @Override
     protected void createUserAccountDbOp(CreateUserAccount createUserAccount, Long opUserId) {
-        Field[] fields = userAccountRecordForInsert(createUserAccount, opUserId).fields();
-        insert(dataSource, USER_ACCOUNT, fields);
+        insert(dataSource, USER_ACCOUNT, userAccountRecordForInsert(createUserAccount, opUserId));
     }
 
     @Override
@@ -70,8 +79,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
                 .where(USER_EMAIL.USER_ID.eq(ULong.valueOf(bindUserEmail.getUserId())))
                 .and(USER_EMAIL.EMAIL_ID.eq(ULong.valueOf(bindUserEmail.getEmailId())))
                 .and(USER_EMAIL.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        Field[] fields = userEmailRecordForInsert(bindUserEmail, opUserId).fields();
-        return insertDispatcher(dataSource, insertMode, USER_EMAIL, fields, existsRecordSelector).getRecordId();
+        return insertDispatcher(dataSource, insertMode, USER_EMAIL, userEmailRecordForInsert(bindUserEmail, opUserId), existsRecordSelector).getRecordId();
     }
 
     @Override
@@ -88,8 +96,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
                 .where(USER_PHONE.USER_ID.eq(ULong.valueOf(bindUserPhone.getUserId())))
                 .and(USER_PHONE.PHONE_ID.eq(ULong.valueOf(bindUserPhone.getPhoneId())))
                 .and(USER_PHONE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        Field[] fields = userPhoneRecordForInsert(bindUserPhone, opUserId).fields();
-        return insertDispatcher(dataSource, insertMode, USER_PHONE, fields, existsRecordSelector).getRecordId();
+        return insertDispatcher(dataSource, insertMode, USER_PHONE, userPhoneRecordForInsert(bindUserPhone, opUserId), existsRecordSelector).getRecordId();
     }
 
     @Override
@@ -137,10 +144,6 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
             bindUserPhoneDbOp(binding, InsertMode.DIRECT, opUserId);
         }
         return userId;
-    }
-
-    private Field[] generateFields(CreateUser createUser, Long opUserId) {
-        return userRecordForInsert(createUser, opUserId).fields();
     }
 
     private List<UserRecord> userRecordsForInsert(List<CreateUser> createUsers, Long opUserId) {

@@ -7,6 +7,7 @@ package com.wuda.foundation.commons.impl.jooq.generation;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Email;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Phone;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKey;
+import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKeyDefinition;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyValue;
 
 
@@ -30,6 +31,11 @@ public class Tables {
      * 属性的key
      */
     public static final PropertyKey PROPERTY_KEY = PropertyKey.PROPERTY_KEY;
+
+    /**
+     * property key 的定义，就好像是数据库表中列的定义是类似的
+     */
+    public static final PropertyKeyDefinition PROPERTY_KEY_DEFINITION = PropertyKeyDefinition.PROPERTY_KEY_DEFINITION;
 
     /**
      * 属性的值

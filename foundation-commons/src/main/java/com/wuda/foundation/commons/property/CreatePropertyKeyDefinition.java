@@ -7,13 +7,13 @@ import lombok.Getter;
 import java.util.Objects;
 
 @Getter
-public class CreatePropertyDefinition {
+public class CreatePropertyKeyDefinition {
 
     private Long id;
     private Long propertyKeyId;
     private DataType dataType;
 
-    public static class Builder implements com.wuda.foundation.lang.Builder<CreatePropertyDefinition> {
+    public static class Builder implements com.wuda.foundation.lang.Builder<CreatePropertyKeyDefinition> {
 
         private Long id;
         private Long propertyKeyId;
@@ -35,14 +35,14 @@ public class CreatePropertyDefinition {
         }
 
         @Override
-        public CreatePropertyDefinition build() {
-            CreatePropertyDefinition createPropertyDefinition = new CreatePropertyDefinition();
-            createPropertyDefinition.id = Objects.requireNonNull(this.id);
-            createPropertyDefinition.propertyKeyId = Objects.requireNonNull(this.propertyKeyId);
+        public CreatePropertyKeyDefinition build() {
+            CreatePropertyKeyDefinition createPropertyKeyDefinition = new CreatePropertyKeyDefinition();
+            createPropertyKeyDefinition.id = Objects.requireNonNull(this.id);
+            createPropertyKeyDefinition.propertyKeyId = Objects.requireNonNull(this.propertyKeyId);
             // 先检查是否能找到
             dataType = DataTypeRegistry.defaultRegistry.getDataType(this.dataType.getFullName());
-            createPropertyDefinition.dataType = Objects.requireNonNull(this.dataType);
-            return createPropertyDefinition;
+            createPropertyKeyDefinition.dataType = Objects.requireNonNull(this.dataType);
+            return createPropertyKeyDefinition;
         }
     }
 }

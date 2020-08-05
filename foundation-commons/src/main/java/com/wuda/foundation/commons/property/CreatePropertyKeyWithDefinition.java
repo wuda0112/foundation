@@ -14,19 +14,19 @@ import java.util.Objects;
 public class CreatePropertyKeyWithDefinition {
 
     private CreatePropertyKey propertyKey;
-    private CreatePropertyDefinition definition;
+    private CreatePropertyKeyDefinition definition;
 
     public static class Builder implements com.wuda.foundation.lang.Builder<CreatePropertyKeyWithDefinition> {
 
         private CreatePropertyKey propertyKey;
-        private CreatePropertyDefinition definition;
+        private CreatePropertyKeyDefinition definition;
 
         public Builder setCreatePropertyKey(CreatePropertyKey propertyKey) {
             this.propertyKey = propertyKey;
             return this;
         }
 
-        public Builder setCreatePropertyDefinition(CreatePropertyDefinition definition) {
+        public Builder setCreatePropertyDefinition(CreatePropertyKeyDefinition definition) {
             this.definition = definition;
             return this;
         }

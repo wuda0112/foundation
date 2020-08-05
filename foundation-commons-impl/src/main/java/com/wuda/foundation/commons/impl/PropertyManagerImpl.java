@@ -3,7 +3,7 @@ package com.wuda.foundation.commons.impl;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyKeyRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyValueRecord;
 import com.wuda.foundation.commons.property.AbstractPropertyManager;
-import com.wuda.foundation.commons.property.CreatePropertyDefinition;
+import com.wuda.foundation.commons.property.CreatePropertyKeyDefinition;
 import com.wuda.foundation.commons.property.CreatePropertyKey;
 import com.wuda.foundation.commons.property.CreatePropertyKeyWithDefinition;
 import com.wuda.foundation.commons.property.CreatePropertyValue;
@@ -134,7 +134,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     @Override
     protected long createPropertyKeyDbOp(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) {
         CreatePropertyKey createPropertyKey = createPropertyKeyWithDefinition.getPropertyKey();
-        CreatePropertyDefinition definition = createPropertyKeyWithDefinition.getDefinition();
+        CreatePropertyKeyDefinition definition = createPropertyKeyWithDefinition.getDefinition();
         long actualPropertyKeyId = createPropertyKeyDbOp(createPropertyKey, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId);
         if (actualPropertyKeyId == createPropertyKey.getId()) {
             createPropertyDefinitionDbOp(definition, opUserId);
@@ -231,7 +231,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     }
 
     @Override
-    protected long createPropertyDefinitionDbOp(CreatePropertyDefinition definition, Long opUserId) {
+    protected long createPropertyDefinitionDbOp(CreatePropertyKeyDefinition definition, Long opUserId) {
         return 0;
     }
 

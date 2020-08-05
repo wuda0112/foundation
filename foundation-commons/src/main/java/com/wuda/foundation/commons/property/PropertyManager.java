@@ -138,5 +138,5 @@ public interface PropertyManager {
      * @param opUserId   操作人用户ID
      * @return 如果已经存在, 则返回已经存在的记录的definition的id;如果不存在,返回新增的definition的id
      */
-    long createPropertyDefinition(CreatePropertyDefinition definition, Long opUserId);
+    long createPropertyDefinition(CreatePropertyKeyDefinition definition, Long opUserId);
 }

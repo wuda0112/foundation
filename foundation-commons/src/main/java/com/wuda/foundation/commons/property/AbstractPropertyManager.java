@@ -118,11 +118,11 @@ public abstract class AbstractPropertyManager implements PropertyManager {
     protected abstract List<DescribeProperty> getPropertiesDbOp(Identifier<Long> owner);
 
     @Override
-    public long createPropertyDefinition(CreatePropertyDefinition definition, Long opUserId) {
+    public long createPropertyDefinition(CreatePropertyKeyDefinition definition, Long opUserId) {
         ExtObjects.requireNonNull(definition, opUserId);
         return createPropertyDefinitionDbOp(definition, opUserId);
     }
 
-    protected abstract long createPropertyDefinitionDbOp(CreatePropertyDefinition definition, Long opUserId);
+    protected abstract long createPropertyDefinitionDbOp(CreatePropertyKeyDefinition definition, Long opUserId);
 
 }

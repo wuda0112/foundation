@@ -7,6 +7,7 @@ package com.wuda.foundation.commons.impl.jooq.generation;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Email;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Phone;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKey;
+import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKeyDefinition;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyValue;
 
 import java.util.Arrays;
@@ -23,7 +24,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationCommons extends SchemaImpl {
 
-    private static final long serialVersionUID = 1292327615;
+    private static final long serialVersionUID = 24463695;
 
     /**
      * The reference instance of <code>foundation_commons</code>
@@ -44,6 +45,11 @@ public class FoundationCommons extends SchemaImpl {
      * 属性的key
      */
     public final PropertyKey PROPERTY_KEY = PropertyKey.PROPERTY_KEY;
+
+    /**
+     * property key 的定义，就好像是数据库表中列的定义是类似的
+     */
+    public final PropertyKeyDefinition PROPERTY_KEY_DEFINITION = PropertyKeyDefinition.PROPERTY_KEY_DEFINITION;
 
     /**
      * 属性的值
@@ -69,6 +75,7 @@ public class FoundationCommons extends SchemaImpl {
             Email.EMAIL,
             Phone.PHONE,
             PropertyKey.PROPERTY_KEY,
+            PropertyKeyDefinition.PROPERTY_KEY_DEFINITION,
             PropertyValue.PROPERTY_VALUE);
     }
 }

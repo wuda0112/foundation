@@ -4,7 +4,7 @@ import com.wuda.foundation.lang.DataType;
 import lombok.Data;
 
 @Data
-public class DescribePropertyDefinition {
+public class DescribePropertyKeyDefinition {
 
     private Long id;
     private Long propertyKeyId;

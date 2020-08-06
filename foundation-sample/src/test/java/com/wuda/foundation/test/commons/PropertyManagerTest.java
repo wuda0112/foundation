@@ -5,9 +5,12 @@ import com.wuda.foundation.commons.impl.PropertyManagerImpl;
 import com.wuda.foundation.commons.property.BuiltinPropertyKeyType;
 import com.wuda.foundation.commons.property.BuiltinPropertyKeyUse;
 import com.wuda.foundation.commons.property.CreatePropertyKey;
+import com.wuda.foundation.commons.property.CreatePropertyKeyDefinition;
+import com.wuda.foundation.commons.property.CreatePropertyKeyWithDefinition;
 import com.wuda.foundation.commons.property.CreatePropertyValue;
 import com.wuda.foundation.commons.property.PropertyManager;
 import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.datatype.MySQLDataTypes;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.identify.LongIdentifier;
@@ -57,14 +60,44 @@ public class PropertyManagerTest extends TestBase {
     }
 
     @Test
+    public void testCreatePropertyKeyDefinition() {
+        PropertyManager propertyManager = getPropertyManager();
+        long propertyKeyId = keyGenerator.next();
+        CreatePropertyKey createPropertyKey = new CreatePropertyKey.Builder()
+                .setId(propertyKeyId)
+                .setOwner(owner)
+                .setType(BuiltinPropertyKeyType.ZERO)
+                .setUse(BuiltinPropertyKeyUse.ZERO)
+                .setKey("key-" + propertyKeyId)
+                .build();
+        CreatePropertyKeyDefinition createPropertyKeyDefinition = new CreatePropertyKeyDefinition.Builder()
+                .setId(keyGenerator.next())
+                .setPropertyKeyId(propertyKeyId)
+                .setDataType(MySQLDataTypes.VARCHAR)
+                .build();
+        CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition = new CreatePropertyKeyWithDefinition.Builder()
+                .setCreatePropertyKey(createPropertyKey)
+                .setCreatePropertyDefinition(createPropertyKeyDefinition)
+                .build();
+        CreatePropertyValue createPropertyValue = new CreatePropertyValue.Builder()
+                .setId(keyGenerator.next())
+                .setPropertyKeyId(propertyKeyId)
+                .setValue("value-" + keyGenerator.next())
+                .build();
+        propertyManager.createPropertyKey(createPropertyKeyWithDefinition, opUserId);
+        propertyManager.createPropertyValue(createPropertyValue, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId);
+    }
+
+    @Test
     public void testGetProperties() {
-        BuiltinPropertyKeyType.ZERO.register();
-        BuiltinPropertyKeyUse.ZERO.register();
         PropertyManager propertyManager = getPropertyManager();
         propertyManager.getProperties(owner);
     }
 
     private PropertyManager getPropertyManager() {
+        MySQLDataTypes.VARCHAR.register();
+        BuiltinPropertyKeyType.ZERO.register();
+        BuiltinPropertyKeyUse.ZERO.register();
         PropertyManagerImpl propertyManager = new PropertyManagerImpl();
         propertyManager.setDataSource(getDataSource());
         return propertyManager;

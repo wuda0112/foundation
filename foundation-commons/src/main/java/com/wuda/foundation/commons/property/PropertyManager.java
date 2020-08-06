@@ -1,6 +1,7 @@
 package com.wuda.foundation.commons.property;
 
 import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.SingleInsertResult;
 import com.wuda.foundation.lang.identify.Identifier;
 
 import java.util.List;
@@ -111,7 +112,7 @@ public interface PropertyManager {
      * @param propertyKeyId property key id
      * @return <code>null</code>-如果不存在
      */
-    DescribePropertyDefinition getDefinitionByPropertyKey(Long propertyKeyId);
+    DescribePropertyKeyDefinition getDefinitionByPropertyKey(Long propertyKeyId);
 
     /**
      * 获取实体指定的property.
@@ -136,7 +137,7 @@ public interface PropertyManager {
      *
      * @param definition 创建definition
      * @param opUserId   操作人用户ID
-     * @return 如果已经存在, 则返回已经存在的记录的definition的id;如果不存在,返回新增的definition的id
+     * @return 返回创建的结果
      */
-    long createPropertyDefinition(CreatePropertyKeyDefinition definition, Long opUserId);
+    SingleInsertResult createPropertyDefinition(CreatePropertyKeyDefinition definition, Long opUserId);
 }

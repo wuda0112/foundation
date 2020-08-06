@@ -40,7 +40,7 @@ public class CreatePropertyKeyDefinition {
             createPropertyKeyDefinition.id = Objects.requireNonNull(this.id);
             createPropertyKeyDefinition.propertyKeyId = Objects.requireNonNull(this.propertyKeyId);
             // 先检查是否能找到
-            dataType = DataTypeRegistry.defaultRegistry.getDataType(this.dataType.getFullName());
+            dataType = DataTypeRegistry.defaultRegistry.lookup(this.dataType.getFullName());
             createPropertyKeyDefinition.dataType = Objects.requireNonNull(this.dataType);
             return createPropertyKeyDefinition;
         }

@@ -45,7 +45,7 @@ public class DataTypeRegistry {
      * @param dataTypeName {@link DataType#getName()}
      * @return 保证不会为<code>null</code>
      */
-    public DataType getDataType(DataTypeSchema schema, String dataTypeName) {
+    public DataType lookup(DataTypeSchema schema, String dataTypeName) {
         DataType dataType = null;
         List<DataType> dataTypeList = bySchemaMap.get(schema);
         if (dataTypeList != null && !dataTypeList.isEmpty()) {
@@ -68,7 +68,7 @@ public class DataTypeRegistry {
      * @param dataTypeFullName {@link DataType#getFullName()} ()}
      * @return 保证不会为<code>null</code>
      */
-    public DataType getDataType(String dataTypeFullName) {
+    public DataType lookup(String dataTypeFullName) {
         Set<Map.Entry<DataTypeSchema, List<DataType>>> entrySet = bySchemaMap.entrySet();
         DataType dataType = null;
         if (!entrySet.isEmpty()) {

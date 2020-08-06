@@ -11,5 +11,5 @@ public class DescribeProperty {
 
     private DescribePropertyKey propertyKey;
     private List<DescribePropertyValue> propertyValues;
-    private DescribePropertyDefinition propertyDefinition;
+    private DescribePropertyKeyDefinition propertyDefinition;
 }

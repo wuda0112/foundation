@@ -2,6 +2,7 @@ package com.wuda.foundation.commons.property;
 
 import com.wuda.foundation.lang.ExtObjects;
 import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.SingleInsertResult;
 import com.wuda.foundation.lang.identify.Identifier;
 
 import java.util.List;
@@ -95,11 +96,11 @@ public abstract class AbstractPropertyManager implements PropertyManager {
     protected abstract List<DescribePropertyValue> getValueByPropertyKeyDbOp(Long propertyKeyId);
 
     @Override
-    public DescribePropertyDefinition getDefinitionByPropertyKey(Long propertyKeyId) {
+    public DescribePropertyKeyDefinition getDefinitionByPropertyKey(Long propertyKeyId) {
         return getDefinitionByPropertyKeyDbOp(Objects.requireNonNull(propertyKeyId));
     }
 
-    protected abstract DescribePropertyDefinition getDefinitionByPropertyKeyDbOp(Long propertyKeyId);
+    protected abstract DescribePropertyKeyDefinition getDefinitionByPropertyKeyDbOp(Long propertyKeyId);
 
     @Override
     public DescribeProperty getProperty(Identifier<Long> owner, String key) {
@@ -118,11 +119,11 @@ public abstract class AbstractPropertyManager implements PropertyManager {
     protected abstract List<DescribeProperty> getPropertiesDbOp(Identifier<Long> owner);
 
     @Override
-    public long createPropertyDefinition(CreatePropertyKeyDefinition definition, Long opUserId) {
+    public SingleInsertResult createPropertyDefinition(CreatePropertyKeyDefinition definition, Long opUserId) {
         ExtObjects.requireNonNull(definition, opUserId);
         return createPropertyDefinitionDbOp(definition, opUserId);
     }
 
-    protected abstract long createPropertyDefinitionDbOp(CreatePropertyKeyDefinition definition, Long opUserId);
+    protected abstract SingleInsertResult createPropertyDefinitionDbOp(CreatePropertyKeyDefinition definition, Long opUserId);
 
 }

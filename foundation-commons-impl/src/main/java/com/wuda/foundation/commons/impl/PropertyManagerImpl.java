@@ -1,15 +1,16 @@
 package com.wuda.foundation.commons.impl;
 
+import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyKeyDefinitionRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyKeyRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyValueRecord;
 import com.wuda.foundation.commons.property.AbstractPropertyManager;
-import com.wuda.foundation.commons.property.CreatePropertyKeyDefinition;
 import com.wuda.foundation.commons.property.CreatePropertyKey;
+import com.wuda.foundation.commons.property.CreatePropertyKeyDefinition;
 import com.wuda.foundation.commons.property.CreatePropertyKeyWithDefinition;
 import com.wuda.foundation.commons.property.CreatePropertyValue;
 import com.wuda.foundation.commons.property.DescribeProperty;
-import com.wuda.foundation.commons.property.DescribePropertyDefinition;
 import com.wuda.foundation.commons.property.DescribePropertyKey;
+import com.wuda.foundation.commons.property.DescribePropertyKeyDefinition;
 import com.wuda.foundation.commons.property.DescribePropertyValue;
 import com.wuda.foundation.commons.property.PropertyKeyType;
 import com.wuda.foundation.commons.property.PropertyKeyTypeSchema;
@@ -19,11 +20,11 @@ import com.wuda.foundation.commons.property.UpdatePropertyValue;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.DataType;
+import com.wuda.foundation.lang.DataTypeRegistry;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.SingleInsertResult;
 import com.wuda.foundation.lang.UniqueCodeDescriptorRegistry;
-import com.wuda.foundation.lang.datatype.MySQLDataTypes;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
@@ -40,11 +41,14 @@ import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKey.PROPERTY_KEY;
+import static com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKeyDefinition.PROPERTY_KEY_DEFINITION;
 import static com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyValue.PROPERTY_VALUE;
 
 public class PropertyManagerImpl extends AbstractPropertyManager implements JooqCommonDbOp {
@@ -69,11 +73,14 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     @Override
     protected long createPropertyValueDbOp(CreatePropertyValue createPropertyValue, InsertMode insertMode, Long opUserId) {
         long propertyKeyId = createPropertyValue.getPropertyKeyId();
-        DescribePropertyDefinition describePropertyDefinition = getDefinitionByPropertyKey(propertyKeyId);
-        DataType dataType = MySQLDataTypes.VARCHAR;
+        DescribePropertyKeyDefinition describePropertyKeyDefinition = getDefinitionByPropertyKeyDbOp(propertyKeyId);
+        DataType dataType = null;
+        if (describePropertyKeyDefinition != null) {
+            dataType = describePropertyKeyDefinition.getDataType();
+        }
         List<PropertyValueRecord> values = getPropertyValue(propertyKeyId);
         long id;
-        if (dataType.isCollection()) {
+        if (dataType == null || dataType.isCollection()) {
             PropertyValueRecord exists = propertyValueExists(values, createPropertyValue.getValue());
             if (exists != null) {
                 id = exists.getPropertyValueId().longValue();
@@ -182,15 +189,21 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     }
 
     @Override
-    protected DescribePropertyDefinition getDefinitionByPropertyKeyDbOp(Long propertyKeyId) {
-        return null;
+    protected DescribePropertyKeyDefinition getDefinitionByPropertyKeyDbOp(Long propertyKeyId) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
+        PropertyKeyDefinitionRecord propertyKeyDefinitionRecord = dslContext
+                .selectFrom(PROPERTY_KEY_DEFINITION)
+                .where(PROPERTY_KEY_DEFINITION.PROPERTY_KEY_ID.eq(ULong.valueOf(propertyKeyId)))
+                .and(PROPERTY_KEY_DEFINITION.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())))
+                .fetchOne();
+        return definitionFrom(propertyKeyDefinitionRecord);
     }
 
     @Override
     protected DescribeProperty getPropertyDbOp(Identifier<Long> owner, String key) {
         DescribePropertyKey describePropertyKey = getPropertyKeyDbOp(owner, key);
         List<DescribePropertyValue> describePropertyValues = getValueByPropertyKeyDbOp(describePropertyKey.getId());
-        DescribePropertyDefinition definition = getDefinitionByPropertyKeyDbOp(describePropertyKey.getId());
+        DescribePropertyKeyDefinition definition = getDefinitionByPropertyKeyDbOp(describePropertyKey.getId());
         return new DescribeProperty(describePropertyKey, describePropertyValues, definition);
     }
 
@@ -200,6 +213,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
         SelectConditionStep selectConditionStep = dslContext.select()
                 .from(PROPERTY_KEY)
+                .leftJoin(PROPERTY_KEY_DEFINITION).on(PROPERTY_KEY_DEFINITION.PROPERTY_KEY_ID.eq(PROPERTY_KEY.PROPERTY_KEY_ID)).and(PROPERTY_KEY_DEFINITION.IS_DELETED.eq(notDeleted))
                 .leftJoin(PROPERTY_VALUE).on(PROPERTY_VALUE.PROPERTY_KEY_ID.eq(PROPERTY_KEY.PROPERTY_KEY_ID)).and(PROPERTY_VALUE.IS_DELETED.eq(notDeleted))
                 .where(PROPERTY_KEY.OWNER_TYPE.eq(UByte.valueOf(owner.getType().getCode())))
                 .and(PROPERTY_KEY.OWNER_IDENTIFIER.eq(ULong.valueOf(owner.getValue())))
@@ -211,28 +225,62 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
             if (propertyKeyRecords != null && propertyKeyRecords.size() > 0) {
                 list = new ArrayList<>();
                 Result<PropertyValueRecord> propertyValueRecords = result.into(PROPERTY_VALUE);
-                Map<ULong, List<PropertyValueRecord>> byPropertyKeyMap;
+                Map<ULong, List<PropertyValueRecord>> valueByKeyMap;
                 if (propertyValueRecords != null) {
-                    byPropertyKeyMap = propertyValueRecords.stream()
-                            .filter(value -> value != null && value.getPropertyKeyId() != null)
+                    valueByKeyMap = propertyValueRecords.stream()
+                            .filter(value -> value != null && value.getPropertyKeyId() != null) // 作为连接表,可能不存在记录
                             .collect(Collectors.groupingBy(PropertyValueRecord::getPropertyKeyId));
                 } else {
-                    byPropertyKeyMap = new HashMap<>(1);
+                    valueByKeyMap = new HashMap<>(1);
                 }
+
+                Result<PropertyKeyDefinitionRecord> propertyKeyDefinitionRecords = result.into(PROPERTY_KEY_DEFINITION);
+                Map<ULong, PropertyKeyDefinitionRecord> definitionByKeyMap = new HashMap<>(result.size());
+                if (propertyKeyDefinitionRecords != null) {
+                    for (PropertyKeyDefinitionRecord propertyKeyDefinitionRecord : propertyKeyDefinitionRecords) {
+                        if (propertyKeyDefinitionRecord != null && propertyKeyDefinitionRecord.getPropertyKeyId() != null) {// 作为连接表,可能不存在记录
+                            definitionByKeyMap.put(propertyKeyDefinitionRecord.getPropertyKeyId(), propertyKeyDefinitionRecord);
+                        }
+                    }
+                }
+                Set<Long> propertyKeyIdSet = new HashSet<>(propertyKeyRecords.size());
                 for (PropertyKeyRecord propertyKeyRecord : propertyKeyRecords) {
-                    List<PropertyValueRecord> propertyValues = byPropertyKeyMap.get(propertyKeyRecord.getPropertyKeyId());
-                    List<DescribePropertyValue> describePropertyValues = from(propertyValues);
-                    DescribeProperty describeProperty = new DescribeProperty(from(propertyKeyRecord), describePropertyValues, null);
-                    list.add(describeProperty);
+                    if (propertyKeyIdSet.add(propertyKeyRecord.getPropertyKeyId().longValue())) { // 连接表后,主表的记录返回时可能会重复,因为连接的表中有多条记录属于主表
+                        List<PropertyValueRecord> valueRecords = valueByKeyMap.get(propertyKeyRecord.getPropertyKeyId());
+                        List<DescribePropertyValue> describePropertyValues = from(valueRecords);
+                        PropertyKeyDefinitionRecord definitionRecord = definitionByKeyMap.get(propertyKeyRecord.getPropertyKeyId());
+                        DescribePropertyKeyDefinition describePropertyKeyDefinition = definitionFrom(definitionRecord);
+                        checkDataType(propertyKeyRecord.getPropertyKeyId().longValue(), describePropertyKeyDefinition, describePropertyValues);
+                        DescribeProperty describeProperty = new DescribeProperty(from(propertyKeyRecord), describePropertyValues, describePropertyKeyDefinition);
+                        list.add(describeProperty);
+                    }
                 }
             }
         }
         return list;
     }
 
+    private void checkDataType(long propertyKeyId, DescribePropertyKeyDefinition describePropertyKeyDefinition, List<DescribePropertyValue> describePropertyValues) {
+        if (describePropertyKeyDefinition != null
+                && !describePropertyKeyDefinition.getDataType().isCollection()
+                && describePropertyValues != null
+                && describePropertyValues.size() > 1) {
+            throw new IllegalStateException("property key id = " + propertyKeyId
+                    + ",data type = " + describePropertyKeyDefinition.getDataType().getFullName()
+                    + ",不集合类型,但是有多个value");
+        }
+    }
+
     @Override
-    protected long createPropertyDefinitionDbOp(CreatePropertyKeyDefinition definition, Long opUserId) {
-        return 0;
+    protected SingleInsertResult createPropertyDefinitionDbOp(CreatePropertyKeyDefinition definition, Long opUserId) {
+        PropertyKeyDefinitionRecord record = propertyKeyDefinitionRecordForInsert(definition, opUserId);
+        Configuration configuration = JooqContext.getConfiguration(dataSource);
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+                .select(PROPERTY_KEY_DEFINITION.PROPERTY_DEFINITION_ID)
+                .from(PROPERTY_KEY_DEFINITION)
+                .where(PROPERTY_KEY_DEFINITION.PROPERTY_KEY_ID.eq(ULong.valueOf(definition.getPropertyKeyId())))
+                .and(PROPERTY_KEY_DEFINITION.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
+        return insertAfterSelectCheck(dataSource, PROPERTY_KEY_DEFINITION, record, existsRecordSelector);
     }
 
     private PropertyValueRecord propertyValueRecordForUpdate(UpdatePropertyValue updatePropertyValue, Long opUserId) {
@@ -313,6 +361,46 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         List<PropertyKeyRecord> list = new ArrayList<>(createPropertyKeys.size());
         for (CreatePropertyKey createPropertyKey : createPropertyKeys) {
             list.add(newPropertyKeyRecord(createPropertyKey, opUserId));
+        }
+        return list;
+    }
+
+    private PropertyKeyDefinitionRecord propertyKeyDefinitionRecordForInsert(CreatePropertyKeyDefinition definition, Long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new PropertyKeyDefinitionRecord(ULong.valueOf(definition.getId()),
+                ULong.valueOf(definition.getPropertyKeyId()),
+                definition.getDataType().getFullName(),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue())
+        );
+    }
+
+    private List<PropertyKeyDefinitionRecord> propertyKeyDefinitionRecordsForInsert(List<CreatePropertyKeyDefinition> definitions, Long opUserId) {
+        List<PropertyKeyDefinitionRecord> list = new ArrayList<>(definitions.size());
+        for (CreatePropertyKeyDefinition definition : definitions) {
+            list.add(propertyKeyDefinitionRecordForInsert(definition, opUserId));
+        }
+        return list;
+    }
+
+    private DescribePropertyKeyDefinition definitionFrom(PropertyKeyDefinitionRecord record) {
+        if (record == null) {
+            return null;
+        }
+        DescribePropertyKeyDefinition describePropertyKeyDefinition = new DescribePropertyKeyDefinition();
+        describePropertyKeyDefinition.setId(record.getPropertyDefinitionId().longValue());
+        describePropertyKeyDefinition.setPropertyKeyId(record.getPropertyKeyId().longValue());
+        DataType dataType = DataTypeRegistry.defaultRegistry.lookup(record.getDataType());
+        describePropertyKeyDefinition.setDataType(dataType);
+        return describePropertyKeyDefinition;
+    }
+
+    private List<DescribePropertyKeyDefinition> definitionsFromList(List<PropertyKeyDefinitionRecord> propertyKeyDefinitionRecords) {
+        if (propertyKeyDefinitionRecords == null) {
+            return null;
+        }
+        List<DescribePropertyKeyDefinition> list = new ArrayList<>(propertyKeyDefinitionRecords.size());
+        for (PropertyKeyDefinitionRecord propertyKeyDefinitionRecord : propertyKeyDefinitionRecords) {
+            list.add(definitionFrom(propertyKeyDefinitionRecord));
         }
         return list;
     }

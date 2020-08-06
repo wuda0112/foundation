@@ -1,7 +1,6 @@
 package com.wuda.foundation.lang.datatype;
 
 import com.wuda.foundation.lang.DataType;
-import com.wuda.foundation.lang.DataTypeRegistry;
 import com.wuda.foundation.lang.DataTypeSchema;
 
 /**
@@ -22,7 +21,6 @@ public enum MySQLDataTypes implements DataType {
         this.schema = schema;
         this.name = name;
         this.isCollection = isCollection;
-        DataTypeRegistry.defaultRegistry.register(this);
     }
 
     @Override

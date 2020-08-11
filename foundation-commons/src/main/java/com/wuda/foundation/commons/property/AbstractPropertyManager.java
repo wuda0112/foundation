@@ -1,5 +1,7 @@
 package com.wuda.foundation.commons.property;
 
+import com.wuda.foundation.lang.AlreadyExistsException;
+import com.wuda.foundation.lang.CreateAfterCheckMode;
 import com.wuda.foundation.lang.ExtObjects;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.SingleInsertResult;
@@ -40,16 +42,16 @@ public abstract class AbstractPropertyManager implements PropertyManager {
     protected abstract DescribePropertyKey getPropertyKeyDbOp(Long id);
 
     @Override
-    public long createPropertyKey(CreatePropertyKey createPropertyKey, InsertMode insertMode, Long opUserId) {
+    public SingleInsertResult createPropertyKey(CreatePropertyKey createPropertyKey, InsertMode insertMode, Long opUserId) {
         return createPropertyKeyDbOp(createPropertyKey, insertMode, opUserId);
     }
 
     @Override
-    public long createPropertyKey(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) {
-        return createPropertyKeyDbOp(createPropertyKeyWithDefinition, opUserId);
+    public SingleInsertResult createPropertyKeyWithDefinition(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) throws AlreadyExistsException {
+        return createPropertyKeyWithDefinitionDbOp(createPropertyKeyWithDefinition, opUserId);
     }
 
-    protected abstract long createPropertyKeyDbOp(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId);
+    protected abstract SingleInsertResult createPropertyKeyWithDefinitionDbOp(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) throws AlreadyExistsException;
 
     @Override
     public void directBatchInsertPropertyKey(List<CreatePropertyKey> createPropertyKeys, Long opUserId) {
@@ -58,14 +60,21 @@ public abstract class AbstractPropertyManager implements PropertyManager {
 
     protected abstract void directBatchInsertPropertyKeyDbOp(List<CreatePropertyKey> createPropertyKeys, Long opUserId);
 
-    protected abstract long createPropertyKeyDbOp(CreatePropertyKey createPropertyKey, InsertMode insertMode, Long opUserId);
+    protected abstract SingleInsertResult createPropertyKeyDbOp(CreatePropertyKey createPropertyKey, InsertMode insertMode, Long opUserId);
 
     @Override
-    public long createPropertyValue(CreatePropertyValue createPropertyValue, InsertMode insertMode, Long opUserId) {
-        return createPropertyValueDbOp(createPropertyValue, insertMode, opUserId);
+    public SingleInsertResult createPropertyValue(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId) {
+        return createPropertyValueDbOp(createPropertyValue, createAfterCheckMode, opUserId);
     }
 
-    protected abstract long createPropertyValueDbOp(CreatePropertyValue createPropertyValue, InsertMode insertMode, Long opUserId);
+    @Override
+    public long createOrUpdatePropertyValue(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId) {
+        return createOrUpdatePropertyValueDbOp(createPropertyValue, createAfterCheckMode, opUserId);
+    }
+
+    protected abstract long createOrUpdatePropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId);
+
+    protected abstract SingleInsertResult createPropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode,  Long opUserId);
 
     @Override
     public void directBatchInsertPropertyValue(List<CreatePropertyValue> createPropertyValues, Long opUserId) {
@@ -119,11 +128,11 @@ public abstract class AbstractPropertyManager implements PropertyManager {
     protected abstract List<DescribeProperty> getPropertiesDbOp(Identifier<Long> owner);
 
     @Override
-    public SingleInsertResult createPropertyDefinition(CreatePropertyKeyDefinition definition, Long opUserId) {
+    public SingleInsertResult createPropertyKeyDefinition(CreatePropertyKeyDefinition definition, Long opUserId) throws AlreadyExistsException {
         ExtObjects.requireNonNull(definition, opUserId);
-        return createPropertyDefinitionDbOp(definition, opUserId);
+        return createPropertyKeyDefinitionDbOp(definition, opUserId);
     }
 
-    protected abstract SingleInsertResult createPropertyDefinitionDbOp(CreatePropertyKeyDefinition definition, Long opUserId);
+    protected abstract SingleInsertResult createPropertyKeyDefinitionDbOp(CreatePropertyKeyDefinition definition, Long opUserId) throws AlreadyExistsException;
 
 }

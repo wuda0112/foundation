@@ -5,10 +5,10 @@ import com.wuda.foundation.commons.CreateEmail;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.EmailRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.lang.SingleInsertResult;
 import org.jooq.Configuration;
-import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
@@ -31,7 +31,7 @@ public class EmailManagerImpl extends AbstractEmailManager implements JooqCommon
     }
 
     @Override
-    protected Long createEmailDbOp(CreateEmail createEmail, InsertMode insertMode, Long opUserId) {
+    protected Long createEmailDbOp(CreateEmail createEmail, Long opUserId) throws AlreadyExistsException{
 
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
@@ -39,7 +39,11 @@ public class EmailManagerImpl extends AbstractEmailManager implements JooqCommon
                 .from(EMAIL)
                 .where(EMAIL.ADDRESS.eq(createEmail.getAddress()))
                 .and(EMAIL.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        return insertDispatcher(dataSource, insertMode, EMAIL, emailRecordForInsert(createEmail, opUserId), existsRecordSelector).getRecordId();
+        SingleInsertResult singleInsertResult = insertAfterSelectCheck(dataSource, EMAIL, emailRecordForInsert(createEmail, opUserId), existsRecordSelector);
+        if (singleInsertResult.getExistsRecordId() != null) {
+            throw new AlreadyExistsException("email = " + createEmail.getAddress() + ",已经存在");
+        }
+        return singleInsertResult.getNewlyAddedRecordId();
     }
 
     @Override

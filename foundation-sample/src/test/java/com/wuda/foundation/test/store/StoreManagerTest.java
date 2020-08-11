@@ -1,7 +1,13 @@
 package com.wuda.foundation.test.store;
 
 import com.wuda.foundation.TestBase;
-import com.wuda.foundation.store.*;
+import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.store.BuiltinStoreState;
+import com.wuda.foundation.store.BuiltinStoreType;
+import com.wuda.foundation.store.CreateStore;
+import com.wuda.foundation.store.CreateStoreGeneral;
+import com.wuda.foundation.store.StoreManager;
+import com.wuda.foundation.store.UpdateStoreGeneral;
 import com.wuda.foundation.store.impl.StoreManagerImpl;
 import org.junit.Test;
 
@@ -42,19 +48,20 @@ public class StoreManagerTest extends TestBase {
                 .setStoreType(BuiltinStoreType.ZERO)
                 .setStoreState(BuiltinStoreState.ZERO)
                 .build();
-        long storeId = storeManager.createStore(createStore, opUserId, keyGenerator, opUserId);
+        long storeId = storeManager.createStore(opUserId, createStore, opUserId);
 
         CreateStoreGeneral createStoreGeneral = new CreateStoreGeneral.Builder()
                 .setId(keyGenerator.next())
                 .setStoreId(storeId)
                 .setStoreName("卖卖小店")
                 .build();
-        long storeGeneralId = storeManager.createStoreGeneral(createStoreGeneral, opUserId);
+        long storeGeneralId = storeManager.createOrUpdateStoreGeneral(createStoreGeneral, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId);
 
         UpdateStoreGeneral updateStoreGeneral = new UpdateStoreGeneral.Builder()
+                .setId(storeGeneralId)
                 .setStoreName("卖卖百年老店")
                 .build();
-        storeManager.updateStoreGeneralById(storeGeneralId, updateStoreGeneral, opUserId);
+        storeManager.updateStoreGeneralById(updateStoreGeneral, opUserId);
     }
 
     private StoreManager getStoreManager() {

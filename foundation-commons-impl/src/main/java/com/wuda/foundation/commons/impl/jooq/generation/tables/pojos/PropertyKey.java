@@ -163,7 +163,7 @@ public class PropertyKey implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("PropertyKey (");
+        StringBuilder sb = new StringBuilder("PropertyKeyNaming (");
 
         sb.append(propertyKeyId);
         sb.append(", ").append(key);

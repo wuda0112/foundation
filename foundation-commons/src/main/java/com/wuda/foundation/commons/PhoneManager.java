@@ -1,6 +1,6 @@
 package com.wuda.foundation.commons;
 
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.AlreadyExistsException;
 
 import java.util.List;
 
@@ -15,12 +15,11 @@ public interface PhoneManager {
      * 添加phone.
      *
      * @param createPhone phone
-     * @param insertMode  insert mode
      * @param opUserId    操作人用户ID
-     * @return 记录的ID, 虽然设置了ID, 但是如果数据库中已经存在相同的phone,
-     * 并且insert mode 是先检查,则返回的是已有记录的ID;如果数据库中不存在,则返回新增记录的ID
+     * @return 新增的记录的ID
+     * @throws AlreadyExistsException 如果phone已经存在
      */
-    Long createPhone(CreatePhone createPhone, InsertMode insertMode, Long opUserId);
+    Long createPhone(CreatePhone createPhone, Long opUserId) throws AlreadyExistsException;
 
     /**
      * 批量添加phone.

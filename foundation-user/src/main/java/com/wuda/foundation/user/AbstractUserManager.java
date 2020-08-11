@@ -2,6 +2,7 @@ package com.wuda.foundation.user;
 
 import com.wuda.foundation.commons.EmailManager;
 import com.wuda.foundation.commons.PhoneManager;
+import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.keygen.KeyGenerator;
@@ -46,11 +47,11 @@ public abstract class AbstractUserManager implements UserManager {
     protected abstract void directBatchInsertUserDbOp(List<CreateUser> userList, Long opUserId);
 
     @Override
-    public void createUserAccount(CreateUserAccount createUserAccount, Long opUserId) {
+    public void createUserAccount(CreateUserAccount createUserAccount, Long opUserId) throws AlreadyExistsException {
         createUserAccountDbOp(createUserAccount, opUserId);
     }
 
-    protected abstract void createUserAccountDbOp(CreateUserAccount createUserAccount, Long opUserId);
+    protected abstract void createUserAccountDbOp(CreateUserAccount createUserAccount, Long opUserId) throws AlreadyExistsException;
 
     @Override
     public void directBatchInsertUserAccount(List<CreateUserAccount> userAccounts, Long opUserId) {
@@ -106,22 +107,11 @@ public abstract class AbstractUserManager implements UserManager {
     protected abstract boolean existsDbOp(Identifier<String> identifier);
 
     @Override
-    public long createUser(CreateUserWithAccount createUser, EmailManager emailManager, PhoneManager phoneManager, KeyGenerator<Long> keyGenerator, Long opUserId) {
-        return createUserDbOp(createUser, emailManager, phoneManager, keyGenerator, opUserId);
+    public long createUser(CreateUserWithAccount createUser, EmailManager emailManager, PhoneManager phoneManager, Long opUserId) throws AlreadyExistsException{
+        return createUserDbOp(createUser, emailManager, phoneManager, opUserId);
     }
 
-    /**
-     * 作为{@link #createUser(CreateUserWithAccount, EmailManager, PhoneManager, KeyGenerator, Long)}方法的一部分,参数的校验已经
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param createUser   用于创建用户的信息
-     * @param emailManager 如果账号有email,则用于处理email
-     * @param phoneManager 如果账号有phone,则用于处理phone
-     * @param keyGenerator 如果创建了phone或者email,则需要{@link BindUserEmail}或者{@link BindUserPhone},这时需要用于生成ID
-     * @param opUserId     操作人用户ID,是谁正在添加这个新用户
-     * @return 新增的用户的ID
-     */
-    protected abstract long createUserDbOp(CreateUserWithAccount createUser, EmailManager emailManager, PhoneManager phoneManager, KeyGenerator<Long> keyGenerator, Long opUserId);
+    protected abstract long createUserDbOp(CreateUserWithAccount createUser, EmailManager emailManager, PhoneManager phoneManager, Long opUserId) throws AlreadyExistsException;
 
     @Override
     public void updatePassword(Long userId, String newPassword) {

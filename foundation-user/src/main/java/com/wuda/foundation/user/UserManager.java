@@ -2,9 +2,9 @@ package com.wuda.foundation.user;
 
 import com.wuda.foundation.commons.EmailManager;
 import com.wuda.foundation.commons.PhoneManager;
+import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.identify.Identifier;
-import com.wuda.foundation.lang.keygen.KeyGenerator;
 
 import java.util.List;
 
@@ -31,8 +31,9 @@ public interface UserManager {
      *
      * @param createUserAccount user account
      * @param opUserId          操作人用户ID
+     * @throws AlreadyExistsException 如果{@link CreateUserAccount#getUsername()}已经存在
      */
-    void createUserAccount(CreateUserAccount createUserAccount, Long opUserId);
+    void createUserAccount(CreateUserAccount createUserAccount, Long opUserId) throws AlreadyExistsException;
 
     /**
      * 批量添加user account.
@@ -94,11 +95,11 @@ public interface UserManager {
      * @param createUser   用于创建用户的信息
      * @param emailManager 如果账号有email,则用于处理email
      * @param phoneManager 如果账号有phone,则用于处理phone
-     * @param keyGenerator 如果创建了phone或者email,则需要{@link BindUserEmail}或者{@link BindUserPhone},这时需要用于生成ID
      * @param opUserId     操作人用户ID,是谁正在添加这个新用户
      * @return 新增的用户的ID
+     * @throws AlreadyExistsException 如果username,email,phone已经存在
      */
-    long createUser(CreateUserWithAccount createUser, EmailManager emailManager, PhoneManager phoneManager, KeyGenerator<Long> keyGenerator, Long opUserId);
+    long createUser(CreateUserWithAccount createUser, EmailManager emailManager, PhoneManager phoneManager, Long opUserId) throws AlreadyExistsException;
 
     /**
      * 更新密码.

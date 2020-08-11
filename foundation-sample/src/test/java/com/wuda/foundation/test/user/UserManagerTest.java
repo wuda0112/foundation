@@ -1,21 +1,27 @@
 package com.wuda.foundation.test.user;
 
 import com.wuda.foundation.TestBase;
-import com.wuda.foundation.commons.*;
+import com.wuda.foundation.commons.BuiltinPhoneType;
+import com.wuda.foundation.commons.CreateEmail;
+import com.wuda.foundation.commons.CreatePhone;
+import com.wuda.foundation.commons.EmailManager;
+import com.wuda.foundation.commons.PhoneManager;
 import com.wuda.foundation.commons.impl.EmailManagerImpl;
 import com.wuda.foundation.commons.impl.PhoneManagerImpl;
+import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.BuiltinEmailState;
 import com.wuda.foundation.lang.BuiltinPhoneState;
-import com.wuda.foundation.lang.EmailIdentifier;
-import com.wuda.foundation.lang.MobilePhoneIdentifier;
-import com.wuda.foundation.lang.identify.Identifier;
-import com.wuda.foundation.user.*;
+import com.wuda.foundation.user.BuiltinUserAccountState;
+import com.wuda.foundation.user.BuiltinUserState;
+import com.wuda.foundation.user.BuiltinUserType;
+import com.wuda.foundation.user.CreateUser;
+import com.wuda.foundation.user.CreateUserAccount;
+import com.wuda.foundation.user.CreateUserWithAccount;
+import com.wuda.foundation.user.UserManager;
 import com.wuda.foundation.user.impl.UserManagerImpl;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -41,7 +47,7 @@ public class UserManagerTest extends TestBase {
                 .setUsername("wuda-username")
                 .setState(BuiltinUserAccountState.ZERO)
                 .build();
-        userManager.directBatchInsertUserAccount(Collections.singletonList(userAccount),opUserId);
+        userManager.directBatchInsertUserAccount(Collections.singletonList(userAccount), opUserId);
         CreateUser user = new CreateUser.Builder()
                 .setId(userId)
                 .setUserType(BuiltinUserType.ZERO)
@@ -66,7 +72,11 @@ public class UserManagerTest extends TestBase {
                 .setPhone(createPhone)
                 .setEmail(createEmail)
                 .build();
-        userManager.createUser(createUserWithAccount, getEmailManager(), getPhoneManager(), keyGenerator, opUserId);
+        try {
+            userManager.createUser(createUserWithAccount, getEmailManager(), getPhoneManager(), opUserId);
+        } catch (AlreadyExistsException e) {
+            e.printStackTrace();
+        }
     }
 
     private UserManager getUserManager() {
@@ -85,12 +95,5 @@ public class UserManagerTest extends TestBase {
         PhoneManagerImpl phoneManager = new PhoneManagerImpl();
         phoneManager.setDataSource(getDataSource());
         return phoneManager;
-    }
-
-    private List<Identifier<String>> generateIdentifiers() {
-        UsernameIdentifier usernameIdentifier = new UsernameIdentifier("test");
-        EmailIdentifier emailIdentifier = new EmailIdentifier("test@163.com", BuiltinEmailState.ONE);
-        MobilePhoneIdentifier mobilePhoneIdentifier = new MobilePhoneIdentifier("15911111111", BuiltinPhoneState.ONE);
-        return Arrays.asList(usernameIdentifier, emailIdentifier, mobilePhoneIdentifier);
     }
 }

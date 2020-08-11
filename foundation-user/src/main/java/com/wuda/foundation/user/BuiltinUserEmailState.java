@@ -1,7 +1,5 @@
 package com.wuda.foundation.user;
 
-import com.wuda.foundation.lang.UniqueCodeDescriptorSchema;
-
 /**
  * 内置state.
  *
@@ -17,6 +15,13 @@ public enum BuiltinUserEmailState implements UserEmailState {
     BuiltinUserEmailState(int code, String description) {
         this.code = code;
         this.description = description;
+    }
+
+    static {
+        BuiltinUserEmailState[] states = BuiltinUserEmailState.values();
+        for (BuiltinUserEmailState state : states) {
+            state.register();
+        }
     }
 
     @Override

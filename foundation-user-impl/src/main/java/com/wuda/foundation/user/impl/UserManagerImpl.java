@@ -8,10 +8,12 @@ import com.wuda.foundation.commons.EmailManager;
 import com.wuda.foundation.commons.PhoneManager;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
+import com.wuda.foundation.lang.AlreadyExistsException;
+import com.wuda.foundation.lang.FoundationContext;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.lang.SingleInsertResult;
 import com.wuda.foundation.lang.identify.Identifier;
-import com.wuda.foundation.lang.keygen.KeyGenerator;
 import com.wuda.foundation.user.AbstractUserManager;
 import com.wuda.foundation.user.BindUserEmail;
 import com.wuda.foundation.user.BindUserPhone;
@@ -61,8 +63,17 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
     }
 
     @Override
-    protected void createUserAccountDbOp(CreateUserAccount createUserAccount, Long opUserId) {
-        insert(dataSource, USER_ACCOUNT, userAccountRecordForInsert(createUserAccount, opUserId));
+    protected void createUserAccountDbOp(CreateUserAccount createUserAccount, Long opUserId) throws AlreadyExistsException {
+        Configuration configuration = JooqContext.getConfiguration(dataSource);
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+                .select(USER_ACCOUNT.USER_ACCOUNT_ID)
+                .from(USER_ACCOUNT)
+                .where(USER_ACCOUNT.USERNAME.eq(createUserAccount.getUsername()))
+                .and(USER_ACCOUNT.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
+        SingleInsertResult result = insertAfterSelectCheck(dataSource, USER_ACCOUNT, userAccountRecordForInsert(createUserAccount, opUserId), existsRecordSelector);
+        if (result.getExistsRecordId() != null) {
+            throw new AlreadyExistsException("username = " + createUserAccount.getUsername() + ",已经存在");
+        }
     }
 
     @Override
@@ -110,17 +121,16 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
     }
 
     @Override
-    public long createUserDbOp(CreateUserWithAccount createUserWithAccount, EmailManager emailManager, PhoneManager phoneManager, KeyGenerator<Long> keyGenerator, Long opUserId) {
-        CreateUser createUser = createUserWithAccount.getUser();
-        createUserDbOp(createUserWithAccount.getUser(), opUserId);
+    public long createUserDbOp(CreateUserWithAccount createUserWithAccount, EmailManager emailManager, PhoneManager phoneManager, Long opUserId) throws AlreadyExistsException {
         createUserAccountDbOp(createUserWithAccount.getUserAccount(), opUserId);
 
+        CreateUser createUser = createUserWithAccount.getUser();
         long userId = createUser.getId();
 
         CreateEmail createEmail = createUserWithAccount.getEmail();
         if (createEmail != null) {
-            long emailId = emailManager.createEmail(createEmail, InsertMode.DIRECT, opUserId);
-            long id = keyGenerator.next();
+            long emailId = emailManager.createEmail(createEmail, opUserId);
+            long id = FoundationContext.getLongKeyGenerator().next();
             BindUserEmail binding = new BindUserEmail.Builder()
                     .setId(id)
                     .setUserId(userId)
@@ -132,8 +142,8 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
         }
         CreatePhone createPhone = createUserWithAccount.getPhone();
         if (createPhone != null) {
-            long phoneId = phoneManager.createPhone(createPhone, InsertMode.DIRECT, opUserId);
-            long id = keyGenerator.next();
+            long phoneId = phoneManager.createPhone(createPhone, opUserId);
+            long id = FoundationContext.getLongKeyGenerator().next();
             BindUserPhone binding = new BindUserPhone.Builder()
                     .setId(id)
                     .setUserId(userId)
@@ -143,6 +153,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
                     .build();
             bindUserPhoneDbOp(binding, InsertMode.DIRECT, opUserId);
         }
+        createUserDbOp(createUserWithAccount.getUser(), opUserId);
         return userId;
     }
 

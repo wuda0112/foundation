@@ -9,8 +9,11 @@ import com.wuda.foundation.commons.property.CreatePropertyKeyDefinition;
 import com.wuda.foundation.commons.property.CreatePropertyKeyWithDefinition;
 import com.wuda.foundation.commons.property.CreatePropertyValue;
 import com.wuda.foundation.commons.property.PropertyManager;
+import com.wuda.foundation.lang.AlreadyExistsException;
+import com.wuda.foundation.lang.CreateAfterCheckMode;
 import com.wuda.foundation.lang.InsertMode;
-import com.wuda.foundation.lang.datatype.MySQLDataTypes;
+import com.wuda.foundation.lang.SingleInsertResult;
+import com.wuda.foundation.lang.datatype.MySQLDataType;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.identify.LongIdentifier;
@@ -51,29 +54,30 @@ public class PropertyManagerTest extends TestBase {
                 .setPropertyKeyId(createPropertyKey_1.getId())
                 .setValue("value-" + keyGenerator.next())
                 .build();
-        long propertyKeyId_1 = propertyManager.createPropertyKey(createPropertyKey_1, InsertMode.DIRECT, opUserId);
-        long propertyKeyId_2 = propertyManager.createPropertyKey(createPropertyKey_2, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId);
+        long propertyKeyId_1 = propertyManager.createPropertyKey(createPropertyKey_1, InsertMode.DIRECT, opUserId).getRecordId();
+        long propertyKeyId_2 = propertyManager.createPropertyKey(createPropertyKey_2, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId).getRecordId();
         Assert.assertNotEquals(propertyKeyId_1, propertyKeyId_2);
-        long propertyKeyId_3 = propertyManager.createPropertyKey(createPropertyKey_3, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId);
+        long propertyKeyId_3 = propertyManager.createPropertyKey(createPropertyKey_3, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId).getRecordId();
         Assert.assertEquals(propertyKeyId_2, propertyKeyId_3);
-        long propertyValueId = propertyManager.createPropertyValue(createPropertyValue, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId);
+        SingleInsertResult singleInsertResult = propertyManager.createPropertyValue(createPropertyValue, CreateAfterCheckMode.INSERT_AFTER_SELECT_CHECK, opUserId);
     }
 
     @Test
     public void testCreatePropertyKeyDefinition() {
         PropertyManager propertyManager = getPropertyManager();
         long propertyKeyId = keyGenerator.next();
+        String key = "duplicate-key";
         CreatePropertyKey createPropertyKey = new CreatePropertyKey.Builder()
                 .setId(propertyKeyId)
                 .setOwner(owner)
                 .setType(BuiltinPropertyKeyType.ZERO)
                 .setUse(BuiltinPropertyKeyUse.ZERO)
-                .setKey("key-" + propertyKeyId)
+                .setKey(key)
                 .build();
         CreatePropertyKeyDefinition createPropertyKeyDefinition = new CreatePropertyKeyDefinition.Builder()
                 .setId(keyGenerator.next())
                 .setPropertyKeyId(propertyKeyId)
-                .setDataType(MySQLDataTypes.VARCHAR)
+                .setDataType(MySQLDataType.VARCHAR)
                 .build();
         CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition = new CreatePropertyKeyWithDefinition.Builder()
                 .setCreatePropertyKey(createPropertyKey)
@@ -84,8 +88,35 @@ public class PropertyManagerTest extends TestBase {
                 .setPropertyKeyId(propertyKeyId)
                 .setValue("value-" + keyGenerator.next())
                 .build();
-        propertyManager.createPropertyKey(createPropertyKeyWithDefinition, opUserId);
-        propertyManager.createPropertyValue(createPropertyValue, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId);
+        try {
+            propertyManager.createPropertyKeyWithDefinition(createPropertyKeyWithDefinition, opUserId);
+        } catch (AlreadyExistsException e) {
+            e.printStackTrace();
+        }
+        propertyManager.createPropertyValue(createPropertyValue, CreateAfterCheckMode.INSERT_AFTER_SELECT_CHECK, opUserId);
+
+        try {
+            propertyManager.createPropertyKeyDefinition(createPropertyKeyDefinition, opUserId);
+        } catch (AlreadyExistsException e) {
+            System.out.println("测试创建重复的key definition");
+        }
+
+        CreatePropertyKey duplicatePropertyKey = new CreatePropertyKey.Builder()
+                .setId(propertyKeyId)
+                .setOwner(owner)
+                .setType(BuiltinPropertyKeyType.ZERO)
+                .setUse(BuiltinPropertyKeyUse.ZERO)
+                .setKey(key)
+                .build();
+        CreatePropertyKeyWithDefinition duplicateKeyWithDefinition = new CreatePropertyKeyWithDefinition.Builder()
+                .setCreatePropertyKey(duplicatePropertyKey)
+                .setCreatePropertyDefinition(createPropertyKeyDefinition)
+                .build();
+        try {
+            propertyManager.createPropertyKeyWithDefinition(duplicateKeyWithDefinition, opUserId);
+        } catch (AlreadyExistsException e) {
+            System.out.println("测试创建重复的key");
+        }
     }
 
     @Test
@@ -95,7 +126,7 @@ public class PropertyManagerTest extends TestBase {
     }
 
     private PropertyManager getPropertyManager() {
-        MySQLDataTypes.VARCHAR.register();
+        MySQLDataType.VARCHAR.register();
         BuiltinPropertyKeyType.ZERO.register();
         BuiltinPropertyKeyUse.ZERO.register();
         PropertyManagerImpl propertyManager = new PropertyManagerImpl();

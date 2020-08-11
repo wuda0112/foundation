@@ -1,5 +1,7 @@
 package com.wuda.foundation.commons.property;
 
+import com.wuda.foundation.lang.AlreadyExistsException;
+import com.wuda.foundation.lang.CreateAfterCheckMode;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.SingleInsertResult;
 import com.wuda.foundation.lang.identify.Identifier;
@@ -39,17 +41,17 @@ public interface PropertyManager {
      * @param opUserId          操作人用户ID
      * @return 如果owner已经拥有这样的key, 则返回已经存在的property key id;如果不存在,则返回新创建的记录的id
      */
-    long createPropertyKey(CreatePropertyKey createPropertyKey, InsertMode insertMode, Long opUserId);
+    SingleInsertResult createPropertyKey(CreatePropertyKey createPropertyKey, InsertMode insertMode, Long opUserId);
 
     /**
-     * 创建property key.只要owner有了给定的名称的key,就不会执行任何操作,即使已经存在的key的定义和当前给定的key的定义不一样,
-     * 也不会更新已经存在的key以及该key的定义.调用者可以根据返回的key id和{@link CreatePropertyKey#getId()}的值做对比,如果
-     * 不一样,则表示数据库中已经存在该名称的key了.
+     * 创建property key,同时一起创建definition.就好像是创建MySQL的列时,也会创建列的定义.
+     * 如果owner有了给定的名称的key,会抛出异常.
      *
      * @param opUserId 操作人用户ID
      * @return 如果owner已经拥有这样的key, 则返回已经存在的property key id;如果不存在,则返回新创建的记录的id
+     * @throws AlreadyExistsException 如果owner已经有了给定名称的key.
      */
-    long createPropertyKey(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId);
+    SingleInsertResult createPropertyKeyWithDefinition(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) throws AlreadyExistsException;
 
     /**
      * 创建property key.
@@ -60,19 +62,52 @@ public interface PropertyManager {
     void directBatchInsertPropertyKey(List<CreatePropertyKey> createPropertyKeys, Long opUserId);
 
     /**
-     * /**
      * 为property key设值value.根据property的{@link com.wuda.foundation.lang.DataType 数据类型}不同,所执行的操作也不同
      * <ul>
-     * <li>对于基本类型,只要当前property有value,则使用给定的value覆盖已经存在的value;如果当前property没有value,则新增,最终的结果保证该property key只有一个value</li>
-     * <li>对于集合类型,如果当前property有相同的value,则没有任何操作;如果当前property没有value,则新增.</li>
+     * <li>对于基本类型
+     * <ul>
+     * <li>如果当前property key没有value,则新增</li>
+     * <li>如果当前property key有value,则没有任何操作</li>
+     * </ul>最终的结果保证该property key只有一个value</li>
+     * <li>
+     * 对于集合类型
+     * <ul>
+     * <li>如果当前property key没有相同的value,则新增</li>
+     * <li>如果当前property key有相同的value,则没有任何操作</li>
+     * </ul>
+     * </li>
      * </ul>
      *
-     * @param createPropertyValue 创建value
-     * @param insertMode          insert mode
-     * @param opUserId            操作人用户ID
+     * @param createPropertyValue  创建value
+     * @param createAfterCheckMode mode
+     * @param opUserId             操作人用户ID
      * @return 如果已经存在, 则返回已经存在的value的id;如果不存在,返回新增的value的id
      */
-    long createPropertyValue(CreatePropertyValue createPropertyValue, InsertMode insertMode, Long opUserId);
+    SingleInsertResult createPropertyValue(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId);
+
+    /**
+     * 为property key设值value.根据property的{@link com.wuda.foundation.lang.DataType 数据类型}不同,所执行的操作也不同
+     * <ul>
+     * <li>对于基本类型
+     * <ul>
+     * <li>如果当前property key没有value,则新增</li>
+     * <li>如果当前property key有相同的value,则没有任何操作</li>
+     * <li>如果当前property key有value,但是和给定的value不同,则使用当前的value更新已经存在的value</li>
+     * </ul>最终的结果保证该property key只有一个value
+     * </li>
+     * <li>对于集合类型
+     * <ul>
+     * <li>如果当前property key没有相同的value,则新增</li>
+     * <li>如果当前property key有相同的value,则没有任何操作</li>
+     * </ul></li>
+     * </ul>
+     *
+     * @param createPropertyValue  创建value
+     * @param createAfterCheckMode mode
+     * @param opUserId             操作人用户ID
+     * @return 如果已经存在, 则返回已经存在的value的id;如果不存在,返回新增的value的id
+     */
+    long createOrUpdatePropertyValue(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId);
 
     /**
      * 创建property value.
@@ -132,12 +167,14 @@ public interface PropertyManager {
     List<DescribeProperty> getProperties(Identifier<Long> owner);
 
     /**
-     * 为property key设值definition.如果该Property key已经有definition,则不做任何处理,不能随意更改property key的definition,
+     * 为property key设值definition.如果该Property key已经有definition,则抛出异常.
+     * 如果这个key已经有了value,随意更改definition会出现问题,因此,不能随意更改property key的definition,
      * 就好像在MySQL中不能随意改变Column的数据类型一样.
      *
      * @param definition 创建definition
      * @param opUserId   操作人用户ID
      * @return 返回创建的结果
+     * @throws AlreadyExistsException 如果该property key已经有了定义
      */
-    SingleInsertResult createPropertyDefinition(CreatePropertyKeyDefinition definition, Long opUserId);
+    SingleInsertResult createPropertyKeyDefinition(CreatePropertyKeyDefinition definition, Long opUserId) throws AlreadyExistsException;
 }

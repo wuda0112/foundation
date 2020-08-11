@@ -1,6 +1,6 @@
 package com.wuda.foundation.store;
 
-import com.wuda.foundation.lang.keygen.KeyGenerator;
+import com.wuda.foundation.lang.InsertMode;
 
 import java.util.List;
 
@@ -15,13 +15,12 @@ public interface StoreManager {
     /**
      * 新增一个新店铺.
      *
-     * @param createStore  创建店铺的参数
-     * @param ownerUserId  该店铺所属用户
-     * @param keyGenerator 用于生成主键
-     * @param opUserId     操作人用户ID,是谁正在添加这个新店铺
+     * @param ownerUserId 店铺所属用户Id
+     * @param createStore 创建店铺的参数
+     * @param opUserId    操作人用户ID,是谁正在添加这个新店铺
      * @return 店铺ID
      */
-    long createStore(CreateStore createStore, Long ownerUserId, KeyGenerator<Long> keyGenerator, Long opUserId);
+    long createStore(Long ownerUserId, CreateStore createStore, Long opUserId);
 
     /**
      * 新增一个新店铺.
@@ -35,10 +34,11 @@ public interface StoreManager {
      * 为店铺新增基本信息.
      *
      * @param createStoreGeneral 创建基本信息的参数
+     * @param insertMode         insert mode
      * @param opUserId           操作人用户ID,是谁正在添加这个店铺的基本信息
      * @return 基本信息的ID
      */
-    long createStoreGeneral(CreateStoreGeneral createStoreGeneral, Long opUserId);
+    long createOrUpdateStoreGeneral(CreateStoreGeneral createStoreGeneral, InsertMode insertMode, Long opUserId);
 
     /**
      * 为店铺新增基本信息.
@@ -59,9 +59,8 @@ public interface StoreManager {
     /**
      * 更新店铺新增基本信息.
      *
-     * @param storeGeneralId     基本信息的ID
      * @param updateStoreGeneral 更新基本信息的参数
      * @param opUserId           操作人用户ID,是谁正在添加这个店铺的基本信息
      */
-    void updateStoreGeneralById(Long storeGeneralId, UpdateStoreGeneral updateStoreGeneral, Long opUserId);
+    void updateStoreGeneralById(UpdateStoreGeneral updateStoreGeneral, Long opUserId);
 }

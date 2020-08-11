@@ -17,6 +17,8 @@ public class UniqueCodeDescriptorRegistry {
 
     public static UniqueCodeDescriptorRegistry defaultRegistry = new UniqueCodeDescriptorRegistry();
 
+    private Map<Class<UniqueCodeDescriptor>, List<UniqueCodeDescriptor>> bySupperClassMap = new ConcurrentHashMap<>();
+
     /**
      * 注册{@link UniqueCodeDescriptor}.
      *

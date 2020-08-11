@@ -1,5 +1,6 @@
 package com.wuda.foundation.jooq;
 
+import com.wuda.foundation.lang.CreateAfterCheckMode;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.SingleInsertResult;
 import org.jooq.Configuration;
@@ -189,6 +190,36 @@ public interface JooqCommonDbOp {
                 break;
         }
         return result;
+    }
+
+    /**
+     * 执行insert into语句,根据{@link com.wuda.foundation.lang.CreateAfterCheckMode}不同,执行的方式也不同.
+     *
+     * @param dataSource             datasource
+     * @param table                  操作的表
+     * @param existsRecordPKSelector 用于查询已经存在的记录,只能查询出一条,并且只查询primary key.如果查询出多条记录会抛出异常.如果{@link InsertMode}是{@link InsertMode#DIRECT},则此参数可以是<code>null</code>
+     * @param record                 如果记录不存在,则使用这些字段新增一条记录,即insert into ...select fields语法的select fields.
+     * @param <R>                    被操作的记录的类型
+     * @return 如果已经存在, 则返回<code>null</code>; 否则返回新增记录的ID
+     */
+    default <R extends Record> SingleInsertResult insertDispatcher(DataSource dataSource,
+                                                                   CreateAfterCheckMode createAfterCheckMode,
+                                                                   Table<R> table,
+                                                                   R record,
+                                                                   SelectConditionStep<Record1<ULong>> existsRecordPKSelector) {
+        InsertMode insertMode;
+        switch (createAfterCheckMode) {
+            case INSERT_AFTER_SELECT_CHECK:
+                insertMode = InsertMode.INSERT_AFTER_SELECT_CHECK;
+                break;
+            case INSERT_WHERE_NOT_EXISTS:
+                insertMode = InsertMode.INSERT_WHERE_NOT_EXISTS;
+                break;
+            default:
+                insertMode = InsertMode.INSERT_AFTER_SELECT_CHECK;
+                break;
+        }
+        return insertDispatcher(dataSource, insertMode, table, record, existsRecordPKSelector);
     }
 
     /**

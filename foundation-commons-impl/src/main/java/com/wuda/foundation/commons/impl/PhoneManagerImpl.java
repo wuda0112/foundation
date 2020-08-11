@@ -5,10 +5,10 @@ import com.wuda.foundation.commons.CreatePhone;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PhoneRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.lang.SingleInsertResult;
 import org.jooq.Configuration;
-import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
@@ -31,7 +31,7 @@ public class PhoneManagerImpl extends AbstractPhoneManager implements JooqCommon
     }
 
     @Override
-    protected Long createPhoneDbOp(CreatePhone createPhone, InsertMode insertMode, Long opUserId) {
+    protected Long createPhoneDbOp(CreatePhone createPhone, Long opUserId) throws AlreadyExistsException {
 
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
@@ -39,7 +39,11 @@ public class PhoneManagerImpl extends AbstractPhoneManager implements JooqCommon
                 .from(PHONE)
                 .where(PHONE.NUMBER.eq(createPhone.getNumber()))
                 .and(PHONE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        return insertDispatcher(dataSource, insertMode, PHONE, phoneRecordForInsert(createPhone, opUserId), existsRecordSelector).getRecordId();
+        SingleInsertResult result = insertAfterSelectCheck(dataSource, PHONE, phoneRecordForInsert(createPhone, opUserId), existsRecordSelector);
+        if (result.getExistsRecordId() != null) {
+            throw new AlreadyExistsException("phone = " + createPhone.getNumber() + ",已经存在");
+        }
+        return result.getNewlyAddedRecordId();
     }
 
     @Override

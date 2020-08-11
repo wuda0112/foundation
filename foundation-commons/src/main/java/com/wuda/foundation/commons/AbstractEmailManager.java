@@ -1,26 +1,18 @@
 package com.wuda.foundation.commons;
 
+import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.ExtObjects;
-import com.wuda.foundation.lang.InsertMode;
 
 import java.util.List;
 
 public abstract class AbstractEmailManager implements EmailManager {
 
     @Override
-    public Long createEmail(CreateEmail createEmail, InsertMode insertMode, Long opUserId) {
-        return createEmailDbOp(createEmail, insertMode, opUserId);
+    public Long createEmail(CreateEmail createEmail, Long opUserId) throws AlreadyExistsException {
+        return createEmailDbOp(createEmail, opUserId);
     }
 
-    /**
-     * 作为{@link #createEmail(CreateEmail, InsertMode, Long)}方法的一部分,参数的校验已经在{@link #createEmail(CreateEmail, InsertMode, Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param createEmail email
-     * @param opUserId    操作人用户ID
-     * @return 记录ID
-     */
-    protected abstract Long createEmailDbOp(CreateEmail createEmail, InsertMode insertMode, Long opUserId);
+    protected abstract Long createEmailDbOp(CreateEmail createEmail, Long opUserId) throws AlreadyExistsException;
 
     @Override
     public void directBatchInsertEmail(List<CreateEmail> emails, Long opUserId) {

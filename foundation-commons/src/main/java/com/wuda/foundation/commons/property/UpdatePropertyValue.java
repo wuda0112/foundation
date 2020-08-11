@@ -16,6 +16,21 @@ public class UpdatePropertyValue {
     private Long id;
     private String value;
 
+    /**
+     * create or update时很有用.
+     *
+     * @param id                  property value id
+     * @param createPropertyValue 创建时的参数
+     * @return 更新的参数
+     */
+    public static UpdatePropertyValue from(Long id, CreatePropertyValue createPropertyValue) {
+        return new UpdatePropertyValue.Builder()
+                .setId(id)
+                .setValue(createPropertyValue.getValue())
+                .build();
+    }
+
+
     public static class Builder implements com.wuda.foundation.lang.Builder<UpdatePropertyValue> {
 
         private Long id;

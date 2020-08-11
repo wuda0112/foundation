@@ -18,6 +18,13 @@ public enum BuiltinPermissionTargetType implements PermissionTargetType {
         this.description = description;
     }
 
+    static {
+        BuiltinPermissionTargetType[] types = BuiltinPermissionTargetType.values();
+        for (BuiltinPermissionTargetType type : types) {
+            type.register();
+        }
+    }
+
 
     @Override
     public Integer getCode() {

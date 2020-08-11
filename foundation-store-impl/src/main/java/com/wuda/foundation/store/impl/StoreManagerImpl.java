@@ -2,8 +2,9 @@ package com.wuda.foundation.store.impl;
 
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
+import com.wuda.foundation.lang.FoundationContext;
+import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.keygen.KeyGenerator;
 import com.wuda.foundation.store.AbstractStoreManager;
 import com.wuda.foundation.store.BindStoreUser;
 import com.wuda.foundation.store.CreateStore;
@@ -13,6 +14,9 @@ import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreGenera
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreRecord;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreUserRelationshipRecord;
 import org.jooq.Configuration;
+import org.jooq.Record1;
+import org.jooq.SelectConditionStep;
+import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
@@ -21,6 +25,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import static com.wuda.foundation.store.impl.jooq.generation.tables.Store.STORE;
 import static com.wuda.foundation.store.impl.jooq.generation.tables.StoreGeneral.STORE_GENERAL;
@@ -38,22 +43,20 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
     protected void directBatchInsertStoreDbOp(List<CreateStore> createStores, Long opUserId) {
         List<StoreRecord> records = new ArrayList<>(createStores.size());
         for (CreateStore createStore : createStores) {
-            records.add(newStoreRecord(createStore, opUserId));
+            records.add(storeRecordForInsert(createStore, opUserId));
         }
         batchInsert(dataSource, STORE, records);
     }
 
     @Override
-    public long createStoreDbOp(CreateStore createStore, Long ownerUserId, KeyGenerator<Long> keyGenerator, Long opUserId) {
-        long storeId = insert(dataSource, STORE, newStoreRecord(createStore, opUserId)).getRecordId();
-
+    public long createStoreDbOp(Long ownerUserId, CreateStore createStore, Long opUserId) {
+        long storeId = insert(dataSource, STORE, storeRecordForInsert(createStore, opUserId)).getRecordId();
         BindStoreUser bindStoreUser = new BindStoreUser.Builder()
-                .setId(keyGenerator.next())
+                .setId(FoundationContext.getLongKeyGenerator().next())
                 .setStoreId(storeId)
-                .setUserId(opUserId)
+                .setUserId(ownerUserId)
                 .isStoreOwner(true)
                 .build();
-
         insert(dataSource, STORE_USER_RELATIONSHIP, storeUserRelationshipRecordForInsert(bindStoreUser, opUserId));
         return storeId;
     }
@@ -67,20 +70,31 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
     protected void directBatchInsertStoreGeneralDbOp(List<CreateStoreGeneral> createStoreGenerals, Long opUserId) {
         List<StoreGeneralRecord> records = new ArrayList<>(createStoreGenerals.size());
         for (CreateStoreGeneral createStoreGeneral : createStoreGenerals) {
-            records.add(newStoreGeneralRecord(createStoreGeneral, opUserId));
+            records.add(storeGeneralRecordForInsert(createStoreGeneral, opUserId));
         }
         batchInsert(dataSource, STORE_GENERAL, records);
     }
 
     @Override
-    public long createStoreGeneralDbOp(CreateStoreGeneral createStoreGeneral, Long opUserId) {
-        return insert(dataSource, STORE_GENERAL, newStoreGeneralRecord(createStoreGeneral, opUserId)).getRecordId();
+    public long createOrUpdateStoreGeneralDbOp(CreateStoreGeneral createStoreGeneral, InsertMode insertMode, Long opUserId) {
+        Configuration configuration = JooqContext.getConfiguration(dataSource);
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+                .select(STORE_GENERAL.STORE_GENERAL_ID)
+                .from(STORE_GENERAL)
+                .where(STORE_GENERAL.STORE_ID.eq(ULong.valueOf(createStoreGeneral.getStoreId())))
+                .and(STORE_GENERAL.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
+        Consumer<Long> updateAction = (storeGeneralId) -> {
+            UpdateStoreGeneral updateStoreGeneral = UpdateStoreGeneral.from(storeGeneralId, createStoreGeneral);
+            updateStoreGeneralByIdDbOp(updateStoreGeneral, opUserId);
+        };
+        return insertOrUpdate(insertMode, dataSource, STORE_GENERAL, storeGeneralRecordForInsert(createStoreGeneral, opUserId), existsRecordSelector, updateAction);
     }
 
-    public void updateStoreGeneralByIdDbOp(Long storeGeneralId, UpdateStoreGeneral updateStoreGeneral, Long opUserId) {
+    @Override
+    public void updateStoreGeneralByIdDbOp(UpdateStoreGeneral updateStoreGeneral, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         StoreGeneralRecord storeGeneralRecord = new StoreGeneralRecord();
-        storeGeneralRecord.setStoreGeneralId(ULong.valueOf(storeGeneralId));
+        storeGeneralRecord.setStoreGeneralId(ULong.valueOf(updateStoreGeneral.getId()));
         if (Objects.nonNull(updateStoreGeneral.getStoreName())) {
             storeGeneralRecord.setStoreName(updateStoreGeneral.getStoreName());
         }
@@ -91,7 +105,7 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
         storeGeneralRecord.update();
     }
 
-    private StoreGeneralRecord newStoreGeneralRecord(CreateStoreGeneral createStoreGeneral, Long opUserId) {
+    private StoreGeneralRecord storeGeneralRecordForInsert(CreateStoreGeneral createStoreGeneral, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new StoreGeneralRecord(ULong.valueOf(createStoreGeneral.getId()),
                 ULong.valueOf(createStoreGeneral.getStoreId()),
@@ -117,7 +131,7 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
         return list;
     }
 
-    private StoreRecord newStoreRecord(CreateStore createStore, Long opUserId) {
+    private StoreRecord storeRecordForInsert(CreateStore createStore, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new StoreRecord(ULong.valueOf(createStore.getId()),
                 UByte.valueOf(createStore.getStoreType().getCode()),

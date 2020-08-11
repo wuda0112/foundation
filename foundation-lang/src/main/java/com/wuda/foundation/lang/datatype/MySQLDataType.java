@@ -9,7 +9,7 @@ import com.wuda.foundation.lang.DataTypeSchema;
  * @author wuda
  * @since 1.0.0
  */
-public enum MySQLDataTypes implements DataType {
+public enum MySQLDataType implements DataType {
 
     VARCHAR(BuiltinDataTypeSchema.MySQL, "VARCHAR", false);
 
@@ -17,10 +17,17 @@ public enum MySQLDataTypes implements DataType {
     private String name;
     private boolean isCollection;
 
-    MySQLDataTypes(DataTypeSchema schema, String name, boolean isCollection) {
+    MySQLDataType(DataTypeSchema schema, String name, boolean isCollection) {
         this.schema = schema;
         this.name = name;
         this.isCollection = isCollection;
+    }
+
+    static {
+        MySQLDataType[] dataTypes = MySQLDataType.values();
+        for (MySQLDataType dataType : dataTypes) {
+            dataType.register();
+        }
     }
 
     @Override

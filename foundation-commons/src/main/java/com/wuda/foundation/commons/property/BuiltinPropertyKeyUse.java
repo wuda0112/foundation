@@ -12,13 +12,6 @@ public enum BuiltinPropertyKeyUse implements PropertyKeyUse {
         this.description = description;
     }
 
-    static {
-        BuiltinPropertyKeyUse[] types = BuiltinPropertyKeyUse.values();
-        for (BuiltinPropertyKeyUse type : types) {
-            type.register();
-        }
-    }
-
     @Override
     public Integer getCode() {
         return code;

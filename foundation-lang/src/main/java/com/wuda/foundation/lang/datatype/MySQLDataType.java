@@ -23,13 +23,6 @@ public enum MySQLDataType implements DataType {
         this.isCollection = isCollection;
     }
 
-    static {
-        MySQLDataType[] dataTypes = MySQLDataType.values();
-        for (MySQLDataType dataType : dataTypes) {
-            dataType.register();
-        }
-    }
-
     @Override
     public DataTypeSchema getSchema() {
         return schema;

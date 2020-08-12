@@ -12,9 +12,9 @@ public class TestBase {
 
     protected DataSource getDataSource() {
         DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();
-        ((org.apache.tomcat.jdbc.pool.DataSource) dataSource).setUrl("jdbc:mysql://192.168.0.59:3306/foundation_commons?serverTimezone=UTC");
+        ((org.apache.tomcat.jdbc.pool.DataSource) dataSource).setUrl("jdbc:mysql://localhost:3306/foundation_commons?serverTimezone=UTC");
         ((org.apache.tomcat.jdbc.pool.DataSource) dataSource).setUsername("root");
-        ((org.apache.tomcat.jdbc.pool.DataSource) dataSource).setPassword("ffffff");
+        ((org.apache.tomcat.jdbc.pool.DataSource) dataSource).setPassword("123456");
         return dataSource;
     }
 }

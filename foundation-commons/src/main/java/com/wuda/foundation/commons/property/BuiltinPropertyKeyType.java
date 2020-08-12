@@ -12,13 +12,6 @@ public enum BuiltinPropertyKeyType implements PropertyKeyType {
         this.description = description;
     }
 
-    static {
-        BuiltinPropertyKeyType[] types = BuiltinPropertyKeyType.values();
-        for (BuiltinPropertyKeyType type : types) {
-            type.register();
-        }
-    }
-
     @Override
     public Integer getCode() {
         return code;

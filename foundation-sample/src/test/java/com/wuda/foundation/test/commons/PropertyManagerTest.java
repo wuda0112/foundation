@@ -2,27 +2,22 @@ package com.wuda.foundation.test.commons;
 
 import com.wuda.foundation.TestBase;
 import com.wuda.foundation.commons.impl.PropertyManagerImpl;
-import com.wuda.foundation.commons.property.BuiltinPropertyKeyType;
-import com.wuda.foundation.commons.property.BuiltinPropertyKeyUse;
-import com.wuda.foundation.commons.property.CreatePropertyKey;
-import com.wuda.foundation.commons.property.CreatePropertyKeyDefinition;
-import com.wuda.foundation.commons.property.CreatePropertyKeyWithDefinition;
-import com.wuda.foundation.commons.property.CreatePropertyValue;
-import com.wuda.foundation.commons.property.PropertyManager;
+import com.wuda.foundation.commons.property.*;
 import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateAfterCheckMode;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.SingleInsertResult;
 import com.wuda.foundation.lang.datatype.MySQLDataType;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
-import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.identify.LongIdentifier;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
+
 public class PropertyManagerTest extends TestBase {
 
-    Identifier<Long> owner = new LongIdentifier(1024L, BuiltinIdentifierType.MOCK);
+    LongIdentifier owner = new LongIdentifier(1024L, BuiltinIdentifierType.MOCK);
 
     @Test
     public void testCreateProperty() {
@@ -122,7 +117,10 @@ public class PropertyManagerTest extends TestBase {
     @Test
     public void testGetProperties() {
         PropertyManager propertyManager = getPropertyManager();
-        propertyManager.getProperties(owner);
+        MyPropertyTemplates myPropertyTemplates = new MyPropertyTemplates();
+        List<DescribeProperty> properties = propertyManager.getProperties(owner);
+        properties = PropertyUtils.padding(owner, properties, myPropertyTemplates.templates());
+        System.out.println(properties);
     }
 
     private PropertyManager getPropertyManager() {

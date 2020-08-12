@@ -1,13 +1,11 @@
 package com.wuda.foundation.test.commons;
 
-import com.wuda.foundation.commons.property.PropertyKeyNaming;
-import com.wuda.foundation.commons.property.PropertyTemplate;
-import com.wuda.foundation.commons.property.PropertyTemplates;
+import com.wuda.foundation.commons.property.*;
 import com.wuda.foundation.lang.datatype.MySQLDataType;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierType;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class MyPropertyTemplates implements PropertyTemplates {
@@ -34,8 +32,10 @@ public class MyPropertyTemplates implements PropertyTemplates {
         }
     }
 
+    public final static PropertyTemplate NAME = new PropertyTemplate(MyPropertyKeyNaming.NAME, MySQLDataType.VARCHAR, BuiltinPropertyKeyType.ZERO, BuiltinPropertyKeyUse.ZERO);
+
     @Override
     public List<PropertyTemplate> templates() {
-        return Arrays.asList(new PropertyTemplate(MyPropertyKeyNaming.NAME, MySQLDataType.VARCHAR));
+        return Collections.singletonList(NAME);
     }
 }

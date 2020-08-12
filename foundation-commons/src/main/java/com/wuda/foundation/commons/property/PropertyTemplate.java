@@ -8,35 +8,39 @@ import com.wuda.foundation.lang.DataType;
  * @author wuda
  * @since 1.0.0
  */
-public interface PropertyTemplate {
+public class PropertyTemplate {
+
+
+    private PropertyKeyNaming propertyKeyNaming;
+    private DataType dataType;
+
+    /**
+     * 构建模板.
+     *
+     * @param propertyKeyNaming 属性名
+     * @param dataType          数据类型
+     */
+    public PropertyTemplate(PropertyKeyNaming propertyKeyNaming, DataType dataType) {
+        this.propertyKeyNaming = propertyKeyNaming;
+        this.dataType = dataType;
+    }
 
     /**
      * property key naming.
      *
      * @return {@link PropertyKeyNaming}
      */
-    PropertyKeyNaming getPropertyKeyNaming();
+    public PropertyKeyNaming getPropertyKeyNaming() {
+        return propertyKeyNaming;
+    }
 
     /**
      * property key的数据类型
      *
      * @return 数据类型
      */
-    DataType getDataType();
-
-    /**
-     * property value是否必须,就好比是MySQL的not null的设置.
-     *
-     * @return <code>true</code>-如果是必须
-     */
-    boolean required();
-
-    /**
-     * 默认值
-     *
-     * @param <T> 默认值的数据类型
-     * @return 默认值
-     */
-    <T> T defaultValue();
+    public DataType getDataType() {
+        return dataType;
+    }
 
 }

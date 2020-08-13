@@ -21,8 +21,8 @@ import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateAfterCheckMode;
-import com.wuda.foundation.lang.DataType;
-import com.wuda.foundation.lang.DataTypeRegistry;
+import com.wuda.foundation.lang.datatype.DataType;
+import com.wuda.foundation.lang.datatype.DataTypeRegistry;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.SingleInsertResult;
@@ -75,7 +75,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     @Override
     protected SingleInsertResult createPropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId) {
         long propertyKeyId = createPropertyValue.getPropertyKeyId();
-        PropertyValueRecord propertyValueRecord = newPropertyValueRecord(createPropertyValue, opUserId);
+        PropertyValueRecord propertyValueRecord = propertyValueRecordForInsert(createPropertyValue, opUserId);
         DescribePropertyKeyDefinition describePropertyKeyDefinition = getDefinitionByPropertyKeyDbOp(propertyKeyId);
         DataType dataType = null;
         if (describePropertyKeyDefinition != null) {
@@ -347,7 +347,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         return list;
     }
 
-    private PropertyValueRecord newPropertyValueRecord(CreatePropertyValue createPropertyValue, Long opUserId) {
+    private PropertyValueRecord propertyValueRecordForInsert(CreatePropertyValue createPropertyValue, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new PropertyValueRecord(ULong.valueOf(createPropertyValue.getId()),
                 ULong.valueOf(createPropertyValue.getPropertyKeyId()),
@@ -358,13 +358,13 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     private List<PropertyValueRecord> newPropertyValueRecords(List<CreatePropertyValue> createPropertyValues, Long opUserId) {
         List<PropertyValueRecord> list = new ArrayList<>(createPropertyValues.size());
         for (CreatePropertyValue createPropertyValue : createPropertyValues) {
-            list.add(newPropertyValueRecord(createPropertyValue, opUserId));
+            list.add(propertyValueRecordForInsert(createPropertyValue, opUserId));
         }
         return list;
     }
 
     private SingleInsertResult insertPropertyValueRecord(CreatePropertyValue createPropertyValue, Long opUserId) {
-        return insert(dataSource, PROPERTY_VALUE, newPropertyValueRecord(createPropertyValue, opUserId));
+        return insert(dataSource, PROPERTY_VALUE, propertyValueRecordForInsert(createPropertyValue, opUserId));
     }
 
     private PropertyKeyRecord newPropertyKeyRecord(CreatePropertyKey createPropertyKey, Long opUserId) {
@@ -429,10 +429,11 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     }
 
     private PropertyValueRecord getPropertyValueById(long propertyValueId) {
-        PropertyValueRecord propertyValueRecord = new PropertyValueRecord();
-        propertyValueRecord.setPropertyValueId(ULong.valueOf(propertyValueId));
-        propertyValueRecord.refresh();
-        return propertyValueRecord;
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
+        return dslContext.selectFrom(PROPERTY_VALUE)
+                .where(PROPERTY_VALUE.PROPERTY_VALUE_ID.eq(ULong.valueOf(propertyValueId)))
+                .and(PROPERTY_VALUE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())))
+                .fetchOne();
     }
 
 }

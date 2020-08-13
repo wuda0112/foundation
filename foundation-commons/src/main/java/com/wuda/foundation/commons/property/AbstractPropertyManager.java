@@ -2,9 +2,13 @@ package com.wuda.foundation.commons.property;
 
 import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateAfterCheckMode;
+import com.wuda.foundation.lang.datatype.DataType;
+import com.wuda.foundation.lang.datatype.DataTypeHandler;
 import com.wuda.foundation.lang.ExtObjects;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.SingleInsertResult;
+import com.wuda.foundation.lang.datatype.DataValueIllegalException;
+import com.wuda.foundation.lang.datatype.ValidateResult;
 import com.wuda.foundation.lang.identify.Identifier;
 
 import java.util.List;
@@ -64,17 +68,34 @@ public abstract class AbstractPropertyManager implements PropertyManager {
 
     @Override
     public SingleInsertResult createPropertyValue(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId) {
+        validatePropertyValue(createPropertyValue);
         return createPropertyValueDbOp(createPropertyValue, createAfterCheckMode, opUserId);
+    }
+
+    private void validatePropertyValue(CreatePropertyValue createPropertyValue) {
+        DescribePropertyKeyDefinition describePropertyKeyDefinition = getDefinitionByPropertyKeyDbOp(createPropertyValue.getPropertyKeyId());
+        DataType dataType = null;
+        if (describePropertyKeyDefinition != null) {
+            dataType = describePropertyKeyDefinition.getDataType();
+        }
+        if (dataType != null) {
+            DataTypeHandler dataTypeHandler = dataType.getHandler();
+            ValidateResult validateResult = dataTypeHandler.validate(describePropertyKeyDefinition.toDataDefinition(), createPropertyValue.getValue());
+            if (!validateResult.isSuccess()) {
+                throw new DataValueIllegalException(validateResult.getMessage());
+            }
+        }
     }
 
     @Override
     public long createOrUpdatePropertyValue(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId) {
+        validatePropertyValue(createPropertyValue);
         return createOrUpdatePropertyValueDbOp(createPropertyValue, createAfterCheckMode, opUserId);
     }
 
     protected abstract long createOrUpdatePropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId);
 
-    protected abstract SingleInsertResult createPropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode,  Long opUserId);
+    protected abstract SingleInsertResult createPropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId);
 
     @Override
     public void directBatchInsertPropertyValue(List<CreatePropertyValue> createPropertyValues, Long opUserId) {

@@ -12,8 +12,7 @@ import java.util.List;
  * 如果使用一种强类型的方式(比如枚举),那么就可以避免字符串的property key分散在代码中,因此可以使用枚举的方式实现该类,将
  * property key集中管理起来,但是要求
  * <ul>
- * <li>必须指明该property属于哪种实体,比如是店铺的属性或者是商品的属性,等等;使用{@link #getIdentifierType()}返回的值表明,
- * 并且这个返回值必须和数据库中保存的property owner type保持一致,查看{@link CreatePropertyKey#getOwner()}</li>
+ * <li>必须指明该property属于哪种实体,比如是店铺的属性或者是商品的属性,等等;使用{@link #getIdentifierType()}返回的值表明该property key属于哪种类型的实体.</li>
  * <li>property key必须和数据库中保存的名称一致,即{@link #getKey()}的值和数据库中保存的属性名一致</li>
  * </ul>
  * .查看{@link PropertyUtils#getProperty(List, PropertyKeyNaming)}的使用.

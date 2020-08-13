@@ -1,4 +1,4 @@
-package com.wuda.foundation.lang;
+package com.wuda.foundation.lang.datatype;
 
 import java.util.ArrayList;
 import java.util.List;

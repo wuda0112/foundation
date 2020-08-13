@@ -1,11 +1,11 @@
 package com.wuda.foundation.commons.property;
 
+import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.identify.IdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -56,7 +56,14 @@ public class PropertyUtils {
         if (templates == null || templates.isEmpty()) {
             return properties;
         }
-        List<DescribeProperty> list = new ArrayList<>(properties);
+        checkPropertiesBelongToSameOwner(owner, properties);
+        checkTemplatesBelongToSameOwnerType(owner, templates);
+        List<DescribeProperty> list;
+        if (properties != null) {
+            list = new ArrayList<>(properties);
+        } else {
+            list = new ArrayList<>(templates.size());
+        }
         for (PropertyTemplate propertyTemplate : templates) {
             DescribeProperty describeProperty = getProperty(properties, propertyTemplate.getPropertyKeyNaming());
             if (describeProperty == null) {
@@ -65,6 +72,31 @@ public class PropertyUtils {
             }
         }
         return list;
+    }
+
+    private static void checkTemplatesBelongToSameOwnerType(LongIdentifier owner, List<PropertyTemplate> templates) {
+        if (templates == null || templates.isEmpty()) {
+            return;
+        }
+        for (PropertyTemplate propertyTemplate : templates) {
+            IdentifierType identifierType = propertyTemplate.getPropertyKeyNaming().getIdentifierType();
+            if (identifierType.getCode() != owner.getType().getCode()) {
+                throw new IllegalStateException("template property key = " + propertyTemplate.getPropertyKeyNaming().getKey() + ",不属于s类型的owner");
+            }
+        }
+    }
+
+    private static void checkPropertiesBelongToSameOwner(LongIdentifier owner, List<DescribeProperty> properties) {
+        if (properties == null || properties.isEmpty()) {
+            return;
+        }
+        for (DescribeProperty describeProperty : properties) {
+            Identifier<Long> identifier = describeProperty.getPropertyKey().getOwner();
+            if (!identifier.getValue().equals(owner.getValue())
+                    || identifier.getType().getCode() != owner.getType().getCode()) {
+                throw new IllegalStateException("property key = " + describeProperty.getPropertyKey().getKey() + ",不属于当前owner");
+            }
+        }
     }
 
     private static DescribeProperty generateDescribeProperty(LongIdentifier owner, PropertyTemplate propertyTemplate) {
@@ -78,7 +110,6 @@ public class PropertyUtils {
         DescribePropertyKeyDefinition definition = new DescribePropertyKeyDefinition();
         definition.setDataType(propertyTemplate.getDataType());
 
-        DescribePropertyValue propertyValue = new DescribePropertyValue();
-        return new DescribeProperty(propertyKey, Collections.singletonList(propertyValue), definition);
+        return new DescribeProperty(propertyKey, null, definition);
     }
 }

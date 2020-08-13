@@ -4,6 +4,7 @@ import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateAfterCheckMode;
 import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.SingleInsertResult;
+import com.wuda.foundation.lang.datatype.DataType;
 import com.wuda.foundation.lang.identify.Identifier;
 
 import java.util.List;
@@ -62,7 +63,7 @@ public interface PropertyManager {
     void directBatchInsertPropertyKey(List<CreatePropertyKey> createPropertyKeys, Long opUserId);
 
     /**
-     * 为property key设值value.根据property的{@link com.wuda.foundation.lang.DataType 数据类型}不同,所执行的操作也不同
+     * 为property key设值value.根据property的{@link DataType 数据类型}不同,所执行的操作也不同
      * <ul>
      * <li>对于基本类型
      * <ul>
@@ -86,7 +87,7 @@ public interface PropertyManager {
     SingleInsertResult createPropertyValue(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId);
 
     /**
-     * 为property key设值value.根据property的{@link com.wuda.foundation.lang.DataType 数据类型}不同,所执行的操作也不同
+     * 为property key设值value.根据property的{@link DataType 数据类型}不同,所执行的操作也不同
      * <ul>
      * <li>对于基本类型
      * <ul>

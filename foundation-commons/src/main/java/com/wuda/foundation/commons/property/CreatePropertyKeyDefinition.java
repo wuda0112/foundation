@@ -1,7 +1,7 @@
 package com.wuda.foundation.commons.property;
 
-import com.wuda.foundation.lang.DataType;
-import com.wuda.foundation.lang.DataTypeRegistry;
+import com.wuda.foundation.lang.datatype.DataType;
+import com.wuda.foundation.lang.datatype.DataTypeRegistry;
 import lombok.Getter;
 
 import java.util.Objects;

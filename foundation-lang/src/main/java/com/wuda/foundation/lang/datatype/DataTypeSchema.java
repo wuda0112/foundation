@@ -1,4 +1,4 @@
-package com.wuda.foundation.lang;
+package com.wuda.foundation.lang.datatype;
 
 /**
  * 表示{@link DataType}的schema.

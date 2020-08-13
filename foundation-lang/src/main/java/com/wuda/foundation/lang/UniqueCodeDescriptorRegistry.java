@@ -17,8 +17,6 @@ public class UniqueCodeDescriptorRegistry {
 
     public static UniqueCodeDescriptorRegistry defaultRegistry = new UniqueCodeDescriptorRegistry();
 
-    private Map<Class<UniqueCodeDescriptor>, List<UniqueCodeDescriptor>> bySupperClassMap = new ConcurrentHashMap<>();
-
     /**
      * 注册{@link UniqueCodeDescriptor}.
      *
@@ -63,7 +61,7 @@ public class UniqueCodeDescriptorRegistry {
             }
         }
         if (result == null) {
-            throw new IllegalStateException("UniqueCodeDescriptor schema = " + schemaClass + ",code = " + code + ",没有,可能是没有注册");
+            throw new IllegalStateException("UniqueCodeDescriptor schema = " + schemaClass + ",code = " + code + ",没有找到,可能是没有注册");
         }
         return result;
     }

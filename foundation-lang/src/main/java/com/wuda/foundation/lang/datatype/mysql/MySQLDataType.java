@@ -1,7 +1,8 @@
-package com.wuda.foundation.lang.datatype;
+package com.wuda.foundation.lang.datatype.mysql;
 
-import com.wuda.foundation.lang.DataType;
-import com.wuda.foundation.lang.DataTypeSchema;
+import com.wuda.foundation.lang.datatype.DataType;
+import com.wuda.foundation.lang.datatype.DataTypeHandler;
+import com.wuda.foundation.lang.datatype.DataTypeSchema;
 
 /**
  * 使用MySQL的数据类型.
@@ -11,15 +12,18 @@ import com.wuda.foundation.lang.DataTypeSchema;
  */
 public enum MySQLDataType implements DataType {
 
-    VARCHAR(BuiltinDataTypeSchema.MySQL, "VARCHAR", false);
+    VARCHAR(MySQLDataTypeSchema.MySQL, "VARCHAR", new MySQLVarcharDataTypeHandler(), false),
+    INT(MySQLDataTypeSchema.MySQL, "INT", new MySQLIntDataTypeHandler(), false);
 
     private DataTypeSchema schema;
     private String name;
+    private DataTypeHandler handler;
     private boolean isCollection;
 
-    MySQLDataType(DataTypeSchema schema, String name, boolean isCollection) {
+    MySQLDataType(DataTypeSchema schema, String name, DataTypeHandler handler, boolean isCollection) {
         this.schema = schema;
         this.name = name;
+        this.handler = handler;
         this.isCollection = isCollection;
     }
 
@@ -41,5 +45,10 @@ public enum MySQLDataType implements DataType {
     @Override
     public boolean isCollection() {
         return isCollection;
+    }
+
+    @Override
+    public DataTypeHandler getHandler() {
+        return handler;
     }
 }

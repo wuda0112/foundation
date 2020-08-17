@@ -42,8 +42,8 @@ public class DescribePermissionManagerTest extends TestBase {
         System.out.println(describePermissionAction);
         System.out.println(describePermissionActions);
 
-        permissionManager.deleteTarget(permissionTargetId, opUserId);
-        permissionManager.deleteAction(action.getId(), opUserId);
+        /*permissionManager.deleteTarget(permissionTargetId, opUserId);
+        permissionManager.deleteAction(action.getId(), opUserId);*/
     }
 
     private PermissionManager getPermissionManager() {

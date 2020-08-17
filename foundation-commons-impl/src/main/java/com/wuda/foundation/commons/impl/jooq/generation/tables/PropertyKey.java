@@ -17,7 +17,7 @@ import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row11;
+import org.jooq.Row10;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -35,7 +35,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyKey extends TableImpl<PropertyKeyRecord> {
 
-    private static final long serialVersionUID = 1784418339;
+    private static final long serialVersionUID = -454252699;
 
     /**
      * The reference instance of <code>foundation_commons.property_key</code>
@@ -74,11 +74,6 @@ public class PropertyKey extends TableImpl<PropertyKeyRecord> {
      * The column <code>foundation_commons.property_key.owner_identifier</code>. 该属性的owner的id
      */
     public final TableField<PropertyKeyRecord, ULong> OWNER_IDENTIFIER = createField(DSL.name("owner_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "该属性的owner的id");
-
-    /**
-     * The column <code>foundation_commons.property_key.use</code>. 用途。比如用于属性模板；比如用于某个具体的商品的属性；比如用于系统的环境变量；比如用于任意的key/value pair
-     */
-    public final TableField<PropertyKeyRecord, UByte> USE = createField(DSL.name("use"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "用途。比如用于属性模板；比如用于某个具体的商品的属性；比如用于系统的环境变量；比如用于任意的key/value pair");
 
     /**
      * The column <code>foundation_commons.property_key.create_time</code>.
@@ -185,11 +180,11 @@ public class PropertyKey extends TableImpl<PropertyKeyRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row11 type methods
+    // Row10 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<ULong, String, UByte, UByte, ULong, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row11) super.fieldsRow();
+    public Row10<ULong, String, UByte, UByte, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 }

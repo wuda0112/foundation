@@ -34,11 +34,13 @@ public class UserManagerTest extends TestBase {
 
         UserManager userManager = getUserManager();
         long userId = keyGenerator.next();
+
+        long userAccountId = keyGenerator.next();
         CreateUserAccount userAccount = new CreateUserAccount.Builder()
-                .setId(keyGenerator.next())
+                .setId(userAccountId)
                 .setUserId(userId)
                 .setPassword("124456")
-                .setUsername("wuda-username")
+                .setUsername("username-" + userAccountId)
                 .setState(byte0)
                 .build();
         userManager.directBatchInsertUserAccount(Collections.singletonList(userAccount), opUserId);
@@ -67,6 +69,7 @@ public class UserManagerTest extends TestBase {
         try {
             userManager.createUserWithAccount(createUserWithAccount, opUserId);
         } catch (AlreadyExistsException e) {
+            System.out.println("正常抛出异常");
             e.printStackTrace();
         }
     }

@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -37,7 +38,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemVariation extends TableImpl<ItemVariationRecord> {
 
-    private static final long serialVersionUID = -931623687;
+    private static final long serialVersionUID = 4461018;
 
     /**
      * The reference instance of <code>foundation_item.item_variation</code>
@@ -55,7 +56,7 @@ public class ItemVariation extends TableImpl<ItemVariationRecord> {
     /**
      * The column <code>foundation_item.item_variation.item_variation_id</code>.
      */
-    public final TableField<ItemVariationRecord, ULong> ITEM_VARIATION_ID = createField(DSL.name("item_variation_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<ItemVariationRecord, ULong> ITEM_VARIATION_ID = createField(DSL.name("item_variation_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>foundation_item.item_variation.item_id</code>.
@@ -138,6 +139,11 @@ public class ItemVariation extends TableImpl<ItemVariationRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.<Index>asList(Indexes.ITEM_VARIATION_FK_ITEM_ID);
+    }
+
+    @Override
+    public Identity<ItemVariationRecord, ULong> getIdentity() {
+        return Keys.IDENTITY_ITEM_VARIATION;
     }
 
     @Override

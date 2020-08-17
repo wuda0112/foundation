@@ -119,20 +119,6 @@ public class PropertyKeyDao extends DAOImpl<PropertyKeyRecord, com.wuda.foundati
     }
 
     /**
-     * Fetch records that have <code>use BETWEEN lowerInclusive AND upperInclusive</code>
-     */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.PropertyKey> fetchRangeOfUse(UByte lowerInclusive, UByte upperInclusive) {
-        return fetchRange(PropertyKey.PROPERTY_KEY.USE, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>use IN (values)</code>
-     */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.PropertyKey> fetchByUse(UByte... values) {
-        return fetch(PropertyKey.PROPERTY_KEY.USE, values);
-    }
-
-    /**
      * Fetch records that have <code>create_time BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.PropertyKey> fetchRangeOfCreateTime(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {

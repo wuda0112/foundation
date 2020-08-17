@@ -55,14 +55,14 @@ public class PermissionTargetRecord extends UpdatableRecordImpl<PermissionTarget
     }
 
     /**
-     * Setter for <code>foundation_security.permission_target.name</code>. permission target  name。在java.security.DescribePermission#getName设计中，name就唯一识别了作用对象，类似的，在我们这里，由于有分类，因此只要在分类中唯一即可
+     * Setter for <code>foundation_security.permission_target.name</code>. permission target  name。在java.security.Permission#getName设计中，name就唯一识别了作用对象，类似的，在我们这里，由于有分类，因此只要在分类中唯一即可
      */
     public void setName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>foundation_security.permission_target.name</code>. permission target  name。在java.security.DescribePermission#getName设计中，name就唯一识别了作用对象，类似的，在我们这里，由于有分类，因此只要在分类中唯一即可
+     * Getter for <code>foundation_security.permission_target.name</code>. permission target  name。在java.security.Permission#getName设计中，name就唯一识别了作用对象，类似的，在我们这里，由于有分类，因此只要在分类中唯一即可
      */
     public String getName() {
         return (String) get(2);

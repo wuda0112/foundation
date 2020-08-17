@@ -34,6 +34,7 @@ public class Keys {
     public static final Identity<ItemRecord, ULong> IDENTITY_ITEM = Identities0.IDENTITY_ITEM;
     public static final Identity<ItemDescriptionRecord, ULong> IDENTITY_ITEM_DESCRIPTION = Identities0.IDENTITY_ITEM_DESCRIPTION;
     public static final Identity<ItemGeneralRecord, ULong> IDENTITY_ITEM_GENERAL = Identities0.IDENTITY_ITEM_GENERAL;
+    public static final Identity<ItemVariationRecord, ULong> IDENTITY_ITEM_VARIATION = Identities0.IDENTITY_ITEM_VARIATION;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -57,6 +58,7 @@ public class Keys {
         public static Identity<ItemRecord, ULong> IDENTITY_ITEM = Internal.createIdentity(Item.ITEM, Item.ITEM.ITEM_ID);
         public static Identity<ItemDescriptionRecord, ULong> IDENTITY_ITEM_DESCRIPTION = Internal.createIdentity(ItemDescription.ITEM_DESCRIPTION, ItemDescription.ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID);
         public static Identity<ItemGeneralRecord, ULong> IDENTITY_ITEM_GENERAL = Internal.createIdentity(ItemGeneral.ITEM_GENERAL, ItemGeneral.ITEM_GENERAL.ITEM_GENERAL_ID);
+        public static Identity<ItemVariationRecord, ULong> IDENTITY_ITEM_VARIATION = Internal.createIdentity(ItemVariation.ITEM_VARIATION, ItemVariation.ITEM_VARIATION.ITEM_VARIATION_ID);
     }
 
     private static class UniqueKeys0 {

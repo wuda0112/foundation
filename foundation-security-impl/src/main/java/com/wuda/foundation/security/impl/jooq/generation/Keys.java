@@ -32,6 +32,7 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final Identity<PermissionActionRecord, ULong> IDENTITY_PERMISSION_ACTION = Identities0.IDENTITY_PERMISSION_ACTION;
+    public static final Identity<PermissionTargetRecord, ULong> IDENTITY_PERMISSION_TARGET = Identities0.IDENTITY_PERMISSION_TARGET;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -57,6 +58,7 @@ public class Keys {
 
     private static class Identities0 {
         public static Identity<PermissionActionRecord, ULong> IDENTITY_PERMISSION_ACTION = Internal.createIdentity(PermissionAction.PERMISSION_ACTION, PermissionAction.PERMISSION_ACTION.PERMISSION_ACTION_ID);
+        public static Identity<PermissionTargetRecord, ULong> IDENTITY_PERMISSION_TARGET = Internal.createIdentity(PermissionTarget.PERMISSION_TARGET, PermissionTarget.PERMISSION_TARGET.PERMISSION_TARGET_ID);
     }
 
     private static class UniqueKeys0 {

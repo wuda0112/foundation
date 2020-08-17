@@ -17,6 +17,5 @@ public class DescribePropertyKey extends BasicAttribute {
     private String key;
     private Byte propertyKeyType;
     private Identifier<Long> owner;
-    private Byte propertyKeyUse;
 
 }

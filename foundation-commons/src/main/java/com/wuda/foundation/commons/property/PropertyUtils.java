@@ -104,7 +104,6 @@ public class PropertyUtils {
         PropertyKeyNaming propertyKeyNaming = propertyTemplate.getPropertyKeyNaming();
         propertyKey.setKey(propertyKeyNaming.getKey());
         propertyKey.setPropertyKeyType(propertyTemplate.getPropertyKeyType());
-        propertyKey.setPropertyKeyUse(propertyTemplate.getPropertyKeyUse());
         propertyKey.setOwner(owner);
 
         DescribePropertyKeyDefinition definition = new DescribePropertyKeyDefinition();

@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record11;
-import org.jooq.Row11;
+import org.jooq.Record10;
+import org.jooq.Row10;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
@@ -21,9 +21,9 @@ import org.jooq.types.ULong;
  * 属性的key
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PropertyKeyRecord extends UpdatableRecordImpl<PropertyKeyRecord> implements Record11<ULong, String, UByte, UByte, ULong, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class PropertyKeyRecord extends UpdatableRecordImpl<PropertyKeyRecord> implements Record10<ULong, String, UByte, UByte, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -120969719;
+    private static final long serialVersionUID = 912625461;
 
     /**
      * Setter for <code>foundation_commons.property_key.property_key_id</code>.
@@ -96,87 +96,73 @@ public class PropertyKeyRecord extends UpdatableRecordImpl<PropertyKeyRecord> im
     }
 
     /**
-     * Setter for <code>foundation_commons.property_key.use</code>. 用途。比如用于属性模板；比如用于某个具体的商品的属性；比如用于系统的环境变量；比如用于任意的key/value pair
-     */
-    public void setUse(UByte value) {
-        set(5, value);
-    }
-
-    /**
-     * Getter for <code>foundation_commons.property_key.use</code>. 用途。比如用于属性模板；比如用于某个具体的商品的属性；比如用于系统的环境变量；比如用于任意的key/value pair
-     */
-    public UByte getUse() {
-        return (UByte) get(5);
-    }
-
-    /**
      * Setter for <code>foundation_commons.property_key.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
-        set(6, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>foundation_commons.property_key.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
-        return (LocalDateTime) get(6);
+        return (LocalDateTime) get(5);
     }
 
     /**
      * Setter for <code>foundation_commons.property_key.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
-        set(7, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>foundation_commons.property_key.create_user_id</code>.
      */
     public ULong getCreateUserId() {
-        return (ULong) get(7);
+        return (ULong) get(6);
     }
 
     /**
      * Setter for <code>foundation_commons.property_key.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
-        set(8, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>foundation_commons.property_key.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
-        return (LocalDateTime) get(8);
+        return (LocalDateTime) get(7);
     }
 
     /**
      * Setter for <code>foundation_commons.property_key.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
-        set(9, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>foundation_commons.property_key.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
-        return (ULong) get(9);
+        return (ULong) get(8);
     }
 
     /**
      * Setter for <code>foundation_commons.property_key.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
-        set(10, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>foundation_commons.property_key.is_deleted</code>.
      */
     public ULong getIsDeleted() {
-        return (ULong) get(10);
+        return (ULong) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -189,17 +175,17 @@ public class PropertyKeyRecord extends UpdatableRecordImpl<PropertyKeyRecord> im
     }
 
     // -------------------------------------------------------------------------
-    // Record11 type implementation
+    // Record10 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<ULong, String, UByte, UByte, ULong, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row11) super.fieldsRow();
+    public Row10<ULong, String, UByte, UByte, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 
     @Override
-    public Row11<ULong, String, UByte, UByte, ULong, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
-        return (Row11) super.valuesRow();
+    public Row10<ULong, String, UByte, UByte, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+        return (Row10) super.valuesRow();
     }
 
     @Override
@@ -228,32 +214,27 @@ public class PropertyKeyRecord extends UpdatableRecordImpl<PropertyKeyRecord> im
     }
 
     @Override
-    public Field<UByte> field6() {
-        return PropertyKey.PROPERTY_KEY.USE;
-    }
-
-    @Override
-    public Field<LocalDateTime> field7() {
+    public Field<LocalDateTime> field6() {
         return PropertyKey.PROPERTY_KEY.CREATE_TIME;
     }
 
     @Override
-    public Field<ULong> field8() {
+    public Field<ULong> field7() {
         return PropertyKey.PROPERTY_KEY.CREATE_USER_ID;
     }
 
     @Override
-    public Field<LocalDateTime> field9() {
+    public Field<LocalDateTime> field8() {
         return PropertyKey.PROPERTY_KEY.LAST_MODIFY_TIME;
     }
 
     @Override
-    public Field<ULong> field10() {
+    public Field<ULong> field9() {
         return PropertyKey.PROPERTY_KEY.LAST_MODIFY_USER_ID;
     }
 
     @Override
-    public Field<ULong> field11() {
+    public Field<ULong> field10() {
         return PropertyKey.PROPERTY_KEY.IS_DELETED;
     }
 
@@ -283,32 +264,27 @@ public class PropertyKeyRecord extends UpdatableRecordImpl<PropertyKeyRecord> im
     }
 
     @Override
-    public UByte component6() {
-        return getUse();
-    }
-
-    @Override
-    public LocalDateTime component7() {
+    public LocalDateTime component6() {
         return getCreateTime();
     }
 
     @Override
-    public ULong component8() {
+    public ULong component7() {
         return getCreateUserId();
     }
 
     @Override
-    public LocalDateTime component9() {
+    public LocalDateTime component8() {
         return getLastModifyTime();
     }
 
     @Override
-    public ULong component10() {
+    public ULong component9() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong component11() {
+    public ULong component10() {
         return getIsDeleted();
     }
 
@@ -338,32 +314,27 @@ public class PropertyKeyRecord extends UpdatableRecordImpl<PropertyKeyRecord> im
     }
 
     @Override
-    public UByte value6() {
-        return getUse();
-    }
-
-    @Override
-    public LocalDateTime value7() {
+    public LocalDateTime value6() {
         return getCreateTime();
     }
 
     @Override
-    public ULong value8() {
+    public ULong value7() {
         return getCreateUserId();
     }
 
     @Override
-    public LocalDateTime value9() {
+    public LocalDateTime value8() {
         return getLastModifyTime();
     }
 
     @Override
-    public ULong value10() {
+    public ULong value9() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong value11() {
+    public ULong value10() {
         return getIsDeleted();
     }
 
@@ -398,43 +369,37 @@ public class PropertyKeyRecord extends UpdatableRecordImpl<PropertyKeyRecord> im
     }
 
     @Override
-    public PropertyKeyRecord value6(UByte value) {
-        setUse(value);
-        return this;
-    }
-
-    @Override
-    public PropertyKeyRecord value7(LocalDateTime value) {
+    public PropertyKeyRecord value6(LocalDateTime value) {
         setCreateTime(value);
         return this;
     }
 
     @Override
-    public PropertyKeyRecord value8(ULong value) {
+    public PropertyKeyRecord value7(ULong value) {
         setCreateUserId(value);
         return this;
     }
 
     @Override
-    public PropertyKeyRecord value9(LocalDateTime value) {
+    public PropertyKeyRecord value8(LocalDateTime value) {
         setLastModifyTime(value);
         return this;
     }
 
     @Override
-    public PropertyKeyRecord value10(ULong value) {
+    public PropertyKeyRecord value9(ULong value) {
         setLastModifyUserId(value);
         return this;
     }
 
     @Override
-    public PropertyKeyRecord value11(ULong value) {
+    public PropertyKeyRecord value10(ULong value) {
         setIsDeleted(value);
         return this;
     }
 
     @Override
-    public PropertyKeyRecord values(ULong value1, String value2, UByte value3, UByte value4, ULong value5, UByte value6, LocalDateTime value7, ULong value8, LocalDateTime value9, ULong value10, ULong value11) {
+    public PropertyKeyRecord values(ULong value1, String value2, UByte value3, UByte value4, ULong value5, LocalDateTime value6, ULong value7, LocalDateTime value8, ULong value9, ULong value10) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -445,7 +410,6 @@ public class PropertyKeyRecord extends UpdatableRecordImpl<PropertyKeyRecord> im
         value8(value8);
         value9(value9);
         value10(value10);
-        value11(value11);
         return this;
     }
 
@@ -463,7 +427,7 @@ public class PropertyKeyRecord extends UpdatableRecordImpl<PropertyKeyRecord> im
     /**
      * Create a detached, initialised PropertyKeyRecord
      */
-    public PropertyKeyRecord(ULong propertyKeyId, String key, UByte type, UByte ownerType, ULong ownerIdentifier, UByte use, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public PropertyKeyRecord(ULong propertyKeyId, String key, UByte type, UByte ownerType, ULong ownerIdentifier, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(PropertyKey.PROPERTY_KEY);
 
         set(0, propertyKeyId);
@@ -471,11 +435,10 @@ public class PropertyKeyRecord extends UpdatableRecordImpl<PropertyKeyRecord> im
         set(2, type);
         set(3, ownerType);
         set(4, ownerIdentifier);
-        set(5, use);
-        set(6, createTime);
-        set(7, createUserId);
-        set(8, lastModifyTime);
-        set(9, lastModifyUserId);
-        set(10, isDeleted);
+        set(5, createTime);
+        set(6, createUserId);
+        set(7, lastModifyTime);
+        set(8, lastModifyUserId);
+        set(9, isDeleted);
     }
 }

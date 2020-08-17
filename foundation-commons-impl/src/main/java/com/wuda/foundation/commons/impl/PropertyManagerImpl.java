@@ -3,16 +3,7 @@ package com.wuda.foundation.commons.impl;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyKeyDefinitionRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyKeyRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyValueRecord;
-import com.wuda.foundation.commons.property.AbstractPropertyManager;
-import com.wuda.foundation.commons.property.CreatePropertyKey;
-import com.wuda.foundation.commons.property.CreatePropertyKeyDefinition;
-import com.wuda.foundation.commons.property.CreatePropertyKeyWithDefinition;
-import com.wuda.foundation.commons.property.CreatePropertyValue;
-import com.wuda.foundation.commons.property.DescribeProperty;
-import com.wuda.foundation.commons.property.DescribePropertyKey;
-import com.wuda.foundation.commons.property.DescribePropertyKeyDefinition;
-import com.wuda.foundation.commons.property.DescribePropertyValue;
-import com.wuda.foundation.commons.property.UpdatePropertyValue;
+import com.wuda.foundation.commons.property.*;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.AlreadyExistsException;
@@ -24,23 +15,14 @@ import com.wuda.foundation.lang.datatype.DataTypeRegistry;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
-import org.jooq.Configuration;
-import org.jooq.DSLContext;
-import org.jooq.Record1;
-import org.jooq.Result;
-import org.jooq.SelectConditionStep;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKey.PROPERTY_KEY;
@@ -316,7 +298,6 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         describePropertyKey.setOwner(new LongIdentifier(propertyKeyRecord.getOwnerIdentifier().longValue(),
                 IdentifierTypeRegistry.defaultRegistry.lookup(propertyKeyRecord.getOwnerType().intValue())));
         describePropertyKey.setPropertyKeyType(propertyKeyRecord.getType().byteValue());
-        describePropertyKey.setPropertyKeyUse(propertyKeyRecord.getUse().byteValue());
         return describePropertyKey;
     }
 
@@ -367,7 +348,6 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                 UByte.valueOf(createPropertyKey.getType()),
                 UByte.valueOf(createPropertyKey.getOwner().getType().getCode()),
                 ULong.valueOf(createPropertyKey.getOwner().getValue()),
-                UByte.valueOf(createPropertyKey.getUse()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue())
         );
     }

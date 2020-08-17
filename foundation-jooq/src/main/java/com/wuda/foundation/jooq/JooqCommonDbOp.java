@@ -2,26 +2,14 @@ package com.wuda.foundation.jooq;
 
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
-import org.jooq.Configuration;
-import org.jooq.DSLContext;
-import org.jooq.Field;
-import org.jooq.InsertOnDuplicateStep;
-import org.jooq.InsertResultStep;
-import org.jooq.InsertSetStep;
-import org.jooq.InsertValuesStepN;
-import org.jooq.Record;
-import org.jooq.Record1;
-import org.jooq.SelectConditionStep;
-import org.jooq.SelectSelectStep;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.types.ULong;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.function.Consumer;
 
+import static org.jooq.impl.DSL.param;
 import static org.jooq.impl.DSL.select;
 
 /**
@@ -131,8 +119,7 @@ public interface JooqCommonDbOp {
                                                               SelectConditionStep<Record1<ULong>> existsRecordPKSelector) {
         checkKeys(table);
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        Field[] insertIntoSelectFields = record.fields();
-        SelectSelectStep<R> selectFields = (SelectSelectStep<R>) select(insertIntoSelectFields);
+        SelectSelectStep<R> selectFields = getSelectFields(record);
         InsertOnDuplicateStep<R> insertSetStep = dslContext.insertInto(table)
                 .select(
                         selectFields
@@ -315,6 +302,23 @@ public interface JooqCommonDbOp {
             values[i] = record.get(i);
         }
         return values;
+    }
+
+    /**
+     * 按顺序返回record中的所有field和value.
+     *
+     * @param record record
+     * @return select field
+     */
+    default <R extends Record> SelectSelectStep<R> getSelectFields(R record) {
+        int fieldSize = record.size();
+        SelectField[] selectFields = new SelectField[fieldSize];
+        for (int i = 0; i < fieldSize; i++) {
+            Field field = record.field(i);
+            Object value = record.get(i);
+            selectFields[i] = param(field.getName(), value);
+        }
+        return (SelectSelectStep<R>) select(selectFields);
     }
 
 }

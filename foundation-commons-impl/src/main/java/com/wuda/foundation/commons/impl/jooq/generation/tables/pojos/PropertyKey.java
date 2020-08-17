@@ -17,14 +17,13 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyKey implements Serializable {
 
-    private static final long serialVersionUID = 1615779399;
+    private static final long serialVersionUID = 1645780988;
 
     private ULong         propertyKeyId;
     private String        key;
     private UByte         type;
     private UByte         ownerType;
     private ULong         ownerIdentifier;
-    private UByte         use;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private LocalDateTime lastModifyTime;
@@ -39,7 +38,6 @@ public class PropertyKey implements Serializable {
         this.type = value.type;
         this.ownerType = value.ownerType;
         this.ownerIdentifier = value.ownerIdentifier;
-        this.use = value.use;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.lastModifyTime = value.lastModifyTime;
@@ -53,7 +51,6 @@ public class PropertyKey implements Serializable {
         UByte         type,
         UByte         ownerType,
         ULong         ownerIdentifier,
-        UByte         use,
         LocalDateTime createTime,
         ULong         createUserId,
         LocalDateTime lastModifyTime,
@@ -65,7 +62,6 @@ public class PropertyKey implements Serializable {
         this.type = type;
         this.ownerType = ownerType;
         this.ownerIdentifier = ownerIdentifier;
-        this.use = use;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.lastModifyTime = lastModifyTime;
@@ -113,14 +109,6 @@ public class PropertyKey implements Serializable {
         this.ownerIdentifier = ownerIdentifier;
     }
 
-    public UByte getUse() {
-        return this.use;
-    }
-
-    public void setUse(UByte use) {
-        this.use = use;
-    }
-
     public LocalDateTime getCreateTime() {
         return this.createTime;
     }
@@ -163,14 +151,13 @@ public class PropertyKey implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("PropertyKeyNaming (");
+        StringBuilder sb = new StringBuilder("PropertyKey (");
 
         sb.append(propertyKeyId);
         sb.append(", ").append(key);
         sb.append(", ").append(type);
         sb.append(", ").append(ownerType);
         sb.append(", ").append(ownerIdentifier);
-        sb.append(", ").append(use);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(lastModifyTime);

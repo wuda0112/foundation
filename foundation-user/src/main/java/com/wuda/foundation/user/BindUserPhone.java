@@ -1,6 +1,5 @@
 package com.wuda.foundation.user;
 
-import com.wuda.foundation.commons.PhoneUse;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -17,8 +16,8 @@ public class BindUserPhone {
     private Long id;
     private Long userId;
     private Long phoneId;
-    private PhoneUse use;
-    private UserPhoneState state;
+    private Byte use;
+    private Byte state;
     private String description;
 
     /**
@@ -39,8 +38,8 @@ public class BindUserPhone {
         private Long id;
         private Long userId;
         private Long phoneId;
-        private PhoneUse use;
-        private UserPhoneState state;
+        private Byte use;
+        private Byte state;
         private String description;
 
         public Builder setId(Long id) {
@@ -58,12 +57,12 @@ public class BindUserPhone {
             return this;
         }
 
-        public Builder setState(UserPhoneState state) {
+        public Builder setState(Byte state) {
             this.state = state;
             return this;
         }
 
-        public Builder setUse(PhoneUse use) {
+        public Builder setUse(Byte use) {
             this.use = use;
             return this;
         }
@@ -82,6 +81,7 @@ public class BindUserPhone {
             bindUserPhone.phoneId = Objects.requireNonNull(this.phoneId);
             bindUserPhone.use = Objects.requireNonNull(this.use);
             bindUserPhone.state = Objects.requireNonNull(this.state);
+            bindUserPhone.description = description;
             return bindUserPhone;
         }
     }

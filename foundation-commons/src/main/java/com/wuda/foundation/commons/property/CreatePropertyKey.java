@@ -17,16 +17,16 @@ public class CreatePropertyKey {
     private Long id;
     private Identifier<Long> owner;
     private String key;
-    private PropertyKeyType type;
-    private PropertyKeyUse use;
+    private Byte type;
+    private Byte use;
 
     public static class Builder implements com.wuda.foundation.lang.Builder<CreatePropertyKey> {
 
         private Long id;
         private Identifier<Long> owner;
         private String key;
-        private PropertyKeyType type;
-        private PropertyKeyUse use;
+        private Byte type;
+        private Byte use;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -43,12 +43,12 @@ public class CreatePropertyKey {
             return this;
         }
 
-        public Builder setType(PropertyKeyType type) {
+        public Builder setType(Byte type) {
             this.type = type;
             return this;
         }
 
-        public Builder setUse(PropertyKeyUse use) {
+        public Builder setUse(Byte use) {
             this.use = use;
             return this;
         }

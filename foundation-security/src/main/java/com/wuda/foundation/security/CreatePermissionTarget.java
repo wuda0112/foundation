@@ -31,7 +31,7 @@ public class CreatePermissionTarget {
     /**
      * 作用对象的类型,比如文件.
      */
-    private PermissionTargetType type;
+    private Byte type;
     /**
      * 关联的外部对象的identifier.
      */
@@ -52,7 +52,7 @@ public class CreatePermissionTarget {
         private Long id;
         private Long categoryId;
         private String name;
-        private PermissionTargetType type;
+        private Byte type;
         private LongIdentifier referencedIdentifier;
         private String description;
 
@@ -71,7 +71,7 @@ public class CreatePermissionTarget {
             return this;
         }
 
-        public Builder setPermissionTargetType(PermissionTargetType type) {
+        public Builder setPermissionTargetType(Byte type) {
             this.type = type;
             return this;
         }

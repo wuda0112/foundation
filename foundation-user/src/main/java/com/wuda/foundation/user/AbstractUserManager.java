@@ -1,11 +1,8 @@
 package com.wuda.foundation.user;
 
-import com.wuda.foundation.commons.EmailManager;
-import com.wuda.foundation.commons.PhoneManager;
 import com.wuda.foundation.lang.AlreadyExistsException;
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.identify.Identifier;
-import com.wuda.foundation.lang.keygen.KeyGenerator;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,13 +20,6 @@ public abstract class AbstractUserManager implements UserManager {
         createUserDbOp(createUser, opUserId);
     }
 
-    /**
-     * 作为{@link #createUser(CreateUser, Long)}方法的一部分,参数的校验已经完成,
-     * 剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param createUser user
-     * @param opUserId   操作人用户ID
-     */
     protected abstract void createUserDbOp(CreateUser createUser, Long opUserId);
 
     @Override
@@ -37,13 +27,6 @@ public abstract class AbstractUserManager implements UserManager {
         directBatchInsertUserDbOp(userList, opUserId);
     }
 
-    /**
-     * 作为{@link #directBatchInsertUser(List, Long)}方法的一部分,参数的校验已经完成,
-     * 剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param userList user list
-     * @param opUserId 操作人用户ID
-     */
     protected abstract void directBatchInsertUserDbOp(List<CreateUser> userList, Long opUserId);
 
     @Override
@@ -61,11 +44,11 @@ public abstract class AbstractUserManager implements UserManager {
     protected abstract void directBatchInsertUserAccountDbOp(List<CreateUserAccount> userAccounts, Long opUserId);
 
     @Override
-    public Long bindUserEmail(BindUserEmail bindUserEmail, InsertMode insertMode, Long opUserId) {
-        return bindUserEmailDbOp(bindUserEmail, insertMode, opUserId);
+    public Long bindUserEmail(BindUserEmail bindUserEmail, CreateMode createMode, Long opUserId) {
+        return bindUserEmailDbOp(bindUserEmail, createMode, opUserId);
     }
 
-    protected abstract Long bindUserEmailDbOp(BindUserEmail bindUserEmail, InsertMode insertMode, Long opUserId);
+    protected abstract Long bindUserEmailDbOp(BindUserEmail bindUserEmail, CreateMode createMode, Long opUserId);
 
     @Override
     public void directBatchBindUserEmail(List<BindUserEmail> bindUserEmails, Long opUserId) {
@@ -75,11 +58,11 @@ public abstract class AbstractUserManager implements UserManager {
     protected abstract void directBatchBindUserEmailDbOp(List<BindUserEmail> bindUserEmails, Long opUserId);
 
     @Override
-    public Long bindUserPhone(BindUserPhone bindUserPhone, InsertMode insertMode, Long opUserId) {
-        return bindUserPhoneDbOp(bindUserPhone, insertMode, opUserId);
+    public Long bindUserPhone(BindUserPhone bindUserPhone, CreateMode createMode, Long opUserId) {
+        return bindUserPhoneDbOp(bindUserPhone, createMode, opUserId);
     }
 
-    protected abstract Long bindUserPhoneDbOp(BindUserPhone bindUserPhone, InsertMode insertMode, Long opUserId);
+    protected abstract Long bindUserPhoneDbOp(BindUserPhone bindUserPhone, CreateMode createMode, Long opUserId);
 
     @Override
     public void directBatchBindUserPhone(List<BindUserPhone> bindUserPhones, Long opUserId) {
@@ -96,22 +79,14 @@ public abstract class AbstractUserManager implements UserManager {
         return existsDbOp(identifier);
     }
 
-    /**
-     * 作为{@link #exists(Identifier)}方法的一部分,
-     * 参数的校验已经在{@link #exists(Identifier)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param identifier 用户唯一标记
-     * @return <code>true</code>-如果存在
-     */
     protected abstract boolean existsDbOp(Identifier<String> identifier);
 
     @Override
-    public long createUser(CreateUserWithAccount createUser, EmailManager emailManager, PhoneManager phoneManager, Long opUserId) throws AlreadyExistsException{
-        return createUserDbOp(createUser, emailManager, phoneManager, opUserId);
+    public void createUserWithAccount(CreateUserWithAccount createUser, Long opUserId) throws AlreadyExistsException {
+        createUserWithAccountDbOp(createUser, opUserId);
     }
 
-    protected abstract long createUserDbOp(CreateUserWithAccount createUser, EmailManager emailManager, PhoneManager phoneManager, Long opUserId) throws AlreadyExistsException;
+    protected abstract void createUserWithAccountDbOp(CreateUserWithAccount createUser, Long opUserId) throws AlreadyExistsException;
 
     @Override
     public void updatePassword(Long userId, String newPassword) {
@@ -119,12 +94,12 @@ public abstract class AbstractUserManager implements UserManager {
     }
 
     @Override
-    public void changeUserAccountState(Long userId, UserAccountState newState) {
+    public void changeUserAccountState(Long userId, Byte newState) {
 
     }
 
     @Override
-    public void changeUserState(Long userId, UserState newState) {
+    public void changeUserState(Long userId, Byte newState) {
 
     }
 

@@ -10,7 +10,7 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 
-public class PermissionManagerTest extends TestBase {
+public class DescribePermissionManagerTest extends TestBase {
 
     @Test
     public void testCreatePermission() {
@@ -19,38 +19,26 @@ public class PermissionManagerTest extends TestBase {
         CreatePermissionTarget target = new CreatePermissionTarget.Builder()
                 .setId(permissionTargetId)
                 .setCategoryId(keyGenerator.next())
-                .setPermissionTargetType(BuiltinPermissionTargetType.ZERO)
+                .setPermissionTargetType(byte0)
                 .setDescription("target-desc")
                 .setName("target-name")
-                .setReferencedIdentifier(new LongIdentifier(0L,BuiltinIdentifierType.MOCK))
+                .setReferencedIdentifier(new LongIdentifier(0L,BuiltinIdentifierType.TABLE_ITEM))
                 .build();
 
-        PermissionActionName permissionActionName = new PermissionActionName() {
-            @Override
-            public String getCode() {
-                return "action-name";
-            }
-
-            @Override
-            public String getDescription() {
-                return "action-desc";
-            }
-        };
-        permissionActionName.register();
         CreatePermissionAction action = new CreatePermissionAction.Builder()
                 .setId(keyGenerator.next())
                 .setPermissionTargetId(permissionTargetId)
-                .setPermissionActionName(permissionActionName)
-                .setReferencedIdentifier(new LongIdentifier(0L, BuiltinIdentifierType.MOCK))
+                .setName("read")
+                .setReferencedIdentifier(new LongIdentifier(0L, BuiltinIdentifierType.TABLE_ITEM))
                 .setDescription("action-desc")
                 .build();
 
         permissionManager.createPermission(target, Collections.singleton(action), opUserId);
 
-        Permission permission = permissionManager.getPermission(permissionTargetId);
+        DescribePermission describePermission = permissionManager.getPermission(permissionTargetId);
         DescribePermissionAction describePermissionAction = permissionManager.getPermissionActionById(action.getId());
         List<DescribePermissionAction> describePermissionActions = permissionManager.getPermissionActionByTarget(permissionTargetId);
-        System.out.println(permission);
+        System.out.println(describePermission);
         System.out.println(describePermissionAction);
         System.out.println(describePermissionActions);
 

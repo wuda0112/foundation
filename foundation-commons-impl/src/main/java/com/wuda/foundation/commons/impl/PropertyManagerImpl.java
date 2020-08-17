@@ -12,21 +12,15 @@ import com.wuda.foundation.commons.property.DescribeProperty;
 import com.wuda.foundation.commons.property.DescribePropertyKey;
 import com.wuda.foundation.commons.property.DescribePropertyKeyDefinition;
 import com.wuda.foundation.commons.property.DescribePropertyValue;
-import com.wuda.foundation.commons.property.PropertyKeyType;
-import com.wuda.foundation.commons.property.PropertyKeyTypeSchema;
-import com.wuda.foundation.commons.property.PropertyKeyUse;
-import com.wuda.foundation.commons.property.PropertyKeyUseSchema;
 import com.wuda.foundation.commons.property.UpdatePropertyValue;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.AlreadyExistsException;
-import com.wuda.foundation.lang.CreateAfterCheckMode;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
+import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.datatype.DataType;
 import com.wuda.foundation.lang.datatype.DataTypeRegistry;
-import com.wuda.foundation.lang.InsertMode;
-import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.SingleInsertResult;
-import com.wuda.foundation.lang.UniqueCodeDescriptorRegistry;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
@@ -73,7 +67,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     }
 
     @Override
-    protected SingleInsertResult createPropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId) {
+    protected CreateResult createPropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateMode createMode, Long opUserId) {
         long propertyKeyId = createPropertyValue.getPropertyKeyId();
         PropertyValueRecord propertyValueRecord = propertyValueRecordForInsert(createPropertyValue, opUserId);
         DescribePropertyKeyDefinition describePropertyKeyDefinition = getDefinitionByPropertyKeyDbOp(propertyKeyId);
@@ -97,7 +91,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                     .where(PROPERTY_VALUE.PROPERTY_KEY_ID.eq(ULong.valueOf(propertyKeyId)))
                     .and(PROPERTY_VALUE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
         }
-        return insertDispatcher(dataSource, createAfterCheckMode, PROPERTY_VALUE, propertyValueRecord, existsRecordSelector);
+        return insertDispatcher(dataSource, createMode, PROPERTY_VALUE, propertyValueRecord, existsRecordSelector);
     }
 
     @Override
@@ -137,11 +131,11 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     }
 
     @Override
-    protected SingleInsertResult createPropertyKeyWithDefinitionDbOp(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) throws AlreadyExistsException {
+    protected CreateResult createPropertyKeyWithDefinitionDbOp(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) throws AlreadyExistsException {
         CreatePropertyKey createPropertyKey = createPropertyKeyWithDefinition.getPropertyKey();
         CreatePropertyKeyDefinition definition = createPropertyKeyWithDefinition.getDefinition();
-        SingleInsertResult singleInsertResult = createPropertyKeyDbOp(createPropertyKey, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId);
-        if (singleInsertResult.getExistsRecordId() != null) {
+        CreateResult createResult = createPropertyKeyDbOp(createPropertyKey, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
+        if (createResult.getExistsRecordId() != null) {
             throw new AlreadyExistsException("owner type = " + createPropertyKey.getOwner().getType().getCode()
                     + ",owner id = " + createPropertyKey.getOwner().getValue()
                     + ",已经拥有 property key = " + createPropertyKey.getKey());
@@ -151,7 +145,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         } catch (AlreadyExistsException e) {
             // 新建的key之前肯定不会有definition
         }
-        return singleInsertResult;
+        return createResult;
     }
 
     @Override
@@ -161,7 +155,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     }
 
     @Override
-    protected SingleInsertResult createPropertyKeyDbOp(CreatePropertyKey createPropertyKey, InsertMode insertMode, Long opUserId) {
+    protected CreateResult createPropertyKeyDbOp(CreatePropertyKey createPropertyKey, CreateMode createMode, Long opUserId) {
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
                 .select(PROPERTY_KEY.PROPERTY_KEY_ID)
@@ -170,20 +164,20 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                 .and(PROPERTY_KEY.OWNER_IDENTIFIER.eq(ULong.valueOf(createPropertyKey.getOwner().getValue())))
                 .and(PROPERTY_KEY.KEY.eq(createPropertyKey.getKey()))
                 .and(PROPERTY_KEY.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        return insertDispatcher(dataSource, insertMode, PROPERTY_KEY, newPropertyKeyRecord(createPropertyKey, opUserId), existsRecordSelector);
+        return insertDispatcher(dataSource, createMode, PROPERTY_KEY, newPropertyKeyRecord(createPropertyKey, opUserId), existsRecordSelector);
     }
 
     @Override
-    protected long createOrUpdatePropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId) {
-        SingleInsertResult singleInsertResult = createPropertyValueDbOp(createPropertyValue, createAfterCheckMode, opUserId);
-        if (singleInsertResult.getExistsRecordId() != null) {
-            PropertyValueRecord propertyValueRecord = getPropertyValueById(singleInsertResult.getExistsRecordId());
+    protected long createOrUpdatePropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateMode createMode, Long opUserId) {
+        CreateResult createResult = createPropertyValueDbOp(createPropertyValue, createMode, opUserId);
+        if (createResult.getExistsRecordId() != null) {
+            PropertyValueRecord propertyValueRecord = getPropertyValueById(createResult.getExistsRecordId());
             if (propertyValueRecord.getValue() != null && !propertyValueRecord.getValue().equals(createPropertyValue.getValue())) {
-                UpdatePropertyValue updatePropertyValue = UpdatePropertyValue.from(singleInsertResult.getExistsRecordId(), createPropertyValue);
+                UpdatePropertyValue updatePropertyValue = UpdatePropertyValue.from(createResult.getExistsRecordId(), createPropertyValue);
                 updatePropertyValueDbOp(updatePropertyValue, opUserId);
             }
         }
-        return singleInsertResult.getRecordId();
+        return createResult.getRecordId();
     }
 
     @Override
@@ -290,7 +284,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     }
 
     @Override
-    protected SingleInsertResult createPropertyKeyDefinitionDbOp(CreatePropertyKeyDefinition definition, Long opUserId) throws AlreadyExistsException {
+    protected CreateResult createPropertyKeyDefinitionDbOp(CreatePropertyKeyDefinition definition, Long opUserId) throws AlreadyExistsException {
         PropertyKeyDefinitionRecord record = propertyKeyDefinitionRecordForInsert(definition, opUserId);
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
@@ -298,7 +292,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                 .from(PROPERTY_KEY_DEFINITION)
                 .where(PROPERTY_KEY_DEFINITION.PROPERTY_KEY_ID.eq(ULong.valueOf(definition.getPropertyKeyId())))
                 .and(PROPERTY_KEY_DEFINITION.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        SingleInsertResult result = insertAfterSelectCheck(dataSource, PROPERTY_KEY_DEFINITION, record, existsRecordSelector);
+        CreateResult result = insertAfterSelectCheck(dataSource, PROPERTY_KEY_DEFINITION, record, existsRecordSelector);
         result.valid();
         if (result.getExistsRecordId() != null) {
             throw new AlreadyExistsException("property key id = " + definition.getPropertyKeyId() + ",已经有了definition");
@@ -321,10 +315,8 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         describePropertyKey.setKey(propertyKeyRecord.getKey());
         describePropertyKey.setOwner(new LongIdentifier(propertyKeyRecord.getOwnerIdentifier().longValue(),
                 IdentifierTypeRegistry.defaultRegistry.lookup(propertyKeyRecord.getOwnerType().intValue())));
-        PropertyKeyType propertyKeyType = UniqueCodeDescriptorRegistry.defaultRegistry.lookup(PropertyKeyTypeSchema.class, propertyKeyRecord.getType().intValue());
-        describePropertyKey.setPropertyKeyType(propertyKeyType);
-        PropertyKeyUse propertyKeyUse = UniqueCodeDescriptorRegistry.defaultRegistry.lookup(PropertyKeyUseSchema.class, propertyKeyRecord.getUse().intValue());
-        describePropertyKey.setPropertyKeyUse(propertyKeyUse);
+        describePropertyKey.setPropertyKeyType(propertyKeyRecord.getType().byteValue());
+        describePropertyKey.setPropertyKeyUse(propertyKeyRecord.getUse().byteValue());
         return describePropertyKey;
     }
 
@@ -363,7 +355,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         return list;
     }
 
-    private SingleInsertResult insertPropertyValueRecord(CreatePropertyValue createPropertyValue, Long opUserId) {
+    private CreateResult insertPropertyValueRecord(CreatePropertyValue createPropertyValue, Long opUserId) {
         return insert(dataSource, PROPERTY_VALUE, propertyValueRecordForInsert(createPropertyValue, opUserId));
     }
 
@@ -372,10 +364,10 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         return new PropertyKeyRecord(
                 ULong.valueOf(createPropertyKey.getId()),
                 createPropertyKey.getKey(),
-                UByte.valueOf(createPropertyKey.getType().getCode()),
+                UByte.valueOf(createPropertyKey.getType()),
                 UByte.valueOf(createPropertyKey.getOwner().getType().getCode()),
                 ULong.valueOf(createPropertyKey.getOwner().getValue()),
-                UByte.valueOf(createPropertyKey.getUse().getCode()),
+                UByte.valueOf(createPropertyKey.getUse()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue())
         );
     }

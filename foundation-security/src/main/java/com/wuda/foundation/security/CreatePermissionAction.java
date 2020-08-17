@@ -27,7 +27,7 @@ public class CreatePermissionAction {
     /**
      * action.
      */
-    private PermissionActionName name;
+    private String name;
     /**
      * 描述.
      */
@@ -48,7 +48,7 @@ public class CreatePermissionAction {
 
         private Long id;
         private Long permissionTargetId;
-        private PermissionActionName name;
+        private String name;
         private String description;
 
         /**
@@ -66,7 +66,7 @@ public class CreatePermissionAction {
             return this;
         }
 
-        public Builder setPermissionActionName(PermissionActionName name) {
+        public Builder setName(String name) {
             this.name = name;
             return this;
         }

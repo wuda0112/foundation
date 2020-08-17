@@ -14,7 +14,19 @@ public class IdentifierTypeRegistry {
 
     private Map<Integer, IdentifierType> byCodeMap = new ConcurrentHashMap<>();
 
-    public static IdentifierTypeRegistry defaultRegistry = new IdentifierTypeRegistry();
+    public final static IdentifierTypeRegistry defaultRegistry;
+
+    static {
+        defaultRegistry = new IdentifierTypeRegistry();
+        BuiltinIdentifierTypeRegister.register();
+    }
+
+    /**
+     * 使用{@link #defaultRegistry}作为全局注册中心.
+     */
+    private IdentifierTypeRegistry() {
+
+    }
 
     /**
      * 注册{@link IdentifierType}.
@@ -31,7 +43,7 @@ public class IdentifierTypeRegistry {
 
     /**
      * 查询指定的code值对应的{@link IdentifierType},前提是
-     * {@link IdentifierType}必须首先调用{@link IdentifierType#register()}
+     * {@link IdentifierType}必须首先调用{@link IdentifierTypeRegistry#register(IdentifierType)}
      * 将自己注册进来.如果没有找到会抛出{@link IllegalStateException}异常.
      *
      * @param typeCode identifier type code
@@ -50,7 +62,7 @@ public class IdentifierTypeRegistry {
             }
         }
         if (result == null) {
-            throw new IllegalStateException("identifier type code= " + typeCode + ",没有,可能是没有注册 !");
+            throw new IllegalStateException("identifier type code= " + typeCode + ",没有找到,可能是没有注册");
         }
         return result;
     }

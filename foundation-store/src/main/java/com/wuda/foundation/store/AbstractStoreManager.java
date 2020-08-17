@@ -1,7 +1,7 @@
 package com.wuda.foundation.store;
 
 import com.wuda.foundation.lang.ExtObjects;
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.CreateMode;
 
 import java.util.List;
 
@@ -28,9 +28,9 @@ public abstract class AbstractStoreManager implements StoreManager {
     protected abstract long createStoreDbOp(Long ownerUserId, CreateStore createStore, Long opUserId);
 
     @Override
-    public long createOrUpdateStoreGeneral(CreateStoreGeneral createStoreGeneral, InsertMode insertMode, Long opUserId) {
+    public long createOrUpdateStoreGeneral(CreateStoreGeneral createStoreGeneral, CreateMode createMode, Long opUserId) {
         ExtObjects.requireNonNull(createStoreGeneral, opUserId);
-        return createOrUpdateStoreGeneralDbOp(createStoreGeneral, insertMode, opUserId);
+        return createOrUpdateStoreGeneralDbOp(createStoreGeneral, createMode, opUserId);
     }
 
     @Override
@@ -47,7 +47,7 @@ public abstract class AbstractStoreManager implements StoreManager {
 
     protected abstract void directBatchInsertStoreGeneralDbOp(List<CreateStoreGeneral> createStoreGenerals, Long opUserId);
 
-    protected abstract long createOrUpdateStoreGeneralDbOp(CreateStoreGeneral createStoreGeneral, InsertMode insertMode, Long opUserId);
+    protected abstract long createOrUpdateStoreGeneralDbOp(CreateStoreGeneral createStoreGeneral, CreateMode createMode, Long opUserId);
 
     @Override
     public void updateStoreGeneralById(UpdateStoreGeneral updateStoreGeneral, Long opUserId) {

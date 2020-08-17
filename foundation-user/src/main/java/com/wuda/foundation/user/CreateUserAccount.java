@@ -17,7 +17,7 @@ public class CreateUserAccount {
     private Long userId;
     private String username;
     private String password;
-    private UserAccountState state;
+    private Byte state;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -37,7 +37,7 @@ public class CreateUserAccount {
         private Long userId;
         private String username;
         private String password;
-        private UserAccountState state;
+        private Byte state;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -59,7 +59,7 @@ public class CreateUserAccount {
             return this;
         }
 
-        public Builder setState(UserAccountState state) {
+        public Builder setState(Byte state) {
             this.state = state;
             return this;
         }

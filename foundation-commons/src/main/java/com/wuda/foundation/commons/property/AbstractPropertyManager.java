@@ -1,12 +1,12 @@
 package com.wuda.foundation.commons.property;
 
 import com.wuda.foundation.lang.AlreadyExistsException;
-import com.wuda.foundation.lang.CreateAfterCheckMode;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
+import com.wuda.foundation.lang.ExtObjects;
+import com.wuda.foundation.lang.datatype.DataDefinition;
 import com.wuda.foundation.lang.datatype.DataType;
 import com.wuda.foundation.lang.datatype.DataTypeHandler;
-import com.wuda.foundation.lang.ExtObjects;
-import com.wuda.foundation.lang.InsertMode;
-import com.wuda.foundation.lang.SingleInsertResult;
 import com.wuda.foundation.lang.datatype.DataValueIllegalException;
 import com.wuda.foundation.lang.datatype.ValidateResult;
 import com.wuda.foundation.lang.identify.Identifier;
@@ -21,14 +21,6 @@ public abstract class AbstractPropertyManager implements PropertyManager {
         return getPropertyKeyDbOp(owner, key);
     }
 
-    /**
-     * 作为{@link #getPropertyKey}方法的一部分,参数的校验已经在{@link #getPropertyKey}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param owner 该属性的拥有者
-     * @param key   property的key
-     * @return 如果不存在则返回<code>null</code>
-     */
     protected abstract DescribePropertyKey getPropertyKeyDbOp(Identifier<Long> owner, String key);
 
     @Override
@@ -36,26 +28,19 @@ public abstract class AbstractPropertyManager implements PropertyManager {
         return getPropertyKeyDbOp(id);
     }
 
-    /**
-     * 作为{@link #getPropertyKey(Long)}方法的一部分,参数的校验已经在{@link #getPropertyKey(Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param id property key id
-     * @return 如果不存在则返回<code>null</code>
-     */
     protected abstract DescribePropertyKey getPropertyKeyDbOp(Long id);
 
     @Override
-    public SingleInsertResult createPropertyKey(CreatePropertyKey createPropertyKey, InsertMode insertMode, Long opUserId) {
-        return createPropertyKeyDbOp(createPropertyKey, insertMode, opUserId);
+    public CreateResult createPropertyKey(CreatePropertyKey createPropertyKey, CreateMode createMode, Long opUserId) {
+        return createPropertyKeyDbOp(createPropertyKey, createMode, opUserId);
     }
 
     @Override
-    public SingleInsertResult createPropertyKeyWithDefinition(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) throws AlreadyExistsException {
+    public CreateResult createPropertyKeyWithDefinition(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) throws AlreadyExistsException {
         return createPropertyKeyWithDefinitionDbOp(createPropertyKeyWithDefinition, opUserId);
     }
 
-    protected abstract SingleInsertResult createPropertyKeyWithDefinitionDbOp(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) throws AlreadyExistsException;
+    protected abstract CreateResult createPropertyKeyWithDefinitionDbOp(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) throws AlreadyExistsException;
 
     @Override
     public void directBatchInsertPropertyKey(List<CreatePropertyKey> createPropertyKeys, Long opUserId) {
@@ -64,23 +49,28 @@ public abstract class AbstractPropertyManager implements PropertyManager {
 
     protected abstract void directBatchInsertPropertyKeyDbOp(List<CreatePropertyKey> createPropertyKeys, Long opUserId);
 
-    protected abstract SingleInsertResult createPropertyKeyDbOp(CreatePropertyKey createPropertyKey, InsertMode insertMode, Long opUserId);
+    protected abstract CreateResult createPropertyKeyDbOp(CreatePropertyKey createPropertyKey, CreateMode createMode, Long opUserId);
 
     @Override
-    public SingleInsertResult createPropertyValue(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId) {
+    public CreateResult createPropertyValue(CreatePropertyValue createPropertyValue, CreateMode createMode, Long opUserId) {
         validatePropertyValue(createPropertyValue);
-        return createPropertyValueDbOp(createPropertyValue, createAfterCheckMode, opUserId);
+        return createPropertyValueDbOp(createPropertyValue, createMode, opUserId);
     }
 
     private void validatePropertyValue(CreatePropertyValue createPropertyValue) {
         DescribePropertyKeyDefinition describePropertyKeyDefinition = getDefinitionByPropertyKeyDbOp(createPropertyValue.getPropertyKeyId());
-        DataType dataType = null;
+        DataDefinition dataDefinition;
         if (describePropertyKeyDefinition != null) {
-            dataType = describePropertyKeyDefinition.getDataType();
+            dataDefinition = describePropertyKeyDefinition.toDataDefinition();
+            validatePropertyValue(createPropertyValue, dataDefinition);
         }
+    }
+
+    private void validatePropertyValue(CreatePropertyValue createPropertyValue, DataDefinition dataDefinition) {
+        DataType dataType = dataDefinition.getDataType();
         if (dataType != null) {
             DataTypeHandler dataTypeHandler = dataType.getHandler();
-            ValidateResult validateResult = dataTypeHandler.validate(describePropertyKeyDefinition.toDataDefinition(), createPropertyValue.getValue());
+            ValidateResult validateResult = dataTypeHandler.validate(dataDefinition, createPropertyValue.getValue());
             if (!validateResult.isSuccess()) {
                 throw new DataValueIllegalException(validateResult.getMessage());
             }
@@ -88,14 +78,14 @@ public abstract class AbstractPropertyManager implements PropertyManager {
     }
 
     @Override
-    public long createOrUpdatePropertyValue(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId) {
+    public long createOrUpdatePropertyValue(CreatePropertyValue createPropertyValue, CreateMode createMode, Long opUserId) {
         validatePropertyValue(createPropertyValue);
-        return createOrUpdatePropertyValueDbOp(createPropertyValue, createAfterCheckMode, opUserId);
+        return createOrUpdatePropertyValueDbOp(createPropertyValue, createMode, opUserId);
     }
 
-    protected abstract long createOrUpdatePropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId);
+    protected abstract long createOrUpdatePropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateMode createMode, Long opUserId);
 
-    protected abstract SingleInsertResult createPropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId);
+    protected abstract CreateResult createPropertyValueDbOp(CreatePropertyValue createPropertyValue, CreateMode createMode, Long opUserId);
 
     @Override
     public void directBatchInsertPropertyValue(List<CreatePropertyValue> createPropertyValues, Long opUserId) {
@@ -149,11 +139,11 @@ public abstract class AbstractPropertyManager implements PropertyManager {
     protected abstract List<DescribeProperty> getPropertiesDbOp(Identifier<Long> owner);
 
     @Override
-    public SingleInsertResult createPropertyKeyDefinition(CreatePropertyKeyDefinition definition, Long opUserId) throws AlreadyExistsException {
+    public CreateResult createPropertyKeyDefinition(CreatePropertyKeyDefinition definition, Long opUserId) throws AlreadyExistsException {
         ExtObjects.requireNonNull(definition, opUserId);
         return createPropertyKeyDefinitionDbOp(definition, opUserId);
     }
 
-    protected abstract SingleInsertResult createPropertyKeyDefinitionDbOp(CreatePropertyKeyDefinition definition, Long opUserId) throws AlreadyExistsException;
+    protected abstract CreateResult createPropertyKeyDefinitionDbOp(CreatePropertyKeyDefinition definition, Long opUserId) throws AlreadyExistsException;
 
 }

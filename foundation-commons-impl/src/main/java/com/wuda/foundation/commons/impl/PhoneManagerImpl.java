@@ -7,7 +7,7 @@ import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.SingleInsertResult;
+import com.wuda.foundation.lang.CreateResult;
 import org.jooq.Configuration;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
@@ -39,7 +39,7 @@ public class PhoneManagerImpl extends AbstractPhoneManager implements JooqCommon
                 .from(PHONE)
                 .where(PHONE.NUMBER.eq(createPhone.getNumber()))
                 .and(PHONE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        SingleInsertResult result = insertAfterSelectCheck(dataSource, PHONE, phoneRecordForInsert(createPhone, opUserId), existsRecordSelector);
+        CreateResult result = insertAfterSelectCheck(dataSource, PHONE, phoneRecordForInsert(createPhone, opUserId), existsRecordSelector);
         if (result.getExistsRecordId() != null) {
             throw new AlreadyExistsException("phone = " + createPhone.getNumber() + ",已经存在");
         }
@@ -55,8 +55,8 @@ public class PhoneManagerImpl extends AbstractPhoneManager implements JooqCommon
         LocalDateTime now = LocalDateTime.now();
         return new PhoneRecord(ULong.valueOf(createPhone.getId()),
                 createPhone.getNumber(),
-                UByte.valueOf(createPhone.getType().getCode()),
-                UByte.valueOf(createPhone.getState().getCode()),
+                UByte.valueOf(createPhone.getType()),
+                UByte.valueOf(createPhone.getState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 

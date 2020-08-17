@@ -1,6 +1,6 @@
 package com.wuda.foundation.store;
 
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.CreateMode;
 
 import java.util.List;
 
@@ -34,11 +34,11 @@ public interface StoreManager {
      * 为店铺新增基本信息.
      *
      * @param createStoreGeneral 创建基本信息的参数
-     * @param insertMode         insert mode
+     * @param createMode         create mode
      * @param opUserId           操作人用户ID,是谁正在添加这个店铺的基本信息
      * @return 基本信息的ID
      */
-    long createOrUpdateStoreGeneral(CreateStoreGeneral createStoreGeneral, InsertMode insertMode, Long opUserId);
+    long createOrUpdateStoreGeneral(CreateStoreGeneral createStoreGeneral, CreateMode createMode, Long opUserId);
 
     /**
      * 为店铺新增基本信息.

@@ -1,6 +1,5 @@
 package com.wuda.foundation.commons;
 
-import com.wuda.foundation.lang.EmailState;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -16,7 +15,7 @@ public class CreateEmail {
 
     private Long id;
     private String address;
-    private EmailState state;
+    private Byte state;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -35,7 +34,7 @@ public class CreateEmail {
 
         private Long id;
         private String address;
-        private EmailState state;
+        private Byte state;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -47,7 +46,7 @@ public class CreateEmail {
             return this;
         }
 
-        public Builder setEmailState(EmailState state) {
+        public Builder setEmailState(Byte state) {
             this.state = state;
             return this;
         }

@@ -1,26 +1,16 @@
 package com.wuda.foundation.lang.identify;
 
+/**
+ * 内建的identifier type.
+ *
+ * @author wuda
+ * @since 1.0.0
+ */
 public enum BuiltinIdentifierType implements IdentifierType {
-    /**
-     * MOCK.
-     */
-    MOCK(0, "MOCK"),
-    /**
-     * 用户名作为唯一标记.
-     */
-    USERNAME(1, "username"),
-    /**
-     * 手机号码作为唯一标记.
-     */
-    MOBILE_PHONE(2, "mobile_phone"),
-    /**
-     * 邮箱作为唯一标记.
-     */
-    EMAIL(3, "email"),
     /**
      * 表示item表.
      */
-    TABLE_ITEM(4,"表示item表");
+    TABLE_ITEM(0, "表示item表");
 
     private int code;
     private String description;
@@ -28,7 +18,6 @@ public enum BuiltinIdentifierType implements IdentifierType {
     BuiltinIdentifierType(int code, String description) {
         this.code = code;
         this.description = description;
-        register();
     }
 
     @Override

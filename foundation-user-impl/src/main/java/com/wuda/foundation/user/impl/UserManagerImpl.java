@@ -1,24 +1,15 @@
 package com.wuda.foundation.user.impl;
 
-import com.wuda.foundation.commons.BuiltinEmailUse;
-import com.wuda.foundation.commons.BuiltinPhoneUse;
-import com.wuda.foundation.commons.CreateEmail;
-import com.wuda.foundation.commons.CreatePhone;
-import com.wuda.foundation.commons.EmailManager;
-import com.wuda.foundation.commons.PhoneManager;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.AlreadyExistsException;
-import com.wuda.foundation.lang.FoundationContext;
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.SingleInsertResult;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.user.AbstractUserManager;
 import com.wuda.foundation.user.BindUserEmail;
 import com.wuda.foundation.user.BindUserPhone;
-import com.wuda.foundation.user.BuiltinUserEmailState;
-import com.wuda.foundation.user.BuiltinUserPhoneState;
 import com.wuda.foundation.user.CreateUser;
 import com.wuda.foundation.user.CreateUserAccount;
 import com.wuda.foundation.user.CreateUserWithAccount;
@@ -70,7 +61,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
                 .from(USER_ACCOUNT)
                 .where(USER_ACCOUNT.USERNAME.eq(createUserAccount.getUsername()))
                 .and(USER_ACCOUNT.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        SingleInsertResult result = insertAfterSelectCheck(dataSource, USER_ACCOUNT, userAccountRecordForInsert(createUserAccount, opUserId), existsRecordSelector);
+        CreateResult result = insertAfterSelectCheck(dataSource, USER_ACCOUNT, userAccountRecordForInsert(createUserAccount, opUserId), existsRecordSelector);
         if (result.getExistsRecordId() != null) {
             throw new AlreadyExistsException("username = " + createUserAccount.getUsername() + ",已经存在");
         }
@@ -82,7 +73,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
     }
 
     @Override
-    protected Long bindUserEmailDbOp(BindUserEmail bindUserEmail, InsertMode insertMode, Long opUserId) {
+    protected Long bindUserEmailDbOp(BindUserEmail bindUserEmail, CreateMode createMode, Long opUserId) {
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
                 .select(USER_EMAIL.ID)
@@ -90,7 +81,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
                 .where(USER_EMAIL.USER_ID.eq(ULong.valueOf(bindUserEmail.getUserId())))
                 .and(USER_EMAIL.EMAIL_ID.eq(ULong.valueOf(bindUserEmail.getEmailId())))
                 .and(USER_EMAIL.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        return insertDispatcher(dataSource, insertMode, USER_EMAIL, userEmailRecordForInsert(bindUserEmail, opUserId), existsRecordSelector).getRecordId();
+        return insertDispatcher(dataSource, createMode, USER_EMAIL, userEmailRecordForInsert(bindUserEmail, opUserId), existsRecordSelector).getRecordId();
     }
 
     @Override
@@ -99,7 +90,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
     }
 
     @Override
-    protected Long bindUserPhoneDbOp(BindUserPhone bindUserPhone, InsertMode insertMode, Long opUserId) {
+    protected Long bindUserPhoneDbOp(BindUserPhone bindUserPhone, CreateMode createMode, Long opUserId) {
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
                 .select(USER_PHONE.ID)
@@ -107,7 +98,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
                 .where(USER_PHONE.USER_ID.eq(ULong.valueOf(bindUserPhone.getUserId())))
                 .and(USER_PHONE.PHONE_ID.eq(ULong.valueOf(bindUserPhone.getPhoneId())))
                 .and(USER_PHONE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        return insertDispatcher(dataSource, insertMode, USER_PHONE, userPhoneRecordForInsert(bindUserPhone, opUserId), existsRecordSelector).getRecordId();
+        return insertDispatcher(dataSource, createMode, USER_PHONE, userPhoneRecordForInsert(bindUserPhone, opUserId), existsRecordSelector).getRecordId();
     }
 
     @Override
@@ -121,40 +112,9 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
     }
 
     @Override
-    public long createUserDbOp(CreateUserWithAccount createUserWithAccount, EmailManager emailManager, PhoneManager phoneManager, Long opUserId) throws AlreadyExistsException {
+    public void createUserWithAccountDbOp(CreateUserWithAccount createUserWithAccount, Long opUserId) throws AlreadyExistsException {
         createUserAccountDbOp(createUserWithAccount.getUserAccount(), opUserId);
-
-        CreateUser createUser = createUserWithAccount.getUser();
-        long userId = createUser.getId();
-
-        CreateEmail createEmail = createUserWithAccount.getEmail();
-        if (createEmail != null) {
-            long emailId = emailManager.createEmail(createEmail, opUserId);
-            long id = FoundationContext.getLongKeyGenerator().next();
-            BindUserEmail binding = new BindUserEmail.Builder()
-                    .setId(id)
-                    .setUserId(userId)
-                    .setEmailId(emailId)
-                    .setUse(BuiltinEmailUse.FOR_SIGN_IN)
-                    .setState(BuiltinUserEmailState.ZERO)
-                    .build();
-            bindUserEmailDbOp(binding, InsertMode.DIRECT, opUserId);
-        }
-        CreatePhone createPhone = createUserWithAccount.getPhone();
-        if (createPhone != null) {
-            long phoneId = phoneManager.createPhone(createPhone, opUserId);
-            long id = FoundationContext.getLongKeyGenerator().next();
-            BindUserPhone binding = new BindUserPhone.Builder()
-                    .setId(id)
-                    .setUserId(userId)
-                    .setPhoneId(phoneId)
-                    .setUse(BuiltinPhoneUse.FOR_SIGN_IN)
-                    .setState(BuiltinUserPhoneState.ZERO)
-                    .build();
-            bindUserPhoneDbOp(binding, InsertMode.DIRECT, opUserId);
-        }
         createUserDbOp(createUserWithAccount.getUser(), opUserId);
-        return userId;
     }
 
     private List<UserRecord> userRecordsForInsert(List<CreateUser> createUsers, Long opUserId) {
@@ -168,8 +128,8 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
     private UserRecord userRecordForInsert(CreateUser createUser, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new UserRecord(ULong.valueOf(createUser.getId()),
-                UByte.valueOf(createUser.getUserType().getCode()),
-                UByte.valueOf(createUser.getUserState().getCode()),
+                UByte.valueOf(createUser.getUserType()),
+                UByte.valueOf(createUser.getUserState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
@@ -179,7 +139,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
                 ULong.valueOf(createUserAccount.getUserId()),
                 createUserAccount.getUsername(),
                 createUserAccount.getPassword(),
-                UByte.valueOf(createUserAccount.getState().getCode()),
+                UByte.valueOf(createUserAccount.getState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
@@ -196,8 +156,8 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
         return new UserEmailRecord(ULong.valueOf(bindUserEmail.getId()),
                 ULong.valueOf(bindUserEmail.getUserId()),
                 ULong.valueOf(bindUserEmail.getEmailId()),
-                UByte.valueOf(bindUserEmail.getUse().getCode()),
-                UByte.valueOf(bindUserEmail.getState().getCode()),
+                UByte.valueOf(bindUserEmail.getUse()),
+                UByte.valueOf(bindUserEmail.getState()),
                 bindUserEmail.getDescription(),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
@@ -215,8 +175,8 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
         return new UserPhoneRecord(ULong.valueOf(bindUserPhone.getId()),
                 ULong.valueOf(bindUserPhone.getUserId()),
                 ULong.valueOf(bindUserPhone.getPhoneId()),
-                UByte.valueOf(bindUserPhone.getUse().getCode()),
-                UByte.valueOf(bindUserPhone.getState().getCode()),
+                UByte.valueOf(bindUserPhone.getUse()),
+                UByte.valueOf(bindUserPhone.getState()),
                 bindUserPhone.getDescription(),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }

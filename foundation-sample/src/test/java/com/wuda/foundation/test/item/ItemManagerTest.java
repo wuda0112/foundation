@@ -1,8 +1,6 @@
 package com.wuda.foundation.test.item;
 
 import com.wuda.foundation.TestBase;
-import com.wuda.foundation.item.BuiltinItemState;
-import com.wuda.foundation.item.BuiltinItemType;
 import com.wuda.foundation.item.CreateItem;
 import com.wuda.foundation.item.CreateItemDescription;
 import com.wuda.foundation.item.CreateItemGeneral;
@@ -10,7 +8,7 @@ import com.wuda.foundation.item.CreateItemVariation;
 import com.wuda.foundation.item.ItemManager;
 import com.wuda.foundation.item.impl.ItemManagerImpl;
 import com.wuda.foundation.lang.Constant;
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.CreateMode;
 import org.junit.Test;
 
 public class ItemManagerTest extends TestBase {
@@ -21,8 +19,8 @@ public class ItemManagerTest extends TestBase {
         CreateItem createItem = new CreateItem.Builder()
                 .setId(keyGenerator.next())
                 .setStoreId(0L)
-                .setItemType(BuiltinItemType.ZERO)
-                .setItemState(BuiltinItemState.ZERO)
+                .setItemType(byte0)
+                .setItemState(byte0)
                 .setCategoryId(0L)
                 .build();
         long itemId = itemManager.createItem(createItem, opUserId);
@@ -32,12 +30,12 @@ public class ItemManagerTest extends TestBase {
                 .setItemId(itemId)
                 .setName("item-" + itemId)
                 .build();
-        itemManager.createOrUpdateItemGeneral(createItemGeneral, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId);
+        itemManager.createOrUpdateItemGeneral(createItemGeneral, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
 
         CreateItemVariation createItemVariation = new CreateItemVariation.Builder()
                 .setId(keyGenerator.next())
                 .setItemId(itemId)
-                .setState(BuiltinItemState.ZERO)
+                .setState(byte0)
                 .setName("item-0-variation")
                 .build();
         long itemVariationId = itemManager.createItemVariation(createItemVariation, opUserId);
@@ -49,7 +47,7 @@ public class ItemManagerTest extends TestBase {
                 .setContent("description")
                 .build();
 
-        itemManager.createOrUpdateItemDescription(createItemDescription, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId);
+        itemManager.createOrUpdateItemDescription(createItemDescription, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
     }
 
     @Test
@@ -62,7 +60,7 @@ public class ItemManagerTest extends TestBase {
                 .setContent("description")
                 .build();
 
-        itemManager.createOrUpdateItemDescription(createItemDescription, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId);
+        itemManager.createOrUpdateItemDescription(createItemDescription, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
     }
 
     private ItemManager getItemManager() {

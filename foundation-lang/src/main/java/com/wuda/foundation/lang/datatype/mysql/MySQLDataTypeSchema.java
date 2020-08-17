@@ -8,13 +8,13 @@ import com.wuda.foundation.lang.datatype.DataTypeSchema;
  * @author wuda
  * @since 1.0.0
  */
-public enum MySQLDataTypeSchema implements DataTypeSchema {
-
-    MySQL("MySQL");
+public final class MySQLDataTypeSchema implements DataTypeSchema {
 
     private String name;
 
-    MySQLDataTypeSchema(String name) {
+    public static MySQLDataTypeSchema instance = new MySQLDataTypeSchema("MySQL");
+
+    private MySQLDataTypeSchema(String name) {
         this.name = name;
     }
 

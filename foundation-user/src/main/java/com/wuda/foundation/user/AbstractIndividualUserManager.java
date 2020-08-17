@@ -1,17 +1,17 @@
 package com.wuda.foundation.user;
 
-import com.wuda.foundation.lang.InsertMode;
-import com.wuda.foundation.lang.SingleInsertResult;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
 
 import java.util.List;
 
 public abstract class AbstractIndividualUserManager implements IndividualUserManager {
     @Override
-    public SingleInsertResult createGeneral(CreateIndividualUserGeneral createIndividualUserGeneral, InsertMode insertMode, Long opUserId) {
-        return createGeneralDbOp(createIndividualUserGeneral, insertMode, opUserId);
+    public CreateResult createGeneral(CreateIndividualUserGeneral createIndividualUserGeneral, CreateMode createMode, Long opUserId) {
+        return createGeneralDbOp(createIndividualUserGeneral, createMode, opUserId);
     }
 
-    protected abstract SingleInsertResult createGeneralDbOp(CreateIndividualUserGeneral createIndividualUserGeneral, InsertMode insertMode, Long opUserId);
+    protected abstract CreateResult createGeneralDbOp(CreateIndividualUserGeneral createIndividualUserGeneral, CreateMode createMode, Long opUserId);
 
     @Override
     public void directBatchInsertGeneral(List<CreateIndividualUserGeneral> createIndividualUserGenerals, Long opUserId) {

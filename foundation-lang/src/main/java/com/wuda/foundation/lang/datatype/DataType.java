@@ -4,7 +4,7 @@ package com.wuda.foundation.lang.datatype;
  * 数据类型的定义.可以使用已有系统的数据类型,比如：MySQL的VARCHAR类型;
  * 比如Java的Integer类型,也可以自定义数据类型.添加数据类型后,记得调用
  * {@link DataTypeRegistry#register(DataType)}方法将自己注册,否则这个
- * 数据类型就像一个孤岛一样不能被查找到,可以在构造方法中调用{@link #register()}方法,完成注册.
+ * 数据类型就像一个孤岛一样不能被查找到.
  *
  * @author wuda
  * @see DataTypeSchema
@@ -53,11 +53,4 @@ public interface DataType {
      * @return handler
      */
     DataTypeHandler getHandler();
-
-    /**
-     * 注册.
-     */
-    default void register() {
-        DataTypeRegistry.defaultRegistry.register(this);
-    }
 }

@@ -1,8 +1,8 @@
 package com.wuda.foundation.user;
 
 
-import com.wuda.foundation.lang.InsertMode;
-import com.wuda.foundation.lang.SingleInsertResult;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
 
 import java.util.List;
 
@@ -18,11 +18,11 @@ public interface IndividualUserManager {
      * 为用户新增基本信息.
      *
      * @param createIndividualUserGeneral 基本信息
-     * @param insertMode                  insert mode
+     * @param createMode                  create mode
      * @param opUserId                    操作人用户ID
      * @return 创建的结果
      */
-    SingleInsertResult createGeneral(CreateIndividualUserGeneral createIndividualUserGeneral, InsertMode insertMode, Long opUserId);
+    CreateResult createGeneral(CreateIndividualUserGeneral createIndividualUserGeneral, CreateMode createMode, Long opUserId);
 
     /**
      * 为用户新增基本信息.

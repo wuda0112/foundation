@@ -1,5 +1,6 @@
 package com.wuda.foundation.security;
 
+import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.ExtObjects;
 
 import java.util.List;
@@ -8,36 +9,20 @@ import java.util.Set;
 public abstract class AbstractPermissionManager implements PermissionManager {
 
     @Override
-    public long createPermissionTarget(CreatePermissionTarget target, Long opUserId) {
+    public CreateResult createPermissionTarget(CreatePermissionTarget target, Long opUserId) {
         ExtObjects.requireNonNull(target, opUserId);
         return createPermissionTargetDbOp(target, opUserId);
     }
 
-    /**
-     * 作为{@link #createPermissionTarget(CreatePermissionTarget, Long)}}方法的一部分,参数的校验已经在{@link #createPermissionTarget(CreatePermissionTarget, Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param target   target
-     * @param opUserId 操作人用户ID
-     * @return 新增的permission target id
-     */
-    protected abstract long createPermissionTargetDbOp(CreatePermissionTarget target, Long opUserId);
+    protected abstract CreateResult createPermissionTargetDbOp(CreatePermissionTarget target, Long opUserId);
 
     @Override
-    public long createPermissionAction(CreatePermissionAction action, Long opUserId) {
+    public CreateResult createPermissionAction(CreatePermissionAction action, Long opUserId) {
         ExtObjects.requireNonNull(action, opUserId);
         return createPermissionActionDbOp(action, opUserId);
     }
 
-    /**
-     * 作为{@link #createPermissionAction(CreatePermissionAction, Long)}}方法的一部分,参数的校验已经在{@link #createPermissionAction(CreatePermissionAction, Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param action   action
-     * @param opUserId 操作人用户ID
-     * @return 新增的permission action id
-     */
-    protected abstract long createPermissionActionDbOp(CreatePermissionAction action, Long opUserId);
+    protected abstract CreateResult createPermissionActionDbOp(CreatePermissionAction action, Long opUserId);
 
     @Override
     public long createPermission(CreatePermissionTarget target, Set<CreatePermissionAction> actions, Long opUserId) {
@@ -196,7 +181,7 @@ public abstract class AbstractPermissionManager implements PermissionManager {
     protected abstract void updatePermissionActionDbOp(Long permissionActionId, String action, String description, Long opUserId);
 
     @Override
-    public Permission getPermission(Long permissionTargetId) {
+    public DescribePermission getPermission(Long permissionTargetId) {
         return getPermissionDbOp(permissionTargetId);
     }
 
@@ -207,5 +192,5 @@ public abstract class AbstractPermissionManager implements PermissionManager {
      * @param permissionTargetId permission target id
      * @return a permission
      */
-    protected abstract Permission getPermissionDbOp(Long permissionTargetId);
+    protected abstract DescribePermission getPermissionDbOp(Long permissionTargetId);
 }

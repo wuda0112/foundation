@@ -1,6 +1,5 @@
 package com.wuda.foundation.user;
 
-import com.wuda.foundation.commons.EmailUse;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -17,8 +16,8 @@ public class BindUserEmail {
     private Long id;
     private Long userId;
     private Long emailId;
-    private EmailUse use;
-    private UserEmailState state;
+    private Byte use;
+    private Byte state;
     private String description;
 
     /**
@@ -39,8 +38,8 @@ public class BindUserEmail {
         private Long id;
         private Long userId;
         private Long emailId;
-        private EmailUse use;
-        private UserEmailState state;
+        private Byte use;
+        private Byte state;
         private String description;
 
         public Builder setId(Long id) {
@@ -58,12 +57,12 @@ public class BindUserEmail {
             return this;
         }
 
-        public Builder setState(UserEmailState state) {
+        public Builder setState(Byte state) {
             this.state = state;
             return this;
         }
 
-        public Builder setUse(EmailUse use) {
+        public Builder setUse(Byte use) {
             this.use = use;
             return this;
         }

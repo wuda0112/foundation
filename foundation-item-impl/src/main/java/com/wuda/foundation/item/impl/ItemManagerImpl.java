@@ -11,7 +11,7 @@ import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemRecord;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemVariationRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.IsDeleted;
 import org.jooq.Configuration;
 import org.jooq.Record1;
@@ -55,7 +55,7 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     }
 
     @Override
-    protected long createOrUpdateItemGeneralDbOp(CreateItemGeneral createItemGeneral, InsertMode insertMode, Long opUserId) {
+    protected long createOrUpdateItemGeneralDbOp(CreateItemGeneral createItemGeneral, CreateMode createMode, Long opUserId) {
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
                 .select(ITEM_GENERAL.ITEM_GENERAL_ID)
@@ -67,7 +67,7 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
             itemGeneralRecord.attach(configuration);
             itemGeneralRecord.update();
         };
-        return insertOrUpdate(insertMode, dataSource, ITEM_GENERAL, itemGeneralRecordForInsert(createItemGeneral, opUserId), existsRecordSelector, updateAction);
+        return insertOrUpdate(createMode, dataSource, ITEM_GENERAL, itemGeneralRecordForInsert(createItemGeneral, opUserId), existsRecordSelector, updateAction);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     }
 
     @Override
-    protected long createOrUpdateItemDescriptionDbOp(CreateItemDescription createItemDescription, InsertMode insertMode, Long opUserId) {
+    protected long createOrUpdateItemDescriptionDbOp(CreateItemDescription createItemDescription, CreateMode createMode, Long opUserId) {
         ItemDescriptionRecord record = itemDescriptionRecordForInsert(createItemDescription, opUserId);
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
@@ -93,7 +93,7 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
         Consumer<Long> existsRecordUpdateAction = itemDescriptionRecordId -> {
             updateDescriptionDbOp(itemDescriptionRecordId, createItemDescription.getContent(), opUserId);
         };
-        return insertOrUpdate(InsertMode.INSERT_AFTER_SELECT_CHECK, dataSource, ITEM_DESCRIPTION, record, existsRecordSelector, existsRecordUpdateAction);
+        return insertOrUpdate(CreateMode.CREATE_AFTER_SELECT_CHECK, dataSource, ITEM_DESCRIPTION, record, existsRecordSelector, existsRecordUpdateAction);
     }
 
     @Override
@@ -117,8 +117,8 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
         LocalDateTime now = LocalDateTime.now();
         return new ItemRecord(ULong.valueOf(createItem.getId()),
                 ULong.valueOf(createItem.getStoreId()),
-                UByte.valueOf(createItem.getItemType().getCode()),
-                UByte.valueOf(createItem.getItemState().getCode()),
+                UByte.valueOf(createItem.getItemType()),
+                UByte.valueOf(createItem.getItemState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
@@ -160,7 +160,7 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
         return new ItemVariationRecord(ULong.valueOf(createItemVariation.getId()),
                 ULong.valueOf(createItemVariation.getItemId()),
                 createItemVariation.getName(),
-                UByte.valueOf(createItemVariation.getState().getCode()),
+                UByte.valueOf(createItemVariation.getState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 

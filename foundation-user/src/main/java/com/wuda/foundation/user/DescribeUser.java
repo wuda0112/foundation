@@ -1,13 +1,7 @@
 package com.wuda.foundation.user;
 
 import com.wuda.foundation.lang.BasicAttribute;
-import com.wuda.foundation.lang.CRUDEntity;
-import com.wuda.foundation.lang.CRUDState;
-import com.wuda.foundation.lang.IdValidator;
 import lombok.Data;
-import lombok.Getter;
-
-import java.util.Objects;
 
 /**
  * 代表一个用户.
@@ -24,11 +18,11 @@ public class DescribeUser extends BasicAttribute {
     /**
      * user type.
      */
-    private UserType userType;
+    private Byte userType;
     /**
      * user status.
      */
-    private UserState userState;
+    private Byte userState;
     /**
      * user account.
      */

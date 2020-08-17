@@ -2,8 +2,6 @@ package com.wuda.foundation.test.commons;
 
 import com.wuda.foundation.TestBase;
 import com.wuda.foundation.commons.impl.PropertyManagerImpl;
-import com.wuda.foundation.commons.property.BuiltinPropertyKeyType;
-import com.wuda.foundation.commons.property.BuiltinPropertyKeyUse;
 import com.wuda.foundation.commons.property.CreatePropertyKey;
 import com.wuda.foundation.commons.property.CreatePropertyKeyDefinition;
 import com.wuda.foundation.commons.property.CreatePropertyKeyWithDefinition;
@@ -15,9 +13,8 @@ import com.wuda.foundation.commons.property.DescribePropertyValue;
 import com.wuda.foundation.commons.property.PropertyManager;
 import com.wuda.foundation.commons.property.PropertyUtils;
 import com.wuda.foundation.lang.AlreadyExistsException;
-import com.wuda.foundation.lang.CreateAfterCheckMode;
-import com.wuda.foundation.lang.InsertMode;
-import com.wuda.foundation.lang.SingleInsertResult;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.datatype.DataDefinition;
 import com.wuda.foundation.lang.datatype.DataType;
 import com.wuda.foundation.lang.datatype.DataTypeHandler;
@@ -29,10 +26,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Random;
 
 public class PropertyManagerTest extends TestBase {
 
-    LongIdentifier owner = new LongIdentifier(1024L, BuiltinIdentifierType.MOCK);
+    LongIdentifier owner = new LongIdentifier(1024L, BuiltinIdentifierType.TABLE_ITEM);
 
     @Test
     public void test() {
@@ -74,7 +72,8 @@ public class PropertyManagerTest extends TestBase {
             e.printStackTrace();
         }
 
-        createPropertyValue(key_1, "123456");
+        Random random = new Random();
+        createPropertyValue(key_1, random.nextInt()+"");
 
         try {
             // 测试创建相同的key
@@ -92,14 +91,14 @@ public class PropertyManagerTest extends TestBase {
             e.printStackTrace();
         }
 
-        getPropertyValue(owner,key);
+        getPropertyValue(owner, key);
 
     }
 
     public long createPropertyKey(LongIdentifier owner, long id, String key) {
         PropertyManager propertyManager = getPropertyManager();
         CreatePropertyKey createPropertyKey = getCreatePropertyKey(owner, id, key);
-        return propertyManager.createPropertyKey(createPropertyKey, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId).getRecordId();
+        return propertyManager.createPropertyKey(createPropertyKey, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId).getRecordId();
     }
 
     public long createPropertyValue(long propertyKeyId, String value) {
@@ -109,9 +108,9 @@ public class PropertyManagerTest extends TestBase {
                 .setPropertyKeyId(propertyKeyId)
                 .setValue(value)
                 .build();
-        SingleInsertResult singleInsertResult = propertyManager.createPropertyValue(createPropertyValue, CreateAfterCheckMode.INSERT_AFTER_SELECT_CHECK, opUserId);
-        long value_2 = propertyManager.createOrUpdatePropertyValue(createPropertyValue, CreateAfterCheckMode.INSERT_AFTER_SELECT_CHECK, opUserId);
-        Assert.assertEquals(singleInsertResult.getRecordId().longValue(), value_2);
+        CreateResult createResult = propertyManager.createPropertyValue(createPropertyValue, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
+        long value_2 = propertyManager.createOrUpdatePropertyValue(createPropertyValue, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
+        Assert.assertEquals(createResult.getRecordId().longValue(), value_2);
         return value_2;
     }
 
@@ -179,8 +178,8 @@ public class PropertyManagerTest extends TestBase {
         return new CreatePropertyKey.Builder()
                 .setId(id)
                 .setOwner(owner)
-                .setType(BuiltinPropertyKeyType.ZERO)
-                .setUse(BuiltinPropertyKeyUse.ZERO)
+                .setType(byte0)
+                .setUse(byte0)
                 .setKey(key)
                 .build();
     }

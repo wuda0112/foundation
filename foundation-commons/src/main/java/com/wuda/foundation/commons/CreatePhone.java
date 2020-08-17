@@ -1,6 +1,5 @@
 package com.wuda.foundation.commons;
 
-import com.wuda.foundation.lang.PhoneState;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -16,8 +15,8 @@ public class CreatePhone {
 
     private Long id;
     private String number;
-    private PhoneType type;
-    private PhoneState state;
+    private Byte type;
+    private Byte state;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -36,8 +35,8 @@ public class CreatePhone {
 
         private Long id;
         private String number;
-        private PhoneType type;
-        private PhoneState state;
+        private Byte type;
+        private Byte state;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -49,12 +48,12 @@ public class CreatePhone {
             return this;
         }
 
-        public Builder setPhoneType(PhoneType type) {
+        public Builder setPhoneType(Byte type) {
             this.type = type;
             return this;
         }
 
-        public Builder setPhoneState(PhoneState state) {
+        public Builder setPhoneState(Byte state) {
             this.state = state;
             return this;
         }

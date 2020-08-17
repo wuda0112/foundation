@@ -5,7 +5,7 @@ import lombok.ToString;
 import java.util.*;
 
 /**
- * 为目标对象分配/取消{@link Permission}时使用的参数.
+ * 为目标对象分配/取消{@link DescribePermission}时使用的参数.
  *
  * @author wuda
  * @since 1.0.0

@@ -14,8 +14,8 @@ import java.util.Objects;
 public class CreateUser {
 
     private Long id;
-    private UserType userType;
-    private UserState userState;
+    private Byte userType;
+    private Byte userState;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -33,20 +33,20 @@ public class CreateUser {
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateUser> {
 
         private Long id;
-        private UserType userType;
-        private UserState userState;
+        private Byte userType;
+        private Byte userState;
 
         public Builder setId(Long id) {
             this.id = id;
             return this;
         }
 
-        public Builder setUserType(UserType userType) {
+        public Builder setUserType(Byte userType) {
             this.userType = userType;
             return this;
         }
 
-        public Builder setUserState(UserState userState) {
+        public Builder setUserState(Byte userState) {
             this.userState = userState;
             return this;
         }

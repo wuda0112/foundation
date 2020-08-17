@@ -1,9 +1,7 @@
 package com.wuda.foundation.test.store;
 
 import com.wuda.foundation.TestBase;
-import com.wuda.foundation.lang.InsertMode;
-import com.wuda.foundation.store.BuiltinStoreState;
-import com.wuda.foundation.store.BuiltinStoreType;
+import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.store.CreateStore;
 import com.wuda.foundation.store.CreateStoreGeneral;
 import com.wuda.foundation.store.StoreManager;
@@ -31,22 +29,22 @@ public class StoreManagerTest extends TestBase {
 
         CreateStore createStore2 = new CreateStore.Builder()
                 .setId(keyGenerator.next())
-                .setStoreType(BuiltinStoreType.ZERO)
-                .setStoreState(BuiltinStoreState.ZERO)
+                .setStoreType(byte0)
+                .setStoreState(byte0)
                 .build();
 
         CreateStore createStore3 = new CreateStore.Builder()
                 .setId(keyGenerator.next())
-                .setStoreType(BuiltinStoreType.ZERO)
-                .setStoreState(BuiltinStoreState.ZERO)
+                .setStoreType(byte0)
+                .setStoreState(byte0)
                 .build();
         storeManager.directBatchInsertStore(Arrays.asList(createStore2, createStore3), opUserId);
 
 
         CreateStore createStore = new CreateStore.Builder()
                 .setId(keyGenerator.next())
-                .setStoreType(BuiltinStoreType.ZERO)
-                .setStoreState(BuiltinStoreState.ZERO)
+                .setStoreType(byte0)
+                .setStoreState(byte0)
                 .build();
         long storeId = storeManager.createStore(opUserId, createStore, opUserId);
 
@@ -55,7 +53,7 @@ public class StoreManagerTest extends TestBase {
                 .setStoreId(storeId)
                 .setStoreName("卖卖小店")
                 .build();
-        long storeGeneralId = storeManager.createOrUpdateStoreGeneral(createStoreGeneral, InsertMode.INSERT_AFTER_SELECT_CHECK, opUserId);
+        long storeGeneralId = storeManager.createOrUpdateStoreGeneral(createStoreGeneral, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
 
         UpdateStoreGeneral updateStoreGeneral = new UpdateStoreGeneral.Builder()
                 .setId(storeGeneralId)

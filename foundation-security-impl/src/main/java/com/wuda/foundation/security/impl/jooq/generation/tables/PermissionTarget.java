@@ -63,9 +63,9 @@ public class PermissionTarget extends TableImpl<PermissionTargetRecord> {
     public final TableField<PermissionTargetRecord, ULong> PERMISSION_CATEGORY_ID = createField(DSL.name("permission_category_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "分类");
 
     /**
-     * The column <code>foundation_security.permission_target.name</code>. permission target  name。在java.security.Permission#getName设计中，name就唯一识别了作用对象，类似的，在我们这里，由于有分类，因此只要在分类中唯一即可
+     * The column <code>foundation_security.permission_target.name</code>. permission target  name。在java.security.DescribePermission#getName设计中，name就唯一识别了作用对象，类似的，在我们这里，由于有分类，因此只要在分类中唯一即可
      */
-    public final TableField<PermissionTargetRecord, String> NAME = createField(DSL.name("name"), org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "permission target  name。在java.security.Permission#getName设计中，name就唯一识别了作用对象，类似的，在我们这里，由于有分类，因此只要在分类中唯一即可");
+    public final TableField<PermissionTargetRecord, String> NAME = createField(DSL.name("name"), org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "permission target  name。在java.security.DescribePermission#getName设计中，name就唯一识别了作用对象，类似的，在我们这里，由于有分类，因此只要在分类中唯一即可");
 
     /**
      * The column <code>foundation_security.permission_target.type</code>. permission target的类型。假设在一个web系统中，有两种类型的权限控制，一种是为用户授权可以使用系统的哪些功能；另外一种是为用户授权可以使用哪种终端访问系统(比如App，pc)，这两类是完全不同的对象，需要区分开,便于管理。

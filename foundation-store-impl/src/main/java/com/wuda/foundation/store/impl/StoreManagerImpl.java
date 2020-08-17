@@ -2,8 +2,8 @@ package com.wuda.foundation.store.impl;
 
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
+import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.FoundationContext;
-import com.wuda.foundation.lang.InsertMode;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.store.AbstractStoreManager;
 import com.wuda.foundation.store.BindStoreUser;
@@ -76,7 +76,7 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
     }
 
     @Override
-    public long createOrUpdateStoreGeneralDbOp(CreateStoreGeneral createStoreGeneral, InsertMode insertMode, Long opUserId) {
+    public long createOrUpdateStoreGeneralDbOp(CreateStoreGeneral createStoreGeneral, CreateMode createMode, Long opUserId) {
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
                 .select(STORE_GENERAL.STORE_GENERAL_ID)
@@ -87,7 +87,7 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
             UpdateStoreGeneral updateStoreGeneral = UpdateStoreGeneral.from(storeGeneralId, createStoreGeneral);
             updateStoreGeneralByIdDbOp(updateStoreGeneral, opUserId);
         };
-        return insertOrUpdate(insertMode, dataSource, STORE_GENERAL, storeGeneralRecordForInsert(createStoreGeneral, opUserId), existsRecordSelector, updateAction);
+        return insertOrUpdate(createMode, dataSource, STORE_GENERAL, storeGeneralRecordForInsert(createStoreGeneral, opUserId), existsRecordSelector, updateAction);
     }
 
     @Override
@@ -134,8 +134,8 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
     private StoreRecord storeRecordForInsert(CreateStore createStore, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new StoreRecord(ULong.valueOf(createStore.getId()),
-                UByte.valueOf(createStore.getStoreType().getCode()),
-                UByte.valueOf(createStore.getStoreState().getCode()),
+                UByte.valueOf(createStore.getStoreType()),
+                UByte.valueOf(createStore.getStoreState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 }

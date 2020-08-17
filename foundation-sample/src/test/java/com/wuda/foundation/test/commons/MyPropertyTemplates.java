@@ -1,10 +1,6 @@
 package com.wuda.foundation.test.commons;
 
-import com.wuda.foundation.commons.property.BuiltinPropertyKeyType;
-import com.wuda.foundation.commons.property.BuiltinPropertyKeyUse;
 import com.wuda.foundation.commons.property.PropertyKeyNaming;
-import com.wuda.foundation.commons.property.PropertyKeyType;
-import com.wuda.foundation.commons.property.PropertyKeyUse;
 import com.wuda.foundation.commons.property.PropertyTemplate;
 import com.wuda.foundation.commons.property.PropertyTemplates;
 import com.wuda.foundation.lang.datatype.DataType;
@@ -19,7 +15,7 @@ public class MyPropertyTemplates implements PropertyTemplates {
 
     public enum MyPropertyKeyNaming implements PropertyKeyNaming {
 
-        NAME("name", BuiltinIdentifierType.MOCK);
+        NAME("name", BuiltinIdentifierType.TABLE_ITEM);
         private String key;
         private IdentifierType identifierType;
 
@@ -41,14 +37,14 @@ public class MyPropertyTemplates implements PropertyTemplates {
 
     public enum MyPropertyTemplate implements PropertyTemplate {
 
-        NAME(MyPropertyKeyNaming.NAME, MySQLDataType.VARCHAR, BuiltinPropertyKeyType.ZERO, BuiltinPropertyKeyUse.ZERO);
+        NAME(MyPropertyKeyNaming.NAME, MySQLDataType.VARCHAR, (byte) 0, (byte) 0);
 
         private PropertyKeyNaming propertyKeyNaming;
         private DataType dataType;
-        private PropertyKeyType propertyKeyType;
-        private PropertyKeyUse propertyKeyUse;
+        private Byte propertyKeyType;
+        private Byte propertyKeyUse;
 
-        MyPropertyTemplate(PropertyKeyNaming propertyKeyNaming, DataType dataType, PropertyKeyType propertyKeyType, PropertyKeyUse propertyKeyUse) {
+        MyPropertyTemplate(PropertyKeyNaming propertyKeyNaming, DataType dataType, Byte propertyKeyType, Byte propertyKeyUse) {
             this.propertyKeyNaming = propertyKeyNaming;
             this.dataType = dataType;
             this.propertyKeyType = propertyKeyType;
@@ -66,12 +62,12 @@ public class MyPropertyTemplates implements PropertyTemplates {
         }
 
         @Override
-        public PropertyKeyType getPropertyKeyType() {
+        public Byte getPropertyKeyType() {
             return propertyKeyType;
         }
 
         @Override
-        public PropertyKeyUse getPropertyKeyUse() {
+        public Byte getPropertyKeyUse() {
             return propertyKeyUse;
         }
     }

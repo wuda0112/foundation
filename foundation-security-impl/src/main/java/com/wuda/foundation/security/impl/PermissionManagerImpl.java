@@ -2,22 +2,17 @@ package com.wuda.foundation.security.impl;
 
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
+import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.SingleInsertResult;
-import com.wuda.foundation.lang.UniqueCodeDescriptorRegistry;
 import com.wuda.foundation.lang.identify.IdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
 import com.wuda.foundation.security.AbstractPermissionManager;
 import com.wuda.foundation.security.CreatePermissionAction;
 import com.wuda.foundation.security.CreatePermissionTarget;
+import com.wuda.foundation.security.DescribePermission;
 import com.wuda.foundation.security.DescribePermissionAction;
 import com.wuda.foundation.security.DescribePermissionTarget;
-import com.wuda.foundation.security.Permission;
-import com.wuda.foundation.security.PermissionActionName;
-import com.wuda.foundation.security.PermissionActionNameSchema;
-import com.wuda.foundation.security.PermissionTargetType;
-import com.wuda.foundation.security.PermissionTargetTypeSchema;
 import com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAction;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionActionRecord;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionTargetRecord;
@@ -48,7 +43,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
     }
 
     @Override
-    protected long createPermissionTargetDbOp(CreatePermissionTarget target, Long opUserId) {
+    protected CreateResult createPermissionTargetDbOp(CreatePermissionTarget target, Long opUserId) {
 
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
@@ -60,8 +55,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
                 .and(PERMISSION_TARGET.REFERENCED_IDENTIFIER.eq(ULong.valueOf(target.getReferencedIdentifier().getValue())))
                 .and(PERMISSION_TARGET.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
         PermissionTargetRecord permissionTargetRecord = permissionTargetRecordForInsert(target, opUserId);
-        SingleInsertResult singleInsertResult = insertIfNotExists(dataSource, PERMISSION_TARGET, permissionTargetRecord, existsRecordSelector);
-        return singleInsertResult.getRecordId();
+        return insertIfNotExists(dataSource, PERMISSION_TARGET, permissionTargetRecord, existsRecordSelector);
     }
 
     private PermissionTargetRecord permissionTargetRecordForInsert(CreatePermissionTarget target, Long opUserId) {
@@ -69,7 +63,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
         return new PermissionTargetRecord(ULong.valueOf(target.getId()),
                 ULong.valueOf(target.getCategoryId()),
                 target.getName(),
-                UByte.valueOf(target.getType().getCode()),
+                UByte.valueOf(target.getType()),
                 UByte.valueOf(target.getReferencedIdentifier().getType().getCode()),
                 ULong.valueOf(target.getReferencedIdentifier().getValue()),
                 target.getDescription(),
@@ -77,25 +71,24 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
     }
 
     @Override
-    protected long createPermissionActionDbOp(CreatePermissionAction action, Long opUserId) {
+    protected CreateResult createPermissionActionDbOp(CreatePermissionAction action, Long opUserId) {
 
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
                 .select(PERMISSION_ACTION.PERMISSION_ACTION_ID)
                 .from(PERMISSION_ACTION)
                 .where(PERMISSION_ACTION.PERMISSION_TARGET_ID.eq(ULong.valueOf(action.getPermissionTargetId())))
-                .and(PERMISSION_ACTION.NAME.eq(action.getName().getCode()))
+                .and(PERMISSION_ACTION.NAME.eq(action.getName()))
                 .and(PERMISSION_ACTION.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
         PermissionActionRecord permissionActionRecord = permissionActionRecordForInsert(action, opUserId);
-        SingleInsertResult singleInsertResult = insertIfNotExists(dataSource, PERMISSION_ACTION, permissionActionRecord, existsRecordSelector);
-        return singleInsertResult.getRecordId();
+        return insertIfNotExists(dataSource, PERMISSION_ACTION, permissionActionRecord, existsRecordSelector);
     }
 
     private PermissionActionRecord permissionActionRecordForInsert(CreatePermissionAction action, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new PermissionActionRecord(ULong.valueOf(action.getId()),
                 ULong.valueOf(action.getPermissionTargetId()),
-                action.getName().getCode(),
+                action.getName(),
                 action.getDescription(),
                 UByte.valueOf(action.getReferencedIdentifier().getType().getCode()),
                 ULong.valueOf(action.getReferencedIdentifier().getValue()),
@@ -104,7 +97,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
 
     @Override
     protected long createPermissionDbOp(CreatePermissionTarget target, Set<CreatePermissionAction> actions, Long opUserId) {
-        long targetId = createPermissionTargetDbOp(target, opUserId);
+        long targetId = createPermissionTargetDbOp(target, opUserId).getRecordId();
         createPermissionAction(actions, opUserId);
         return targetId;
     }
@@ -183,10 +176,10 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
     }
 
     @Override
-    protected Permission getPermissionDbOp(Long permissionTargetId) {
+    protected DescribePermission getPermissionDbOp(Long permissionTargetId) {
         DescribePermissionTarget target = getPermissionTargetByIdDbOp(permissionTargetId);
         List<DescribePermissionAction> actions = getPermissionActionByTargetDbOp(permissionTargetId);
-        return new Permission(target, actions);
+        return new DescribePermission(target, actions);
     }
 
     private DescribePermissionTarget from(PermissionTargetRecord target) {
@@ -197,8 +190,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
         describePermissionTarget.setId(target.getPermissionTargetId().longValue());
         describePermissionTarget.setCategoryId(target.getPermissionCategoryId().longValue());
         describePermissionTarget.setName(target.getName());
-        PermissionTargetType permissionTargetType = UniqueCodeDescriptorRegistry.defaultRegistry.lookup(PermissionTargetTypeSchema.class, target.getType().intValue());
-        describePermissionTarget.setType(permissionTargetType);
+        describePermissionTarget.setType(target.getType().byteValue());
         IdentifierType identifierType = IdentifierTypeRegistry.defaultRegistry.lookup(target.getReferencedType().intValue());
         LongIdentifier referencedIdentifier = new LongIdentifier(target.getReferencedIdentifier().longValue(), identifierType);
         describePermissionTarget.setReferencedIdentifier(referencedIdentifier);
@@ -210,8 +202,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
         DescribePermissionAction describePermissionAction = new DescribePermissionAction();
         describePermissionAction.setId(action.getPermissionActionId().longValue());
         describePermissionAction.setPermissionTargetId(action.getPermissionTargetId().longValue());
-        PermissionActionName permissionActionName = UniqueCodeDescriptorRegistry.defaultRegistry.lookup(PermissionActionNameSchema.class, action.getName());
-        describePermissionAction.setName(permissionActionName);
+        describePermissionAction.setName(action.getName());
         IdentifierType identifierType = IdentifierTypeRegistry.defaultRegistry.lookup(action.getReferencedType().intValue());
         LongIdentifier identifier = new LongIdentifier(action.getReferencedIdentifier().longValue(), identifierType);
         describePermissionAction.setDescription(action.getDescription());

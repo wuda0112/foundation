@@ -7,7 +7,7 @@ import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.SingleInsertResult;
+import com.wuda.foundation.lang.CreateResult;
 import org.jooq.Configuration;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
@@ -39,11 +39,11 @@ public class EmailManagerImpl extends AbstractEmailManager implements JooqCommon
                 .from(EMAIL)
                 .where(EMAIL.ADDRESS.eq(createEmail.getAddress()))
                 .and(EMAIL.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        SingleInsertResult singleInsertResult = insertAfterSelectCheck(dataSource, EMAIL, emailRecordForInsert(createEmail, opUserId), existsRecordSelector);
-        if (singleInsertResult.getExistsRecordId() != null) {
+        CreateResult createResult = insertAfterSelectCheck(dataSource, EMAIL, emailRecordForInsert(createEmail, opUserId), existsRecordSelector);
+        if (createResult.getExistsRecordId() != null) {
             throw new AlreadyExistsException("email = " + createEmail.getAddress() + ",已经存在");
         }
-        return singleInsertResult.getNewlyAddedRecordId();
+        return createResult.getNewlyAddedRecordId();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class EmailManagerImpl extends AbstractEmailManager implements JooqCommon
         LocalDateTime now = LocalDateTime.now();
         return new EmailRecord(ULong.valueOf(createEmail.getId()),
                 createEmail.getAddress(),
-                UByte.valueOf(createEmail.getState().getCode()),
+                UByte.valueOf(createEmail.getState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 

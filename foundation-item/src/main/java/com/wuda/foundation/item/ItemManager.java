@@ -1,6 +1,6 @@
 package com.wuda.foundation.item;
 
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.CreateMode;
 
 import java.util.List;
 
@@ -33,11 +33,11 @@ public interface ItemManager {
      * 为item新增基本信息,如果已经存在基本信息,则更新.
      *
      * @param createItemGeneral 创建item general的参数
-     * @param insertMode        insert mode
+     * @param createMode        create mode
      * @param opUserId          操作人用户ID
      * @return 已经存在或者新增的item general ID
      */
-    long createOrUpdateItemGeneral(CreateItemGeneral createItemGeneral, InsertMode insertMode, Long opUserId);
+    long createOrUpdateItemGeneral(CreateItemGeneral createItemGeneral, CreateMode createMode, Long opUserId);
 
     /**
      * 给定的item新增基本信息.
@@ -68,11 +68,11 @@ public interface ItemManager {
      * 给定的item新增描述,如果已经有描述,则更新.
      *
      * @param createItemDescription 创建item description的参数
-     * @param insertMode            insert mode
+     * @param createMode            create mode
      * @param opUserId              操作人用户ID
      * @return 新增或者已有的item description ID
      */
-    long createOrUpdateItemDescription(CreateItemDescription createItemDescription, InsertMode insertMode, Long opUserId);
+    long createOrUpdateItemDescription(CreateItemDescription createItemDescription, CreateMode createMode, Long opUserId);
 
     /**
      * 给定的item新增描述.

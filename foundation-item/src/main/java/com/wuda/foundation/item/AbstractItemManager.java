@@ -1,7 +1,7 @@
 package com.wuda.foundation.item;
 
 import com.wuda.foundation.lang.ExtObjects;
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.CreateMode;
 
 import java.util.List;
 
@@ -23,9 +23,9 @@ public abstract class AbstractItemManager implements ItemManager {
     protected abstract long createItemDbOp(CreateItem createItem, Long opUserId);
 
     @Override
-    public long createOrUpdateItemGeneral(CreateItemGeneral createItemGeneral, InsertMode insertMode, Long opUserId) {
+    public long createOrUpdateItemGeneral(CreateItemGeneral createItemGeneral, CreateMode createMode, Long opUserId) {
         ExtObjects.requireNonNull(createItemGeneral, opUserId);
-        return createOrUpdateItemGeneralDbOp(createItemGeneral, insertMode, opUserId);
+        return createOrUpdateItemGeneralDbOp(createItemGeneral, createMode, opUserId);
     }
 
     @Override
@@ -35,7 +35,7 @@ public abstract class AbstractItemManager implements ItemManager {
 
     protected abstract void directBatchInsertItemGeneralDbOp(List<CreateItemGeneral> createItemGenerals, Long opUserId);
 
-    protected abstract long createOrUpdateItemGeneralDbOp(CreateItemGeneral createItemGeneral, InsertMode insertMode, Long opUserId);
+    protected abstract long createOrUpdateItemGeneralDbOp(CreateItemGeneral createItemGeneral, CreateMode createMode, Long opUserId);
 
     @Override
     public long createItemVariation(CreateItemVariation createItemVariation, Long opUserId) {
@@ -51,8 +51,8 @@ public abstract class AbstractItemManager implements ItemManager {
     protected abstract void directBatchInsertItemVariationDbOp(List<CreateItemVariation> createItemVariations, Long opUserId);
 
     @Override
-    public long createOrUpdateItemDescription(CreateItemDescription createItemDescription, InsertMode insertMode, Long opUserId) {
-        return createOrUpdateItemDescriptionDbOp(createItemDescription, insertMode, opUserId);
+    public long createOrUpdateItemDescription(CreateItemDescription createItemDescription, CreateMode createMode, Long opUserId) {
+        return createOrUpdateItemDescriptionDbOp(createItemDescription, createMode, opUserId);
     }
 
     @Override
@@ -62,7 +62,7 @@ public abstract class AbstractItemManager implements ItemManager {
 
     protected abstract void directBatchInsertItemDescriptionDbOp(List<CreateItemDescription> createItemDescriptions, Long opUserId);
 
-    protected abstract long createOrUpdateItemDescriptionDbOp(CreateItemDescription createItemDescription, InsertMode insertMode, Long opUserId);
+    protected abstract long createOrUpdateItemDescriptionDbOp(CreateItemDescription createItemDescription, CreateMode createMode, Long opUserId);
 
     protected abstract long createItemVariationDbOp(CreateItemVariation createItemVariation, Long opUserId);
 

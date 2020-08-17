@@ -4,32 +4,32 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 执行单个Insert的结果.必须配合{@link InsertMode}一起使用时才有意义.
+ * 创建记录的结果.可以配合{@link CreateMode}一起使用.
  *
  * @author wuda
  * @since 1.0.0
  */
 @AllArgsConstructor
 @Getter
-public class SingleInsertResult {
+public class CreateResult {
 
     /**
-     * insert mode.
+     * create mode.
      */
-    private InsertMode insertMode;
+    private CreateMode createMode;
     /**
-     * 是否执行了insert语句.比如{@link InsertMode}等于{@link InsertMode#INSERT_AFTER_SELECT_CHECK}时,
-     * 当查询出有记录时,就不会执行insert语句.
+     * 是否执行了Create操作.比如{@link CreateMode}等于{@link CreateMode#CREATE_AFTER_SELECT_CHECK}时,
+     * 当查询出有记录时,就不会再往数据库中新增记录.
      */
-    private boolean executedInsert;
+    private boolean executedCreate;
     /**
      * 受影响的行数,比如SQL执行后都会返回受影响的行数.
-     * 即使执行了insert,也不一定成功新增记录,比如{@link InsertMode}等于{@link InsertMode#INSERT_WHERE_NOT_EXISTS}时,
+     * 即使执行了insert,也不一定成功新增记录,比如{@link CreateMode}等于{@link CreateMode#CREATE_WHERE_NOT_EXISTS}时,
      * 肯定执行了insert,但是不一定会新增记录.
      */
     private int affectedRows;
     /**
-     * 当{@link InsertMode}是{@link InsertMode#INSERT_AFTER_SELECT_CHECK}或者{@link InsertMode#INSERT_WHERE_NOT_EXISTS}时,
+     * 当{@link CreateMode}是{@link CreateMode#CREATE_AFTER_SELECT_CHECK}或者{@link CreateMode#CREATE_WHERE_NOT_EXISTS}时,
      * 如果记录已经存在,则返回已经存在的记录的ID.
      */
     private Long existsRecordId;

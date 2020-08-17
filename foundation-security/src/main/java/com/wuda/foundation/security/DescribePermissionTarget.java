@@ -32,7 +32,7 @@ public class DescribePermissionTarget {
     /**
      * 作用对象的类型,比如文件.
      */
-    private PermissionTargetType type;
+    private Byte type;
     /**
      * 关联的外部对象的identifier.
      */

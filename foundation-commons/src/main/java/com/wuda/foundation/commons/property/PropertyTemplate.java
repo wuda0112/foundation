@@ -28,13 +28,13 @@ public interface PropertyTemplate {
      *
      * @return property key type
      */
-    PropertyKeyType getPropertyKeyType();
+    Byte getPropertyKeyType();
 
     /**
      * property key use
      *
      * @return property key use
      */
-    PropertyKeyUse getPropertyKeyUse();
+    Byte getPropertyKeyUse();
 
 }

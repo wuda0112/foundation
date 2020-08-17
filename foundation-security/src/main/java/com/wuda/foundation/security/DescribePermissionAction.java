@@ -27,7 +27,7 @@ public class DescribePermissionAction {
     /**
      * action.
      */
-    private PermissionActionName name;
+    private String name;
     /**
      * 描述.
      */

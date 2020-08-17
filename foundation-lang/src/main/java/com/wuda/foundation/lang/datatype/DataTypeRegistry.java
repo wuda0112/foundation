@@ -16,7 +16,19 @@ public class DataTypeRegistry {
 
     private Map<DataTypeSchema, List<DataType>> bySchemaMap = new ConcurrentHashMap<>();
 
-    public final static DataTypeRegistry defaultRegistry = new DataTypeRegistry();
+    public final static DataTypeRegistry defaultRegistry;
+
+    static {
+        defaultRegistry = new DataTypeRegistry();
+        MySQLDataTypeRegister.register();
+    }
+
+    /**
+     * 使用{@link #defaultRegistry}作为全局注册中心.
+     */
+    private DataTypeRegistry() {
+
+    }
 
     /**
      * 注册{@link DataType}.

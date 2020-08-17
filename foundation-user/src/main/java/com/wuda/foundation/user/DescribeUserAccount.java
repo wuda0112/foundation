@@ -33,5 +33,5 @@ public class DescribeUserAccount extends BasicAttribute {
     /**
      * 账号的状态.
      */
-    private UserAccountState state;
+    private Byte state;
 }

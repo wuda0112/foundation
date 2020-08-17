@@ -2,9 +2,9 @@ package com.wuda.foundation.user.impl;
 
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.SingleInsertResult;
+import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.user.AbstractIndividualUserManager;
 import com.wuda.foundation.user.CreateIndividualUserGeneral;
 import com.wuda.foundation.user.UpdateIndividualUserGeneral;
@@ -31,7 +31,7 @@ public class IndividualUserManagerImpl extends AbstractIndividualUserManager imp
     }
 
     @Override
-    protected SingleInsertResult createGeneralDbOp(CreateIndividualUserGeneral createIndividualUserGeneral, InsertMode insertMode, Long opUserId) {
+    protected CreateResult createGeneralDbOp(CreateIndividualUserGeneral createIndividualUserGeneral, CreateMode createMode, Long opUserId) {
         IndividualUserGeneralRecord record = individualUserGeneralRecordForInsert(createIndividualUserGeneral, opUserId);
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordPKSelector = dslContext
@@ -39,7 +39,7 @@ public class IndividualUserManagerImpl extends AbstractIndividualUserManager imp
                 .from(INDIVIDUAL_USER_GENERAL)
                 .where(INDIVIDUAL_USER_GENERAL.USER_ID.equal(ULong.valueOf(createIndividualUserGeneral.getUserId())))
                 .and(INDIVIDUAL_USER_GENERAL.IS_DELETED.equal(ULong.valueOf(IsDeleted.NO.getValue())));
-        return insertDispatcher(dataSource, insertMode, INDIVIDUAL_USER_GENERAL, record, existsRecordPKSelector);
+        return insertDispatcher(dataSource, createMode, INDIVIDUAL_USER_GENERAL, record, existsRecordPKSelector);
     }
 
     @Override

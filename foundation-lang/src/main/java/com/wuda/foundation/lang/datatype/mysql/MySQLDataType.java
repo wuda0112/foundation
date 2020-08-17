@@ -12,8 +12,8 @@ import com.wuda.foundation.lang.datatype.DataTypeSchema;
  */
 public enum MySQLDataType implements DataType {
 
-    VARCHAR(MySQLDataTypeSchema.MySQL, "VARCHAR", new MySQLVarcharDataTypeHandler(), false),
-    INT(MySQLDataTypeSchema.MySQL, "INT", new MySQLIntDataTypeHandler(), false);
+    VARCHAR(MySQLDataTypeSchema.instance, "VARCHAR", new MySQLVarcharDataTypeHandler(), false),
+    INT(MySQLDataTypeSchema.instance, "INT", new MySQLIntDataTypeHandler(), false);
 
     private DataTypeSchema schema;
     private String name;

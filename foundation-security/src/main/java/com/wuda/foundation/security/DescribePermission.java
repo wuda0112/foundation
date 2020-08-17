@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @ToString
-public class Permission {
+public class DescribePermission {
 
     private DescribePermissionTarget target;
     private List<DescribePermissionAction> actions;

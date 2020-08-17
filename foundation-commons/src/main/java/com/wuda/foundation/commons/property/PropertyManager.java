@@ -1,9 +1,8 @@
 package com.wuda.foundation.commons.property;
 
 import com.wuda.foundation.lang.AlreadyExistsException;
-import com.wuda.foundation.lang.CreateAfterCheckMode;
-import com.wuda.foundation.lang.InsertMode;
-import com.wuda.foundation.lang.SingleInsertResult;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.datatype.DataType;
 import com.wuda.foundation.lang.identify.Identifier;
 
@@ -30,7 +29,7 @@ public interface PropertyManager {
      * 根据主键获取property key.
      *
      * @param id property key id
-     * @return property key
+     * @return property key，如果不存在则返回<code>null</code>
      */
     DescribePropertyKey getPropertyKey(Long id);
 
@@ -38,21 +37,22 @@ public interface PropertyManager {
      * 创建property key.
      *
      * @param createPropertyKey 创建key的参数
-     * @param insertMode        insert mode
+     * @param createMode        create mode
      * @param opUserId          操作人用户ID
-     * @return 如果owner已经拥有这样的key, 则返回已经存在的property key id;如果不存在,则返回新创建的记录的id
+     * @return 结果中的ID表示的是key的ID.如果owner已经拥有这样的key, 则返回已经存在的property key id;如果不存在,则返回新创建的记录的id.
+     * 如果{@link CreateMode}是{@link CreateMode#DIRECT}并且成功返回了,则一定是返回新创建的记录的ID
      */
-    SingleInsertResult createPropertyKey(CreatePropertyKey createPropertyKey, InsertMode insertMode, Long opUserId);
+    CreateResult createPropertyKey(CreatePropertyKey createPropertyKey, CreateMode createMode, Long opUserId);
 
     /**
      * 创建property key,同时一起创建definition.就好像是创建MySQL的列时,也会创建列的定义.
      * 如果owner有了给定的名称的key,会抛出异常.
      *
      * @param opUserId 操作人用户ID
-     * @return 如果owner已经拥有这样的key, 则返回已经存在的property key id;如果不存在,则返回新创建的记录的id
+     * @return 结果中的ID表示的是key的ID.如果owner已经拥有这样的key, 则返回已经存在的property key id;如果不存在,则返回新创建的记录的id
      * @throws AlreadyExistsException 如果owner已经有了给定名称的key.
      */
-    SingleInsertResult createPropertyKeyWithDefinition(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) throws AlreadyExistsException;
+    CreateResult createPropertyKeyWithDefinition(CreatePropertyKeyWithDefinition createPropertyKeyWithDefinition, Long opUserId) throws AlreadyExistsException;
 
     /**
      * 创建property key.
@@ -79,12 +79,12 @@ public interface PropertyManager {
      * </li>
      * </ul>
      *
-     * @param createPropertyValue  创建value
-     * @param createAfterCheckMode mode
-     * @param opUserId             操作人用户ID
-     * @return 如果已经存在, 则返回已经存在的value的id;如果不存在,返回新增的value的id
+     * @param createPropertyValue 创建value
+     * @param createMode          mode
+     * @param opUserId            操作人用户ID
+     * @return 结果中的ID表示value的ID.如果已经存在, 则返回已经存在的value的id;如果不存在,返回新增的value的id
      */
-    SingleInsertResult createPropertyValue(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId);
+    CreateResult createPropertyValue(CreatePropertyValue createPropertyValue, CreateMode createMode, Long opUserId);
 
     /**
      * 为property key设值value.根据property的{@link DataType 数据类型}不同,所执行的操作也不同
@@ -103,12 +103,12 @@ public interface PropertyManager {
      * </ul></li>
      * </ul>
      *
-     * @param createPropertyValue  创建value
-     * @param createAfterCheckMode mode
-     * @param opUserId             操作人用户ID
+     * @param createPropertyValue 创建value
+     * @param createMode          mode
+     * @param opUserId            操作人用户ID
      * @return 如果已经存在, 则返回已经存在的value的id;如果不存在,返回新增的value的id
      */
-    long createOrUpdatePropertyValue(CreatePropertyValue createPropertyValue, CreateAfterCheckMode createAfterCheckMode, Long opUserId);
+    long createOrUpdatePropertyValue(CreatePropertyValue createPropertyValue, CreateMode createMode, Long opUserId);
 
     /**
      * 创建property value.
@@ -151,7 +151,7 @@ public interface PropertyManager {
     DescribePropertyKeyDefinition getDefinitionByPropertyKey(Long propertyKeyId);
 
     /**
-     * 获取实体指定的property.
+     * 获取property.
      *
      * @param owner 该属性的拥有者
      * @param key   property的key
@@ -160,7 +160,7 @@ public interface PropertyManager {
     DescribeProperty getProperty(Identifier<Long> owner, String key);
 
     /**
-     * 获取实体指定的property.
+     * 获取property.
      *
      * @param owner 该属性的拥有者
      * @return 如果不存在则返回<code>null</code>
@@ -174,8 +174,8 @@ public interface PropertyManager {
      *
      * @param definition 创建definition
      * @param opUserId   操作人用户ID
-     * @return 返回创建的结果
+     * @return 结果中的ID表示新创建的definition的ID
      * @throws AlreadyExistsException 如果该property key已经有了定义
      */
-    SingleInsertResult createPropertyKeyDefinition(CreatePropertyKeyDefinition definition, Long opUserId) throws AlreadyExistsException;
+    CreateResult createPropertyKeyDefinition(CreatePropertyKeyDefinition definition, Long opUserId) throws AlreadyExistsException;
 }

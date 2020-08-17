@@ -1,9 +1,7 @@
 package com.wuda.foundation.user;
 
-import com.wuda.foundation.commons.EmailManager;
-import com.wuda.foundation.commons.PhoneManager;
 import com.wuda.foundation.lang.AlreadyExistsException;
-import com.wuda.foundation.lang.InsertMode;
+import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.identify.Identifier;
 
 import java.util.List;
@@ -47,11 +45,11 @@ public interface UserManager {
      * 绑定用户和Email.
      *
      * @param bindUserEmail binding
-     * @param insertMode    insert mode
+     * @param createMode    create mode
      * @param opUserId      操作人用户ID
      * @return 绑定关系的记录的ID
      */
-    Long bindUserEmail(BindUserEmail bindUserEmail, InsertMode insertMode, Long opUserId);
+    Long bindUserEmail(BindUserEmail bindUserEmail, CreateMode createMode, Long opUserId);
 
     /**
      * 绑定用户和Email.
@@ -66,11 +64,11 @@ public interface UserManager {
      * 绑定用户和Phone.
      *
      * @param bindUserPhone binding
-     * @param insertMode    insert mode
+     * @param createMode    create mode
      * @param opUserId      操作人用户ID
      * @return 绑定关系的记录的ID
      */
-    Long bindUserPhone(BindUserPhone bindUserPhone, InsertMode insertMode, Long opUserId);
+    Long bindUserPhone(BindUserPhone bindUserPhone, CreateMode createMode, Long opUserId);
 
     /**
      * 绑定用户和Phone.
@@ -92,14 +90,12 @@ public interface UserManager {
     /**
      * 新增一个新用户.
      *
-     * @param createUser   用于创建用户的信息
-     * @param emailManager 如果账号有email,则用于处理email
-     * @param phoneManager 如果账号有phone,则用于处理phone
-     * @param opUserId     操作人用户ID,是谁正在添加这个新用户
+     * @param createUser 用于创建用户的信息
+     * @param opUserId   操作人用户ID,是谁正在添加这个新用户
      * @return 新增的用户的ID
      * @throws AlreadyExistsException 如果username,email,phone已经存在
      */
-    long createUser(CreateUserWithAccount createUser, EmailManager emailManager, PhoneManager phoneManager, Long opUserId) throws AlreadyExistsException;
+    void createUserWithAccount(CreateUserWithAccount createUser, Long opUserId) throws AlreadyExistsException;
 
     /**
      * 更新密码.
@@ -115,7 +111,7 @@ public interface UserManager {
      * @param userId   用户ID
      * @param newState 新的状态.
      */
-    void changeUserAccountState(Long userId, UserAccountState newState);
+    void changeUserAccountState(Long userId, Byte newState);
 
     /**
      * 改变用户的状态.
@@ -123,7 +119,7 @@ public interface UserManager {
      * @param userId   用户ID
      * @param newState 新的状态.
      */
-    void changeUserState(Long userId, UserState newState);
+    void changeUserState(Long userId, Byte newState);
 
     /**
      * 获取用户详细信息.

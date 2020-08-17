@@ -1,5 +1,7 @@
 package com.wuda.foundation.security;
 
+import com.wuda.foundation.lang.CreateResult;
+
 import java.util.List;
 import java.util.Set;
 
@@ -19,18 +21,18 @@ public interface PermissionManager {
      *
      * @param target   target
      * @param opUserId 操作人用户ID
-     * @return 新增的permission target id
+     * @return 创建结果
      */
-    long createPermissionTarget(CreatePermissionTarget target, Long opUserId);
+    CreateResult createPermissionTarget(CreatePermissionTarget target, Long opUserId);
 
     /**
      * 新增permission action.
      *
      * @param action   action
      * @param opUserId 操作人用户ID
-     * @return 新增的permission action id
+     * @return 创建结果
      */
-    long createPermissionAction(CreatePermissionAction action, Long opUserId);
+    CreateResult createPermissionAction(CreatePermissionAction action, Long opUserId);
 
     /**
      * 新增一个permission.
@@ -126,6 +128,6 @@ public interface PermissionManager {
      * @param permissionTargetId permission target id
      * @return a permission
      */
-    Permission getPermission(Long permissionTargetId);
+    DescribePermission getPermission(Long permissionTargetId);
 
 }

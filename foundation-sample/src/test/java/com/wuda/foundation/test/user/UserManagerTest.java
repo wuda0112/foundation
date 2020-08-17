@@ -1,7 +1,6 @@
 package com.wuda.foundation.test.user;
 
 import com.wuda.foundation.TestBase;
-import com.wuda.foundation.commons.BuiltinPhoneType;
 import com.wuda.foundation.commons.CreateEmail;
 import com.wuda.foundation.commons.CreatePhone;
 import com.wuda.foundation.commons.EmailManager;
@@ -9,11 +8,6 @@ import com.wuda.foundation.commons.PhoneManager;
 import com.wuda.foundation.commons.impl.EmailManagerImpl;
 import com.wuda.foundation.commons.impl.PhoneManagerImpl;
 import com.wuda.foundation.lang.AlreadyExistsException;
-import com.wuda.foundation.lang.BuiltinEmailState;
-import com.wuda.foundation.lang.BuiltinPhoneState;
-import com.wuda.foundation.user.BuiltinUserAccountState;
-import com.wuda.foundation.user.BuiltinUserState;
-import com.wuda.foundation.user.BuiltinUserType;
 import com.wuda.foundation.user.CreateUser;
 import com.wuda.foundation.user.CreateUserAccount;
 import com.wuda.foundation.user.CreateUserWithAccount;
@@ -45,35 +39,33 @@ public class UserManagerTest extends TestBase {
                 .setUserId(userId)
                 .setPassword("124456")
                 .setUsername("wuda-username")
-                .setState(BuiltinUserAccountState.ZERO)
+                .setState(byte0)
                 .build();
         userManager.directBatchInsertUserAccount(Collections.singletonList(userAccount), opUserId);
         CreateUser user = new CreateUser.Builder()
                 .setId(userId)
-                .setUserType(BuiltinUserType.ZERO)
-                .setUserState(BuiltinUserState.ZERO)
+                .setUserType(byte0)
+                .setUserState(byte0)
                 .build();
         CreatePhone createPhone = new CreatePhone.Builder()
                 .setId(keyGenerator.next())
-                .setPhoneState(BuiltinPhoneState.ZERO)
-                .setPhoneType(BuiltinPhoneType.ZERO)
+                .setPhoneState(byte0)
+                .setPhoneType(byte0)
                 .setNumber("15911331111")
                 .build();
 
         CreateEmail createEmail = new CreateEmail.Builder()
                 .setId(keyGenerator.next())
-                .setEmailState(BuiltinEmailState.ZERO)
+                .setEmailState(byte0)
                 .setAddress("wda@163.com")
                 .build();
 
         CreateUserWithAccount createUserWithAccount = new CreateUserWithAccount.Builder()
                 .setUser(user)
                 .setUserAccount(userAccount)
-                .setPhone(createPhone)
-                .setEmail(createEmail)
                 .build();
         try {
-            userManager.createUser(createUserWithAccount, getEmailManager(), getPhoneManager(), opUserId);
+            userManager.createUserWithAccount(createUserWithAccount, opUserId);
         } catch (AlreadyExistsException e) {
             e.printStackTrace();
         }

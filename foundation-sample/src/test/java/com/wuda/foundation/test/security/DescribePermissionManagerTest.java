@@ -1,6 +1,7 @@
 package com.wuda.foundation.test.security;
 
 import com.wuda.foundation.TestBase;
+import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.identify.LongIdentifier;
 import com.wuda.foundation.security.*;
@@ -20,17 +21,18 @@ public class DescribePermissionManagerTest extends TestBase {
                 .setId(permissionTargetId)
                 .setCategoryId(keyGenerator.next())
                 .setPermissionTargetType(byte0)
-                .setDescription("target-desc")
-                .setName("target-name")
-                .setReferencedIdentifier(new LongIdentifier(0L,BuiltinIdentifierType.TABLE_ITEM))
+                .setDescription("target-desc-" + permissionTargetId)
+                .setName("target-name-" + permissionTargetId)
+                .setReferencedIdentifier(new LongIdentifier(0L, BuiltinIdentifierType.TABLE_ITEM))
                 .build();
 
+        long actionId = keyGenerator.next();
         CreatePermissionAction action = new CreatePermissionAction.Builder()
-                .setId(keyGenerator.next())
+                .setId(actionId)
                 .setPermissionTargetId(permissionTargetId)
-                .setName("read")
+                .setName("read-" + actionId)
                 .setReferencedIdentifier(new LongIdentifier(0L, BuiltinIdentifierType.TABLE_ITEM))
-                .setDescription("action-desc")
+                .setDescription("action-desc-" + actionId)
                 .build();
 
         permissionManager.createPermission(target, Collections.singleton(action), opUserId);
@@ -42,8 +44,15 @@ public class DescribePermissionManagerTest extends TestBase {
         System.out.println(describePermissionAction);
         System.out.println(describePermissionActions);
 
-        /*permissionManager.deleteTarget(permissionTargetId, opUserId);
-        permissionManager.deleteAction(action.getId(), opUserId);*/
+        permissionManager.deleteTarget(permissionTargetId, opUserId);
+        permissionManager.deleteAction(action.getId(), opUserId);
+        permissionManager.deleteActionByTarget(permissionTargetId, opUserId);
+
+        CreateResult createResult = permissionManager.createPermissionTarget(target, opUserId);
+        permissionManager.createPermissionAction(Collections.singleton(action), opUserId);
+        permissionManager.deleteAction(action.getId(), opUserId);
+        permissionManager.createPermissionAction(action, opUserId);
+        permissionManager.getPermissionTargetById(permissionTargetId);
     }
 
     private PermissionManager getPermissionManager() {

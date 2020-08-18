@@ -36,15 +36,6 @@ public abstract class AbstractPermissionManager implements PermissionManager {
         return createPermissionDbOp(target, actions, opUserId);
     }
 
-    /**
-     * 作为{@link #createPermission(CreatePermissionTarget, Set, Long)}方法的一部分,参数的校验已经在{@link #createPermission(CreatePermissionTarget, Set, Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param target   该permission作用的对象
-     * @param actions  该permission允许的动作,可以为空
-     * @param opUserId 操作人用户ID
-     * @return permission target id
-     */
     protected abstract long createPermissionDbOp(CreatePermissionTarget target, Set<CreatePermissionAction> actions, Long opUserId);
 
     @Override
@@ -53,13 +44,6 @@ public abstract class AbstractPermissionManager implements PermissionManager {
         createPermissionActionDbOp(actions, opUserId);
     }
 
-    /**
-     * 作为{@link #createPermissionAction(Set, Long)}方法的一部分,参数的校验已经在{@link #createPermissionAction(Set, Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param opUserId 操作人用户ID
-     * @param actions  action set
-     */
     protected abstract void createPermissionActionDbOp(Set<CreatePermissionAction> actions, Long opUserId);
 
     @Override
@@ -73,22 +57,8 @@ public abstract class AbstractPermissionManager implements PermissionManager {
         deleteActionByTargetDbOp(permissionTargetId, opUserId);
     }
 
-    /**
-     * 作为{@link #deleteActionByTarget(Long, Long)}方法的一部分,参数的校验已经在{@link #deleteActionByTarget(Long, Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param opUserId           操作人用户ID
-     * @param permissionTargetId permission target id
-     */
     protected abstract void deleteActionByTargetDbOp(Long permissionTargetId, Long opUserId);
 
-    /**
-     * 作为{@link #deleteAction(Long, Long)}方法的一部分,参数的校验已经在{@link #deleteAction(Long, Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param opUserId           操作人用户ID
-     * @param permissionActionId permission action id
-     */
     protected abstract void deleteActionDbOp(Long permissionActionId, Long opUserId);
 
     @Override
@@ -97,13 +67,6 @@ public abstract class AbstractPermissionManager implements PermissionManager {
         deleteTargetDbOp(permissionTargetId, opUserId);
     }
 
-    /**
-     * 作为{@link #deleteTarget(Long, Long)}方法的一部分,参数的校验已经在{@link #deleteTarget(Long, Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param opUserId           操作人用户ID
-     * @param permissionTargetId permission target id
-     */
     protected abstract void deleteTargetDbOp(Long permissionTargetId, Long opUserId);
 
     @Override
@@ -112,13 +75,6 @@ public abstract class AbstractPermissionManager implements PermissionManager {
         updatePermissionTargetDbOp(permissionTargetId, name, description, opUserId);
     }
 
-    /**
-     * 作为{@link #updatePermissionTarget(Long, String, String, Long)}方法的一部分,参数的校验已经在{@link #updatePermissionTarget(Long, String, String, Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param opUserId           操作人用户ID
-     * @param permissionTargetId permission target id
-     */
     protected abstract void updatePermissionTargetDbOp(Long permissionTargetId, String name, String description, Long opUserId);
 
     @Override
@@ -132,13 +88,6 @@ public abstract class AbstractPermissionManager implements PermissionManager {
         return getPermissionTargetByIdDbOp(permissionTargetId);
     }
 
-    /**
-     * 作为{@link #getPermissionTargetById(Long)}方法的一部分,参数的校验已经在{@link #getPermissionTargetById(Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param permissionTargetId permission target id
-     * @return permission target
-     */
     protected abstract DescribePermissionTarget getPermissionTargetByIdDbOp(Long permissionTargetId);
 
     @Override
@@ -146,13 +95,6 @@ public abstract class AbstractPermissionManager implements PermissionManager {
         return getPermissionActionByIdDbOp(permissionActionId);
     }
 
-    /**
-     * 作为{@link #getPermissionActionById(Long)}方法的一部分,参数的校验已经在{@link #getPermissionActionById(Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param permissionActionId permission action id
-     * @return permission action
-     */
     protected abstract DescribePermissionAction getPermissionActionByIdDbOp(Long permissionActionId);
 
     @Override
@@ -160,24 +102,8 @@ public abstract class AbstractPermissionManager implements PermissionManager {
         return getPermissionActionByTargetDbOp(permissionTargetId);
     }
 
-    /**
-     * 作为{@link #getPermissionActionByTarget(Long)}方法的一部分,参数的校验已经在{@link #getPermissionActionByTarget(Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param permissionTargetId permission target id
-     * @return permission action
-     */
     protected abstract List<DescribePermissionAction> getPermissionActionByTargetDbOp(Long permissionTargetId);
 
-    /**
-     * 作为{@link #updatePermissionAction(Long, String, String, Long)}方法的一部分,参数的校验已经在{@link #updatePermissionAction(Long, String, String, Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param permissionActionId permission action id
-     * @param action             permission action
-     * @param opUserId           操作人用户ID
-     * @param description        描述信息
-     */
     protected abstract void updatePermissionActionDbOp(Long permissionActionId, String action, String description, Long opUserId);
 
     @Override
@@ -185,12 +111,5 @@ public abstract class AbstractPermissionManager implements PermissionManager {
         return getPermissionDbOp(permissionTargetId);
     }
 
-    /**
-     * 作为{@link #getPermission(Long)}方法的一部分,参数的校验已经在{@link #getPermission(Long)}
-     * 中完成,剩下的是数据库操作,由这个方法完成,如果特定的存储还有其他校验,则可以在这个方法中完成校验逻辑.
-     *
-     * @param permissionTargetId permission target id
-     * @return a permission
-     */
     protected abstract DescribePermission getPermissionDbOp(Long permissionTargetId);
 }

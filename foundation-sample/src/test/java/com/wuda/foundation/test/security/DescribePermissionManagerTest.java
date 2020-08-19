@@ -1,6 +1,8 @@
 package com.wuda.foundation.test.security;
 
 import com.wuda.foundation.TestBase;
+import com.wuda.foundation.lang.AlreadyExistsException;
+import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.identify.LongIdentifier;
@@ -48,11 +50,23 @@ public class DescribePermissionManagerTest extends TestBase {
         permissionManager.deleteAction(action.getId(), opUserId);
         permissionManager.deleteActionByTarget(permissionTargetId, opUserId);
 
-        CreateResult createResult = permissionManager.createPermissionTarget(target, opUserId);
+        CreateResult createResult = permissionManager.createPermissionTarget(target, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
         permissionManager.createPermissionAction(Collections.singleton(action), opUserId);
         permissionManager.deleteAction(action.getId(), opUserId);
-        permissionManager.createPermissionAction(action, opUserId);
+        permissionManager.createPermissionAction(action, CreateMode.CREATE_WHERE_NOT_EXISTS, opUserId);
         permissionManager.getPermissionTargetById(permissionTargetId);
+
+        try {
+            permissionManager.updatePermissionAction(action.getId(), "update-name-" + action.getId(), "update-desc", opUserId);
+        } catch (AlreadyExistsException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            permissionManager.updatePermissionTarget(target.getId(),"update-name-"+target.getId(),"update-desc",opUserId);
+        } catch (AlreadyExistsException e) {
+            e.printStackTrace();
+        }
     }
 
     private PermissionManager getPermissionManager() {

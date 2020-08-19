@@ -1,5 +1,7 @@
 package com.wuda.foundation.security;
 
+import com.wuda.foundation.lang.AlreadyExistsException;
+import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.ExtObjects;
 
@@ -9,20 +11,20 @@ import java.util.Set;
 public abstract class AbstractPermissionManager implements PermissionManager {
 
     @Override
-    public CreateResult createPermissionTarget(CreatePermissionTarget target, Long opUserId) {
+    public CreateResult createPermissionTarget(CreatePermissionTarget target, CreateMode createMode, Long opUserId) {
         ExtObjects.requireNonNull(target, opUserId);
-        return createPermissionTargetDbOp(target, opUserId);
+        return createPermissionTargetDbOp(target,createMode, opUserId);
     }
 
-    protected abstract CreateResult createPermissionTargetDbOp(CreatePermissionTarget target, Long opUserId);
+    protected abstract CreateResult createPermissionTargetDbOp(CreatePermissionTarget target,CreateMode createMode, Long opUserId);
 
     @Override
-    public CreateResult createPermissionAction(CreatePermissionAction action, Long opUserId) {
+    public CreateResult createPermissionAction(CreatePermissionAction action, CreateMode createMode,Long opUserId) {
         ExtObjects.requireNonNull(action, opUserId);
-        return createPermissionActionDbOp(action, opUserId);
+        return createPermissionActionDbOp(action,createMode, opUserId);
     }
 
-    protected abstract CreateResult createPermissionActionDbOp(CreatePermissionAction action, Long opUserId);
+    protected abstract CreateResult createPermissionActionDbOp(CreatePermissionAction action,CreateMode createMode, Long opUserId);
 
     @Override
     public long createPermission(CreatePermissionTarget target, Set<CreatePermissionAction> actions, Long opUserId) {
@@ -70,17 +72,17 @@ public abstract class AbstractPermissionManager implements PermissionManager {
     protected abstract void deleteTargetDbOp(Long permissionTargetId, Long opUserId);
 
     @Override
-    public void updatePermissionTarget(Long permissionTargetId, String name, String description, Long opUserId) {
-        ExtObjects.requireNonNull(permissionTargetId, name, description, opUserId);
-        updatePermissionTargetDbOp(permissionTargetId, name, description, opUserId);
+    public void updatePermissionTarget(Long targetId, String name, String description, Long opUserId) throws AlreadyExistsException{
+        ExtObjects.requireNonNull(targetId, name, description, opUserId);
+        updatePermissionTargetDbOp(targetId, name, description, opUserId);
     }
 
-    protected abstract void updatePermissionTargetDbOp(Long permissionTargetId, String name, String description, Long opUserId);
+    protected abstract void updatePermissionTargetDbOp(Long targetId, String name, String description, Long opUserId) throws AlreadyExistsException;
 
     @Override
-    public void updatePermissionAction(Long permissionActionId, String action, String description, Long opUserId) {
-        ExtObjects.requireNonNull(permissionActionId, action, description, opUserId);
-        updatePermissionActionDbOp(permissionActionId, action, description, opUserId);
+    public void updatePermissionAction(Long actionId, String name, String description, Long opUserId) throws AlreadyExistsException{
+        ExtObjects.requireNonNull(actionId, name, description, opUserId);
+        updatePermissionActionDbOp(actionId, name, description, opUserId);
     }
 
     @Override
@@ -104,7 +106,7 @@ public abstract class AbstractPermissionManager implements PermissionManager {
 
     protected abstract List<DescribePermissionAction> getPermissionActionByTargetDbOp(Long permissionTargetId);
 
-    protected abstract void updatePermissionActionDbOp(Long permissionActionId, String action, String description, Long opUserId);
+    protected abstract void updatePermissionActionDbOp(Long actionId, String name, String description, Long opUserId) throws AlreadyExistsException;
 
     @Override
     public DescribePermission getPermission(Long permissionTargetId) {

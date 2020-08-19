@@ -29,16 +29,18 @@ public interface PermissionGrantManager {
     /**
      * 给{@link Subject}授权.
      *
-     * @param request request
+     * @param request  request
+     * @param opUserId 操作人用户ID
      */
-    void grantPermission(GrantPermissionRequest request);
+    void grantPermission(GrantPermissionRequest request, Long opUserId);
 
     /**
      * 取消授权.
      *
-     * @param request request
+     * @param opUserId 操作人用户ID
+     * @param request  request
      */
-    void revokePermission(GrantPermissionRequest request);
+    void revokePermission(GrantPermissionRequest request, Long opUserId);
 
     /**
      * 获取{@link Subject}的{@link SubjectPermission}.

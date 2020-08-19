@@ -1,5 +1,7 @@
 package com.wuda.foundation.security;
 
+import com.wuda.foundation.lang.AlreadyExistsException;
+import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 
 import java.util.List;
@@ -19,20 +21,22 @@ public interface PermissionManager {
     /**
      * 新增permission target.
      *
-     * @param target   target
-     * @param opUserId 操作人用户ID
+     * @param target     target
+     * @param createMode mode
+     * @param opUserId   操作人用户ID
      * @return 创建结果
      */
-    CreateResult createPermissionTarget(CreatePermissionTarget target, Long opUserId);
+    CreateResult createPermissionTarget(CreatePermissionTarget target, CreateMode createMode, Long opUserId);
 
     /**
      * 新增permission action.
      *
-     * @param action   action
-     * @param opUserId 操作人用户ID
+     * @param action     action
+     * @param createMode mode
+     * @param opUserId   操作人用户ID
      * @return 创建结果
      */
-    CreateResult createPermissionAction(CreatePermissionAction action, Long opUserId);
+    CreateResult createPermissionAction(CreatePermissionAction action, CreateMode createMode, Long opUserId);
 
     /**
      * 新增一个permission.
@@ -81,22 +85,24 @@ public interface PermissionManager {
     /**
      * 更新permission target.
      *
-     * @param permissionTargetId permission target id
+     * @param targetId permission target id
      * @param name               permission target name
      * @param description        描述信息
      * @param opUserId           操作人用户ID
+     * @throws AlreadyExistsException 如果已经有该名称的target
      */
-    void updatePermissionTarget(Long permissionTargetId, String name, String description, Long opUserId);
+    void updatePermissionTarget(Long targetId, String name, String description, Long opUserId) throws AlreadyExistsException;
 
     /**
      * 更新permission action.
      *
-     * @param permissionActionId permission action id
-     * @param action             permission action
+     * @param actionId permission action id
+     * @param name               permission action name
      * @param opUserId           操作人用户ID
      * @param description        描述信息
+     * @throws AlreadyExistsException 如果次action所属的target已经拥有这个名称的action
      */
-    void updatePermissionAction(Long permissionActionId, String action, String description, Long opUserId);
+    void updatePermissionAction(Long actionId, String name, String description, Long opUserId) throws AlreadyExistsException;
 
     /**
      * 获取permission target.

@@ -16,38 +16,41 @@ import org.jooq.types.ULong;
  * A】 subject
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class SubjectPermission implements Serializable {
+public class SubjectPermissionRelationship implements Serializable {
 
-    private static final long serialVersionUID = 160341189;
+    private static final long serialVersionUID = -686730908;
 
     private ULong         id;
     private UByte         subjectType;
     private ULong         subjectIdentifier;
     private ULong         persissionTargetId;
     private ULong         permissionActionId;
+    private String        command;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private ULong         isDeleted;
 
-    public SubjectPermission() {}
+    public SubjectPermissionRelationship() {}
 
-    public SubjectPermission(SubjectPermission value) {
+    public SubjectPermissionRelationship(SubjectPermissionRelationship value) {
         this.id = value.id;
         this.subjectType = value.subjectType;
         this.subjectIdentifier = value.subjectIdentifier;
         this.persissionTargetId = value.persissionTargetId;
         this.permissionActionId = value.permissionActionId;
+        this.command = value.command;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.isDeleted = value.isDeleted;
     }
 
-    public SubjectPermission(
+    public SubjectPermissionRelationship(
         ULong         id,
         UByte         subjectType,
         ULong         subjectIdentifier,
         ULong         persissionTargetId,
         ULong         permissionActionId,
+        String        command,
         LocalDateTime createTime,
         ULong         createUserId,
         ULong         isDeleted
@@ -57,6 +60,7 @@ public class SubjectPermission implements Serializable {
         this.subjectIdentifier = subjectIdentifier;
         this.persissionTargetId = persissionTargetId;
         this.permissionActionId = permissionActionId;
+        this.command = command;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.isDeleted = isDeleted;
@@ -102,6 +106,14 @@ public class SubjectPermission implements Serializable {
         this.permissionActionId = permissionActionId;
     }
 
+    public String getCommand() {
+        return this.command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
+
     public LocalDateTime getCreateTime() {
         return this.createTime;
     }
@@ -128,13 +140,14 @@ public class SubjectPermission implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("SubjectPermission (");
+        StringBuilder sb = new StringBuilder("SubjectPermissionRelationship (");
 
         sb.append(id);
         sb.append(", ").append(subjectType);
         sb.append(", ").append(subjectIdentifier);
         sb.append(", ").append(persissionTargetId);
         sb.append(", ").append(permissionActionId);
+        sb.append(", ").append(command);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(isDeleted);

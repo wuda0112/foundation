@@ -7,7 +7,7 @@ package com.wuda.foundation.security.impl.jooq.generation;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAction;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionCategory;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionTarget;
-import com.wuda.foundation.security.impl.jooq.generation.tables.SubjectPermission;
+import com.wuda.foundation.security.impl.jooq.generation.tables.SubjectPermissionRelationship;
 
 
 /**
@@ -34,5 +34,5 @@ public class Tables {
     /**
      * subject可以代表用户，也可以代表想要访问其他资源的应用，suibject与permission的关联关系表。比如我们可以说user 【IS A】 subject
      */
-    public static final SubjectPermission SUBJECT_PERMISSION = SubjectPermission.SUBJECT_PERMISSION;
+    public static final SubjectPermissionRelationship SUBJECT_PERMISSION_RELATIONSHIP = SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP;
 }

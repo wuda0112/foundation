@@ -1,6 +1,7 @@
 package com.wuda.foundation.security;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 类似于MySQL的Grant语法,这里就是grant action on target to {@link Subject}.
@@ -27,20 +28,43 @@ import java.util.List;
 public interface PermissionGrantManager {
 
     /**
-     * 给{@link Subject}授权.
+     * grant permission on target to {@link Subject}.给{@link Subject}授权给定的target,
+     * 该target上的所有action都授权给了{@link Subject}.
      *
-     * @param request  request
-     * @param opUserId 操作人用户ID
+     * @param subject     subject
+     * @param targetIdSet target id set
+     * @param opUserId    操作人用户ID
      */
-    void grantPermission(GrantPermissionRequest request, Long opUserId);
+    void grantTarget(Subject subject, Set<Long> targetIdSet, Long opUserId);
 
     /**
-     * 取消授权.
+     * grant permission on action to {@link Subject}.给{@link Subject}授权给定的action.
      *
-     * @param opUserId 操作人用户ID
-     * @param request  request
+     * @param subject     subject
+     * @param targetId    target id
+     * @param actionIdSet action id set,这些action必须属于给定的target,不然会造成数据混乱
+     * @param opUserId    操作人用户ID
      */
-    void revokePermission(GrantPermissionRequest request, Long opUserId);
+    void grantAction(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId);
+
+    /**
+     * 取消{@link Subject}对target的权限,该target上的所有action都会被取消.
+     *
+     * @param subject     subject
+     * @param targetIdSet target id set
+     * @param opUserId    操作人用户ID
+     */
+    void revokeTarget(Subject subject, Set<Long> targetIdSet, Long opUserId);
+
+    /**
+     * 取消{@link Subject}拥有的action的权限.
+     *
+     * @param subject     subject
+     * @param targetId    target id
+     * @param actionIdSet action id set,这些action必须属于给定的target,不然会造成数据混乱
+     * @param opUserId    操作人用户ID
+     */
+    void revokeAction(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId);
 
     /**
      * 获取{@link Subject}的{@link SubjectPermission}.

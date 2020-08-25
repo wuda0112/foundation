@@ -10,7 +10,6 @@
         <module>foundation-user-impl</module>
         <module>foundation-commons</module>
         <module>foundation-commons-impl</module>
-        <module>foundation-sample</module>
         <module>foundation-jooq</module>
         <module>foundation-store</module>
         <module>foundation-store-impl</module>

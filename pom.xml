@@ -20,7 +20,7 @@
 
     <groupId>io.github.wuda0112</groupId>
     <artifactId>foundation</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3-SNAPSHOT</version>
     <name>foundation</name>
     <url>https://github.com/wuda0112/foundation</url>
 
@@ -59,7 +59,7 @@
         <url>https://github.com/wuda0112/foundation</url>
         <developerConnection>scm:git:git@github.com:wuda0112/foundation.git</developerConnection>
         <connection>scm:git:git@github.com:wuda0112/foundation.git</connection>
-        <tag>foundation-1.0.2</tag>
+        <tag>release</tag>
     </scm>
 
     <developers>

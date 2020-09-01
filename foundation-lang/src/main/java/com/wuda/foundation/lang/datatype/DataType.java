@@ -41,13 +41,6 @@ public interface DataType {
     String getFullName();
 
     /**
-     * 是否集合类型.
-     *
-     * @return <code>true</code>-如果是
-     */
-    boolean isCollection();
-
-    /**
      * 处理该数据类型的Handler.
      *
      * @return handler

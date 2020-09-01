@@ -10,6 +10,7 @@ public class DescribePropertyKeyDefinition {
     private Long id;
     private Long propertyKeyId;
     private DataType dataType;
+    private boolean multiValued;
 
     /**
      * to {@link DataDefinition}.

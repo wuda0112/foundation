@@ -54,12 +54,14 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         PropertyValueRecord propertyValueRecord = propertyValueRecordForInsert(createPropertyValue, opUserId);
         DescribePropertyKeyDefinition describePropertyKeyDefinition = getDefinitionByPropertyKeyDbOp(propertyKeyId);
         DataType dataType = null;
+        boolean isMultiValued = false;
         if (describePropertyKeyDefinition != null) {
             dataType = describePropertyKeyDefinition.getDataType();
+            isMultiValued = describePropertyKeyDefinition.isMultiValued();
         }
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector;
-        if (dataType == null || dataType.isCollection()) {
+        if (dataType == null || isMultiValued) {
             existsRecordSelector = DSL.using(configuration)
                     .select(PROPERTY_VALUE.PROPERTY_VALUE_ID)
                     .from(PROPERTY_VALUE)
@@ -244,7 +246,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                         List<DescribePropertyValue> describePropertyValues = from(valueRecords);
                         PropertyKeyDefinitionRecord definitionRecord = definitionByKeyMap.get(propertyKeyRecord.getPropertyKeyId());
                         DescribePropertyKeyDefinition describePropertyKeyDefinition = definitionFrom(definitionRecord);
-                        checkDataType(propertyKeyRecord.getPropertyKeyId().longValue(), describePropertyKeyDefinition, describePropertyValues);
+                        checkMultiValued(propertyKeyRecord.getPropertyKeyId().longValue(), describePropertyKeyDefinition, describePropertyValues);
                         DescribeProperty describeProperty = new DescribeProperty(from(propertyKeyRecord), describePropertyValues, describePropertyKeyDefinition);
                         list.add(describeProperty);
                     }
@@ -254,14 +256,14 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         return list;
     }
 
-    private void checkDataType(long propertyKeyId, DescribePropertyKeyDefinition describePropertyKeyDefinition, List<DescribePropertyValue> describePropertyValues) {
+    private void checkMultiValued(long propertyKeyId, DescribePropertyKeyDefinition describePropertyKeyDefinition, List<DescribePropertyValue> describePropertyValues) {
         if (describePropertyKeyDefinition != null
-                && !describePropertyKeyDefinition.getDataType().isCollection()
+                && !describePropertyKeyDefinition.isMultiValued()
                 && describePropertyValues != null
                 && describePropertyValues.size() > 1) {
             throw new IllegalStateException("property key id = " + propertyKeyId
-                    + ",data type = " + describePropertyKeyDefinition.getDataType().getFullName()
-                    + ",不集合类型,但是有多个value");
+                    + ",isMultiValued = " + describePropertyKeyDefinition.isMultiValued()
+                    + ",不是Multi-Valued,但是有多个value");
         }
     }
 

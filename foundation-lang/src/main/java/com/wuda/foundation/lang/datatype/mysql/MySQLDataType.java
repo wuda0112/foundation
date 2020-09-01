@@ -12,19 +12,17 @@ import com.wuda.foundation.lang.datatype.DataTypeSchema;
  */
 public enum MySQLDataType implements DataType {
 
-    VARCHAR(MySQLDataTypeSchema.instance, "VARCHAR", new MySQLVarcharDataTypeHandler(), false),
-    INT(MySQLDataTypeSchema.instance, "INT", new MySQLIntDataTypeHandler(), false);
+    VARCHAR(MySQLDataTypeSchema.instance, "VARCHAR", new MySQLVarcharDataTypeHandler()),
+    INT(MySQLDataTypeSchema.instance, "INT", new MySQLIntDataTypeHandler());
 
     private DataTypeSchema schema;
     private String name;
     private DataTypeHandler handler;
-    private boolean isCollection;
 
-    MySQLDataType(DataTypeSchema schema, String name, DataTypeHandler handler, boolean isCollection) {
+    MySQLDataType(DataTypeSchema schema, String name, DataTypeHandler handler) {
         this.schema = schema;
         this.name = name;
         this.handler = handler;
-        this.isCollection = isCollection;
     }
 
     @Override
@@ -40,11 +38,6 @@ public enum MySQLDataType implements DataType {
     @Override
     public String getFullName() {
         return schema.getSchema() + ":" + name;
-    }
-
-    @Override
-    public boolean isCollection() {
-        return isCollection;
     }
 
     @Override

@@ -12,12 +12,14 @@ public class CreatePropertyKeyDefinition {
     private Long id;
     private Long propertyKeyId;
     private DataType dataType;
+    private boolean multiValued = false;
 
     public static class Builder implements com.wuda.foundation.lang.Builder<CreatePropertyKeyDefinition> {
 
         private Long id;
         private Long propertyKeyId;
         private DataType dataType;
+        private boolean multiValued = false;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -34,6 +36,11 @@ public class CreatePropertyKeyDefinition {
             return this;
         }
 
+        public Builder setMultiValued(boolean multiValued) {
+            this.multiValued = multiValued;
+            return this;
+        }
+
         @Override
         public CreatePropertyKeyDefinition build() {
             CreatePropertyKeyDefinition createPropertyKeyDefinition = new CreatePropertyKeyDefinition();
@@ -42,6 +49,7 @@ public class CreatePropertyKeyDefinition {
             // 先检查是否能找到
             dataType = DataTypeRegistry.defaultRegistry.lookup(this.dataType.getFullName());
             createPropertyKeyDefinition.dataType = Objects.requireNonNull(this.dataType);
+            createPropertyKeyDefinition.multiValued = this.multiValued;
             return createPropertyKeyDefinition;
         }
     }

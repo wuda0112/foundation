@@ -35,7 +35,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Phone extends TableImpl<PhoneRecord> {
 
-    private static final long serialVersionUID = -574541370;
+    private static final long serialVersionUID = -1332734945;
 
     /**
      * The reference instance of <code>foundation_commons.phone</code>
@@ -145,7 +145,7 @@ public class Phone extends TableImpl<PhoneRecord> {
 
     @Override
     public List<UniqueKey<PhoneRecord>> getKeys() {
-        return Arrays.<UniqueKey<PhoneRecord>>asList(Keys.KEY_PHONE_PRIMARY, Keys.KEY_PHONE_PHONE_ID, Keys.KEY_PHONE_IDX_PHONE_NUMBER);
+        return Arrays.<UniqueKey<PhoneRecord>>asList(Keys.KEY_PHONE_PRIMARY, Keys.KEY_PHONE_IDX_PHONE_NUMBER);
     }
 
     @Override

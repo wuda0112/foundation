@@ -35,7 +35,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Email extends TableImpl<EmailRecord> {
 
-    private static final long serialVersionUID = 29967623;
+    private static final long serialVersionUID = 148305052;
 
     /**
      * The reference instance of <code>foundation_commons.email</code>
@@ -140,7 +140,7 @@ public class Email extends TableImpl<EmailRecord> {
 
     @Override
     public List<UniqueKey<EmailRecord>> getKeys() {
-        return Arrays.<UniqueKey<EmailRecord>>asList(Keys.KEY_EMAIL_PRIMARY, Keys.KEY_EMAIL_EMAIL_ID, Keys.KEY_EMAIL_IDX_EMAIL_UNIQUE);
+        return Arrays.<UniqueKey<EmailRecord>>asList(Keys.KEY_EMAIL_PRIMARY, Keys.KEY_EMAIL_IDX_EMAIL_UNIQUE);
     }
 
     @Override

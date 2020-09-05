@@ -16,11 +16,12 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyKeyDefinition implements Serializable {
 
-    private static final long serialVersionUID = 1085300271;
+    private static final long serialVersionUID = -1887011863;
 
     private ULong         propertyDefinitionId;
     private ULong         propertyKeyId;
     private String        dataType;
+    private Boolean       multiValued;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private LocalDateTime lastModifyTime;
@@ -33,6 +34,7 @@ public class PropertyKeyDefinition implements Serializable {
         this.propertyDefinitionId = value.propertyDefinitionId;
         this.propertyKeyId = value.propertyKeyId;
         this.dataType = value.dataType;
+        this.multiValued = value.multiValued;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.lastModifyTime = value.lastModifyTime;
@@ -44,6 +46,7 @@ public class PropertyKeyDefinition implements Serializable {
         ULong         propertyDefinitionId,
         ULong         propertyKeyId,
         String        dataType,
+        Boolean       multiValued,
         LocalDateTime createTime,
         ULong         createUserId,
         LocalDateTime lastModifyTime,
@@ -53,6 +56,7 @@ public class PropertyKeyDefinition implements Serializable {
         this.propertyDefinitionId = propertyDefinitionId;
         this.propertyKeyId = propertyKeyId;
         this.dataType = dataType;
+        this.multiValued = multiValued;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.lastModifyTime = lastModifyTime;
@@ -82,6 +86,14 @@ public class PropertyKeyDefinition implements Serializable {
 
     public void setDataType(String dataType) {
         this.dataType = dataType;
+    }
+
+    public Boolean getMultiValued() {
+        return this.multiValued;
+    }
+
+    public void setMultiValued(Boolean multiValued) {
+        this.multiValued = multiValued;
     }
 
     public LocalDateTime getCreateTime() {
@@ -131,6 +143,7 @@ public class PropertyKeyDefinition implements Serializable {
         sb.append(propertyDefinitionId);
         sb.append(", ").append(propertyKeyId);
         sb.append(", ").append(dataType);
+        sb.append(", ").append(multiValued);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(lastModifyTime);

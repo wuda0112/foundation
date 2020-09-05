@@ -19,7 +19,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row8;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -36,7 +36,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyKeyDefinition extends TableImpl<PropertyKeyDefinitionRecord> {
 
-    private static final long serialVersionUID = 575448366;
+    private static final long serialVersionUID = 403531756;
 
     /**
      * The reference instance of <code>foundation_commons.property_key_definition</code>
@@ -65,6 +65,11 @@ public class PropertyKeyDefinition extends TableImpl<PropertyKeyDefinitionRecord
      * The column <code>foundation_commons.property_key_definition.data_type</code>. 数据类型，格式是schema:datatype。比如：MySQL:VARCHAR
      */
     public final TableField<PropertyKeyDefinitionRecord, String> DATA_TYPE = createField(DSL.name("data_type"), org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "数据类型，格式是schema:datatype。比如：MySQL:VARCHAR");
+
+    /**
+     * The column <code>foundation_commons.property_key_definition.multi_valued</code>. 是否可以有多个值
+     */
+    public final TableField<PropertyKeyDefinitionRecord, Boolean> MULTI_VALUED = createField(DSL.name("multi_valued"), org.jooq.impl.SQLDataType.BIT.nullable(false), this, "是否可以有多个值");
 
     /**
      * The column <code>foundation_commons.property_key_definition.create_time</code>.
@@ -176,11 +181,11 @@ public class PropertyKeyDefinition extends TableImpl<PropertyKeyDefinitionRecord
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<ULong, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row9<ULong, ULong, String, Boolean, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 }

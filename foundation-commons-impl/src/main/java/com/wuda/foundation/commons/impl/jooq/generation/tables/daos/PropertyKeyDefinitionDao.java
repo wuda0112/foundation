@@ -90,6 +90,20 @@ public class PropertyKeyDefinitionDao extends DAOImpl<PropertyKeyDefinitionRecor
     }
 
     /**
+     * Fetch records that have <code>multi_valued BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.PropertyKeyDefinition> fetchRangeOfMultiValued(Boolean lowerInclusive, Boolean upperInclusive) {
+        return fetchRange(PropertyKeyDefinition.PROPERTY_KEY_DEFINITION.MULTI_VALUED, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>multi_valued IN (values)</code>
+     */
+    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.PropertyKeyDefinition> fetchByMultiValued(Boolean... values) {
+        return fetch(PropertyKeyDefinition.PROPERTY_KEY_DEFINITION.MULTI_VALUED, values);
+    }
+
+    /**
      * Fetch records that have <code>create_time BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.PropertyKeyDefinition> fetchRangeOfCreateTime(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {

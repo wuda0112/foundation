@@ -80,7 +80,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
 
     @Override
     protected void directBatchInsertPropertyValueDbOp(List<CreatePropertyValue> createPropertyValues, Long opUserId) {
-        List<PropertyValueRecord> records = newPropertyValueRecords(createPropertyValues, opUserId);
+        List<PropertyValueRecord> records = propertyValueRecordsForInsert(createPropertyValues, opUserId);
         batchInsert(dataSource, PROPERTY_VALUE, records);
     }
 
@@ -148,7 +148,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                 .and(PROPERTY_KEY.OWNER_IDENTIFIER.eq(ULong.valueOf(createPropertyKey.getOwner().getValue())))
                 .and(PROPERTY_KEY.KEY.eq(createPropertyKey.getKey()))
                 .and(PROPERTY_KEY.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        return insertDispatcher(dataSource, createMode, PROPERTY_KEY, newPropertyKeyRecord(createPropertyKey, opUserId), existsRecordSelector);
+        return insertDispatcher(dataSource, createMode, PROPERTY_KEY, propertyKeyRecordForInsert(createPropertyKey, opUserId), existsRecordSelector);
     }
 
     @Override
@@ -330,7 +330,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
-    private List<PropertyValueRecord> newPropertyValueRecords(List<CreatePropertyValue> createPropertyValues, Long opUserId) {
+    private List<PropertyValueRecord> propertyValueRecordsForInsert(List<CreatePropertyValue> createPropertyValues, Long opUserId) {
         List<PropertyValueRecord> list = new ArrayList<>(createPropertyValues.size());
         for (CreatePropertyValue createPropertyValue : createPropertyValues) {
             list.add(propertyValueRecordForInsert(createPropertyValue, opUserId));
@@ -338,11 +338,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         return list;
     }
 
-    private CreateResult insertPropertyValueRecord(CreatePropertyValue createPropertyValue, Long opUserId) {
-        return insert(dataSource, PROPERTY_VALUE, propertyValueRecordForInsert(createPropertyValue, opUserId));
-    }
-
-    private PropertyKeyRecord newPropertyKeyRecord(CreatePropertyKey createPropertyKey, Long opUserId) {
+    private PropertyKeyRecord propertyKeyRecordForInsert(CreatePropertyKey createPropertyKey, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new PropertyKeyRecord(
                 ULong.valueOf(createPropertyKey.getId()),
@@ -357,7 +353,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
     private List<PropertyKeyRecord> newPropertyKeyRecords(List<CreatePropertyKey> createPropertyKeys, Long opUserId) {
         List<PropertyKeyRecord> list = new ArrayList<>(createPropertyKeys.size());
         for (CreatePropertyKey createPropertyKey : createPropertyKeys) {
-            list.add(newPropertyKeyRecord(createPropertyKey, opUserId));
+            list.add(propertyKeyRecordForInsert(createPropertyKey, opUserId));
         }
         return list;
     }
@@ -367,6 +363,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         return new PropertyKeyDefinitionRecord(ULong.valueOf(definition.getId()),
                 ULong.valueOf(definition.getPropertyKeyId()),
                 definition.getDataType().getFullName(),
+                definition.isMultiValued(),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue())
         );
     }
@@ -388,6 +385,7 @@ public class PropertyManagerImpl extends AbstractPropertyManager implements Jooq
         describePropertyKeyDefinition.setPropertyKeyId(record.getPropertyKeyId().longValue());
         DataType dataType = DataTypeRegistry.defaultRegistry.lookup(record.getDataType());
         describePropertyKeyDefinition.setDataType(dataType);
+        describePropertyKeyDefinition.setMultiValued(record.getMultiValued());
         return describePropertyKeyDefinition;
     }
 

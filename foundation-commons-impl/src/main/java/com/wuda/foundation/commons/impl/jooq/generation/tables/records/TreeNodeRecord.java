@@ -20,9 +20,9 @@ import org.jooq.types.ULong;
  * 树形结构的节点。有很多数据是用树形结构组织的，比如商品分类，文章分类，组织架构等等，通常我们都是为它们单独设计一个表，比如商品分类表，部门表，然后每个表都写了差不多相同的处理逻辑，如何避免重复处理类似树形的数据呢？这个表的目的就是为了统一处理这些类似树形结构的表，以这个表为核心，扩展出商品分类，文章分类，部门等。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implements Record9<ULong, String, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implements Record9<ULong, String, String, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -852876277;
+    private static final long serialVersionUID = -362693781;
 
     /**
      * Setter for <code>foundation_commons.tree_node.tree_node_id</code>.
@@ -69,15 +69,15 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
     /**
      * Setter for <code>foundation_commons.tree_node.parent_node_id</code>. 指向父节点ID
      */
-    public void setParentNodeId(String value) {
+    public void setParentNodeId(ULong value) {
         set(3, value);
     }
 
     /**
      * Getter for <code>foundation_commons.tree_node.parent_node_id</code>. 指向父节点ID
      */
-    public String getParentNodeId() {
-        return (String) get(3);
+    public ULong getParentNodeId() {
+        return (ULong) get(3);
     }
 
     /**
@@ -164,12 +164,12 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<ULong, String, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+    public Row9<ULong, String, String, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
         return (Row9) super.fieldsRow();
     }
 
     @Override
-    public Row9<ULong, String, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+    public Row9<ULong, String, String, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
         return (Row9) super.valuesRow();
     }
 
@@ -189,7 +189,7 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
     }
 
     @Override
-    public Field<String> field4() {
+    public Field<ULong> field4() {
         return TreeNode.TREE_NODE.PARENT_NODE_ID;
     }
 
@@ -234,7 +234,7 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
     }
 
     @Override
-    public String component4() {
+    public ULong component4() {
         return getParentNodeId();
     }
 
@@ -279,7 +279,7 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
     }
 
     @Override
-    public String value4() {
+    public ULong value4() {
         return getParentNodeId();
     }
 
@@ -327,7 +327,7 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
     }
 
     @Override
-    public TreeNodeRecord value4(String value) {
+    public TreeNodeRecord value4(ULong value) {
         setParentNodeId(value);
         return this;
     }
@@ -363,7 +363,7 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
     }
 
     @Override
-    public TreeNodeRecord values(ULong value1, String value2, String value3, String value4, LocalDateTime value5, ULong value6, LocalDateTime value7, ULong value8, ULong value9) {
+    public TreeNodeRecord values(ULong value1, String value2, String value3, ULong value4, LocalDateTime value5, ULong value6, LocalDateTime value7, ULong value8, ULong value9) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -390,7 +390,7 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
     /**
      * Create a detached, initialised TreeNodeRecord
      */
-    public TreeNodeRecord(ULong treeNodeId, String name, String description, String parentNodeId, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public TreeNodeRecord(ULong treeNodeId, String name, String description, ULong parentNodeId, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(TreeNode.TREE_NODE);
 
         set(0, treeNodeId);

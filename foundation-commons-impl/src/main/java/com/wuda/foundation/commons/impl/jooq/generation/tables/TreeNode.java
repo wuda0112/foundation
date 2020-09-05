@@ -5,6 +5,7 @@ package com.wuda.foundation.commons.impl.jooq.generation.tables;
 
 
 import com.wuda.foundation.commons.impl.jooq.generation.FoundationCommons;
+import com.wuda.foundation.commons.impl.jooq.generation.Indexes;
 import com.wuda.foundation.commons.impl.jooq.generation.Keys;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.TreeNodeRecord;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
+import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row9;
@@ -34,7 +36,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TreeNode extends TableImpl<TreeNodeRecord> {
 
-    private static final long serialVersionUID = -1167380006;
+    private static final long serialVersionUID = 62660737;
 
     /**
      * The reference instance of <code>foundation_commons.tree_node</code>
@@ -67,7 +69,7 @@ public class TreeNode extends TableImpl<TreeNodeRecord> {
     /**
      * The column <code>foundation_commons.tree_node.parent_node_id</code>. 指向父节点ID
      */
-    public final TableField<TreeNodeRecord, String> PARENT_NODE_ID = createField(DSL.name("parent_node_id"), org.jooq.impl.SQLDataType.VARCHAR(45), this, "指向父节点ID");
+    public final TableField<TreeNodeRecord, ULong> PARENT_NODE_ID = createField(DSL.name("parent_node_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "指向父节点ID");
 
     /**
      * The column <code>foundation_commons.tree_node.create_time</code>.
@@ -133,6 +135,11 @@ public class TreeNode extends TableImpl<TreeNodeRecord> {
     }
 
     @Override
+    public List<Index> getIndexes() {
+        return Arrays.<Index>asList(Indexes.TREE_NODE_IDX_PARENT);
+    }
+
+    @Override
     public Identity<TreeNodeRecord, ULong> getIdentity() {
         return Keys.IDENTITY_TREE_NODE;
     }
@@ -178,7 +185,7 @@ public class TreeNode extends TableImpl<TreeNodeRecord> {
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<ULong, String, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+    public Row9<ULong, String, String, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
         return (Row9) super.fieldsRow();
     }
 }

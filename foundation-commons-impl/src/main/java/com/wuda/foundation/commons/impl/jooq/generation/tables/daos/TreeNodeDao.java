@@ -92,14 +92,14 @@ public class TreeNodeDao extends DAOImpl<TreeNodeRecord, com.wuda.foundation.com
     /**
      * Fetch records that have <code>parent_node_id BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchRangeOfParentNodeId(String lowerInclusive, String upperInclusive) {
+    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchRangeOfParentNodeId(ULong lowerInclusive, ULong upperInclusive) {
         return fetchRange(TreeNode.TREE_NODE.PARENT_NODE_ID, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>parent_node_id IN (values)</code>
      */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchByParentNodeId(String... values) {
+    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchByParentNodeId(ULong... values) {
         return fetch(TreeNode.TREE_NODE.PARENT_NODE_ID, values);
     }
 

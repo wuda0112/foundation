@@ -16,12 +16,12 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TreeNode implements Serializable {
 
-    private static final long serialVersionUID = 1487535531;
+    private static final long serialVersionUID = 2120401217;
 
     private ULong         treeNodeId;
     private String        name;
     private String        description;
-    private String        parentNodeId;
+    private ULong         parentNodeId;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private LocalDateTime lastModifyTime;
@@ -46,7 +46,7 @@ public class TreeNode implements Serializable {
         ULong         treeNodeId,
         String        name,
         String        description,
-        String        parentNodeId,
+        ULong         parentNodeId,
         LocalDateTime createTime,
         ULong         createUserId,
         LocalDateTime lastModifyTime,
@@ -88,11 +88,11 @@ public class TreeNode implements Serializable {
         this.description = description;
     }
 
-    public String getParentNodeId() {
+    public ULong getParentNodeId() {
         return this.parentNodeId;
     }
 
-    public void setParentNodeId(String parentNodeId) {
+    public void setParentNodeId(ULong parentNodeId) {
         this.parentNodeId = parentNodeId;
     }
 

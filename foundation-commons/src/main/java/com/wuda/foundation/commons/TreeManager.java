@@ -3,6 +3,10 @@ package com.wuda.foundation.commons;
 import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
+import com.wuda.foundation.lang.RelatedDataExists;
+import com.wuda.foundation.lang.tree.Tree;
+
+import java.util.List;
 
 /**
  * tree_node表管理.
@@ -30,4 +34,27 @@ public interface TreeManager {
      * @throws AlreadyExistsException 如果更新节点的名称,并且和当前节点平级的节点中已经有该名称的节点
      */
     void updateNode(UpdateTreeNode updateTreeNode, Long opUserId) throws AlreadyExistsException;
+
+    /**
+     * 删除节点.
+     *
+     * @param nodeId   准备删除的节点ID
+     * @param opUserId 操作者用户ID
+     * @throws RelatedDataExists 如果该节点下还有子节点存在
+     */
+    void deleteNode(Long nodeId, Long opUserId) throws RelatedDataExists;
+
+    /**
+     * full tree.
+     *
+     * @return tree
+     */
+    Tree<Long, DescribeTreeNode> tree();
+
+    /**
+     * 获取所有的节点.
+     *
+     * @return nodes
+     */
+    List<DescribeTreeNode> getAllNodes();
 }

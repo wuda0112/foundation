@@ -2,6 +2,7 @@ package com.wuda.foundation.jooq;
 
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
+import com.wuda.foundation.lang.IsDeleted;
 import org.jooq.*;
 import org.jooq.types.ULong;
 
@@ -319,6 +320,15 @@ public interface JooqCommonDbOp {
             selectFields[i] = param(field.getName(), value);
         }
         return (SelectSelectStep<R>) select(selectFields);
+    }
+
+    /**
+     * 返回{@link IsDeleted#NO}的{@link ULong}形式.
+     *
+     * @return {@link IsDeleted#NO}的{@link ULong}形式.
+     */
+    default ULong notDeleted() {
+        return ULong.valueOf(IsDeleted.NO.getValue());
     }
 
 }

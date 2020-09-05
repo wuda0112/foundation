@@ -12,23 +12,23 @@ class IntIdTreeTestBase {
 
     int rootId = Integer.MIN_VALUE / 2;
 
-    IntIdPidEntry china = new IntIdPidEntry(1, rootId, "中国");
+    MyTreeNode china = new MyTreeNode(1, rootId, "中国");
 
-    IntIdPidEntry hunan_province = new IntIdPidEntry(2, 1, "湖南省");
-    IntIdPidEntry zhangjj = new IntIdPidEntry(3, 2, "张家界市");
-    IntIdPidEntry changsha = new IntIdPidEntry(4, 2, "长沙市");
-    IntIdPidEntry sangzhi = new IntIdPidEntry(5, 3, "桑植县");
+    MyTreeNode hunan_province = new MyTreeNode(2, 1, "湖南省");
+    MyTreeNode zhangjj = new MyTreeNode(3, 2, "张家界市");
+    MyTreeNode changsha = new MyTreeNode(4, 2, "长沙市");
+    MyTreeNode sangzhi = new MyTreeNode(5, 3, "桑植县");
 
-    IntIdPidEntry guangdong_province = new IntIdPidEntry(7, 1, "广东省");
-    IntIdPidEntry guangzhou = new IntIdPidEntry(8, 7, "广州市");
-    IntIdPidEntry tianhe = new IntIdPidEntry(12, 8, "天河区");
-    IntIdPidEntry dongguan = new IntIdPidEntry(9, 7, "东莞市");
+    MyTreeNode guangdong_province = new MyTreeNode(7, 1, "广东省");
+    MyTreeNode guangzhou = new MyTreeNode(8, 7, "广州市");
+    MyTreeNode tianhe = new MyTreeNode(12, 8, "天河区");
+    MyTreeNode dongguan = new MyTreeNode(9, 7, "东莞市");
 
-    IntIdPidEntry hubei_province = new IntIdPidEntry(10, 1, "湖北省");
-    IntIdPidEntry yunan_province = new IntIdPidEntry(11, 1, "云南省");
+    MyTreeNode hubei_province = new MyTreeNode(10, 1, "湖北省");
+    MyTreeNode yunan_province = new MyTreeNode(11, 1, "云南省");
 
-    public List<IntIdPidEntry> getElements() {
-        List<IntIdPidEntry> list = new ArrayList<>();
+    public List<MyTreeNode> getNodes() {
+        List<MyTreeNode> list = new ArrayList<>();
         list.add(china);
         list.add(hunan_province);
         list.add(zhangjj);
@@ -44,13 +44,13 @@ class IntIdTreeTestBase {
 
     @Getter
     @Setter
-    static class IntIdPidEntry implements IdPidEntry<Integer> {
+    static class MyTreeNode implements TreeNode<Integer> {
 
         String name;
         private int id;
         private int pid;
 
-        IntIdPidEntry(int id, int pid, String name) {
+        MyTreeNode(int id, int pid, String name) {
             this.id = id;
             this.pid = pid;
             this.name = name;
@@ -64,51 +64,6 @@ class IntIdTreeTestBase {
         @Override
         public Integer getPid() {
             return pid;
-        }
-    }
-
-    @Getter
-    @Setter
-    static class MyTreeElement implements TreeElement<Integer> {
-
-        String name;
-        private int id;
-
-        MyTreeElement(int id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        @Override
-        public Integer getIdentifier() {
-            return id;
-        }
-    }
-
-    /**
-     * 打印,从给定的ID所代表的节点开始.
-     *
-     * @param tree tree
-     * @param id   element id
-     */
-    void printf(Tree<Integer, MyTreeElement> tree, int id) {
-        int depth = tree.getDepth(id);
-        String tab = "\t";
-        for (int i = 0; i < depth; i++) {
-            tab += "\t";
-        }
-        MyTreeElement element = tree.get(id);
-        System.out.println(tab + element.getName());
-        Set<MyTreeElement> children = tree.getDirectChildren(id);
-        if (children == null || children.size() == 0) {
-            return;
-        }
-        Set<Integer> childrenIdSet = new HashSet<>(children.size());
-        for(MyTreeElement child : children){
-            childrenIdSet.add(child.getIdentifier());
-        }
-        for (int child : childrenIdSet) {
-            printf(tree, child);
         }
     }
 }

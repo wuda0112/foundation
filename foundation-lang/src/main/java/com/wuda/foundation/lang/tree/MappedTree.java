@@ -13,11 +13,11 @@ import java.util.Set;
  * @author wuda
  * @since 1.0.0
  */
-public class MappedTree<T extends Comparable<T>, E extends TreeElement<T>> implements Tree<T, E> {
+public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implements Tree<T, E> {
 
 
     /**
-     * 根元素.
+     * 根节点.
      */
     private E root;
     /**
@@ -25,15 +25,15 @@ public class MappedTree<T extends Comparable<T>, E extends TreeElement<T>> imple
      */
     private HashMap<T, T> id2PidMap;
     /**
-     * key - parent id , value - 所有的子元素ID的集合.
+     * key - parent id , value - 所有的子节点ID的集合.
      */
     private HashMap<T, Set<T>> pid2ChildrenMap;
     /**
-     * key - id , value - 此id对应的元素.
+     * key - id , value - 此id对应的节点.
      */
-    private HashMap<T, E> id2ElementMap;
+    private HashMap<T, E> id2NodeMap;
     /**
-     * key - id , value - 此id对应的元素的深度.
+     * key - id , value - 此id对应的节点的深度.
      */
     private HashMap<T, Integer> id2DepthMap;
 
@@ -42,13 +42,13 @@ public class MappedTree<T extends Comparable<T>, E extends TreeElement<T>> imple
     /**
      * 构造树.
      *
-     * @param root 根元素
+     * @param root 根节点
      */
     public MappedTree(E root) {
-        validateElement(root);
+        validateNode(root);
         this.root = root;
         init();
-        addElement(root);
+        addNode(root);
         setDepth(root);
     }
 
@@ -58,21 +58,21 @@ public class MappedTree<T extends Comparable<T>, E extends TreeElement<T>> imple
     private void init() {
         id2PidMap = new HashMap<>();
         pid2ChildrenMap = new HashMap<>();
-        id2ElementMap = new HashMap<>();
+        id2NodeMap = new HashMap<>();
         id2DepthMap = new HashMap<>();
     }
 
     @Override
     public void createRelationship(E parent, E child) {
-        validateElement(parent);
-        validateElement(child);
+        validateNode(parent);
+        validateNode(child);
         validateRelationship(parent, child);
         boolean hasRelationship = alreadyHasRelationship(parent, child);
         if (hasRelationship) {
             return;
         }
-        T childId = child.getIdentifier();
-        T parentId = parent.getIdentifier();
+        T childId = child.getId();
+        T parentId = parent.getId();
 
         id2PidMap.put(childId, parentId);
         Set<T> children = pid2ChildrenMap.computeIfAbsent(parentId, k -> new HashSet<>());
@@ -80,23 +80,23 @@ public class MappedTree<T extends Comparable<T>, E extends TreeElement<T>> imple
 
         setDepth(child);
 
-        addElement(parent);
-        addElement(child);
+        addNode(parent);
+        addNode(child);
     }
 
     /**
-     * 设置元素在树中的深度.元素的深度等于它父元素深度加一.如果当前元素的深度发生变化,
-     * 那么它的所有子元素的深度也会相应的更新.
+     * 设置节点在树中的深度.节点的深度等于它父节点深度加一.如果当前节点的深度发生变化,
+     * 那么它的所有子节点的深度也会相应的更新.
      *
-     * @param element element
+     * @param node node
      */
-    private void setDepth(E element) {
+    private void setDepth(E node) {
         int depth = 0;
-        T id = element.getIdentifier();
-        if (!CompareUtils.eq(id, root.getIdentifier())) {
+        T id = node.getId();
+        if (!CompareUtils.eq(id, root.getId())) {
             E parent = getParent(id);
             if (parent != null) {
-                T pid = parent.getIdentifier();
+                T pid = parent.getId();
                 int parentDepth = getDepth(pid);
                 depth = parentDepth + 1;
             }
@@ -104,7 +104,7 @@ public class MappedTree<T extends Comparable<T>, E extends TreeElement<T>> imple
         if (depth != getDepth(id)) {
             // 深度发生变化才更新
             id2DepthMap.put(id, depth);
-            // 更新当前元素下的所有子元素的深度
+            // 更新当前节点下的所有子节点的深度
             Set<T> children = getDirectChildrenIdSet(id);
             if (children != null && children.size() > 0) {
                 for (T child : children) setDepth(get(child));
@@ -113,7 +113,7 @@ public class MappedTree<T extends Comparable<T>, E extends TreeElement<T>> imple
     }
 
     /**
-     * 获取根元素.
+     * 获取根节点.
      *
      * @return root
      */
@@ -123,10 +123,10 @@ public class MappedTree<T extends Comparable<T>, E extends TreeElement<T>> imple
     }
 
     /**
-     * 获取给定id所代表的元素的所有子元素id,只是获取孩子元素,不包含孙子元素及以下.
+     * 获取给定id所代表的节点的所有子节点id,只是获取孩子节点,不包含孙子节点及以下.
      *
-     * @param id 元素id
-     * @return 这个元素id下的所有子元素, 如果没有, 则返回<code>null</code>
+     * @param id 节点id
+     * @return 这个节点id下的所有子节点, 如果没有, 则返回<code>null</code>
      */
     private Set<T> getDirectChildrenIdSet(T id) {
         return pid2ChildrenMap.get(id);
@@ -152,13 +152,13 @@ public class MappedTree<T extends Comparable<T>, E extends TreeElement<T>> imple
     }
 
     /**
-     * 获取给定ID对应的元素.
+     * 获取给定ID对应的节点.
      *
      * @param id id
-     * @return element
+     * @return node
      */
     public E get(T id) {
-        return id2ElementMap.get(id);
+        return id2NodeMap.get(id);
     }
 
     @Override
@@ -170,9 +170,9 @@ public class MappedTree<T extends Comparable<T>, E extends TreeElement<T>> imple
             if (parent == null) {
                 break;
             }
-            T pid = parent.getIdentifier();
-            E element = get(pid);
-            ancestors.add(element);
+            T pid = parent.getId();
+            E node = get(pid);
+            ancestors.add(node);
             id = pid; // 向上推进
             index++;
         }
@@ -189,34 +189,34 @@ public class MappedTree<T extends Comparable<T>, E extends TreeElement<T>> imple
     }
 
     /**
-     * 校验元素.
+     * 校验节点.
      *
-     * @param element element
+     * @param node node
      */
-    private void validateElement(E element) {
-        if (element.getIdentifier() == null) {
-            throw new IllegalStateException("元素的ID不能是:" + null);
+    private void validateNode(E node) {
+        if (node.getId() == null) {
+            throw new IllegalStateException("节点的ID不能是:" + null);
         }
     }
 
     /**
-     * 验证两个元素的关系.
+     * 验证两个节点的关系.
      *
      * @param parent parent
      * @param child  child
      */
     private void validateRelationship(E parent, E child) {
-        T childId = child.getIdentifier();
-        if (CompareUtils.eq(childId, root.getIdentifier())) {
-            throw new IllegalStateException("root不能有父元素");
+        T childId = child.getId();
+        if (CompareUtils.eq(childId, root.getId())) {
+            throw new IllegalStateException("root不能有父节点");
         }
-        T parentId = parent.getIdentifier();
+        T parentId = parent.getId();
         if (alreadyHasParent(child)) {
             T oldParentId = id2PidMap.get(childId);
             if (!CompareUtils.eq(oldParentId, parentId)) {
-                throw new IllegalStateException("子元素[ ID = " + childId + " ],已经拥有父元素( ID=" + oldParentId + " )," +
-                        "因此,不能将[ ID=" + parentId + " ]的元素设置成它的父元素." +
-                        "子元素只能有一个父元素");
+                throw new IllegalStateException("子节点[ ID = " + childId + " ],已经拥有父节点( ID=" + oldParentId + " )," +
+                        "因此,不能将[ ID=" + parentId + " ]的节点设置成它的父节点." +
+                        "子节点只能有一个父节点");
             }
         }
         if (alreadyHasRelationship(child, parent)) {
@@ -227,31 +227,31 @@ public class MappedTree<T extends Comparable<T>, E extends TreeElement<T>> imple
     }
 
     /**
-     * 判断该元素在树中是否已经拥有父元素.
+     * 判断该节点在树中是否已经拥有父节点.
      *
      * @param child child
      * @return <code>true</code>-如果已经拥有
      */
     private boolean alreadyHasParent(E child) {
-        T childId = child.getIdentifier();
+        T childId = child.getId();
         T parentId = id2PidMap.get(childId);
         return parentId != null;
     }
 
     /**
-     * 这两个元素,在树中是否已经拥有父子关系.
+     * 这两个节点,在树中是否已经拥有父子关系.
      *
      * @param parent parent
      * @param child  child
      * @return true-已经拥有正确的父子关系
      */
     private boolean alreadyHasRelationship(E parent, E child) {
-        T oldParentId = id2PidMap.get(child.getIdentifier());
-        return CompareUtils.eq(oldParentId, parent.getIdentifier());
+        T oldParentId = id2PidMap.get(child.getId());
+        return CompareUtils.eq(oldParentId, parent.getId());
     }
 
-    private void addElement(E element) {
-        validateElement(element);
-        id2ElementMap.put(element.getIdentifier(), element);
+    private void addNode(E node) {
+        validateNode(node);
+        id2NodeMap.put(node.getId(), node);
     }
 }

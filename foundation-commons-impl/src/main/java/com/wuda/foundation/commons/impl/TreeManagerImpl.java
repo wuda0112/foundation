@@ -2,14 +2,12 @@ package com.wuda.foundation.commons.impl;
 
 import com.wuda.foundation.commons.AbstractTreeManager;
 import com.wuda.foundation.commons.CreateTreeNode;
+import com.wuda.foundation.commons.DescribeTreeNode;
 import com.wuda.foundation.commons.UpdateTreeNode;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.TreeNodeRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.AlreadyExistsException;
-import com.wuda.foundation.lang.CreateMode;
-import com.wuda.foundation.lang.CreateResult;
-import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.lang.*;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
@@ -19,10 +17,12 @@ import org.jooq.types.ULong;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.wuda.foundation.commons.impl.jooq.generation.tables.TreeNode.TREE_NODE;
 
-public class TreeManager extends AbstractTreeManager implements JooqCommonDbOp {
+public class TreeManagerImpl extends AbstractTreeManager implements JooqCommonDbOp {
     private DataSource dataSource;
 
     public void setDataSource(DataSource dataSource) {
@@ -47,7 +47,7 @@ public class TreeManager extends AbstractTreeManager implements JooqCommonDbOp {
                 SelectConditionStep<Record1<ULong>> existsRecordSelector = selectCondition(treeNodeRecord.getParentNodeId().longValue(), updateTreeNode.getName());
                 Record1<ULong> existsRecord = existsRecordSelector.fetchOne();
                 if (existsRecord != null) {
-                    throw new AlreadyExistsException("和当前节点平级的节点中已经存在给定名称的节点");
+                    throw new AlreadyExistsException("和当前节点平级的节点中已经存在名称为" + updateTreeNode.getName() + "的节点");
                 }
             }
         }
@@ -64,6 +64,45 @@ public class TreeManager extends AbstractTreeManager implements JooqCommonDbOp {
         }
         attach(dataSource, treeNodeRecord);
         treeNodeRecord.update();
+    }
+
+    @Override
+    protected void deleteNodeDbOp(Long nodeId, Long opUserId) throws RelatedDataExists {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
+        int childrenCount = dslContext.fetchCount(TREE_NODE,
+                TREE_NODE.PARENT_NODE_ID.eq(ULong.valueOf(nodeId))
+                        .and(TREE_NODE.IS_DELETED.eq(notDeleted())));
+        if (childrenCount > 0) {
+            throw new RelatedDataExists("node id = " + nodeId + ",还有子节点,不能删除");
+        }
+        dslContext.update(TREE_NODE)
+                .set(TREE_NODE.IS_DELETED, TREE_NODE.TREE_NODE_ID)
+                .where(TREE_NODE.TREE_NODE_ID.eq(ULong.valueOf(nodeId)))
+                .execute();
+    }
+
+    @Override
+    protected List<DescribeTreeNode> getAllNodesDbOp() {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
+        List<TreeNodeRecord> records = dslContext.selectFrom(TREE_NODE)
+                .where(TREE_NODE.IS_DELETED.eq(notDeleted()))
+                .fetch();
+        return copyFrom(records);
+    }
+
+    private DescribeTreeNode copyFrom(TreeNodeRecord record) {
+        return new DescribeTreeNode(record.getTreeNodeId().longValue(), record.getParentNodeId().longValue(), record.getName(), record.getDescription());
+    }
+
+    private List<DescribeTreeNode> copyFrom(List<TreeNodeRecord> records) {
+        if (records == null || records.isEmpty()) {
+            return new ArrayList<>(1);
+        }
+        List<DescribeTreeNode> list = new ArrayList<>(records.size());
+        for (TreeNodeRecord record : records) {
+            list.add(copyFrom(record));
+        }
+        return list;
     }
 
     /**

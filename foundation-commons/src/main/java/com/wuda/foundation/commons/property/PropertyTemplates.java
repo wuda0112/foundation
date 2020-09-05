@@ -15,6 +15,6 @@ public interface PropertyTemplates {
      *
      * @return templates
      */
-    List<PropertyTemplate> templates();
+    List<? extends PropertyTemplate> templates();
 
 }

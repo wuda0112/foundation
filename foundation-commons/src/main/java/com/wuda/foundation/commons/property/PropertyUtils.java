@@ -52,7 +52,7 @@ public class PropertyUtils {
      * @param templates  模板集
      * @return 新的属性集
      */
-    public static List<DescribeProperty> padding(LongIdentifier owner, List<DescribeProperty> properties, List<PropertyTemplate> templates) {
+    public static List<DescribeProperty> padding(LongIdentifier owner, List<DescribeProperty> properties, List<? extends PropertyTemplate> templates) {
         if (templates == null || templates.isEmpty()) {
             return properties;
         }
@@ -74,7 +74,7 @@ public class PropertyUtils {
         return list;
     }
 
-    private static void checkTemplatesBelongToSameOwnerType(LongIdentifier owner, List<PropertyTemplate> templates) {
+    private static void checkTemplatesBelongToSameOwnerType(LongIdentifier owner, List<? extends PropertyTemplate> templates) {
         if (templates == null || templates.isEmpty()) {
             return;
         }

@@ -13,14 +13,14 @@ import java.util.Objects;
 @Getter
 public class UpdateTreeNode {
 
-    private Long id;
-    private String name;
-    private String description;
+    protected Long id;
+    protected String name;
+    protected String description;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
      */
-    private UpdateTreeNode() {
+    protected UpdateTreeNode() {
 
     }
 
@@ -46,9 +46,9 @@ public class UpdateTreeNode {
      */
     public static class Builder implements com.wuda.foundation.lang.Builder<UpdateTreeNode> {
 
-        private Long id;
-        private String name;
-        private String description;
+        protected Long id;
+        protected String name;
+        protected String description;
 
         public Builder setId(Long id) {
             this.id = id;

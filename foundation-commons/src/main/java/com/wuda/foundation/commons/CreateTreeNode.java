@@ -13,15 +13,15 @@ import java.util.Objects;
 @Getter
 public class CreateTreeNode {
 
-    private Long id;
-    private String name;
-    private String description;
-    private Long parentNodeId;
+    protected Long id;
+    protected String name;
+    protected String description;
+    protected Long parentNodeId;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
      */
-    private CreateTreeNode() {
+    protected CreateTreeNode() {
 
     }
 
@@ -33,10 +33,10 @@ public class CreateTreeNode {
      */
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateTreeNode> {
 
-        private Long id;
-        private String name;
-        private String description;
-        private Long parentNodeId;
+        protected Long id;
+        protected String name;
+        protected String description;
+        protected Long parentNodeId;
 
         public Builder setId(Long id) {
             this.id = id;

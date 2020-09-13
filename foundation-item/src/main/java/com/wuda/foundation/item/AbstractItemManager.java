@@ -1,7 +1,7 @@
 package com.wuda.foundation.item;
 
-import com.wuda.foundation.lang.ExtObjects;
-import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.commons.TreeManager;
+import com.wuda.foundation.lang.*;
 
 import java.util.List;
 
@@ -74,4 +74,42 @@ public abstract class AbstractItemManager implements ItemManager {
     }
 
     protected abstract long updateDescriptionDbOp(Long itemDescriptionId, String description, Long opUserId);
+
+    @Override
+    public CreateResult createCategory(TreeManager treeManager, CreateItemCategory createItemCategory, Long opUserId) throws AlreadyExistsException {
+        CreateResult createResult = treeManager.createNode(createItemCategory, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
+        if (createResult.getExistsRecordId() != null) {
+            throw new AlreadyExistsException("category name = " + createItemCategory.getName() + "在同一级别中已经存在");
+        }
+        return createCategoryDbOp(createItemCategory, opUserId);
+    }
+
+    protected abstract CreateResult createCategoryDbOp(CreateItemCategory createItemCategory, Long opUserId);
+
+    @Override
+    public void updateCategory(TreeManager treeManager, UpdateItemCategory updateItemCategory, Long opUserId) throws AlreadyExistsException {
+        treeManager.updateNode(updateItemCategory, opUserId);
+        updateCategoryDbOp(updateItemCategory, opUserId);
+    }
+
+    protected abstract void updateCategoryDbOp(UpdateItemCategory updateItemCategory, Long opUserId);
+
+    @Override
+    public void deleteCategory(TreeManager treeManager, Long categoryId, Long opUserId) throws RelatedDataExists {
+        int itemCount = itemCountInCategory(categoryId);
+        if (itemCount > 0) {
+            throw new RelatedDataExists("分类下还有item");
+        }
+        treeManager.deleteNode(categoryId, opUserId);
+        deleteCategoryDbOp(categoryId, opUserId);
+    }
+
+    protected abstract void deleteCategoryDbOp(Long categoryId, Long opUserId) throws RelatedDataExists;
+
+    @Override
+    public int itemCountInCategory(Long categoryId){
+        return itemCountInCategoryDbOp(categoryId);
+    }
+
+    protected abstract int itemCountInCategoryDbOp(Long categoryId);
 }

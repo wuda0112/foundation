@@ -1,6 +1,10 @@
 package com.wuda.foundation.item;
 
+import com.wuda.foundation.commons.TreeManager;
+import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
+import com.wuda.foundation.lang.RelatedDataExists;
 
 import java.util.List;
 
@@ -93,4 +97,41 @@ public interface ItemManager {
      * @return 被修改的描述信息的ID
      */
     long updateDescription(Long itemDescriptionId, String description, Long opUserId);
+
+    /**
+     * 创建分类.
+     *
+     * @param treeManager        item分类是基于{@link com.wuda.foundation.commons.CreateTreeNode}创建的,因此需要{@link TreeManager}
+     * @param createItemCategory 新建分类的参数
+     * @param opUserId           操作人用户ID
+     * @return {@link CreateResult}
+     * @throws AlreadyExistsException 如果已经存在给定名称的分类
+     */
+    CreateResult createCategory(TreeManager treeManager, CreateItemCategory createItemCategory, Long opUserId) throws AlreadyExistsException;
+
+    /**
+     * 更新分类.
+     *
+     * @param treeManager        item分类是基于{@link com.wuda.foundation.commons.CreateTreeNode}创建的,因此需要{@link TreeManager}
+     * @param updateItemCategory 更新参数
+     * @param opUserId           操作人用户ID
+     * @throws AlreadyExistsException 如果已经存在给定名称的分类
+     */
+    void updateCategory(TreeManager treeManager, UpdateItemCategory updateItemCategory, Long opUserId) throws AlreadyExistsException;
+
+    /**
+     * @param treeManager item分类是基于{@link com.wuda.foundation.commons.CreateTreeNode}创建的,因此需要{@link TreeManager}
+     * @param categoryId  category id
+     * @param opUserId    操作人用户ID
+     * @throws RelatedDataExists 如果该分类还有下级分类，或者分类下还有item
+     */
+    void deleteCategory(TreeManager treeManager, Long categoryId, Long opUserId) throws RelatedDataExists;
+
+    /**
+     * 统计分类下的item数量.
+     *
+     * @param categoryId category id
+     * @return count
+     */
+    int itemCountInCategory(Long categoryId);
 }

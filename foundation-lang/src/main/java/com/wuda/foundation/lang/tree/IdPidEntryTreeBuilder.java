@@ -1,6 +1,5 @@
 package com.wuda.foundation.lang.tree;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -31,7 +30,7 @@ public class IdPidEntryTreeBuilder<T extends Comparable<T>, Z extends TreeNode<T
         if (nodes == null || nodes.isEmpty()) {
             return;
         }
-        Map<T, Z> map = groupingById(nodes);
+        Map<T, Z> map = IdPidEntryUtils.groupById(nodes);
         for (Z node : nodes) {
             T id = node.getId();
             if (CompareUtils.eq(id, tree.getRoot().getId())) {
@@ -62,20 +61,5 @@ public class IdPidEntryTreeBuilder<T extends Comparable<T>, Z extends TreeNode<T
             treeNode = tree.get(id);
         }
         return treeNode;
-    }
-
-    /**
-     * 根据ID分组,由于ID是唯一的,因此一个ID只对应一个节点.
-     *
-     * @param nodes list of node
-     * @return key - id , value - node
-     */
-    private Map<T, Z> groupingById(List<Z> nodes) {
-        int size = nodes.size();
-        Map<T, Z> map = new HashMap<>(size);
-        for (Z treeNode : nodes) {
-            map.put(treeNode.getId(), treeNode);
-        }
-        return map;
     }
 }

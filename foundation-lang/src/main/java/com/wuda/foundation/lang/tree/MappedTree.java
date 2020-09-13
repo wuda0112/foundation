@@ -1,9 +1,6 @@
 package com.wuda.foundation.lang.tree;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 使用{@link java.util.Map}实现树形结构.
@@ -253,5 +250,38 @@ public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implemen
     private void addNode(E node) {
         validateNode(node);
         id2NodeMap.put(node.getId(), node);
+    }
+
+    @Override
+    public Treeable<T, E> getRootTreeable() {
+        Collection<E> nodes = id2NodeMap.values();
+        /**
+         * 节点ID对应的{@link Treeable}.
+         */
+        Map<T, Treeable<T, E>> id2Treeable = new HashMap<>(nodes.size());
+        /**
+         * 为每个节点都生成对应的{@link Treeable}.
+         */
+        for (E node : nodes) {
+            Treeable<T, E> treeable = new Treeable<>();
+            treeable.setNode(node);
+            id2Treeable.put(node.getId(), treeable);
+        }
+        Set<Map.Entry<T, Treeable<T, E>>> entrySet = id2Treeable.entrySet();
+        /**
+         * 为每个{@link Treeable}添加child.
+         */
+        for (Map.Entry<T, Treeable<T, E>> entry : entrySet) {
+            T id = entry.getKey();
+            Treeable<T, E> treeable = entry.getValue();
+            Set<T> childNodeIdSet = getDirectChildrenIdSet(id);
+            if (childNodeIdSet != null && !childNodeIdSet.isEmpty()) {
+                for (T childNodeId : childNodeIdSet) {
+                    Treeable<T, E> childTreeable = id2Treeable.get(childNodeId);
+                    treeable.addChild(childTreeable);
+                }
+            }
+        }
+        return id2Treeable.get(root.getId());
     }
 }

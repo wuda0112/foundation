@@ -70,4 +70,11 @@ public interface Tree<T extends Comparable<T>, E extends TreeNode<T>> {
      * @return {@link LinkedList}下标0处的节点是直接父亲, 下标1处的节点是父亲的父亲, 依次类推.
      */
     LinkedList<E> getAncestor(T id, int count);
+
+    /**
+     * 获取root节点对应的{@link Treeable}.
+     *
+     * @return root节点对应的{@link Treeable}.
+     */
+    Treeable<T, E> getRootTreeable();
 }

@@ -19,7 +19,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row9;
+import org.jooq.Row12;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -27,16 +27,18 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
 /**
- * 树形结构的节点。有很多数据是用树形结构组织的，比如商品分类，文章分类，组织架构等等，通常我们都是为它们单独设计一个表，比如商品分类表，部门表，然后每个表都写了差不多相同的处理逻辑，如何避免重复处理类似树形的数据呢？这个表的目的就是为了统一处理这些类似树形结构的表，以这个表为核心，扩展出商品分类，文章分类，部门等。
+ * 树形结构的节点。有很多数据是用树形结构组织的，比如商品分类，文章分类，组织架构等等，通常我们都是为它们单独设计一个表，比如商品分类表，部门表，然后每个表都写了差不多相同的处理逻辑，如何避免重复处理类似树形的数据呢？这个表的目的就是为了统一处理这些类似树形结构的表，以这个表为核心，扩展出商品分类，文章分类，部门等。owner 
+ * type，owner identifi;er，use三个字段被引入进来的主要原因是：通常，在树的同一个level，不允许出现同名的节点，如果不引进这些标记归属的字段，那么看上去这个表的数
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TreeNode extends TableImpl<TreeNodeRecord> {
 
-    private static final long serialVersionUID = 62660737;
+    private static final long serialVersionUID = -4353814;
 
     /**
      * The reference instance of <code>foundation_commons.tree_node</code>
@@ -70,6 +72,21 @@ public class TreeNode extends TableImpl<TreeNodeRecord> {
      * The column <code>foundation_commons.tree_node.parent_node_id</code>. 指向父节点ID
      */
     public final TableField<TreeNodeRecord, ULong> PARENT_NODE_ID = createField(DSL.name("parent_node_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "指向父节点ID");
+
+    /**
+     * The column <code>foundation_commons.tree_node.owner_type</code>. owner type
+     */
+    public final TableField<TreeNodeRecord, UByte> OWNER_TYPE = createField(DSL.name("owner_type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "owner type");
+
+    /**
+     * The column <code>foundation_commons.tree_node.owner_iendtifier</code>. owner的唯一标记符
+     */
+    public final TableField<TreeNodeRecord, ULong> OWNER_IENDTIFIER = createField(DSL.name("owner_iendtifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "owner的唯一标记符");
+
+    /**
+     * The column <code>foundation_commons.tree_node.use</code>. 用途，比如用于商品分类，文章分类等。如果文章分类有单独设计一个表，那么这个文章分类表天然就暗含了用途的含义，即就是用于文章分类，而这里作为通用的表示树形结构的表，就使用这个字段来表明用途。
+     */
+    public final TableField<TreeNodeRecord, UByte> USE = createField(DSL.name("use"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "用途，比如用于商品分类，文章分类等。如果文章分类有单独设计一个表，那么这个文章分类表天然就暗含了用途的含义，即就是用于文章分类，而这里作为通用的表示树形结构的表，就使用这个字段来表明用途。");
 
     /**
      * The column <code>foundation_commons.tree_node.create_time</code>.
@@ -122,7 +139,7 @@ public class TreeNode extends TableImpl<TreeNodeRecord> {
     }
 
     private TreeNode(Name alias, Table<TreeNodeRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("树形结构的节点。有很多数据是用树形结构组织的，比如商品分类，文章分类，组织架构等等，通常我们都是为它们单独设计一个表，比如商品分类表，部门表，然后每个表都写了差不多相同的处理逻辑，如何避免重复处理类似树形的数据呢？这个表的目的就是为了统一处理这些类似树形结构的表，以这个表为核心，扩展出商品分类，文章分类，部门等。"), TableOptions.table());
+        super(alias, null, aliased, parameters, DSL.comment("树形结构的节点。有很多数据是用树形结构组织的，比如商品分类，文章分类，组织架构等等，通常我们都是为它们单独设计一个表，比如商品分类表，部门表，然后每个表都写了差不多相同的处理逻辑，如何避免重复处理类似树形的数据呢？这个表的目的就是为了统一处理这些类似树形结构的表，以这个表为核心，扩展出商品分类，文章分类，部门等。owner type，owner identifi;er，use三个字段被引入进来的主要原因是：通常，在树的同一个level，不允许出现同名的节点，如果不引进这些标记归属的字段，那么看上去这个表的数"), TableOptions.table());
     }
 
     public <O extends Record> TreeNode(Table<O> child, ForeignKey<O, TreeNodeRecord> key) {
@@ -136,7 +153,7 @@ public class TreeNode extends TableImpl<TreeNodeRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.TREE_NODE_IDX_PARENT);
+        return Arrays.<Index>asList(Indexes.TREE_NODE_IDX_OWNER_AND_USE, Indexes.TREE_NODE_IDX_PARENT);
     }
 
     @Override
@@ -181,11 +198,11 @@ public class TreeNode extends TableImpl<TreeNodeRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row9 type methods
+    // Row12 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<ULong, String, String, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row12<ULong, String, String, ULong, UByte, ULong, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row12) super.fieldsRow();
     }
 }

@@ -1,5 +1,6 @@
 package com.wuda.foundation.commons;
 
+import com.wuda.foundation.lang.identify.LongIdentifier;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -17,6 +18,8 @@ public class CreateTreeNode {
     protected String name;
     protected String description;
     protected Long parentNodeId;
+    private LongIdentifier owner;
+    private TreeNodeUse use;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -37,6 +40,8 @@ public class CreateTreeNode {
         protected String name;
         protected String description;
         protected Long parentNodeId;
+        private LongIdentifier owner;
+        private TreeNodeUse use;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -58,6 +63,16 @@ public class CreateTreeNode {
             return this;
         }
 
+        public Builder setOwner(LongIdentifier owner) {
+            this.owner = owner;
+            return this;
+        }
+
+        public Builder setUse(TreeNodeUse use) {
+            this.use = use;
+            return this;
+        }
+
         @Override
         public CreateTreeNode build() {
             CreateTreeNode createTreeNode = new CreateTreeNode();
@@ -65,6 +80,8 @@ public class CreateTreeNode {
             createTreeNode.name = Objects.requireNonNull(this.name);
             createTreeNode.description = this.description;
             createTreeNode.parentNodeId = Objects.requireNonNull(parentNodeId);
+            createTreeNode.owner = Objects.requireNonNull(owner);
+            createTreeNode.use = Objects.requireNonNull(use);
             return createTreeNode;
         }
     }

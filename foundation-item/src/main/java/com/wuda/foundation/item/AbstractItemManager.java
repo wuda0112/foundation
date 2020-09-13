@@ -77,7 +77,7 @@ public abstract class AbstractItemManager implements ItemManager {
 
     @Override
     public CreateResult createCategory(TreeManager treeManager, CreateItemCategory createItemCategory, Long opUserId) throws AlreadyExistsException {
-        CreateResult createResult = treeManager.createNode(createItemCategory, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
+        CreateResult createResult = treeManager.createNode(createItemCategory.toCreateTreeNode(), CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
         if (createResult.getExistsRecordId() != null) {
             throw new AlreadyExistsException("category name = " + createItemCategory.getName() + "在同一级别中已经存在");
         }

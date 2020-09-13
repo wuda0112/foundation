@@ -8,11 +8,15 @@ import com.wuda.foundation.commons.impl.jooq.generation.tables.records.TreeNodeR
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.*;
+import com.wuda.foundation.lang.identify.IdentifierType;
+import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
+import com.wuda.foundation.lang.identify.LongIdentifier;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 import javax.sql.DataSource;
@@ -31,7 +35,7 @@ public class TreeManagerImpl extends AbstractTreeManager implements JooqCommonDb
 
     @Override
     public CreateResult createNodeDbOp(CreateTreeNode createTreeNode, CreateMode createMode, Long opUserId) {
-        SelectConditionStep<Record1<ULong>> existsRecordSelector = selectCondition(createTreeNode.getParentNodeId(), createTreeNode.getName());
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = selectCondition(createTreeNode.getOwner(), createTreeNode.getUse().getCode(), createTreeNode.getParentNodeId(), createTreeNode.getName());
         return insertDispatcher(dataSource, createMode, TREE_NODE, treeNodeRecordForInsert(createTreeNode, opUserId), existsRecordSelector);
     }
 
@@ -44,7 +48,8 @@ public class TreeManagerImpl extends AbstractTreeManager implements JooqCommonDb
             if (treeNodeRecord.getName().equals(updateTreeNode.getName())) {
                 updateName = false;
             } else {
-                SelectConditionStep<Record1<ULong>> existsRecordSelector = selectCondition(treeNodeRecord.getParentNodeId().longValue(), updateTreeNode.getName());
+                LongIdentifier owner = getOwner(treeNodeRecord);
+                SelectConditionStep<Record1<ULong>> existsRecordSelector = selectCondition(owner, treeNodeRecord.getUse().byteValue(), treeNodeRecord.getParentNodeId().longValue(), updateTreeNode.getName());
                 Record1<ULong> existsRecord = existsRecordSelector.fetchOne();
                 if (existsRecord != null) {
                     throw new AlreadyExistsException("和当前节点平级的节点中已经存在名称为" + updateTreeNode.getName() + "的节点");
@@ -64,6 +69,12 @@ public class TreeManagerImpl extends AbstractTreeManager implements JooqCommonDb
         }
         attach(dataSource, treeNodeRecord);
         treeNodeRecord.update();
+    }
+
+    private LongIdentifier getOwner(TreeNodeRecord record) {
+        int ownerType = record.getOwnerType().intValue();
+        IdentifierType identifierType = IdentifierTypeRegistry.defaultRegistry.lookup(ownerType);
+        return new LongIdentifier(record.getOwnerIendtifier().longValue(), identifierType);
     }
 
     @Override
@@ -91,7 +102,8 @@ public class TreeManagerImpl extends AbstractTreeManager implements JooqCommonDb
     }
 
     private DescribeTreeNode copyFrom(TreeNodeRecord record) {
-        return new DescribeTreeNode(record.getTreeNodeId().longValue(), record.getParentNodeId().longValue(), record.getName(), record.getDescription());
+        LongIdentifier owner = getOwner(record);
+        return new DescribeTreeNode(record.getTreeNodeId().longValue(), record.getParentNodeId().longValue(), record.getName(), record.getDescription(), owner, record.getUse().byteValue());
     }
 
     private List<DescribeTreeNode> copyFrom(List<TreeNodeRecord> records) {
@@ -112,12 +124,15 @@ public class TreeManagerImpl extends AbstractTreeManager implements JooqCommonDb
      * @param childNodeName 子节点名称
      * @return {@link SelectConditionStep}
      */
-    private SelectConditionStep<Record1<ULong>> selectCondition(Long parentNodeId, String childNodeName) {
+    private SelectConditionStep<Record1<ULong>> selectCondition(LongIdentifier owner, Byte use, Long parentNodeId, String childNodeName) {
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         return DSL.using(configuration)
                 .select(TREE_NODE.TREE_NODE_ID)
                 .from(TREE_NODE)
-                .where(TREE_NODE.PARENT_NODE_ID.eq(ULong.valueOf(parentNodeId)))
+                .where(TREE_NODE.OWNER_TYPE.eq(UByte.valueOf(owner.getType().getCode())))
+                .and(TREE_NODE.OWNER_IENDTIFIER.eq(ULong.valueOf(owner.getValue())))
+                .and(TREE_NODE.USE.eq(UByte.valueOf(use)))
+                .and(TREE_NODE.PARENT_NODE_ID.eq(ULong.valueOf(parentNodeId)))
                 .and(TREE_NODE.NAME.eq(childNodeName))
                 .and(TREE_NODE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
     }
@@ -135,6 +150,9 @@ public class TreeManagerImpl extends AbstractTreeManager implements JooqCommonDb
                 createTreeNode.getName(),
                 createTreeNode.getDescription(),
                 ULong.valueOf(createTreeNode.getParentNodeId()),
+                UByte.valueOf(createTreeNode.getOwner().getType().getCode()),
+                ULong.valueOf(createTreeNode.getOwner().getValue()),
+                UByte.valueOf(createTreeNode.getUse().getCode()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 }

@@ -26,4 +26,6 @@ public interface IdentifierType {
      * @return 描述
      */
     String getDescription();
+
+
 }

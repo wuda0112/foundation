@@ -14,12 +14,7 @@ public class IdentifierTypeRegistry {
 
     private Map<Integer, IdentifierType> byCodeMap = new ConcurrentHashMap<>();
 
-    public final static IdentifierTypeRegistry defaultRegistry;
-
-    static {
-        defaultRegistry = new IdentifierTypeRegistry();
-        BuiltinIdentifierTypeRegister.register();
-    }
+    public final static IdentifierTypeRegistry defaultRegistry = new IdentifierTypeRegistry();
 
     /**
      * 使用{@link #defaultRegistry}作为全局注册中心.

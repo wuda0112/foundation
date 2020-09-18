@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class UniqueCodeDescriptorRegistry {
 
-    private Map<Class<UniqueCodeDescriptorSchema>, List<UniqueCodeDescriptor>> bySchemaMap = new ConcurrentHashMap<>();
+    private Map<Class<UniqueCodeDescriptor.Schema>, List<UniqueCodeDescriptor>> bySchemaMap = new ConcurrentHashMap<>();
 
     public static UniqueCodeDescriptorRegistry defaultRegistry = new UniqueCodeDescriptorRegistry();
 
@@ -39,14 +39,14 @@ public class UniqueCodeDescriptorRegistry {
 
     /**
      * 查询schema下指定的code值对应的{@link UniqueCodeDescriptor},前提是
-     * {@link UniqueCodeDescriptor}必须首先调用{@link UniqueCodeDescriptor#register()}
-     * 将自己注册进来.
+     * {@link UniqueCodeDescriptor}必须首先调用{@link UniqueCodeDescriptorRegistry#register}
+     * 将{@link UniqueCodeDescriptor}册进来.
      *
      * @param schemaClass code所处的schema
      * @param code        code
      * @return 该code对应的descriptor, <code>null</code>-如果没有找到
      */
-    public <U extends UniqueCodeDescriptor<C>, D extends UniqueCodeDescriptorSchema, C> U lookup(Class<D> schemaClass, C code) {
+    public <U extends UniqueCodeDescriptor<C>, D extends UniqueCodeDescriptor.Schema, C> U lookup(Class<D> schemaClass, C code) {
         if (code == null) {
             return null;
         }

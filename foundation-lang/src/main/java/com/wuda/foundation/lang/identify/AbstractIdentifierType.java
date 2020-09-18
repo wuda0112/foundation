@@ -17,7 +17,7 @@ public abstract class AbstractIdentifierType implements IdentifierType {
      * @param code        the unique code
      * @param description description
      */
-    protected AbstractIdentifierType(int code, String description) {
+    public AbstractIdentifierType(int code, String description) {
         this.code = code;
         this.description = description;
         IdentifierTypeRegistry.defaultRegistry.register(this);

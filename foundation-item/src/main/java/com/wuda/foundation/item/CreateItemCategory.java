@@ -2,7 +2,7 @@ package com.wuda.foundation.item;
 
 import com.wuda.foundation.commons.BuiltinTreeNodeUse;
 import com.wuda.foundation.commons.CreateTreeNode;
-import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
+import com.wuda.foundation.lang.identify.BuiltinIdentifierTypes;
 import com.wuda.foundation.lang.identify.LongIdentifier;
 import lombok.Data;
 
@@ -28,7 +28,7 @@ public class CreateItemCategory {
                 .setName(this.name)
                 .setDescription(this.description)
                 .setParentNodeId(this.parentCategoryId)
-                .setOwner(new LongIdentifier(storeId, BuiltinIdentifierType.TABLE_STORE))
+                .setOwner(new LongIdentifier(storeId, BuiltinIdentifierTypes.TABLE_STORE))
                 .setUse(BuiltinTreeNodeUse.USED_FOR_ITEM_CATEGORY)
                 .build();
     }

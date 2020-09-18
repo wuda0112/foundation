@@ -1,7 +1,7 @@
 package com.wuda.foundation.commons;
 
 import com.wuda.foundation.lang.Constant;
-import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
+import com.wuda.foundation.lang.identify.BuiltinIdentifierTypes;
 import com.wuda.foundation.lang.identify.LongIdentifier;
 import com.wuda.foundation.lang.tree.TreeNode;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,7 @@ public class DescribeTreeNode implements TreeNode<Long> {
     /**
      * 默认的根节点.
      */
-    public final static DescribeTreeNode root = new DescribeTreeNode(Constant.NOT_EXISTS_ID, Constant.NOT_EXISTS_ID, "root", "root node",new LongIdentifier(Constant.NOT_EXISTS_ID, BuiltinIdentifierType.VIRTUAL),BuiltinTreeNodeUse.VIRTUAL.getCode());
+    public final static DescribeTreeNode root = new DescribeTreeNode(Constant.NOT_EXISTS_ID, Constant.NOT_EXISTS_ID, "root", "root node",new LongIdentifier(Constant.NOT_EXISTS_ID, BuiltinIdentifierTypes.VIRTUAL),BuiltinTreeNodeUse.VIRTUAL.getCode());
 
     @Override
     public Long getId() {

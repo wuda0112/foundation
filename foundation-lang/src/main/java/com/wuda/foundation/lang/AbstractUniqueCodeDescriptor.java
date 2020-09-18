@@ -17,7 +17,7 @@ public abstract class AbstractUniqueCodeDescriptor<T> implements UniqueCodeDescr
      * @param code        the unique code
      * @param description description
      */
-    protected AbstractUniqueCodeDescriptor(T code, String description) {
+    public AbstractUniqueCodeDescriptor(T code, String description) {
         this.code = code;
         this.description = description;
         UniqueCodeDescriptorRegistry.defaultRegistry.register(this);

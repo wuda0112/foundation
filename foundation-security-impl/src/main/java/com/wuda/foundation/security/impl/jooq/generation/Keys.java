@@ -5,13 +5,13 @@ package com.wuda.foundation.security.impl.jooq.generation;
 
 
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAction;
+import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAssignment;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionCategory;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionTarget;
-import com.wuda.foundation.security.impl.jooq.generation.tables.SubjectPermissionRelationship;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionActionRecord;
+import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionAssignmentRecord;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionCategoryRecord;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionTargetRecord;
-import com.wuda.foundation.security.impl.jooq.generation.tables.records.SubjectPermissionRelationshipRecord;
 
 import org.jooq.Identity;
 import org.jooq.TableField;
@@ -32,8 +32,8 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final Identity<PermissionActionRecord, ULong> IDENTITY_PERMISSION_ACTION = Identities0.IDENTITY_PERMISSION_ACTION;
+    public static final Identity<PermissionAssignmentRecord, ULong> IDENTITY_PERMISSION_ASSIGNMENT = Identities0.IDENTITY_PERMISSION_ASSIGNMENT;
     public static final Identity<PermissionTargetRecord, ULong> IDENTITY_PERMISSION_TARGET = Identities0.IDENTITY_PERMISSION_TARGET;
-    public static final Identity<SubjectPermissionRelationshipRecord, ULong> IDENTITY_SUBJECT_PERMISSION_RELATIONSHIP = Identities0.IDENTITY_SUBJECT_PERMISSION_RELATIONSHIP;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -41,11 +41,10 @@ public class Keys {
 
     public static final UniqueKey<PermissionActionRecord> KEY_PERMISSION_ACTION_PRIMARY = UniqueKeys0.KEY_PERMISSION_ACTION_PRIMARY;
     public static final UniqueKey<PermissionActionRecord> KEY_PERMISSION_ACTION_IDX_PERMISSION_ACTION = UniqueKeys0.KEY_PERMISSION_ACTION_IDX_PERMISSION_ACTION;
+    public static final UniqueKey<PermissionAssignmentRecord> KEY_PERMISSION_ASSIGNMENT_PRIMARY = UniqueKeys0.KEY_PERMISSION_ASSIGNMENT_PRIMARY;
     public static final UniqueKey<PermissionCategoryRecord> KEY_PERMISSION_CATEGORY_PRIMARY = UniqueKeys0.KEY_PERMISSION_CATEGORY_PRIMARY;
-    public static final UniqueKey<PermissionCategoryRecord> KEY_PERMISSION_CATEGORY_PERMISSION_CATEGORY_ID = UniqueKeys0.KEY_PERMISSION_CATEGORY_PERMISSION_CATEGORY_ID;
     public static final UniqueKey<PermissionTargetRecord> KEY_PERMISSION_TARGET_PRIMARY = UniqueKeys0.KEY_PERMISSION_TARGET_PRIMARY;
     public static final UniqueKey<PermissionTargetRecord> KEY_PERMISSION_TARGET_IDX_PERMISSION_NAME = UniqueKeys0.KEY_PERMISSION_TARGET_IDX_PERMISSION_NAME;
-    public static final UniqueKey<SubjectPermissionRelationshipRecord> KEY_SUBJECT_PERMISSION_RELATIONSHIP_PRIMARY = UniqueKeys0.KEY_SUBJECT_PERMISSION_RELATIONSHIP_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -58,17 +57,16 @@ public class Keys {
 
     private static class Identities0 {
         public static Identity<PermissionActionRecord, ULong> IDENTITY_PERMISSION_ACTION = Internal.createIdentity(PermissionAction.PERMISSION_ACTION, PermissionAction.PERMISSION_ACTION.PERMISSION_ACTION_ID);
+        public static Identity<PermissionAssignmentRecord, ULong> IDENTITY_PERMISSION_ASSIGNMENT = Internal.createIdentity(PermissionAssignment.PERMISSION_ASSIGNMENT, PermissionAssignment.PERMISSION_ASSIGNMENT.ID);
         public static Identity<PermissionTargetRecord, ULong> IDENTITY_PERMISSION_TARGET = Internal.createIdentity(PermissionTarget.PERMISSION_TARGET, PermissionTarget.PERMISSION_TARGET.PERMISSION_TARGET_ID);
-        public static Identity<SubjectPermissionRelationshipRecord, ULong> IDENTITY_SUBJECT_PERMISSION_RELATIONSHIP = Internal.createIdentity(SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP, SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.ID);
     }
 
     private static class UniqueKeys0 {
         public static final UniqueKey<PermissionActionRecord> KEY_PERMISSION_ACTION_PRIMARY = Internal.createUniqueKey(PermissionAction.PERMISSION_ACTION, "KEY_permission_action_PRIMARY", new TableField[] { PermissionAction.PERMISSION_ACTION.PERMISSION_ACTION_ID }, true);
         public static final UniqueKey<PermissionActionRecord> KEY_PERMISSION_ACTION_IDX_PERMISSION_ACTION = Internal.createUniqueKey(PermissionAction.PERMISSION_ACTION, "KEY_permission_action_idx_permission_action", new TableField[] { PermissionAction.PERMISSION_ACTION.PERMISSION_TARGET_ID, PermissionAction.PERMISSION_ACTION.NAME, PermissionAction.PERMISSION_ACTION.IS_DELETED }, true);
+        public static final UniqueKey<PermissionAssignmentRecord> KEY_PERMISSION_ASSIGNMENT_PRIMARY = Internal.createUniqueKey(PermissionAssignment.PERMISSION_ASSIGNMENT, "KEY_permission_assignment_PRIMARY", new TableField[] { PermissionAssignment.PERMISSION_ASSIGNMENT.ID }, true);
         public static final UniqueKey<PermissionCategoryRecord> KEY_PERMISSION_CATEGORY_PRIMARY = Internal.createUniqueKey(PermissionCategory.PERMISSION_CATEGORY, "KEY_permission_category_PRIMARY", new TableField[] { PermissionCategory.PERMISSION_CATEGORY.PERMISSION_CATEGORY_ID }, true);
-        public static final UniqueKey<PermissionCategoryRecord> KEY_PERMISSION_CATEGORY_PERMISSION_CATEGORY_ID = Internal.createUniqueKey(PermissionCategory.PERMISSION_CATEGORY, "KEY_permission_category_permission_category_id", new TableField[] { PermissionCategory.PERMISSION_CATEGORY.PERMISSION_CATEGORY_ID }, true);
         public static final UniqueKey<PermissionTargetRecord> KEY_PERMISSION_TARGET_PRIMARY = Internal.createUniqueKey(PermissionTarget.PERMISSION_TARGET, "KEY_permission_target_PRIMARY", new TableField[] { PermissionTarget.PERMISSION_TARGET.PERMISSION_TARGET_ID }, true);
         public static final UniqueKey<PermissionTargetRecord> KEY_PERMISSION_TARGET_IDX_PERMISSION_NAME = Internal.createUniqueKey(PermissionTarget.PERMISSION_TARGET, "KEY_permission_target_idx_permission_name", new TableField[] { PermissionTarget.PERMISSION_TARGET.PERMISSION_CATEGORY_ID, PermissionTarget.PERMISSION_TARGET.NAME, PermissionTarget.PERMISSION_TARGET.IS_DELETED }, true);
-        public static final UniqueKey<SubjectPermissionRelationshipRecord> KEY_SUBJECT_PERMISSION_RELATIONSHIP_PRIMARY = Internal.createUniqueKey(SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP, "KEY_subject_permission_relationship_PRIMARY", new TableField[] { SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.ID }, true);
     }
 }

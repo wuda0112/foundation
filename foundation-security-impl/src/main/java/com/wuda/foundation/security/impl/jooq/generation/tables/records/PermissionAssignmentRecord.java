@@ -4,7 +4,7 @@
 package com.wuda.foundation.security.impl.jooq.generation.tables.records;
 
 
-import com.wuda.foundation.security.impl.jooq.generation.tables.SubjectPermissionRelationship;
+import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAssignment;
 
 import java.time.LocalDateTime;
 
@@ -18,135 +18,134 @@ import org.jooq.types.ULong;
 
 
 /**
- * subject可以代表用户，也可以代表想要访问其他资源的应用，suibject与permission的关联关系表。比如我们可以说user 【IS 
- * A】 subject
+ * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class SubjectPermissionRelationshipRecord extends UpdatableRecordImpl<SubjectPermissionRelationshipRecord> implements Record9<ULong, UByte, ULong, ULong, ULong, String, LocalDateTime, ULong, ULong> {
+public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAssignmentRecord> implements Record9<ULong, UByte, ULong, ULong, ULong, String, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 887042071;
+    private static final long serialVersionUID = 1746317678;
 
     /**
-     * Setter for <code>foundation_security.subject_permission_relationship.id</code>.
+     * Setter for <code>foundation_security.permission_assignment.id</code>.
      */
     public void setId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>foundation_security.subject_permission_relationship.id</code>.
+     * Getter for <code>foundation_security.permission_assignment.id</code>.
      */
     public ULong getId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>foundation_security.subject_permission_relationship.subject_type</code>. subject的类型，比如subject代表用户
+     * Setter for <code>foundation_security.permission_assignment.subject_type</code>. subject的类型，比如subject代表用户
      */
     public void setSubjectType(UByte value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>foundation_security.subject_permission_relationship.subject_type</code>. subject的类型，比如subject代表用户
+     * Getter for <code>foundation_security.permission_assignment.subject_type</code>. subject的类型，比如subject代表用户
      */
     public UByte getSubjectType() {
         return (UByte) get(1);
     }
 
     /**
-     * Setter for <code>foundation_security.subject_permission_relationship.subject_identifier</code>. 如果subject type代表用户，那么这个值可能就是用户ID
+     * Setter for <code>foundation_security.permission_assignment.subject_identifier</code>. 如果subject type代表用户，那么这个值可能就是用户ID
      */
     public void setSubjectIdentifier(ULong value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>foundation_security.subject_permission_relationship.subject_identifier</code>. 如果subject type代表用户，那么这个值可能就是用户ID
+     * Getter for <code>foundation_security.permission_assignment.subject_identifier</code>. 如果subject type代表用户，那么这个值可能就是用户ID
      */
     public ULong getSubjectIdentifier() {
         return (ULong) get(2);
     }
 
     /**
-     * Setter for <code>foundation_security.subject_permission_relationship.persission_target_id</code>.
+     * Setter for <code>foundation_security.permission_assignment.persission_target_id</code>.
      */
     public void setPersissionTargetId(ULong value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>foundation_security.subject_permission_relationship.persission_target_id</code>.
+     * Getter for <code>foundation_security.permission_assignment.persission_target_id</code>.
      */
     public ULong getPersissionTargetId() {
         return (ULong) get(3);
     }
 
     /**
-     * Setter for <code>foundation_security.subject_permission_relationship.permission_action_id</code>. permission action id，如果为0，则表示没有分配action
+     * Setter for <code>foundation_security.permission_assignment.permission_action_id</code>. permission action id，如果为0，则表示没有分配action
      */
     public void setPermissionActionId(ULong value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>foundation_security.subject_permission_relationship.permission_action_id</code>. permission action id，如果为0，则表示没有分配action
+     * Getter for <code>foundation_security.permission_assignment.permission_action_id</code>. permission action id，如果为0，则表示没有分配action
      */
     public ULong getPermissionActionId() {
         return (ULong) get(4);
     }
 
     /**
-     * Setter for <code>foundation_security.subject_permission_relationship.command</code>. 可选值有grant，revoke
+     * Setter for <code>foundation_security.permission_assignment.command</code>. 可选值有grant，revoke
      */
     public void setCommand(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>foundation_security.subject_permission_relationship.command</code>. 可选值有grant，revoke
+     * Getter for <code>foundation_security.permission_assignment.command</code>. 可选值有grant，revoke
      */
     public String getCommand() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>foundation_security.subject_permission_relationship.create_time</code>.
+     * Setter for <code>foundation_security.permission_assignment.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>foundation_security.subject_permission_relationship.create_time</code>.
+     * Getter for <code>foundation_security.permission_assignment.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(6);
     }
 
     /**
-     * Setter for <code>foundation_security.subject_permission_relationship.create_user_id</code>.
+     * Setter for <code>foundation_security.permission_assignment.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>foundation_security.subject_permission_relationship.create_user_id</code>.
+     * Getter for <code>foundation_security.permission_assignment.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(7);
     }
 
     /**
-     * Setter for <code>foundation_security.subject_permission_relationship.is_deleted</code>.
+     * Setter for <code>foundation_security.permission_assignment.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>foundation_security.subject_permission_relationship.is_deleted</code>.
+     * Getter for <code>foundation_security.permission_assignment.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(8);
@@ -177,47 +176,47 @@ public class SubjectPermissionRelationshipRecord extends UpdatableRecordImpl<Sub
 
     @Override
     public Field<ULong> field1() {
-        return SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.ID;
+        return PermissionAssignment.PERMISSION_ASSIGNMENT.ID;
     }
 
     @Override
     public Field<UByte> field2() {
-        return SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.SUBJECT_TYPE;
+        return PermissionAssignment.PERMISSION_ASSIGNMENT.SUBJECT_TYPE;
     }
 
     @Override
     public Field<ULong> field3() {
-        return SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.SUBJECT_IDENTIFIER;
+        return PermissionAssignment.PERMISSION_ASSIGNMENT.SUBJECT_IDENTIFIER;
     }
 
     @Override
     public Field<ULong> field4() {
-        return SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.PERSISSION_TARGET_ID;
+        return PermissionAssignment.PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID;
     }
 
     @Override
     public Field<ULong> field5() {
-        return SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.PERMISSION_ACTION_ID;
+        return PermissionAssignment.PERMISSION_ASSIGNMENT.PERMISSION_ACTION_ID;
     }
 
     @Override
     public Field<String> field6() {
-        return SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.COMMAND;
+        return PermissionAssignment.PERMISSION_ASSIGNMENT.COMMAND;
     }
 
     @Override
     public Field<LocalDateTime> field7() {
-        return SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.CREATE_TIME;
+        return PermissionAssignment.PERMISSION_ASSIGNMENT.CREATE_TIME;
     }
 
     @Override
     public Field<ULong> field8() {
-        return SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.CREATE_USER_ID;
+        return PermissionAssignment.PERMISSION_ASSIGNMENT.CREATE_USER_ID;
     }
 
     @Override
     public Field<ULong> field9() {
-        return SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.IS_DELETED;
+        return PermissionAssignment.PERMISSION_ASSIGNMENT.IS_DELETED;
     }
 
     @Override
@@ -311,61 +310,61 @@ public class SubjectPermissionRelationshipRecord extends UpdatableRecordImpl<Sub
     }
 
     @Override
-    public SubjectPermissionRelationshipRecord value1(ULong value) {
+    public PermissionAssignmentRecord value1(ULong value) {
         setId(value);
         return this;
     }
 
     @Override
-    public SubjectPermissionRelationshipRecord value2(UByte value) {
+    public PermissionAssignmentRecord value2(UByte value) {
         setSubjectType(value);
         return this;
     }
 
     @Override
-    public SubjectPermissionRelationshipRecord value3(ULong value) {
+    public PermissionAssignmentRecord value3(ULong value) {
         setSubjectIdentifier(value);
         return this;
     }
 
     @Override
-    public SubjectPermissionRelationshipRecord value4(ULong value) {
+    public PermissionAssignmentRecord value4(ULong value) {
         setPersissionTargetId(value);
         return this;
     }
 
     @Override
-    public SubjectPermissionRelationshipRecord value5(ULong value) {
+    public PermissionAssignmentRecord value5(ULong value) {
         setPermissionActionId(value);
         return this;
     }
 
     @Override
-    public SubjectPermissionRelationshipRecord value6(String value) {
+    public PermissionAssignmentRecord value6(String value) {
         setCommand(value);
         return this;
     }
 
     @Override
-    public SubjectPermissionRelationshipRecord value7(LocalDateTime value) {
+    public PermissionAssignmentRecord value7(LocalDateTime value) {
         setCreateTime(value);
         return this;
     }
 
     @Override
-    public SubjectPermissionRelationshipRecord value8(ULong value) {
+    public PermissionAssignmentRecord value8(ULong value) {
         setCreateUserId(value);
         return this;
     }
 
     @Override
-    public SubjectPermissionRelationshipRecord value9(ULong value) {
+    public PermissionAssignmentRecord value9(ULong value) {
         setIsDeleted(value);
         return this;
     }
 
     @Override
-    public SubjectPermissionRelationshipRecord values(ULong value1, UByte value2, ULong value3, ULong value4, ULong value5, String value6, LocalDateTime value7, ULong value8, ULong value9) {
+    public PermissionAssignmentRecord values(ULong value1, UByte value2, ULong value3, ULong value4, ULong value5, String value6, LocalDateTime value7, ULong value8, ULong value9) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -383,17 +382,17 @@ public class SubjectPermissionRelationshipRecord extends UpdatableRecordImpl<Sub
     // -------------------------------------------------------------------------
 
     /**
-     * Create a detached SubjectPermissionRelationshipRecord
+     * Create a detached PermissionAssignmentRecord
      */
-    public SubjectPermissionRelationshipRecord() {
-        super(SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP);
+    public PermissionAssignmentRecord() {
+        super(PermissionAssignment.PERMISSION_ASSIGNMENT);
     }
 
     /**
-     * Create a detached, initialised SubjectPermissionRelationshipRecord
+     * Create a detached, initialised PermissionAssignmentRecord
      */
-    public SubjectPermissionRelationshipRecord(ULong id, UByte subjectType, ULong subjectIdentifier, ULong persissionTargetId, ULong permissionActionId, String command, LocalDateTime createTime, ULong createUserId, ULong isDeleted) {
-        super(SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP);
+    public PermissionAssignmentRecord(ULong id, UByte subjectType, ULong subjectIdentifier, ULong persissionTargetId, ULong permissionActionId, String command, LocalDateTime createTime, ULong createUserId, ULong isDeleted) {
+        super(PermissionAssignment.PERMISSION_ASSIGNMENT);
 
         set(0, id);
         set(1, subjectType);

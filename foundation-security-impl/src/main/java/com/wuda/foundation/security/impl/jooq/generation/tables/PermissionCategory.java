@@ -35,7 +35,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionCategory extends TableImpl<PermissionCategoryRecord> {
 
-    private static final long serialVersionUID = -1892322872;
+    private static final long serialVersionUID = -1943697261;
 
     /**
      * The reference instance of <code>foundation_security.permission_category</code>
@@ -145,7 +145,7 @@ public class PermissionCategory extends TableImpl<PermissionCategoryRecord> {
 
     @Override
     public List<UniqueKey<PermissionCategoryRecord>> getKeys() {
-        return Arrays.<UniqueKey<PermissionCategoryRecord>>asList(Keys.KEY_PERMISSION_CATEGORY_PRIMARY, Keys.KEY_PERMISSION_CATEGORY_PERMISSION_CATEGORY_ID);
+        return Arrays.<UniqueKey<PermissionCategoryRecord>>asList(Keys.KEY_PERMISSION_CATEGORY_PRIMARY);
     }
 
     @Override

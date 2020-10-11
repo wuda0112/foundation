@@ -6,11 +6,11 @@ import com.wuda.foundation.lang.Constant;
 import com.wuda.foundation.lang.FoundationContext;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.security.AbstractPermissionGrantManager;
+import com.wuda.foundation.security.PermissionAssignmentCommand;
 import com.wuda.foundation.security.Subject;
-import com.wuda.foundation.security.SubjectPermission;
-import com.wuda.foundation.security.SubjectPermissionRelationshipCommand;
+import com.wuda.foundation.security.DescribePermissionAssignment;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionActionRecord;
-import com.wuda.foundation.security.impl.jooq.generation.tables.records.SubjectPermissionRelationshipRecord;
+import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionAssignmentRecord;
 import org.jooq.DSLContext;
 import org.jooq.SelectConditionStep;
 import org.jooq.UpdateConditionStep;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAction.PERMISSION_ACTION;
-import static com.wuda.foundation.security.impl.jooq.generation.tables.SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP;
+import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAssignment.PERMISSION_ASSIGNMENT;
 
 public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager implements JooqCommonDbOp {
 
@@ -42,26 +42,26 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
     }
 
     protected void grantTargetDbOp(Subject subject, Long targetId, Long opUserId) {
-        List<SubjectPermissionRelationshipRecord> records = getSubjectPermissionRelationship(subject, targetId);
+        List<PermissionAssignmentRecord> records = getPermissionAssignment(subject, targetId);
         if (records == null || records.size() == 0) {
-            SubjectPermissionRelationshipRecord record = subjectPermissionRelationshipRecordForInsert(subject, targetId, Constant.NOT_EXISTS_ID, SubjectPermissionRelationshipCommand.GRANT, opUserId);
-            insert(dataSource, SUBJECT_PERMISSION_RELATIONSHIP, record);
+            PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, targetId, Constant.NOT_EXISTS_ID, PermissionAssignmentCommand.GRANT, opUserId);
+            insert(dataSource, PERMISSION_ASSIGNMENT, record);
         } else if (records.size() == 1 && records.get(0).getPermissionActionId().longValue() == Constant.NOT_EXISTS_ID) {
             // 已经有这样的记录,do nothing
         } else { // 应该是分配的这个target的多个action
-            deleteSubjectPermission(subject, targetId, null);
-            SubjectPermissionRelationshipRecord record = subjectPermissionRelationshipRecordForInsert(subject, targetId, Constant.NOT_EXISTS_ID, SubjectPermissionRelationshipCommand.GRANT, opUserId);
-            insert(dataSource, SUBJECT_PERMISSION_RELATIONSHIP, record);
+            deletePermissionAssignment(subject, targetId, null);
+            PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, targetId, Constant.NOT_EXISTS_ID, PermissionAssignmentCommand.GRANT, opUserId);
+            insert(dataSource, PERMISSION_ASSIGNMENT, record);
         }
     }
 
-    private SubjectPermissionRelationshipRecord subjectPermissionRelationshipRecordForInsert(Subject subject,
-                                                                                             Long targetId,
-                                                                                             Long actionId,
-                                                                                             SubjectPermissionRelationshipCommand command,
-                                                                                             Long opUserId) {
+    private PermissionAssignmentRecord permissionAssignmentRecordForInsert(Subject subject,
+                                                                           Long targetId,
+                                                                           Long actionId,
+                                                                           PermissionAssignmentCommand command,
+                                                                           Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
-        return new SubjectPermissionRelationshipRecord(
+        return new PermissionAssignmentRecord(
                 ULong.valueOf(FoundationContext.getLongKeyGenerator().next()),
                 UByte.valueOf(subject.getType().getCode()),
                 ULong.valueOf(subject.getValue()),
@@ -71,13 +71,13 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
                 now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
-    protected List<SubjectPermissionRelationshipRecord> getSubjectPermissionRelationship(Subject subject, Long targetId) {
+    protected List<PermissionAssignmentRecord> getPermissionAssignment(Subject subject, Long targetId) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        SelectConditionStep<SubjectPermissionRelationshipRecord> selectWhereStep = dslContext.selectFrom(SUBJECT_PERMISSION_RELATIONSHIP)
-                .where(SUBJECT_PERMISSION_RELATIONSHIP.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
-                .and(SUBJECT_PERMISSION_RELATIONSHIP.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())))
-                .and(SUBJECT_PERMISSION_RELATIONSHIP.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)))
-                .and(SUBJECT_PERMISSION_RELATIONSHIP.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
+        SelectConditionStep<PermissionAssignmentRecord> selectWhereStep = dslContext.selectFrom(PERMISSION_ASSIGNMENT)
+                .where(PERMISSION_ASSIGNMENT.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
+                .and(PERMISSION_ASSIGNMENT.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())))
+                .and(PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)))
+                .and(PERMISSION_ASSIGNMENT.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
         return selectWhereStep.fetch();
     }
 
@@ -90,30 +90,30 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
     }
 
     protected void grantActionDbOp(Subject subject, Long targetId, Long actionId, Long opUserId) {
-        SubjectPermissionRelationshipRecord subjectPermissionRelationshipRecord = querySubjectPermissionRelationshipRecord(subject, targetId, actionId);
-        if (subjectPermissionRelationshipRecord == null) {
-            subjectPermissionRelationshipRecord = querySubjectPermissionRelationshipRecord(subject, targetId, Constant.NOT_EXISTS_ID);
+        PermissionAssignmentRecord permissionAssignmentRecord = queryPermissionAssignmentRecord(subject, targetId, actionId);
+        if (permissionAssignmentRecord == null) {
+            permissionAssignmentRecord = queryPermissionAssignmentRecord(subject, targetId, Constant.NOT_EXISTS_ID);
         }
-        if (subjectPermissionRelationshipRecord != null
-                && subjectPermissionRelationshipRecord.getCommand().equals(SubjectPermissionRelationshipCommand.GRANT.getCommand())) {
+        if (permissionAssignmentRecord != null
+                && permissionAssignmentRecord.getCommand().equals(PermissionAssignmentCommand.GRANT.getCommand())) {
             return;
         }
-        if (subjectPermissionRelationshipRecord != null) {
-            deleteSubjectPermission(subject, targetId, actionId);
+        if (permissionAssignmentRecord != null) {
+            deletePermissionAssignment(subject, targetId, actionId);
         }
-        SubjectPermissionRelationshipRecord record = subjectPermissionRelationshipRecordForInsert(subject, targetId, actionId, SubjectPermissionRelationshipCommand.GRANT, opUserId);
-        insert(dataSource, SUBJECT_PERMISSION_RELATIONSHIP, record);
+        PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, targetId, actionId, PermissionAssignmentCommand.GRANT, opUserId);
+        insert(dataSource, PERMISSION_ASSIGNMENT, record);
     }
 
-    protected void deleteSubjectPermission(Subject subject, Long targetId, Long actionId) {
+    protected void deletePermissionAssignment(Subject subject, Long targetId, Long actionId) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        UpdateConditionStep<SubjectPermissionRelationshipRecord> updateConditionStep = dslContext.update(SUBJECT_PERMISSION_RELATIONSHIP)
-                .set(SUBJECT_PERMISSION_RELATIONSHIP.IS_DELETED, SUBJECT_PERMISSION_RELATIONSHIP.ID)
-                .where(SUBJECT_PERMISSION_RELATIONSHIP.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
-                .and(SUBJECT_PERMISSION_RELATIONSHIP.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())))
-                .and(SUBJECT_PERMISSION_RELATIONSHIP.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)));
+        UpdateConditionStep<PermissionAssignmentRecord> updateConditionStep = dslContext.update(PERMISSION_ASSIGNMENT)
+                .set(PERMISSION_ASSIGNMENT.IS_DELETED, PERMISSION_ASSIGNMENT.ID)
+                .where(PERMISSION_ASSIGNMENT.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
+                .and(PERMISSION_ASSIGNMENT.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())))
+                .and(PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)));
         if (actionId != null) {
-            updateConditionStep.and(SUBJECT_PERMISSION_RELATIONSHIP.PERMISSION_ACTION_ID.eq(ULong.valueOf(actionId)));
+            updateConditionStep.and(PERMISSION_ASSIGNMENT.PERMISSION_ACTION_ID.eq(ULong.valueOf(actionId)));
         }
         updateConditionStep.execute();
     }
@@ -139,26 +139,26 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
                 .fetch();
     }
 
-    protected SubjectPermissionRelationshipRecord querySubjectPermissionRelationshipRecord(Subject subject, Long targetId, Long actionId) {
+    protected PermissionAssignmentRecord queryPermissionAssignmentRecord(Subject subject, Long targetId, Long actionId) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        return dslContext.selectFrom(SUBJECT_PERMISSION_RELATIONSHIP)
-                .where(SUBJECT_PERMISSION_RELATIONSHIP.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
-                .and(SUBJECT_PERMISSION_RELATIONSHIP.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())))
-                .and(SUBJECT_PERMISSION_RELATIONSHIP.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)))
-                .and(SUBJECT_PERMISSION_RELATIONSHIP.PERMISSION_ACTION_ID.eq(ULong.valueOf(actionId)))
-                .and(SUBJECT_PERMISSION_RELATIONSHIP.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())))
+        return dslContext.selectFrom(PERMISSION_ASSIGNMENT)
+                .where(PERMISSION_ASSIGNMENT.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
+                .and(PERMISSION_ASSIGNMENT.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())))
+                .and(PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)))
+                .and(PERMISSION_ASSIGNMENT.PERMISSION_ACTION_ID.eq(ULong.valueOf(actionId)))
+                .and(PERMISSION_ASSIGNMENT.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())))
                 .fetchOne();
     }
 
-    protected List<SubjectPermissionRelationshipRecord> querySubjectPermissionRelationshipRecords(Subject subject, Long targetId) {
+    protected List<PermissionAssignmentRecord> queryPermissionAssignmentRecords(Subject subject, Long targetId) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        SelectConditionStep<SubjectPermissionRelationshipRecord> selectConditionStep = dslContext.selectFrom(SUBJECT_PERMISSION_RELATIONSHIP)
-                .where(SUBJECT_PERMISSION_RELATIONSHIP.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
-                .and(SUBJECT_PERMISSION_RELATIONSHIP.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())));
+        SelectConditionStep<PermissionAssignmentRecord> selectConditionStep = dslContext.selectFrom(PERMISSION_ASSIGNMENT)
+                .where(PERMISSION_ASSIGNMENT.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
+                .and(PERMISSION_ASSIGNMENT.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())));
         if (targetId != null) {
-            selectConditionStep.and(SUBJECT_PERMISSION_RELATIONSHIP.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)));
+            selectConditionStep.and(PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)));
         }
-        selectConditionStep.and(SUBJECT_PERMISSION_RELATIONSHIP.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
+        selectConditionStep.and(PERMISSION_ASSIGNMENT.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
         return selectConditionStep.fetch();
     }
 
@@ -170,7 +170,7 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
     }
 
     protected void revokeTargetDbOp(Subject subject, Long targetId, Long opUserId) {
-        deleteSubjectPermission(subject, targetId, null);
+        deletePermissionAssignment(subject, targetId, null);
     }
 
     @Override
@@ -182,22 +182,22 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
     }
 
     protected void revokeActionDbOp(Subject subject, Long targetId, Long actionId, Long opUserId) {
-        SubjectPermissionRelationshipRecord existsSubjectPermissionRelationship = querySubjectPermissionRelationshipRecord(subject, targetId, actionId);
-        if (existsSubjectPermissionRelationship != null
-                && existsSubjectPermissionRelationship.getCommand().equals(SubjectPermissionRelationshipCommand.REVOKE.getCommand())) {
+        PermissionAssignmentRecord existsPermissionAssignment = queryPermissionAssignmentRecord(subject, targetId, actionId);
+        if (existsPermissionAssignment != null
+                && existsPermissionAssignment.getCommand().equals(PermissionAssignmentCommand.REVOKE.getCommand())) {
             // 已经revoke
             return;
         }
-        if (existsSubjectPermissionRelationship != null) {
-            deleteSubjectPermission(subject, targetId, actionId);
+        if (existsPermissionAssignment != null) {
+            deletePermissionAssignment(subject, targetId, actionId);
         }
-        SubjectPermissionRelationshipRecord subjectPermissionRelationshipRecord = subjectPermissionRelationshipRecordForInsert(subject, targetId, actionId, SubjectPermissionRelationshipCommand.REVOKE, opUserId);
-        insert(dataSource, SUBJECT_PERMISSION_RELATIONSHIP, subjectPermissionRelationshipRecord);
+        PermissionAssignmentRecord permissionAssignmentRecord = permissionAssignmentRecordForInsert(subject, targetId, actionId, PermissionAssignmentCommand.REVOKE, opUserId);
+        insert(dataSource, PERMISSION_ASSIGNMENT, permissionAssignmentRecord);
     }
 
     @Override
-    protected List<SubjectPermission> getPermissionDbOp(Subject subject) {
-        List<SubjectPermissionRelationshipRecord> records = querySubjectPermissionRelationshipRecords(subject, null);
+    protected List<DescribePermissionAssignment> getPermissionDbOp(Subject subject) {
+        List<PermissionAssignmentRecord> records = queryPermissionAssignmentRecords(subject, null);
         return null;
     }
 }

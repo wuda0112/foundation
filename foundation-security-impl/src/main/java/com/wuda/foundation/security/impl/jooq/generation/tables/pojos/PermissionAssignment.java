@@ -12,13 +12,12 @@ import org.jooq.types.ULong;
 
 
 /**
- * subject可以代表用户，也可以代表想要访问其他资源的应用，suibject与permission的关联关系表。比如我们可以说user 【IS 
- * A】 subject
+ * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class SubjectPermissionRelationship implements Serializable {
+public class PermissionAssignment implements Serializable {
 
-    private static final long serialVersionUID = -686730908;
+    private static final long serialVersionUID = 669210933;
 
     private ULong         id;
     private UByte         subjectType;
@@ -30,9 +29,9 @@ public class SubjectPermissionRelationship implements Serializable {
     private ULong         createUserId;
     private ULong         isDeleted;
 
-    public SubjectPermissionRelationship() {}
+    public PermissionAssignment() {}
 
-    public SubjectPermissionRelationship(SubjectPermissionRelationship value) {
+    public PermissionAssignment(PermissionAssignment value) {
         this.id = value.id;
         this.subjectType = value.subjectType;
         this.subjectIdentifier = value.subjectIdentifier;
@@ -44,7 +43,7 @@ public class SubjectPermissionRelationship implements Serializable {
         this.isDeleted = value.isDeleted;
     }
 
-    public SubjectPermissionRelationship(
+    public PermissionAssignment(
         ULong         id,
         UByte         subjectType,
         ULong         subjectIdentifier,
@@ -140,7 +139,7 @@ public class SubjectPermissionRelationship implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("SubjectPermissionRelationship (");
+        StringBuilder sb = new StringBuilder("PermissionAssignment (");
 
         sb.append(id);
         sb.append(", ").append(subjectType);

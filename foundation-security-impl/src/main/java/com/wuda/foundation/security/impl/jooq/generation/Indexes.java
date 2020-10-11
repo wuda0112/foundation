@@ -5,9 +5,9 @@ package com.wuda.foundation.security.impl.jooq.generation;
 
 
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAction;
+import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAssignment;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionCategory;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionTarget;
-import com.wuda.foundation.security.impl.jooq.generation.tables.SubjectPermissionRelationship;
 
 import org.jooq.Index;
 import org.jooq.OrderField;
@@ -27,12 +27,12 @@ public class Indexes {
 
     public static final Index PERMISSION_ACTION_FK_PERMISSION_TARGET_ID = Indexes0.PERMISSION_ACTION_FK_PERMISSION_TARGET_ID;
     public static final Index PERMISSION_ACTION_IDX_REFERENCED_OBJECT = Indexes0.PERMISSION_ACTION_IDX_REFERENCED_OBJECT;
+    public static final Index PERMISSION_ASSIGNMENT_FK_PERMISSION_ACTION_ID = Indexes0.PERMISSION_ASSIGNMENT_FK_PERMISSION_ACTION_ID;
+    public static final Index PERMISSION_ASSIGNMENT_FK_PERMISSION_TARGET_ID = Indexes0.PERMISSION_ASSIGNMENT_FK_PERMISSION_TARGET_ID;
+    public static final Index PERMISSION_ASSIGNMENT_IDX_SUBJECT = Indexes0.PERMISSION_ASSIGNMENT_IDX_SUBJECT;
     public static final Index PERMISSION_CATEGORY_IDX_PARENT_ID = Indexes0.PERMISSION_CATEGORY_IDX_PARENT_ID;
     public static final Index PERMISSION_TARGET_FK_PERMISSION_CATEGORY_ID = Indexes0.PERMISSION_TARGET_FK_PERMISSION_CATEGORY_ID;
     public static final Index PERMISSION_TARGET_IDX_REFERENCED = Indexes0.PERMISSION_TARGET_IDX_REFERENCED;
-    public static final Index SUBJECT_PERMISSION_RELATIONSHIP_FK_PERMISSION_ACTION_ID = Indexes0.SUBJECT_PERMISSION_RELATIONSHIP_FK_PERMISSION_ACTION_ID;
-    public static final Index SUBJECT_PERMISSION_RELATIONSHIP_FK_PERMISSION_TARGET_ID = Indexes0.SUBJECT_PERMISSION_RELATIONSHIP_FK_PERMISSION_TARGET_ID;
-    public static final Index SUBJECT_PERMISSION_RELATIONSHIP_IDX_SUBJECT = Indexes0.SUBJECT_PERMISSION_RELATIONSHIP_IDX_SUBJECT;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -41,11 +41,11 @@ public class Indexes {
     private static class Indexes0 {
         public static Index PERMISSION_ACTION_FK_PERMISSION_TARGET_ID = Internal.createIndex("fk_permission_target_id", PermissionAction.PERMISSION_ACTION, new OrderField[] { PermissionAction.PERMISSION_ACTION.PERMISSION_TARGET_ID }, false);
         public static Index PERMISSION_ACTION_IDX_REFERENCED_OBJECT = Internal.createIndex("idx_referenced_object", PermissionAction.PERMISSION_ACTION, new OrderField[] { PermissionAction.PERMISSION_ACTION.REFERENCED_TYPE, PermissionAction.PERMISSION_ACTION.REFERENCED_IDENTIFIER }, false);
+        public static Index PERMISSION_ASSIGNMENT_FK_PERMISSION_ACTION_ID = Internal.createIndex("fk_permission_action_id", PermissionAssignment.PERMISSION_ASSIGNMENT, new OrderField[] { PermissionAssignment.PERMISSION_ASSIGNMENT.PERMISSION_ACTION_ID }, false);
+        public static Index PERMISSION_ASSIGNMENT_FK_PERMISSION_TARGET_ID = Internal.createIndex("fk_permission_target_id", PermissionAssignment.PERMISSION_ASSIGNMENT, new OrderField[] { PermissionAssignment.PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID }, false);
+        public static Index PERMISSION_ASSIGNMENT_IDX_SUBJECT = Internal.createIndex("idx_subject", PermissionAssignment.PERMISSION_ASSIGNMENT, new OrderField[] { PermissionAssignment.PERMISSION_ASSIGNMENT.SUBJECT_TYPE, PermissionAssignment.PERMISSION_ASSIGNMENT.SUBJECT_IDENTIFIER }, false);
         public static Index PERMISSION_CATEGORY_IDX_PARENT_ID = Internal.createIndex("idx_parent_id", PermissionCategory.PERMISSION_CATEGORY, new OrderField[] { PermissionCategory.PERMISSION_CATEGORY.PARENT_ID }, false);
         public static Index PERMISSION_TARGET_FK_PERMISSION_CATEGORY_ID = Internal.createIndex("fk_permission_category_id", PermissionTarget.PERMISSION_TARGET, new OrderField[] { PermissionTarget.PERMISSION_TARGET.PERMISSION_CATEGORY_ID }, false);
         public static Index PERMISSION_TARGET_IDX_REFERENCED = Internal.createIndex("idx_referenced", PermissionTarget.PERMISSION_TARGET, new OrderField[] { PermissionTarget.PERMISSION_TARGET.REFERENCED_TYPE, PermissionTarget.PERMISSION_TARGET.REFERENCED_IDENTIFIER }, false);
-        public static Index SUBJECT_PERMISSION_RELATIONSHIP_FK_PERMISSION_ACTION_ID = Internal.createIndex("fk_permission_action_id", SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP, new OrderField[] { SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.PERMISSION_ACTION_ID }, false);
-        public static Index SUBJECT_PERMISSION_RELATIONSHIP_FK_PERMISSION_TARGET_ID = Internal.createIndex("fk_permission_target_id", SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP, new OrderField[] { SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.PERSISSION_TARGET_ID }, false);
-        public static Index SUBJECT_PERMISSION_RELATIONSHIP_IDX_SUBJECT = Internal.createIndex("idx_subject", SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP, new OrderField[] { SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.SUBJECT_TYPE, SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP.SUBJECT_IDENTIFIER }, false);
     }
 }

@@ -33,9 +33,9 @@ public abstract class AbstractPermissionGrantManager implements PermissionGrantM
     protected abstract void revokeActionDbOp(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId);
 
     @Override
-    public List<SubjectPermission> getPermission(Subject subject) {
+    public List<DescribePermissionAssignment> getPermission(Subject subject) {
         return getPermissionDbOp(subject);
     }
 
-    protected abstract List<SubjectPermission> getPermissionDbOp(Subject subject);
+    protected abstract List<DescribePermissionAssignment> getPermissionDbOp(Subject subject);
 }

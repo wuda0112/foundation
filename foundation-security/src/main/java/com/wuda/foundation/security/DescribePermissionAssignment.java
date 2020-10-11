@@ -8,7 +8,7 @@ import java.util.Set;
  * @author wuda
  * @since 1.0.0
  */
-public class SubjectPermission {
+public class DescribePermissionAssignment {
 
     private Subject subject;
     private DescribePermissionTarget target;

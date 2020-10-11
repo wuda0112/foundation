@@ -5,9 +5,9 @@ package com.wuda.foundation.security.impl.jooq.generation;
 
 
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAction;
+import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAssignment;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionCategory;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionTarget;
-import com.wuda.foundation.security.impl.jooq.generation.tables.SubjectPermissionRelationship;
 
 
 /**
@@ -22,6 +22,11 @@ public class Tables {
     public static final PermissionAction PERMISSION_ACTION = PermissionAction.PERMISSION_ACTION;
 
     /**
+     * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject
+     */
+    public static final PermissionAssignment PERMISSION_ASSIGNMENT = PermissionAssignment.PERMISSION_ASSIGNMENT;
+
+    /**
      * permission分类
      */
     public static final PermissionCategory PERMISSION_CATEGORY = PermissionCategory.PERMISSION_CATEGORY;
@@ -30,9 +35,4 @@ public class Tables {
      * permission作用的对象，分为两类，1，关联外部对象，使用type字段表明外部对象的类型，referenced_id表明外部对象的唯一标记，比如在web系统中，已经拥有了菜单表，如果要对菜单权限控制，使用referenced_id关联菜单表的主键ID，就可以将permission与菜单数据建立联系，而不需要把菜单相关的逻辑引入到权限体系中；2，不关联外部对象，当前表中的信息就已经描述了作用对象的信息。对于permission体系来说，permission target是主体（一等公民），permiss
      */
     public static final PermissionTarget PERMISSION_TARGET = PermissionTarget.PERMISSION_TARGET;
-
-    /**
-     * subject可以代表用户，也可以代表想要访问其他资源的应用，suibject与permission的关联关系表。比如我们可以说user 【IS A】 subject
-     */
-    public static final SubjectPermissionRelationship SUBJECT_PERMISSION_RELATIONSHIP = SubjectPermissionRelationship.SUBJECT_PERMISSION_RELATIONSHIP;
 }

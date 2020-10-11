@@ -1,6 +1,6 @@
 package com.wuda.foundation.security;
 
-public enum SubjectPermissionRelationshipCommand {
+public enum PermissionAssignmentCommand {
 
     GRANT("grant"),
     REVOKE("revoke");
@@ -11,7 +11,7 @@ public enum SubjectPermissionRelationshipCommand {
 
     private String command;
 
-    SubjectPermissionRelationshipCommand(String command) {
+    PermissionAssignmentCommand(String command) {
         this.command = command;
     }
 }

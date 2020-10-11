@@ -12,13 +12,15 @@ import org.jooq.types.ULong;
 
 
 /**
- * 用户有很多类型，比如一种分类方法是把用户分成个人用户和企业用户，而不同类型的用户需要的字段不一样，但是他们都是用户，即 is-a user。这个表属于所有用户的基本信息，其他不同类型的用户有自己专属的表，然后用用户ID关联回这个表。这样做还有一个好处，那就是其他表中的用户ID都统一关联回这个表，这样用户ID就不会有歧义了。
+ * 用户核心信息。用户有很多类型，比如一种分类方法是把用户分成个人用户和企业用户，而不同类型的用户需要的字段不一样，但是他们都是用户，即 is-a 
+ * user。这个表属于所有用户的基本信息，其他不同类型的用户有自己专属的表，然后用用户ID关联回这个表。这样做还有一个好处，那就是其他表中的用户ID都统一关联回这个表，这样用户ID就不会有歧义了。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class User implements Serializable {
+public class UserCore implements Serializable {
 
-    private static final long serialVersionUID = 728255708;
+    private static final long serialVersionUID = -1917122525;
 
+    private ULong         userCoreId;
     private ULong         userId;
     private UByte         type;
     private UByte         state;
@@ -28,9 +30,10 @@ public class User implements Serializable {
     private ULong         lastModifyUserId;
     private ULong         isDeleted;
 
-    public User() {}
+    public UserCore() {}
 
-    public User(User value) {
+    public UserCore(UserCore value) {
+        this.userCoreId = value.userCoreId;
         this.userId = value.userId;
         this.type = value.type;
         this.state = value.state;
@@ -41,7 +44,8 @@ public class User implements Serializable {
         this.isDeleted = value.isDeleted;
     }
 
-    public User(
+    public UserCore(
+        ULong         userCoreId,
         ULong         userId,
         UByte         type,
         UByte         state,
@@ -51,6 +55,7 @@ public class User implements Serializable {
         ULong         lastModifyUserId,
         ULong         isDeleted
     ) {
+        this.userCoreId = userCoreId;
         this.userId = userId;
         this.type = type;
         this.state = state;
@@ -59,6 +64,14 @@ public class User implements Serializable {
         this.lastModifyTime = lastModifyTime;
         this.lastModifyUserId = lastModifyUserId;
         this.isDeleted = isDeleted;
+    }
+
+    public ULong getUserCoreId() {
+        return this.userCoreId;
+    }
+
+    public void setUserCoreId(ULong userCoreId) {
+        this.userCoreId = userCoreId;
     }
 
     public ULong getUserId() {
@@ -127,9 +140,10 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("User (");
+        StringBuilder sb = new StringBuilder("UserCore (");
 
-        sb.append(userId);
+        sb.append(userCoreId);
+        sb.append(", ").append(userId);
         sb.append(", ").append(type);
         sb.append(", ").append(state);
         sb.append(", ").append(createTime);

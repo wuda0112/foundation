@@ -5,8 +5,8 @@ package com.wuda.foundation.user.impl.jooq.generation;
 
 
 import com.wuda.foundation.user.impl.jooq.generation.tables.IndividualUserGeneral;
-import com.wuda.foundation.user.impl.jooq.generation.tables.User;
 import com.wuda.foundation.user.impl.jooq.generation.tables.UserAccount;
+import com.wuda.foundation.user.impl.jooq.generation.tables.UserCore;
 import com.wuda.foundation.user.impl.jooq.generation.tables.UserEmail;
 import com.wuda.foundation.user.impl.jooq.generation.tables.UserPhone;
 
@@ -24,7 +24,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationUser extends SchemaImpl {
 
-    private static final long serialVersionUID = 1991873654;
+    private static final long serialVersionUID = 1445544230;
 
     /**
      * The reference instance of <code>foundation_user</code>
@@ -37,14 +37,14 @@ public class FoundationUser extends SchemaImpl {
     public final IndividualUserGeneral INDIVIDUAL_USER_GENERAL = IndividualUserGeneral.INDIVIDUAL_USER_GENERAL;
 
     /**
-     * 用户有很多类型，比如一种分类方法是把用户分成个人用户和企业用户，而不同类型的用户需要的字段不一样，但是他们都是用户，即 is-a user。这个表属于所有用户的基本信息，其他不同类型的用户有自己专属的表，然后用用户ID关联回这个表。这样做还有一个好处，那就是其他表中的用户ID都统一关联回这个表，这样用户ID就不会有歧义了。
-     */
-    public final User USER = User.USER;
-
-    /**
      * 用户账号信息，适用各种类型的用户
      */
     public final UserAccount USER_ACCOUNT = UserAccount.USER_ACCOUNT;
+
+    /**
+     * 用户核心信息。用户有很多类型，比如一种分类方法是把用户分成个人用户和企业用户，而不同类型的用户需要的字段不一样，但是他们都是用户，即 is-a user。这个表属于所有用户的基本信息，其他不同类型的用户有自己专属的表，然后用用户ID关联回这个表。这样做还有一个好处，那就是其他表中的用户ID都统一关联回这个表，这样用户ID就不会有歧义了。
+     */
+    public final UserCore USER_CORE = UserCore.USER_CORE;
 
     /**
      * 用户的email
@@ -73,8 +73,8 @@ public class FoundationUser extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
             IndividualUserGeneral.INDIVIDUAL_USER_GENERAL,
-            User.USER,
             UserAccount.USER_ACCOUNT,
+            UserCore.USER_CORE,
             UserEmail.USER_EMAIL,
             UserPhone.USER_PHONE);
     }

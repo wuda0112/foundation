@@ -16,18 +16,18 @@ import java.util.Objects;
  */
 public abstract class AbstractUserManager implements UserManager {
     @Override
-    public void createUser(CreateUser createUser, Long opUserId) {
-        createUserDbOp(createUser, opUserId);
+    public void createUserCore(CreateUserCore createUserCore, Long opUserId) {
+        createUserCoreDbOp(createUserCore, opUserId);
     }
 
-    protected abstract void createUserDbOp(CreateUser createUser, Long opUserId);
+    protected abstract void createUserCoreDbOp(CreateUserCore createUserCore, Long opUserId);
 
     @Override
-    public void directBatchInsertUser(List<CreateUser> userList, Long opUserId) {
-        directBatchInsertUserDbOp(userList, opUserId);
+    public void directBatchInsertUserCore(List<CreateUserCore> userCores, Long opUserId) {
+        directBatchInsertUserCoreDbOp(userCores, opUserId);
     }
 
-    protected abstract void directBatchInsertUserDbOp(List<CreateUser> userList, Long opUserId);
+    protected abstract void directBatchInsertUserCoreDbOp(List<CreateUserCore> userList, Long opUserId);
 
     @Override
     public void createUserAccount(CreateUserAccount createUserAccount, Long opUserId) throws AlreadyExistsException {

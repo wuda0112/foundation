@@ -7,16 +7,11 @@ import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.identify.Identifier;
-import com.wuda.foundation.user.AbstractUserManager;
-import com.wuda.foundation.user.BindUserEmail;
-import com.wuda.foundation.user.BindUserPhone;
-import com.wuda.foundation.user.CreateUser;
-import com.wuda.foundation.user.CreateUserAccount;
-import com.wuda.foundation.user.CreateUserWithAccount;
+import com.wuda.foundation.user.*;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserAccountRecord;
+import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserCoreRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserEmailRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserPhoneRecord;
-import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserRecord;
 import org.jooq.Configuration;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
@@ -29,8 +24,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wuda.foundation.user.impl.jooq.generation.tables.User.USER;
 import static com.wuda.foundation.user.impl.jooq.generation.tables.UserAccount.USER_ACCOUNT;
+import static com.wuda.foundation.user.impl.jooq.generation.tables.UserCore.USER_CORE;
 import static com.wuda.foundation.user.impl.jooq.generation.tables.UserEmail.USER_EMAIL;
 import static com.wuda.foundation.user.impl.jooq.generation.tables.UserPhone.USER_PHONE;
 
@@ -44,13 +39,13 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
 
 
     @Override
-    protected void createUserDbOp(CreateUser createUser, Long opUserId) {
-        insert(dataSource, USER, userRecordForInsert(createUser, opUserId));
+    protected void createUserCoreDbOp(CreateUserCore createUserCore, Long opUserId) {
+        insert(dataSource, USER_CORE, userCoreRecordForInsert(createUserCore, opUserId));
     }
 
     @Override
-    protected void directBatchInsertUserDbOp(List<CreateUser> userList, Long opUserId) {
-        batchInsert(dataSource, USER, userRecordsForInsert(userList, opUserId));
+    protected void directBatchInsertUserCoreDbOp(List<CreateUserCore> userList, Long opUserId) {
+        batchInsert(dataSource, USER_CORE, userCoreRecordsForInsert(userList, opUserId));
     }
 
     @Override
@@ -114,22 +109,23 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
     @Override
     public void createUserWithAccountDbOp(CreateUserWithAccount createUserWithAccount, Long opUserId) throws AlreadyExistsException {
         createUserAccountDbOp(createUserWithAccount.getUserAccount(), opUserId);
-        createUserDbOp(createUserWithAccount.getUser(), opUserId);
+        createUserCoreDbOp(createUserWithAccount.getUserCore(), opUserId);
     }
 
-    private List<UserRecord> userRecordsForInsert(List<CreateUser> createUsers, Long opUserId) {
-        List<UserRecord> list = new ArrayList<>(createUsers.size());
-        for (CreateUser createUser : createUsers) {
-            list.add(userRecordForInsert(createUser, opUserId));
+    private List<UserCoreRecord> userCoreRecordsForInsert(List<CreateUserCore> createUserCores, Long opUserId) {
+        List<UserCoreRecord> list = new ArrayList<>(createUserCores.size());
+        for (CreateUserCore createUserCore : createUserCores) {
+            list.add(userCoreRecordForInsert(createUserCore, opUserId));
         }
         return list;
     }
 
-    private UserRecord userRecordForInsert(CreateUser createUser, Long opUserId) {
+    private UserCoreRecord userCoreRecordForInsert(CreateUserCore createUserCore, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
-        return new UserRecord(ULong.valueOf(createUser.getId()),
-                UByte.valueOf(createUser.getUserType()),
-                UByte.valueOf(createUser.getUserState()),
+        return new UserCoreRecord(ULong.valueOf(createUserCore.getId()),
+                ULong.valueOf(createUserCore.getUserId()),
+                UByte.valueOf(createUserCore.getUserType()),
+                UByte.valueOf(createUserCore.getUserState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 

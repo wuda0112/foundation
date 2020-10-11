@@ -9,23 +9,23 @@ import java.util.List;
 public interface UserManager {
 
     /**
-     * 添加user.
+     * 添加user core.
      *
-     * @param createUser user
-     * @param opUserId   操作人用户ID
+     * @param createUserCore user core
+     * @param opUserId       操作人用户ID
      */
-    void createUser(CreateUser createUser, Long opUserId);
+    void createUserCore(CreateUserCore createUserCore, Long opUserId);
 
     /**
-     * 批量添加user.
+     * 批量添加user core.
      *
-     * @param userList user list
-     * @param opUserId 操作人用户ID
+     * @param userCores user core list
+     * @param opUserId  操作人用户ID
      */
-    void directBatchInsertUser(List<CreateUser> userList, Long opUserId);
+    void directBatchInsertUserCore(List<CreateUserCore> userCores, Long opUserId);
 
     /**
-     * 添加user.
+     * 添加user account.
      *
      * @param createUserAccount user account
      * @param opUserId          操作人用户ID
@@ -92,7 +92,6 @@ public interface UserManager {
      *
      * @param createUser 用于创建用户的信息
      * @param opUserId   操作人用户ID,是谁正在添加这个新用户
-     * @return 新增的用户的ID
      * @throws AlreadyExistsException 如果username,email,phone已经存在
      */
     void createUserWithAccount(CreateUserWithAccount createUser, Long opUserId) throws AlreadyExistsException;

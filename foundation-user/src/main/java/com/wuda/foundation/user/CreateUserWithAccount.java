@@ -13,7 +13,7 @@ import java.util.Objects;
 @Getter
 public class CreateUserWithAccount {
 
-    private CreateUser user;
+    private CreateUserCore userCore;
     private CreateUserAccount userAccount;
 
     /**
@@ -31,11 +31,11 @@ public class CreateUserWithAccount {
      */
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateUserWithAccount> {
 
-        private CreateUser user;
+        private CreateUserCore userCore;
         private CreateUserAccount userAccount;
 
-        public Builder setUser(CreateUser user) {
-            this.user = user;
+        public Builder setUser(CreateUserCore userCore) {
+            this.userCore = userCore;
             return this;
         }
 
@@ -47,9 +47,9 @@ public class CreateUserWithAccount {
         @Override
         public CreateUserWithAccount build() {
             CreateUserWithAccount createUserWithAccount = new CreateUserWithAccount();
-            createUserWithAccount.user = Objects.requireNonNull(this.user);
+            createUserWithAccount.userCore = Objects.requireNonNull(this.userCore);
             createUserWithAccount.userAccount = Objects.requireNonNull(this.userAccount);
-            if (!user.getId().equals(userAccount.getUserId())) {
+            if (!userCore.getUserId().equals(userAccount.getUserId())) {
                 throw new IllegalStateException("用户Id不一致");
             }
             return createUserWithAccount;

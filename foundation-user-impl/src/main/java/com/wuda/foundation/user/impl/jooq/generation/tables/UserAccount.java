@@ -35,7 +35,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserAccount extends TableImpl<UserAccountRecord> {
 
-    private static final long serialVersionUID = -720550508;
+    private static final long serialVersionUID = -1256803247;
 
     /**
      * The reference instance of <code>foundation_user.user_account</code>
@@ -150,7 +150,7 @@ public class UserAccount extends TableImpl<UserAccountRecord> {
 
     @Override
     public List<UniqueKey<UserAccountRecord>> getKeys() {
-        return Arrays.<UniqueKey<UserAccountRecord>>asList(Keys.KEY_USER_ACCOUNT_PRIMARY, Keys.KEY_USER_ACCOUNT_USER_ID, Keys.KEY_USER_ACCOUNT_IDX_USERNAME);
+        return Arrays.<UniqueKey<UserAccountRecord>>asList(Keys.KEY_USER_ACCOUNT_PRIMARY, Keys.KEY_USER_ACCOUNT_IDX_USERNAME);
     }
 
     @Override

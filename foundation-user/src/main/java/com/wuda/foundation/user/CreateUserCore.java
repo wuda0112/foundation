@@ -11,33 +11,39 @@ import java.util.Objects;
  * @since 1.0.0
  */
 @Getter
-public class CreateUser {
+public class CreateUserCore {
 
     private Long id;
+    private Long userId;
     private Byte userType;
     private Byte userState;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
      */
-    private CreateUser() {
+    private CreateUserCore() {
 
     }
 
     /**
-     * 用于创建{@link CreateUser}.
+     * 用于创建{@link CreateUserCore}.
      *
      * @author wuda
      * @since 1.0.0
      */
-    public static class Builder implements com.wuda.foundation.lang.Builder<CreateUser> {
+    public static class Builder implements com.wuda.foundation.lang.Builder<CreateUserCore> {
 
         private Long id;
+        private Long userId;
         private Byte userType;
         private Byte userState;
 
         public Builder setId(Long id) {
             this.id = id;
+            return this;
+        }
+        public Builder setUserId(Long userId) {
+            this.userId = userId;
             return this;
         }
 
@@ -52,12 +58,13 @@ public class CreateUser {
         }
 
         @Override
-        public CreateUser build() {
-            CreateUser createUser = new CreateUser();
-            createUser.id = Objects.requireNonNull(this.id);
-            createUser.userType = Objects.requireNonNull(this.userType);
-            createUser.userState = Objects.requireNonNull(this.userState);
-            return createUser;
+        public CreateUserCore build() {
+            CreateUserCore createUserCore = new CreateUserCore();
+            createUserCore.id = Objects.requireNonNull(this.id);
+            createUserCore.userId = Objects.requireNonNull(this.userId);
+            createUserCore.userType = Objects.requireNonNull(this.userType);
+            createUserCore.userState = Objects.requireNonNull(this.userState);
+            return createUserCore;
         }
     }
 }

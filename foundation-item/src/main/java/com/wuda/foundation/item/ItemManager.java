@@ -17,21 +17,21 @@ import java.util.List;
 public interface ItemManager {
 
     /**
-     * 新增一个item.
+     * 新增一个item core.
      *
-     * @param createItem 创建item的参数
+     * @param createItemCore 创建item core的参数
      * @param opUserId   操作人用户ID
-     * @return 新增的item ID
+     * @return 新增的item core ID
      */
-    long createItem(CreateItem createItem, Long opUserId);
+    long createItemCore(CreateItemCore createItemCore, Long opUserId);
 
     /**
-     * 新增item.
+     * 新增item core.
      *
-     * @param createItems 创建item的参数
+     * @param createItemCores 创建item core的参数
      * @param opUserId    操作人用户ID,是谁正在添加这个新item
      */
-    void directBatchInsertItem(List<CreateItem> createItems, Long opUserId);
+    void directBatchInsertItemCore(List<CreateItemCore> createItemCores, Long opUserId);
 
     /**
      * 为item新增基本信息,如果已经存在基本信息,则更新.

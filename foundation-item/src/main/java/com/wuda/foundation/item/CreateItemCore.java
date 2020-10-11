@@ -5,15 +5,16 @@ import lombok.Getter;
 import java.util.Objects;
 
 /**
- * 用于创建item.
+ * 用于创建item core.
  *
  * @author wuda
  * @since 1.0.0
  */
 @Getter
-public class CreateItem {
+public class CreateItemCore {
 
     private Long id;
+    private Long itemId;
     private Long storeId;
     private Long categoryId;
     private Byte itemType;
@@ -22,19 +23,20 @@ public class CreateItem {
     /**
      * 禁止实例化,使用{@link Builder}实例化.
      */
-    private CreateItem() {
+    private CreateItemCore() {
 
     }
 
     /**
-     * 用于创建{@link CreateItem}实例.
+     * 用于创建{@link CreateItemCore}实例.
      *
      * @author wuda
      * @since 1.0.0
      */
-    public static class Builder implements com.wuda.foundation.lang.Builder<CreateItem> {
+    public static class Builder implements com.wuda.foundation.lang.Builder<CreateItemCore> {
 
         private Long id;
+        private Long itemId;
         private Long storeId;
         private Long categoryId;
         private Byte itemType;
@@ -42,6 +44,11 @@ public class CreateItem {
 
         public Builder setId(Long id) {
             this.id = id;
+            return this;
+        }
+
+        public Builder setItemId(Long itemId) {
+            this.itemId = itemId;
             return this;
         }
 
@@ -66,14 +73,15 @@ public class CreateItem {
         }
 
         @Override
-        public CreateItem build() {
-            CreateItem createItem = new CreateItem();
-            createItem.id = Objects.requireNonNull(this.id);
-            createItem.itemType = Objects.requireNonNull(this.itemType);
-            createItem.itemState = Objects.requireNonNull(this.itemState);
-            createItem.categoryId = Objects.requireNonNull(this.categoryId);
-            createItem.storeId = Objects.requireNonNull(this.storeId);
-            return createItem;
+        public CreateItemCore build() {
+            CreateItemCore createItemCore = new CreateItemCore();
+            createItemCore.id = Objects.requireNonNull(this.id);
+            createItemCore.itemId = Objects.requireNonNull(this.itemId);
+            createItemCore.itemType = Objects.requireNonNull(this.itemType);
+            createItemCore.itemState = Objects.requireNonNull(this.itemState);
+            createItemCore.categoryId = Objects.requireNonNull(this.categoryId);
+            createItemCore.storeId = Objects.requireNonNull(this.storeId);
+            return createItemCore;
         }
     }
 }

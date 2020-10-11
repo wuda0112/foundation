@@ -12,13 +12,14 @@ import org.jooq.types.ULong;
 
 
 /**
- * 代表所有的物品，之前有把用户ID放进来，表示该物品所属的用户，但是考虑到如果有子账号的情况，物品难道属于这个子账号所属的用户吗？而且记录了创建人用户ID，考虑这两个因素，因此不设置用户ID列
+ * 物品核心信息，代表所有的物品，之前有把用户ID放进来，表示该物品所属的用户，但是考虑到如果有子账号的情况，物品难道属于这个子账号所属的用户吗？而且记录了创建人用户ID，考虑这两个因素，因此不设置用户ID列
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class Item implements Serializable {
+public class ItemCore implements Serializable {
 
-    private static final long serialVersionUID = -1873619356;
+    private static final long serialVersionUID = -613401310;
 
+    private ULong         itemCoreId;
     private ULong         itemId;
     private ULong         storeId;
     private UByte         type;
@@ -29,9 +30,10 @@ public class Item implements Serializable {
     private ULong         lastModifyUserId;
     private ULong         isDeleted;
 
-    public Item() {}
+    public ItemCore() {}
 
-    public Item(Item value) {
+    public ItemCore(ItemCore value) {
+        this.itemCoreId = value.itemCoreId;
         this.itemId = value.itemId;
         this.storeId = value.storeId;
         this.type = value.type;
@@ -43,7 +45,8 @@ public class Item implements Serializable {
         this.isDeleted = value.isDeleted;
     }
 
-    public Item(
+    public ItemCore(
+        ULong         itemCoreId,
         ULong         itemId,
         ULong         storeId,
         UByte         type,
@@ -54,6 +57,7 @@ public class Item implements Serializable {
         ULong         lastModifyUserId,
         ULong         isDeleted
     ) {
+        this.itemCoreId = itemCoreId;
         this.itemId = itemId;
         this.storeId = storeId;
         this.type = type;
@@ -63,6 +67,14 @@ public class Item implements Serializable {
         this.lastModifyTime = lastModifyTime;
         this.lastModifyUserId = lastModifyUserId;
         this.isDeleted = isDeleted;
+    }
+
+    public ULong getItemCoreId() {
+        return this.itemCoreId;
+    }
+
+    public void setItemCoreId(ULong itemCoreId) {
+        this.itemCoreId = itemCoreId;
     }
 
     public ULong getItemId() {
@@ -139,9 +151,10 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Item (");
+        StringBuilder sb = new StringBuilder("ItemCore (");
 
-        sb.append(itemId);
+        sb.append(itemCoreId);
+        sb.append(", ").append(itemId);
         sb.append(", ").append(storeId);
         sb.append(", ").append(type);
         sb.append(", ").append(state);

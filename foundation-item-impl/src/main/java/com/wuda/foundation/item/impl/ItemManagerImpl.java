@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.wuda.foundation.item.impl.jooq.generation.tables.Item.ITEM;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategory.ITEM_CATEGORY;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP;
+import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemCore.ITEM_CORE;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemDescription.ITEM_DESCRIPTION;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemGeneral.ITEM_GENERAL;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemVariation.ITEM_VARIATION;
@@ -35,15 +35,15 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     }
 
     @Override
-    protected void directBatchInsertItemDbOp(List<CreateItem> createItems, Long opUserId) {
-        batchInsert(dataSource, ITEM, itemRecordsForInsert(createItems, opUserId));
+    protected void directBatchInsertItemCoreDbOp(List<CreateItemCore> createItemCores, Long opUserId) {
+        batchInsert(dataSource, ITEM_CORE, itemCoreRecordsForInsert(createItemCores, opUserId));
     }
 
     @Override
-    protected long createItemDbOp(CreateItem createItem, Long opUserId) {
-        long itemId = insert(dataSource, ITEM, itemRecordForInsert(createItem, opUserId)).getRecordId();
-        createItemCategoryRelationship(createItem.getCategoryId(), itemId, opUserId);
-        return itemId;
+    protected long createItemCoreDbOp(CreateItemCore createItemCore, Long opUserId) {
+        long itemCoreId = insert(dataSource, ITEM_CORE, itemCoreRecordForInsert(createItemCore, opUserId)).getRecordId();
+        createItemCategoryRelationship(createItemCore.getCategoryId(), createItemCore.getItemId(), opUserId);
+        return itemCoreId;
     }
 
     private void createItemCategoryRelationship(Long categoryId, Long itemId, Long opUserId) {
@@ -159,19 +159,20 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
-    private ItemRecord itemRecordForInsert(CreateItem createItem, long opUserId) {
+    private ItemCoreRecord itemCoreRecordForInsert(CreateItemCore createItemCore, long opUserId) {
         LocalDateTime now = LocalDateTime.now();
-        return new ItemRecord(ULong.valueOf(createItem.getId()),
-                ULong.valueOf(createItem.getStoreId()),
-                UByte.valueOf(createItem.getItemType()),
-                UByte.valueOf(createItem.getItemState()),
+        return new ItemCoreRecord(ULong.valueOf(createItemCore.getId()),
+                ULong.valueOf(createItemCore.getItemId()),
+                ULong.valueOf(createItemCore.getStoreId()),
+                UByte.valueOf(createItemCore.getItemType()),
+                UByte.valueOf(createItemCore.getItemState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
-    private List<ItemRecord> itemRecordsForInsert(List<CreateItem> createItems, Long opUserId) {
-        List<ItemRecord> list = new ArrayList<>(createItems.size());
-        for (CreateItem createItem : createItems) {
-            list.add(itemRecordForInsert(createItem, opUserId));
+    private List<ItemCoreRecord> itemCoreRecordsForInsert(List<CreateItemCore> createItemCores, Long opUserId) {
+        List<ItemCoreRecord> list = new ArrayList<>(createItemCores.size());
+        for (CreateItemCore createItemCore : createItemCores) {
+            list.add(itemCoreRecordForInsert(createItemCore, opUserId));
         }
         return list;
     }

@@ -8,19 +8,19 @@ import java.util.List;
 public abstract class AbstractItemManager implements ItemManager {
 
     @Override
-    public long createItem(CreateItem createItem, Long opUserId) {
-        ExtObjects.requireNonNull(createItem, opUserId);
-        return createItemDbOp(createItem, opUserId);
+    public long createItemCore(CreateItemCore createItemCore, Long opUserId) {
+        ExtObjects.requireNonNull(createItemCore, opUserId);
+        return createItemCoreDbOp(createItemCore, opUserId);
     }
 
     @Override
-    public void directBatchInsertItem(List<CreateItem> createItems, Long opUserId) {
-        directBatchInsertItemDbOp(createItems, opUserId);
+    public void directBatchInsertItemCore(List<CreateItemCore> createItemCores, Long opUserId) {
+        directBatchInsertItemCoreDbOp(createItemCores, opUserId);
     }
 
-    protected abstract void directBatchInsertItemDbOp(List<CreateItem> createItems, Long opUserId);
+    protected abstract void directBatchInsertItemCoreDbOp(List<CreateItemCore> createItemCores, Long opUserId);
 
-    protected abstract long createItemDbOp(CreateItem createItem, Long opUserId);
+    protected abstract long createItemCoreDbOp(CreateItemCore createItemCore, Long opUserId);
 
     @Override
     public long createOrUpdateItemGeneral(CreateItemGeneral createItemGeneral, CreateMode createMode, Long opUserId) {

@@ -4,17 +4,17 @@
 package com.wuda.foundation.item.impl.jooq.generation;
 
 
-import com.wuda.foundation.item.impl.jooq.generation.tables.Item;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategory;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategoryRelationship;
+import com.wuda.foundation.item.impl.jooq.generation.tables.ItemCore;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemDescription;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemGeneral;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemVariation;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemCategoryRecord;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemCategoryRelationshipRecord;
+import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemCoreRecord;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemDescriptionRecord;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemGeneralRecord;
-import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemRecord;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemVariationRecord;
 
 import org.jooq.Identity;
@@ -35,8 +35,8 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
-    public static final Identity<ItemRecord, ULong> IDENTITY_ITEM = Identities0.IDENTITY_ITEM;
     public static final Identity<ItemCategoryRecord, ULong> IDENTITY_ITEM_CATEGORY = Identities0.IDENTITY_ITEM_CATEGORY;
+    public static final Identity<ItemCoreRecord, ULong> IDENTITY_ITEM_CORE = Identities0.IDENTITY_ITEM_CORE;
     public static final Identity<ItemDescriptionRecord, ULong> IDENTITY_ITEM_DESCRIPTION = Identities0.IDENTITY_ITEM_DESCRIPTION;
     public static final Identity<ItemGeneralRecord, ULong> IDENTITY_ITEM_GENERAL = Identities0.IDENTITY_ITEM_GENERAL;
     public static final Identity<ItemVariationRecord, ULong> IDENTITY_ITEM_VARIATION = Identities0.IDENTITY_ITEM_VARIATION;
@@ -45,10 +45,10 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final UniqueKey<ItemRecord> KEY_ITEM_PRIMARY = UniqueKeys0.KEY_ITEM_PRIMARY;
     public static final UniqueKey<ItemCategoryRecord> KEY_ITEM_CATEGORY_PRIMARY = UniqueKeys0.KEY_ITEM_CATEGORY_PRIMARY;
     public static final UniqueKey<ItemCategoryRelationshipRecord> KEY_ITEM_CATEGORY_RELATIONSHIP_PRIMARY = UniqueKeys0.KEY_ITEM_CATEGORY_RELATIONSHIP_PRIMARY;
     public static final UniqueKey<ItemCategoryRelationshipRecord> KEY_ITEM_CATEGORY_RELATIONSHIP_IDX_ITEM_AND_CATEGORY_ID = UniqueKeys0.KEY_ITEM_CATEGORY_RELATIONSHIP_IDX_ITEM_AND_CATEGORY_ID;
+    public static final UniqueKey<ItemCoreRecord> KEY_ITEM_CORE_PRIMARY = UniqueKeys0.KEY_ITEM_CORE_PRIMARY;
     public static final UniqueKey<ItemDescriptionRecord> KEY_ITEM_DESCRIPTION_PRIMARY = UniqueKeys0.KEY_ITEM_DESCRIPTION_PRIMARY;
     public static final UniqueKey<ItemGeneralRecord> KEY_ITEM_GENERAL_PRIMARY = UniqueKeys0.KEY_ITEM_GENERAL_PRIMARY;
     public static final UniqueKey<ItemVariationRecord> KEY_ITEM_VARIATION_PRIMARY = UniqueKeys0.KEY_ITEM_VARIATION_PRIMARY;
@@ -63,18 +63,18 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class Identities0 {
-        public static Identity<ItemRecord, ULong> IDENTITY_ITEM = Internal.createIdentity(Item.ITEM, Item.ITEM.ITEM_ID);
         public static Identity<ItemCategoryRecord, ULong> IDENTITY_ITEM_CATEGORY = Internal.createIdentity(ItemCategory.ITEM_CATEGORY, ItemCategory.ITEM_CATEGORY.ITEM_CATEGORY_ID);
+        public static Identity<ItemCoreRecord, ULong> IDENTITY_ITEM_CORE = Internal.createIdentity(ItemCore.ITEM_CORE, ItemCore.ITEM_CORE.ITEM_CORE_ID);
         public static Identity<ItemDescriptionRecord, ULong> IDENTITY_ITEM_DESCRIPTION = Internal.createIdentity(ItemDescription.ITEM_DESCRIPTION, ItemDescription.ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID);
         public static Identity<ItemGeneralRecord, ULong> IDENTITY_ITEM_GENERAL = Internal.createIdentity(ItemGeneral.ITEM_GENERAL, ItemGeneral.ITEM_GENERAL.ITEM_GENERAL_ID);
         public static Identity<ItemVariationRecord, ULong> IDENTITY_ITEM_VARIATION = Internal.createIdentity(ItemVariation.ITEM_VARIATION, ItemVariation.ITEM_VARIATION.ITEM_VARIATION_ID);
     }
 
     private static class UniqueKeys0 {
-        public static final UniqueKey<ItemRecord> KEY_ITEM_PRIMARY = Internal.createUniqueKey(Item.ITEM, "KEY_item_PRIMARY", new TableField[] { Item.ITEM.ITEM_ID }, true);
         public static final UniqueKey<ItemCategoryRecord> KEY_ITEM_CATEGORY_PRIMARY = Internal.createUniqueKey(ItemCategory.ITEM_CATEGORY, "KEY_item_category_PRIMARY", new TableField[] { ItemCategory.ITEM_CATEGORY.ITEM_CATEGORY_ID }, true);
         public static final UniqueKey<ItemCategoryRelationshipRecord> KEY_ITEM_CATEGORY_RELATIONSHIP_PRIMARY = Internal.createUniqueKey(ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP, "KEY_item_category_relationship_PRIMARY", new TableField[] { ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP.ID }, true);
         public static final UniqueKey<ItemCategoryRelationshipRecord> KEY_ITEM_CATEGORY_RELATIONSHIP_IDX_ITEM_AND_CATEGORY_ID = Internal.createUniqueKey(ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP, "KEY_item_category_relationship_idx_item_and_category_id", new TableField[] { ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP.ITEM_ID, ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP.ITEM_CATEGORY_ID, ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP.IS_DELETED }, true);
+        public static final UniqueKey<ItemCoreRecord> KEY_ITEM_CORE_PRIMARY = Internal.createUniqueKey(ItemCore.ITEM_CORE, "KEY_item_core_PRIMARY", new TableField[] { ItemCore.ITEM_CORE.ITEM_CORE_ID }, true);
         public static final UniqueKey<ItemDescriptionRecord> KEY_ITEM_DESCRIPTION_PRIMARY = Internal.createUniqueKey(ItemDescription.ITEM_DESCRIPTION, "KEY_item_description_PRIMARY", new TableField[] { ItemDescription.ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID }, true);
         public static final UniqueKey<ItemGeneralRecord> KEY_ITEM_GENERAL_PRIMARY = Internal.createUniqueKey(ItemGeneral.ITEM_GENERAL, "KEY_item_general_PRIMARY", new TableField[] { ItemGeneral.ITEM_GENERAL.ITEM_GENERAL_ID }, true);
         public static final UniqueKey<ItemVariationRecord> KEY_ITEM_VARIATION_PRIMARY = Internal.createUniqueKey(ItemVariation.ITEM_VARIATION, "KEY_item_variation_PRIMARY", new TableField[] { ItemVariation.ITEM_VARIATION.ITEM_VARIATION_ID }, true);

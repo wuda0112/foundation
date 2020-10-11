@@ -4,9 +4,9 @@
 package com.wuda.foundation.item.impl.jooq.generation;
 
 
-import com.wuda.foundation.item.impl.jooq.generation.tables.Item;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategory;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategoryRelationship;
+import com.wuda.foundation.item.impl.jooq.generation.tables.ItemCore;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemDescription;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemGeneral;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemVariation;
@@ -25,17 +25,12 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationItem extends SchemaImpl {
 
-    private static final long serialVersionUID = 707654910;
+    private static final long serialVersionUID = -1699694735;
 
     /**
      * The reference instance of <code>foundation_item</code>
      */
     public static final FoundationItem FOUNDATION_ITEM = new FoundationItem();
-
-    /**
-     * 代表所有的物品，之前有把用户ID放进来，表示该物品所属的用户，但是考虑到如果有子账号的情况，物品难道属于这个子账号所属的用户吗？而且记录了创建人用户ID，考虑这两个因素，因此不设置用户ID列
-     */
-    public final Item ITEM = Item.ITEM;
 
     /**
      * 物品分类
@@ -46,6 +41,11 @@ public class FoundationItem extends SchemaImpl {
      * 物品与分类的关系表，有很多设计是在物品表中放分类一，分类二，分类三这样的字段，这样设计的扩展性很弱
      */
     public final ItemCategoryRelationship ITEM_CATEGORY_RELATIONSHIP = ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP;
+
+    /**
+     * 物品核心信息，代表所有的物品，之前有把用户ID放进来，表示该物品所属的用户，但是考虑到如果有子账号的情况，物品难道属于这个子账号所属的用户吗？而且记录了创建人用户ID，考虑这两个因素，因此不设置用户ID列
+     */
+    public final ItemCore ITEM_CORE = ItemCore.ITEM_CORE;
 
     /**
      * item的描述信息，通常作为详情的一个字段，但是，由于描述信息通常内容较多，很多orm框架都是select *，分开了可以避免查询出来（有时候根本就没用到），而且大数据量的字段更新性能较差，如果需要更新，会影响到核心item表，因此单独作为一个表保存。也可以表示物品某个规格的描述信息，如果variation id不等于0
@@ -78,9 +78,9 @@ public class FoundationItem extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
-            Item.ITEM,
             ItemCategory.ITEM_CATEGORY,
             ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP,
+            ItemCore.ITEM_CORE,
             ItemDescription.ITEM_DESCRIPTION,
             ItemGeneral.ITEM_GENERAL,
             ItemVariation.ITEM_VARIATION);

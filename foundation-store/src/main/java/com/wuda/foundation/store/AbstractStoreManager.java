@@ -7,25 +7,20 @@ import java.util.List;
 
 public abstract class AbstractStoreManager implements StoreManager {
 
-    /**
-     * 新增一个新店铺.
-     *
-     * @param createStore 创建店铺的参数
-     * @return 店铺ID
-     */
-    public long createStore(Long ownerUserId, CreateStore createStore, Long opUserId) {
-        ExtObjects.requireNonNull(createStore, opUserId);
-        return createStoreDbOp(ownerUserId, createStore, opUserId);
+    @Override
+    public long createStoreCore(Long ownerUserId, CreateStoreCore createStoreCore, Long opUserId) {
+        ExtObjects.requireNonNull(createStoreCore, opUserId);
+        return createStoreCoreDbOp(ownerUserId, createStoreCore, opUserId);
     }
 
     @Override
-    public void directBatchInsertStore(List<CreateStore> createStores, Long opUserId) {
-        directBatchInsertStoreDbOp(createStores, opUserId);
+    public void directBatchInsertStoreCore(List<CreateStoreCore> createStoreCores, Long opUserId) {
+        directBatchInsertStoreDbOp(createStoreCores, opUserId);
     }
 
-    protected abstract void directBatchInsertStoreDbOp(List<CreateStore> createStores, Long opUserId);
+    protected abstract void directBatchInsertStoreDbOp(List<CreateStoreCore> createStoreCores, Long opUserId);
 
-    protected abstract long createStoreDbOp(Long ownerUserId, CreateStore createStore, Long opUserId);
+    protected abstract long createStoreCoreDbOp(Long ownerUserId, CreateStoreCore createStoreCore, Long opUserId);
 
     @Override
     public long createOrUpdateStoreGeneral(CreateStoreGeneral createStoreGeneral, CreateMode createMode, Long opUserId) {

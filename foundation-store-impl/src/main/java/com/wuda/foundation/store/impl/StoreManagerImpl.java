@@ -5,13 +5,9 @@ import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.FoundationContext;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.store.AbstractStoreManager;
-import com.wuda.foundation.store.BindStoreUser;
-import com.wuda.foundation.store.CreateStore;
-import com.wuda.foundation.store.CreateStoreGeneral;
-import com.wuda.foundation.store.UpdateStoreGeneral;
+import com.wuda.foundation.store.*;
+import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreCoreRecord;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreGeneralRecord;
-import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreRecord;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreUserRelationshipRecord;
 import org.jooq.Configuration;
 import org.jooq.Record1;
@@ -27,7 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import static com.wuda.foundation.store.impl.jooq.generation.tables.Store.STORE;
+import static com.wuda.foundation.store.impl.jooq.generation.tables.StoreCore.STORE_CORE;
 import static com.wuda.foundation.store.impl.jooq.generation.tables.StoreGeneral.STORE_GENERAL;
 import static com.wuda.foundation.store.impl.jooq.generation.tables.StoreUserRelationship.STORE_USER_RELATIONSHIP;
 
@@ -40,25 +36,25 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
     }
 
     @Override
-    protected void directBatchInsertStoreDbOp(List<CreateStore> createStores, Long opUserId) {
-        List<StoreRecord> records = new ArrayList<>(createStores.size());
-        for (CreateStore createStore : createStores) {
-            records.add(storeRecordForInsert(createStore, opUserId));
+    protected void directBatchInsertStoreDbOp(List<CreateStoreCore> createStoreCores, Long opUserId) {
+        List<StoreCoreRecord> records = new ArrayList<>(createStoreCores.size());
+        for (CreateStoreCore createStoreCore : createStoreCores) {
+            records.add(storeRecordForInsert(createStoreCore, opUserId));
         }
-        batchInsert(dataSource, STORE, records);
+        batchInsert(dataSource, STORE_CORE, records);
     }
 
     @Override
-    public long createStoreDbOp(Long ownerUserId, CreateStore createStore, Long opUserId) {
-        long storeId = insert(dataSource, STORE, storeRecordForInsert(createStore, opUserId)).getRecordId();
+    public long createStoreCoreDbOp(Long ownerUserId, CreateStoreCore createStoreCore, Long opUserId) {
+        long storeCoreId = insert(dataSource, STORE_CORE, storeRecordForInsert(createStoreCore, opUserId)).getRecordId();
         BindStoreUser bindStoreUser = new BindStoreUser.Builder()
                 .setId(FoundationContext.getLongKeyGenerator().next())
-                .setStoreId(storeId)
+                .setStoreId(createStoreCore.getStoreId())
                 .setUserId(ownerUserId)
                 .isStoreOwner(true)
                 .build();
         insert(dataSource, STORE_USER_RELATIONSHIP, storeUserRelationshipRecordForInsert(bindStoreUser, opUserId));
-        return storeId;
+        return storeCoreId;
     }
 
     @Override
@@ -131,11 +127,12 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
         return list;
     }
 
-    private StoreRecord storeRecordForInsert(CreateStore createStore, Long opUserId) {
+    private StoreCoreRecord storeRecordForInsert(CreateStoreCore createStoreCore, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
-        return new StoreRecord(ULong.valueOf(createStore.getId()),
-                UByte.valueOf(createStore.getStoreType()),
-                UByte.valueOf(createStore.getStoreState()),
+        return new StoreCoreRecord(ULong.valueOf(createStoreCore.getId()),
+                ULong.valueOf(createStoreCore.getStoreId()),
+                UByte.valueOf(createStoreCore.getStoreType()),
+                UByte.valueOf(createStoreCore.getStoreState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 }

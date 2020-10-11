@@ -4,7 +4,7 @@
 package com.wuda.foundation.store.impl.jooq.generation;
 
 
-import com.wuda.foundation.store.impl.jooq.generation.tables.Store;
+import com.wuda.foundation.store.impl.jooq.generation.tables.StoreCore;
 import com.wuda.foundation.store.impl.jooq.generation.tables.StoreGeneral;
 import com.wuda.foundation.store.impl.jooq.generation.tables.StoreUserRelationship;
 
@@ -18,7 +18,7 @@ public class Tables {
     /**
      * 店铺信息
      */
-    public static final Store STORE = Store.STORE;
+    public static final StoreCore STORE_CORE = StoreCore.STORE_CORE;
 
     /**
      * 店铺基本信息

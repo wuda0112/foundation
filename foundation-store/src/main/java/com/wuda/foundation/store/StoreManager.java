@@ -15,20 +15,20 @@ public interface StoreManager {
     /**
      * 新增一个新店铺.
      *
-     * @param ownerUserId 店铺所属用户Id
-     * @param createStore 创建店铺的参数
-     * @param opUserId    操作人用户ID,是谁正在添加这个新店铺
-     * @return 店铺ID
+     * @param ownerUserId     店铺所属用户Id
+     * @param createStoreCore 创建店铺核心信息的参数
+     * @param opUserId        操作人用户ID,是谁正在添加这个新店铺
+     * @return 店铺核心信息ID
      */
-    long createStore(Long ownerUserId, CreateStore createStore, Long opUserId);
+    long createStoreCore(Long ownerUserId, CreateStoreCore createStoreCore, Long opUserId);
 
     /**
-     * 新增一个新店铺.
+     * 新增一个店铺核心信息.
      *
-     * @param createStores 创建店铺的参数
-     * @param opUserId     操作人用户ID,是谁正在添加这个新店铺
+     * @param createStoreCores 创建店铺核心信息的参数
+     * @param opUserId         操作人用户ID,是谁正在添加这个新店铺
      */
-    void directBatchInsertStore(List<CreateStore> createStores, Long opUserId);
+    void directBatchInsertStoreCore(List<CreateStoreCore> createStoreCores, Long opUserId);
 
     /**
      * 为店铺新增基本信息.

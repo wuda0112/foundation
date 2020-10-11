@@ -4,7 +4,7 @@
 package com.wuda.foundation.store.impl.jooq.generation;
 
 
-import com.wuda.foundation.store.impl.jooq.generation.tables.Store;
+import com.wuda.foundation.store.impl.jooq.generation.tables.StoreCore;
 import com.wuda.foundation.store.impl.jooq.generation.tables.StoreGeneral;
 import com.wuda.foundation.store.impl.jooq.generation.tables.StoreUserRelationship;
 
@@ -22,7 +22,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationStore extends SchemaImpl {
 
-    private static final long serialVersionUID = 1146702237;
+    private static final long serialVersionUID = -1134886467;
 
     /**
      * The reference instance of <code>foundation_store</code>
@@ -32,7 +32,7 @@ public class FoundationStore extends SchemaImpl {
     /**
      * 店铺信息
      */
-    public final Store STORE = Store.STORE;
+    public final StoreCore STORE_CORE = StoreCore.STORE_CORE;
 
     /**
      * 店铺基本信息
@@ -60,7 +60,7 @@ public class FoundationStore extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
-            Store.STORE,
+            StoreCore.STORE_CORE,
             StoreGeneral.STORE_GENERAL,
             StoreUserRelationship.STORE_USER_RELATIONSHIP);
     }

@@ -15,10 +15,11 @@ import org.jooq.types.ULong;
  * 店铺信息
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class Store implements Serializable {
+public class StoreCore implements Serializable {
 
-    private static final long serialVersionUID = 1863727820;
+    private static final long serialVersionUID = 1076033853;
 
+    private ULong         storeCoreId;
     private ULong         storeId;
     private UByte         type;
     private UByte         state;
@@ -28,9 +29,10 @@ public class Store implements Serializable {
     private ULong         lastModifyUserId;
     private ULong         isDeleted;
 
-    public Store() {}
+    public StoreCore() {}
 
-    public Store(Store value) {
+    public StoreCore(StoreCore value) {
+        this.storeCoreId = value.storeCoreId;
         this.storeId = value.storeId;
         this.type = value.type;
         this.state = value.state;
@@ -41,7 +43,8 @@ public class Store implements Serializable {
         this.isDeleted = value.isDeleted;
     }
 
-    public Store(
+    public StoreCore(
+        ULong         storeCoreId,
         ULong         storeId,
         UByte         type,
         UByte         state,
@@ -51,6 +54,7 @@ public class Store implements Serializable {
         ULong         lastModifyUserId,
         ULong         isDeleted
     ) {
+        this.storeCoreId = storeCoreId;
         this.storeId = storeId;
         this.type = type;
         this.state = state;
@@ -59,6 +63,14 @@ public class Store implements Serializable {
         this.lastModifyTime = lastModifyTime;
         this.lastModifyUserId = lastModifyUserId;
         this.isDeleted = isDeleted;
+    }
+
+    public ULong getStoreCoreId() {
+        return this.storeCoreId;
+    }
+
+    public void setStoreCoreId(ULong storeCoreId) {
+        this.storeCoreId = storeCoreId;
     }
 
     public ULong getStoreId() {
@@ -127,9 +139,10 @@ public class Store implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Store (");
+        StringBuilder sb = new StringBuilder("StoreCore (");
 
-        sb.append(storeId);
+        sb.append(storeCoreId);
+        sb.append(", ").append(storeId);
         sb.append(", ").append(type);
         sb.append(", ").append(state);
         sb.append(", ").append(createTime);

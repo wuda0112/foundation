@@ -1,9 +1,9 @@
 
 
-### ------------------------Java中台项目，Web开发也能面向对象编程，拒绝面条代码。-------------------------------
+### ---Java中台项目，Web开发也能面向对象编程，拒绝面条代码。---
 
 # 数据库设计
-- 目前已经有47个表
+- 目前已经有54个表
 - [数据库源文件 DB-Design.mwb ](https://github.com/wuda0112/foundation/blob/master/DB-Design.mwb)
 
 - 使用 **MySQL Workbench** 打开

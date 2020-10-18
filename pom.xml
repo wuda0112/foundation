@@ -16,6 +16,7 @@
         <module>foundation-item</module>
         <module>foundation-item-impl</module>
         <module>foundation-security-impl</module>
+        <module>foundation-notification</module>
     </modules>
 
     <groupId>io.github.wuda0112</groupId>

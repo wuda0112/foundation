@@ -19,7 +19,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row10;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -37,7 +37,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemCore extends TableImpl<ItemCoreRecord> {
 
-    private static final long serialVersionUID = -21295257;
+    private static final long serialVersionUID = -1602635309;
 
     /**
      * The reference instance of <code>foundation_item.item_core</code>
@@ -61,11 +61,6 @@ public class ItemCore extends TableImpl<ItemCoreRecord> {
      * The column <code>foundation_item.item_core.item_id</code>. item id
      */
     public final TableField<ItemCoreRecord, ULong> ITEM_ID = createField(DSL.name("item_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "item id");
-
-    /**
-     * The column <code>foundation_item.item_core.store_id</code>. 所属店铺ID
-     */
-    public final TableField<ItemCoreRecord, ULong> STORE_ID = createField(DSL.name("store_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "所属店铺ID");
 
     /**
      * The column <code>foundation_item.item_core.type</code>. 商品类型 . 不同类型的商品, 保存到各自不同的表中. 参考 https://learnwoo.com/woocommerce-different-product-types/
@@ -142,7 +137,7 @@ public class ItemCore extends TableImpl<ItemCoreRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ITEM_CORE_FK_STORE_ID, Indexes.ITEM_CORE_IDX_ITEM_ID);
+        return Arrays.<Index>asList(Indexes.ITEM_CORE_IDX_ITEM_ID);
     }
 
     @Override
@@ -187,11 +182,11 @@ public class ItemCore extends TableImpl<ItemCoreRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row10 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<ULong, ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row10) super.fieldsRow();
+    public Row9<ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 }

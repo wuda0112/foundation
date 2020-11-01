@@ -11,44 +11,52 @@ import org.jooq.types.ULong;
 
 
 /**
- * 物品与分类的关系表，有很多设计是在物品表中放分类一，分类二，分类三这样的字段，这样设计的扩展性很弱
+ * 表示item所属的组。比如店铺是一种组，分类也是一种组，等等。item与所有的组的关系都记录在这个表里。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ItemCategoryRelationship implements Serializable {
+public class ItemGroupRelation implements Serializable {
 
-    private static final long serialVersionUID = 1747873777;
+    private static final long serialVersionUID = -2035069771;
 
     private ULong         id;
     private ULong         itemId;
-    private ULong         itemCategoryId;
+    private ULong         groupId;
     private LocalDateTime createTime;
     private ULong         createUserId;
+    private LocalDateTime lastModifyTime;
+    private ULong         lastModifyUserId;
     private ULong         isDeleted;
 
-    public ItemCategoryRelationship() {}
+    public ItemGroupRelation() {}
 
-    public ItemCategoryRelationship(ItemCategoryRelationship value) {
+    public ItemGroupRelation(ItemGroupRelation value) {
         this.id = value.id;
         this.itemId = value.itemId;
-        this.itemCategoryId = value.itemCategoryId;
+        this.groupId = value.groupId;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
+        this.lastModifyTime = value.lastModifyTime;
+        this.lastModifyUserId = value.lastModifyUserId;
         this.isDeleted = value.isDeleted;
     }
 
-    public ItemCategoryRelationship(
+    public ItemGroupRelation(
         ULong         id,
         ULong         itemId,
-        ULong         itemCategoryId,
+        ULong         groupId,
         LocalDateTime createTime,
         ULong         createUserId,
+        LocalDateTime lastModifyTime,
+        ULong         lastModifyUserId,
         ULong         isDeleted
     ) {
         this.id = id;
         this.itemId = itemId;
-        this.itemCategoryId = itemCategoryId;
+        this.groupId = groupId;
         this.createTime = createTime;
         this.createUserId = createUserId;
+        this.lastModifyTime = lastModifyTime;
+        this.lastModifyUserId = lastModifyUserId;
         this.isDeleted = isDeleted;
     }
 
@@ -68,12 +76,12 @@ public class ItemCategoryRelationship implements Serializable {
         this.itemId = itemId;
     }
 
-    public ULong getItemCategoryId() {
-        return this.itemCategoryId;
+    public ULong getGroupId() {
+        return this.groupId;
     }
 
-    public void setItemCategoryId(ULong itemCategoryId) {
-        this.itemCategoryId = itemCategoryId;
+    public void setGroupId(ULong groupId) {
+        this.groupId = groupId;
     }
 
     public LocalDateTime getCreateTime() {
@@ -92,6 +100,22 @@ public class ItemCategoryRelationship implements Serializable {
         this.createUserId = createUserId;
     }
 
+    public LocalDateTime getLastModifyTime() {
+        return this.lastModifyTime;
+    }
+
+    public void setLastModifyTime(LocalDateTime lastModifyTime) {
+        this.lastModifyTime = lastModifyTime;
+    }
+
+    public ULong getLastModifyUserId() {
+        return this.lastModifyUserId;
+    }
+
+    public void setLastModifyUserId(ULong lastModifyUserId) {
+        this.lastModifyUserId = lastModifyUserId;
+    }
+
     public ULong getIsDeleted() {
         return this.isDeleted;
     }
@@ -102,13 +126,15 @@ public class ItemCategoryRelationship implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("ItemCategoryRelationship (");
+        StringBuilder sb = new StringBuilder("ItemGroupRelation (");
 
         sb.append(id);
         sb.append(", ").append(itemId);
-        sb.append(", ").append(itemCategoryId);
+        sb.append(", ").append(groupId);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
+        sb.append(", ").append(lastModifyTime);
+        sb.append(", ").append(lastModifyUserId);
         sb.append(", ").append(isDeleted);
 
         sb.append(")");

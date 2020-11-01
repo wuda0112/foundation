@@ -15,7 +15,7 @@ public class CreateNotificationDefinitionContent {
 
     private Long id;
     private Long notificationDefinitionId;
-    private Long notificationDefinitionPostMethodId;
+    private Long notificationDefinitionSendMethodId;
     /**
      * 声明通知的标题
      */
@@ -42,7 +42,7 @@ public class CreateNotificationDefinitionContent {
 
         private Long id;
         private Long notificationDefinitionId;
-        private Long notificationDefinitionPostMethodId;
+        private Long notificationDefinitionSendMethodId;
         private String title;
         private String templateParameter;
 
@@ -56,8 +56,8 @@ public class CreateNotificationDefinitionContent {
             return this;
         }
 
-        public Builder setNotificationDefinitionPostMethodId(Long notificationDefinitionPostMethodId) {
-            this.notificationDefinitionPostMethodId = notificationDefinitionPostMethodId;
+        public Builder setNotificationDefinitionSendMethodId(Long notificationDefinitionSendMethodId) {
+            this.notificationDefinitionSendMethodId = notificationDefinitionSendMethodId;
             return this;
         }
 
@@ -76,7 +76,7 @@ public class CreateNotificationDefinitionContent {
             CreateNotificationDefinitionContent createNotificationDefinitionContent = new CreateNotificationDefinitionContent();
             createNotificationDefinitionContent.id = Objects.requireNonNull(id);
             createNotificationDefinitionContent.notificationDefinitionId = Objects.requireNonNull(notificationDefinitionId);
-            createNotificationDefinitionContent.notificationDefinitionPostMethodId = Objects.requireNonNull(notificationDefinitionPostMethodId);
+            createNotificationDefinitionContent.notificationDefinitionSendMethodId = Objects.requireNonNull(notificationDefinitionSendMethodId);
             createNotificationDefinitionContent.title = Objects.requireNonNull(title);
             createNotificationDefinitionContent.templateParameter = Objects.requireNonNull(templateParameter);
             return createNotificationDefinitionContent;

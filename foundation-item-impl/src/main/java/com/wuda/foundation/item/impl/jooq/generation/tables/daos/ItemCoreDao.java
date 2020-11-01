@@ -77,20 +77,6 @@ public class ItemCoreDao extends DAOImpl<ItemCoreRecord, com.wuda.foundation.ite
     }
 
     /**
-     * Fetch records that have <code>store_id BETWEEN lowerInclusive AND upperInclusive</code>
-     */
-    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCore> fetchRangeOfStoreId(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(ItemCore.ITEM_CORE.STORE_ID, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>store_id IN (values)</code>
-     */
-    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCore> fetchByStoreId(ULong... values) {
-        return fetch(ItemCore.ITEM_CORE.STORE_ID, values);
-    }
-
-    /**
      * Fetch records that have <code>type BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCore> fetchRangeOfType(UByte lowerInclusive, UByte upperInclusive) {

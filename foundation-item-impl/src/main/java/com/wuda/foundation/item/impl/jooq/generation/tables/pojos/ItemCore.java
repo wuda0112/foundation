@@ -17,11 +17,10 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemCore implements Serializable {
 
-    private static final long serialVersionUID = -613401310;
+    private static final long serialVersionUID = -1949033268;
 
     private ULong         itemCoreId;
     private ULong         itemId;
-    private ULong         storeId;
     private UByte         type;
     private UByte         state;
     private LocalDateTime createTime;
@@ -35,7 +34,6 @@ public class ItemCore implements Serializable {
     public ItemCore(ItemCore value) {
         this.itemCoreId = value.itemCoreId;
         this.itemId = value.itemId;
-        this.storeId = value.storeId;
         this.type = value.type;
         this.state = value.state;
         this.createTime = value.createTime;
@@ -48,7 +46,6 @@ public class ItemCore implements Serializable {
     public ItemCore(
         ULong         itemCoreId,
         ULong         itemId,
-        ULong         storeId,
         UByte         type,
         UByte         state,
         LocalDateTime createTime,
@@ -59,7 +56,6 @@ public class ItemCore implements Serializable {
     ) {
         this.itemCoreId = itemCoreId;
         this.itemId = itemId;
-        this.storeId = storeId;
         this.type = type;
         this.state = state;
         this.createTime = createTime;
@@ -83,14 +79,6 @@ public class ItemCore implements Serializable {
 
     public void setItemId(ULong itemId) {
         this.itemId = itemId;
-    }
-
-    public ULong getStoreId() {
-        return this.storeId;
-    }
-
-    public void setStoreId(ULong storeId) {
-        this.storeId = storeId;
     }
 
     public UByte getType() {
@@ -155,7 +143,6 @@ public class ItemCore implements Serializable {
 
         sb.append(itemCoreId);
         sb.append(", ").append(itemId);
-        sb.append(", ").append(storeId);
         sb.append(", ").append(type);
         sb.append(", ").append(state);
         sb.append(", ").append(createTime);

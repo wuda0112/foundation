@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.Objects;
 
 /**
- * 创建notification post method的实体参数.
+ * 创建notification template method的实体参数.
  *
  * @author wuda
  * @since 1.0.3

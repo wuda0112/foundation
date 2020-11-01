@@ -23,8 +23,9 @@ public interface TreeManager {
      * @param createMode     create mode
      * @param opUserId       操作者用户ID
      * @return 创建结果
+     * @throws AlreadyExistsException 如果已经存在
      */
-    CreateResult createNode(CreateTreeNode createTreeNode, CreateMode createMode, Long opUserId);
+    CreateResult createNode(CreateTreeNode createTreeNode, CreateMode createMode, Long opUserId) throws AlreadyExistsException;
 
     /**
      * 更新节点.
@@ -43,18 +44,4 @@ public interface TreeManager {
      * @throws RelatedDataExists 如果该节点下还有子节点存在
      */
     void deleteNode(Long nodeId, Long opUserId) throws RelatedDataExists;
-
-    /**
-     * full tree.
-     *
-     * @return tree
-     */
-    Tree<Long, DescribeTreeNode> tree();
-
-    /**
-     * 获取所有的节点.
-     *
-     * @return nodes
-     */
-    List<DescribeTreeNode> getAllNodes();
 }

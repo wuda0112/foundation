@@ -16,7 +16,7 @@ public class CreateNotificationDefinitionObserver {
 
     private Long id;
     private Long notificationDefinitionId;
-    private Long notificationDefinitionPostMethodId;
+    private Long notificationDefinitionSendMethodId;
     private LongIdentifier observer;
 
     /**
@@ -29,7 +29,7 @@ public class CreateNotificationDefinitionObserver {
 
         private Long id;
         private Long notificationDefinitionId;
-        private Long notificationDefinitionPostMethodId;
+        private Long notificationDefinitionSendMethodId;
         private LongIdentifier observer;
 
         public Builder setId(Long id) {
@@ -42,8 +42,8 @@ public class CreateNotificationDefinitionObserver {
             return this;
         }
 
-        public Builder setNotificationDefinitionPostMethodId(Long notificationDefinitionPostMethodId) {
-            this.notificationDefinitionPostMethodId = notificationDefinitionPostMethodId;
+        public Builder setNotificationDefinitionSendMethodId(Long notificationDefinitionSendMethodId) {
+            this.notificationDefinitionSendMethodId = notificationDefinitionSendMethodId;
             return this;
         }
 
@@ -57,7 +57,7 @@ public class CreateNotificationDefinitionObserver {
             CreateNotificationDefinitionObserver createNotificationDefinitionObserver = new CreateNotificationDefinitionObserver();
             createNotificationDefinitionObserver.id = Objects.requireNonNull(id);
             createNotificationDefinitionObserver.notificationDefinitionId = Objects.requireNonNull(notificationDefinitionId);
-            createNotificationDefinitionObserver.notificationDefinitionPostMethodId = Objects.requireNonNull(notificationDefinitionPostMethodId);
+            createNotificationDefinitionObserver.notificationDefinitionSendMethodId = Objects.requireNonNull(notificationDefinitionSendMethodId);
             createNotificationDefinitionObserver.observer = Objects.requireNonNull(observer);
             return createNotificationDefinitionObserver;
         }

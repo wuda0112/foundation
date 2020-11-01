@@ -17,6 +17,7 @@
         <module>foundation-item-impl</module>
         <module>foundation-security-impl</module>
         <module>foundation-notification</module>
+        <module>foundation-notification-impl</module>
     </modules>
 
     <groupId>io.github.wuda0112</groupId>
@@ -46,6 +47,11 @@
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <mysql.connector.java.version>8.0.13</mysql.connector.java.version>
         <mysql.jdbc.driver>com.mysql.cj.jdbc.Driver</mysql.jdbc.driver>
+
+        <!--用于代码生成时连接数据库-->
+        <mysql.url>jdbc:mysql://localhost:3306/?serverTimezone=UTC</mysql.url>
+        <mysql.username>root</mysql.username>
+        <mysql.password>123456</mysql.password>
     </properties>
 
     <licenses>

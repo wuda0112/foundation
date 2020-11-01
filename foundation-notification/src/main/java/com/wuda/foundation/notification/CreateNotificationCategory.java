@@ -1,6 +1,7 @@
 package com.wuda.foundation.notification;
 
 import com.wuda.foundation.commons.BuiltinTreeNodeUse;
+import com.wuda.foundation.commons.CreateGroup;
 import com.wuda.foundation.commons.CreateTreeNode;
 import com.wuda.foundation.lang.Constant;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierTypes;
@@ -31,11 +32,19 @@ public class CreateNotificationCategory {
     public CreateTreeNode toCreateTreeNode() {
         return new CreateTreeNode.Builder()
                 .setId(this.id)
-                .setName(this.name)
-                .setDescription(this.description)
                 .setParentNodeId(this.parentCategoryId)
-                .setOwner(new LongIdentifier(Constant.NOT_EXISTS_ID, BuiltinIdentifierTypes.VIRTUAL))
-                .setUse(BuiltinTreeNodeUse.USED_FOR_ITEM_CATEGORY)
+                .build();
+    }
+
+    /**
+     * 生成用于创建组的参数.
+     *
+     * @return {@link CreateGroup}
+     */
+    public CreateGroup toCreateGroup() {
+        return new CreateGroup.Builder()
+                .setGroupId(this.id)
+                .setParentGroupId(this.parentCategoryId)
                 .build();
     }
 

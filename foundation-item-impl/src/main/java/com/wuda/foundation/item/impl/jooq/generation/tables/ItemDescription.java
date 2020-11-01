@@ -37,7 +37,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemDescription extends TableImpl<ItemDescriptionRecord> {
 
-    private static final long serialVersionUID = -2092159952;
+    private static final long serialVersionUID = -1726706308;
 
     /**
      * The reference instance of <code>foundation_item.item_description</code>
@@ -137,7 +137,7 @@ public class ItemDescription extends TableImpl<ItemDescriptionRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ITEM_DESCRIPTION_FK_ITEM_ID, Indexes.ITEM_DESCRIPTION_FK_ITEM_VARIATION_ID);
+        return Arrays.<Index>asList(Indexes.ITEM_DESCRIPTION_FK_ITEM_VARIATION_ID, Indexes.ITEM_DESCRIPTION_IDX_ITEM_ID);
     }
 
     @Override

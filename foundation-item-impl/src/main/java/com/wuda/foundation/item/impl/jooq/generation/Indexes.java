@@ -5,10 +5,11 @@ package com.wuda.foundation.item.impl.jooq.generation;
 
 
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategory;
-import com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategoryRelationship;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemCore;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemDescription;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemGeneral;
+import com.wuda.foundation.item.impl.jooq.generation.tables.ItemGroupRelation;
+import com.wuda.foundation.item.impl.jooq.generation.tables.ItemPrice;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemVariation;
 
 import org.jooq.Index;
@@ -27,29 +28,31 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index ITEM_CATEGORY_FK_STORE_ID = Indexes0.ITEM_CATEGORY_FK_STORE_ID;
-    public static final Index ITEM_CATEGORY_RELATIONSHIP_FK_ITEM_CASTEGORY_ID_IDX = Indexes0.ITEM_CATEGORY_RELATIONSHIP_FK_ITEM_CASTEGORY_ID_IDX;
-    public static final Index ITEM_CATEGORY_RELATIONSHIP_FK_ITEM_ID_IDX = Indexes0.ITEM_CATEGORY_RELATIONSHIP_FK_ITEM_ID_IDX;
-    public static final Index ITEM_CORE_FK_STORE_ID = Indexes0.ITEM_CORE_FK_STORE_ID;
+    public static final Index ITEM_CATEGORY_IDX_STORE_ID = Indexes0.ITEM_CATEGORY_IDX_STORE_ID;
     public static final Index ITEM_CORE_IDX_ITEM_ID = Indexes0.ITEM_CORE_IDX_ITEM_ID;
-    public static final Index ITEM_DESCRIPTION_FK_ITEM_ID = Indexes0.ITEM_DESCRIPTION_FK_ITEM_ID;
     public static final Index ITEM_DESCRIPTION_FK_ITEM_VARIATION_ID = Indexes0.ITEM_DESCRIPTION_FK_ITEM_VARIATION_ID;
-    public static final Index ITEM_GENERAL_FK_ITEM_ID = Indexes0.ITEM_GENERAL_FK_ITEM_ID;
-    public static final Index ITEM_VARIATION_FK_ITEM_ID = Indexes0.ITEM_VARIATION_FK_ITEM_ID;
+    public static final Index ITEM_DESCRIPTION_IDX_ITEM_ID = Indexes0.ITEM_DESCRIPTION_IDX_ITEM_ID;
+    public static final Index ITEM_GENERAL_IDX_ITEM_ID = Indexes0.ITEM_GENERAL_IDX_ITEM_ID;
+    public static final Index ITEM_GROUP_RELATION_IDX_GROUP_ID = Indexes0.ITEM_GROUP_RELATION_IDX_GROUP_ID;
+    public static final Index ITEM_GROUP_RELATION_IDX_ITEM_ID = Indexes0.ITEM_GROUP_RELATION_IDX_ITEM_ID;
+    public static final Index ITEM_PRICE_FK_ITEM_VARIATION_ID = Indexes0.ITEM_PRICE_FK_ITEM_VARIATION_ID;
+    public static final Index ITEM_PRICE_IDX_ITEM_ID = Indexes0.ITEM_PRICE_IDX_ITEM_ID;
+    public static final Index ITEM_VARIATION_IDX_ITEM_ID = Indexes0.ITEM_VARIATION_IDX_ITEM_ID;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
-        public static Index ITEM_CATEGORY_FK_STORE_ID = Internal.createIndex("fk_store_id", ItemCategory.ITEM_CATEGORY, new OrderField[] { ItemCategory.ITEM_CATEGORY.STORE_ID }, false);
-        public static Index ITEM_CATEGORY_RELATIONSHIP_FK_ITEM_CASTEGORY_ID_IDX = Internal.createIndex("fk_item_castegory_id_idx", ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP, new OrderField[] { ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP.ITEM_CATEGORY_ID }, false);
-        public static Index ITEM_CATEGORY_RELATIONSHIP_FK_ITEM_ID_IDX = Internal.createIndex("fk_item_id_idx", ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP, new OrderField[] { ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP.ITEM_ID }, false);
-        public static Index ITEM_CORE_FK_STORE_ID = Internal.createIndex("fk_store_id", ItemCore.ITEM_CORE, new OrderField[] { ItemCore.ITEM_CORE.STORE_ID }, false);
+        public static Index ITEM_CATEGORY_IDX_STORE_ID = Internal.createIndex("idx_store_id", ItemCategory.ITEM_CATEGORY, new OrderField[] { ItemCategory.ITEM_CATEGORY.STORE_ID }, false);
         public static Index ITEM_CORE_IDX_ITEM_ID = Internal.createIndex("idx_item_id", ItemCore.ITEM_CORE, new OrderField[] { ItemCore.ITEM_CORE.ITEM_ID }, false);
-        public static Index ITEM_DESCRIPTION_FK_ITEM_ID = Internal.createIndex("fk_item_id", ItemDescription.ITEM_DESCRIPTION, new OrderField[] { ItemDescription.ITEM_DESCRIPTION.ITEM_ID }, false);
         public static Index ITEM_DESCRIPTION_FK_ITEM_VARIATION_ID = Internal.createIndex("fk_item_variation_id", ItemDescription.ITEM_DESCRIPTION, new OrderField[] { ItemDescription.ITEM_DESCRIPTION.ITEM_VARIATION_ID }, false);
-        public static Index ITEM_GENERAL_FK_ITEM_ID = Internal.createIndex("fk_item_id", ItemGeneral.ITEM_GENERAL, new OrderField[] { ItemGeneral.ITEM_GENERAL.ITEM_ID }, false);
-        public static Index ITEM_VARIATION_FK_ITEM_ID = Internal.createIndex("fk_item_id", ItemVariation.ITEM_VARIATION, new OrderField[] { ItemVariation.ITEM_VARIATION.ITEM_ID }, false);
+        public static Index ITEM_DESCRIPTION_IDX_ITEM_ID = Internal.createIndex("idx_item_id", ItemDescription.ITEM_DESCRIPTION, new OrderField[] { ItemDescription.ITEM_DESCRIPTION.ITEM_ID }, false);
+        public static Index ITEM_GENERAL_IDX_ITEM_ID = Internal.createIndex("idx_item_id", ItemGeneral.ITEM_GENERAL, new OrderField[] { ItemGeneral.ITEM_GENERAL.ITEM_ID }, false);
+        public static Index ITEM_GROUP_RELATION_IDX_GROUP_ID = Internal.createIndex("idx_group_id", ItemGroupRelation.ITEM_GROUP_RELATION, new OrderField[] { ItemGroupRelation.ITEM_GROUP_RELATION.GROUP_ID }, false);
+        public static Index ITEM_GROUP_RELATION_IDX_ITEM_ID = Internal.createIndex("idx_item_id", ItemGroupRelation.ITEM_GROUP_RELATION, new OrderField[] { ItemGroupRelation.ITEM_GROUP_RELATION.ITEM_ID }, false);
+        public static Index ITEM_PRICE_FK_ITEM_VARIATION_ID = Internal.createIndex("fk_item_variation_id", ItemPrice.ITEM_PRICE, new OrderField[] { ItemPrice.ITEM_PRICE.ITEM_VARIATION_ID }, false);
+        public static Index ITEM_PRICE_IDX_ITEM_ID = Internal.createIndex("idx_item_id", ItemPrice.ITEM_PRICE, new OrderField[] { ItemPrice.ITEM_PRICE.ITEM_ID }, false);
+        public static Index ITEM_VARIATION_IDX_ITEM_ID = Internal.createIndex("idx_item_id", ItemVariation.ITEM_VARIATION, new OrderField[] { ItemVariation.ITEM_VARIATION.ITEM_ID }, false);
     }
 }

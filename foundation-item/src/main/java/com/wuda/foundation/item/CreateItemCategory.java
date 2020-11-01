@@ -1,9 +1,7 @@
 package com.wuda.foundation.item;
 
-import com.wuda.foundation.commons.BuiltinTreeNodeUse;
+import com.wuda.foundation.commons.CreateGroup;
 import com.wuda.foundation.commons.CreateTreeNode;
-import com.wuda.foundation.lang.identify.BuiltinIdentifierTypes;
-import com.wuda.foundation.lang.identify.LongIdentifier;
 import lombok.Data;
 
 import java.util.Objects;
@@ -25,11 +23,19 @@ public class CreateItemCategory {
     public CreateTreeNode toCreateTreeNode() {
         return new CreateTreeNode.Builder()
                 .setId(this.id)
-                .setName(this.name)
-                .setDescription(this.description)
                 .setParentNodeId(this.parentCategoryId)
-                .setOwner(new LongIdentifier(storeId, BuiltinIdentifierTypes.TABLE_STORE))
-                .setUse(BuiltinTreeNodeUse.USED_FOR_ITEM_CATEGORY)
+                .build();
+    }
+
+    /**
+     * 生成用于创建组的参数.
+     *
+     * @return {@link CreateGroup}
+     */
+    public CreateGroup toCreateGroup() {
+        return new CreateGroup.Builder()
+                .setGroupId(this.id)
+                .setParentGroupId(this.parentCategoryId)
                 .build();
     }
 

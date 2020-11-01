@@ -14,8 +14,6 @@ import java.util.Objects;
 public class UpdateTreeNode {
 
     protected Long id;
-    protected String name;
-    protected String description;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -34,7 +32,6 @@ public class UpdateTreeNode {
     public static UpdateTreeNode from(Long id, CreateTreeNode createTreeNode) {
         return new Builder()
                 .setId(id)
-                .setDescription(createTreeNode.getDescription())
                 .build();
     }
 
@@ -47,21 +44,9 @@ public class UpdateTreeNode {
     public static class Builder implements com.wuda.foundation.lang.Builder<UpdateTreeNode> {
 
         protected Long id;
-        protected String name;
-        protected String description;
 
         public Builder setId(Long id) {
             this.id = id;
-            return this;
-        }
-
-        public Builder setName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder setDescription(String description) {
-            this.description = description;
             return this;
         }
 
@@ -70,8 +55,6 @@ public class UpdateTreeNode {
         public UpdateTreeNode build() {
             UpdateTreeNode createTreeNode = new UpdateTreeNode();
             createTreeNode.id = Objects.requireNonNull(this.id);
-            createTreeNode.name = this.name;
-            createTreeNode.description = this.description;
             return createTreeNode;
         }
     }

@@ -5,25 +5,25 @@ import lombok.Getter;
 import java.util.Objects;
 
 /**
- * 创建notification post method的实体参数.
+ * 更新notification send method的实体参数.
  *
  * @author wuda
  * @since 1.0.3
  */
 @Getter
-public class CreateNotificationPostMethod {
+public class UpdateNotificationSendMethod {
 
     private Long id;
     private String name;
     private String description;
 
     /**
-     * for build {@link CreateNotificationPostMethod}
+     * for build {@link UpdateNotificationSendMethod}
      *
      * @author wuda
      * @since 1.0.3
      */
-    public static class Builder implements com.wuda.foundation.lang.Builder<CreateNotificationPostMethod> {
+    public static class Builder implements com.wuda.foundation.lang.Builder<UpdateNotificationSendMethod> {
 
         private Long id;
         private String name;
@@ -45,12 +45,12 @@ public class CreateNotificationPostMethod {
         }
 
         @Override
-        public CreateNotificationPostMethod build() {
-            CreateNotificationPostMethod createNotificationPostMethod = new CreateNotificationPostMethod();
-            createNotificationPostMethod.id = Objects.requireNonNull(id);
-            createNotificationPostMethod.name = Objects.requireNonNull(name);
-            createNotificationPostMethod.description = Objects.requireNonNull(description);
-            return createNotificationPostMethod;
+        public UpdateNotificationSendMethod build() {
+            UpdateNotificationSendMethod updateNotificationSendMethod = new UpdateNotificationSendMethod();
+            updateNotificationSendMethod.id = Objects.requireNonNull(id);
+            updateNotificationSendMethod.name = name;
+            updateNotificationSendMethod.description = description;
+            return updateNotificationSendMethod;
         }
     }
 

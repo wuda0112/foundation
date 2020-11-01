@@ -1,5 +1,6 @@
 package com.wuda.foundation.item;
 
+import com.wuda.foundation.commons.GroupManager;
 import com.wuda.foundation.commons.TreeManager;
 import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateMode;
@@ -20,7 +21,7 @@ public interface ItemManager {
      * 新增一个item core.
      *
      * @param createItemCore 创建item core的参数
-     * @param opUserId   操作人用户ID
+     * @param opUserId       操作人用户ID
      * @return 新增的item core ID
      */
     long createItemCore(CreateItemCore createItemCore, Long opUserId);
@@ -29,7 +30,7 @@ public interface ItemManager {
      * 新增item core.
      *
      * @param createItemCores 创建item core的参数
-     * @param opUserId    操作人用户ID,是谁正在添加这个新item
+     * @param opUserId        操作人用户ID,是谁正在添加这个新item
      */
     void directBatchInsertItemCore(List<CreateItemCore> createItemCores, Long opUserId);
 
@@ -101,23 +102,23 @@ public interface ItemManager {
     /**
      * 创建分类.
      *
-     * @param treeManager        item分类是基于{@link com.wuda.foundation.commons.CreateTreeNode}创建的,因此需要{@link TreeManager}
+     * @param treeManager        item分类是树形结构,因此需要{@link TreeManager}
+     * @param groupManager       item分类是一种组,因此需要{@link GroupManager}
      * @param createItemCategory 新建分类的参数
      * @param opUserId           操作人用户ID
      * @return {@link CreateResult}
      * @throws AlreadyExistsException 如果已经存在给定名称的分类
      */
-    CreateResult createCategory(TreeManager treeManager, CreateItemCategory createItemCategory, Long opUserId) throws AlreadyExistsException;
+    CreateResult createCategory(TreeManager treeManager, GroupManager groupManager, CreateItemCategory createItemCategory, Long opUserId) throws AlreadyExistsException;
 
     /**
      * 更新分类.
      *
-     * @param treeManager        item分类是基于{@link com.wuda.foundation.commons.CreateTreeNode}创建的,因此需要{@link TreeManager}
      * @param updateItemCategory 更新参数
      * @param opUserId           操作人用户ID
      * @throws AlreadyExistsException 如果已经存在给定名称的分类
      */
-    void updateCategory(TreeManager treeManager, UpdateItemCategory updateItemCategory, Long opUserId) throws AlreadyExistsException;
+    void updateCategory(UpdateItemCategory updateItemCategory, Long opUserId) throws AlreadyExistsException;
 
     /**
      * @param treeManager item分类是基于{@link com.wuda.foundation.commons.CreateTreeNode}创建的,因此需要{@link TreeManager}

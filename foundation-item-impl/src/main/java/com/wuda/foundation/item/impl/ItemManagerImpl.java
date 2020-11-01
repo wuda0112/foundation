@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategory.ITEM_CATEGORY;
-import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategoryRelationship.ITEM_CATEGORY_RELATIONSHIP;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemCore.ITEM_CORE;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemDescription.ITEM_DESCRIPTION;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemGeneral.ITEM_GENERAL;
+import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemGroupRelation.ITEM_GROUP_RELATION;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemVariation.ITEM_VARIATION;
 
 public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDbOp {
@@ -42,22 +42,30 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     @Override
     protected long createItemCoreDbOp(CreateItemCore createItemCore, Long opUserId) {
         long itemCoreId = insert(dataSource, ITEM_CORE, itemCoreRecordForInsert(createItemCore, opUserId)).getRecordId();
-        createItemCategoryRelationship(createItemCore.getCategoryId(), createItemCore.getItemId(), opUserId);
+        createItemCategoryRelation(createItemCore.getCategoryId(), createItemCore.getItemId(), opUserId);
+        createItemStoreRelation(createItemCore.getStoreId(), createItemCore.getItemId(), opUserId);
         return itemCoreId;
     }
 
-    private void createItemCategoryRelationship(Long categoryId, Long itemId, Long opUserId) {
-        ItemCategoryRelationshipRecord itemCategoryRelationshipRecord = itemCategoryRelationshipForInsert(categoryId, itemId, opUserId);
-        attach(dataSource, itemCategoryRelationshipRecord);
-        itemCategoryRelationshipRecord.insert();
+    private void createItemCategoryRelation(Long categoryId, Long itemId, Long opUserId) {
+        ItemGroupRelationRecord itemGroupRelationRecord = itemGroupRelationRecordForInsert(categoryId, itemId, opUserId);
+        attach(dataSource, itemGroupRelationRecord);
+        itemGroupRelationRecord.insert();
     }
 
-    private ItemCategoryRelationshipRecord itemCategoryRelationshipForInsert(Long categoryId, Long itemId, Long opUserId) {
+    private void createItemStoreRelation(Long storeId, Long itemId, Long opUserId) {
+        ItemGroupRelationRecord itemGroupRelationRecord = itemGroupRelationRecordForInsert(storeId, itemId, opUserId);
+        attach(dataSource, itemGroupRelationRecord);
+        itemGroupRelationRecord.insert();
+    }
+
+    private ItemGroupRelationRecord itemGroupRelationRecordForInsert(Long groupId, Long itemId, Long opUserId) {
         long id = FoundationContext.getLongKeyGenerator().next();
-        return new ItemCategoryRelationshipRecord(ULong.valueOf(id),
+        LocalDateTime now = LocalDateTime.now();
+        return new ItemGroupRelationRecord(ULong.valueOf(id),
                 ULong.valueOf(itemId),
-                ULong.valueOf(categoryId),
-                LocalDateTime.now(), ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+                ULong.valueOf(groupId),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
     @Override
@@ -131,7 +139,8 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
 
     @Override
     protected void updateCategoryDbOp(UpdateItemCategory updateItemCategory, Long opUserId) {
-
+        ItemCategoryRecord record = itemCategoryRecordForUpdate(updateItemCategory, opUserId);
+        updateSelectiveByPrimaryKey(dataSource, record);
     }
 
     @Override
@@ -147,23 +156,35 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     @Override
     protected int itemCountInCategoryDbOp(Long categoryId) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        return dslContext.fetchCount(ITEM_CATEGORY_RELATIONSHIP,
-                ITEM_CATEGORY_RELATIONSHIP.ITEM_CATEGORY_ID.eq(ULong.valueOf(categoryId))
-                        .and(ITEM_CATEGORY_RELATIONSHIP.IS_DELETED.eq(notDeleted())));
+        return dslContext.fetchCount(ITEM_GROUP_RELATION,
+                ITEM_GROUP_RELATION.GROUP_ID.eq(ULong.valueOf(categoryId))
+                        .and(ITEM_GROUP_RELATION.IS_DELETED.eq(notDeleted())));
     }
 
     private ItemCategoryRecord itemCategoryRecordForInsert(CreateItemCategory createItemCategory, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new ItemCategoryRecord(ULong.valueOf(createItemCategory.getId()),
+                ULong.valueOf(createItemCategory.getParentCategoryId()),
                 ULong.valueOf(createItemCategory.getStoreId()),
+                createItemCategory.getName(),
+                createItemCategory.getDescription(),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private ItemCategoryRecord itemCategoryRecordForUpdate(UpdateItemCategory updateItemCategory, Long opUserId) {
+        ItemCategoryRecord record = new ItemCategoryRecord();
+        record.setItemCategoryId(ULong.valueOf(updateItemCategory.getId()));
+        record.setName(updateItemCategory.getName());
+        record.setDescription(updateItemCategory.getDescription());
+        record.setLastModifyTime(LocalDateTime.now());
+        record.setLastModifyUserId(ULong.valueOf(opUserId));
+        return record;
     }
 
     private ItemCoreRecord itemCoreRecordForInsert(CreateItemCore createItemCore, long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new ItemCoreRecord(ULong.valueOf(createItemCore.getId()),
                 ULong.valueOf(createItemCore.getItemId()),
-                ULong.valueOf(createItemCore.getStoreId()),
                 UByte.valueOf(createItemCore.getItemType()),
                 UByte.valueOf(createItemCore.getItemState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));

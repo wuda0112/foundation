@@ -62,6 +62,20 @@ public class ItemCategoryDao extends DAOImpl<ItemCategoryRecord, com.wuda.founda
     }
 
     /**
+     * Fetch records that have <code>parent_item_category_id BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchRangeOfParentItemCategoryId(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(ItemCategory.ITEM_CATEGORY.PARENT_ITEM_CATEGORY_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>parent_item_category_id IN (values)</code>
+     */
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchByParentItemCategoryId(ULong... values) {
+        return fetch(ItemCategory.ITEM_CATEGORY.PARENT_ITEM_CATEGORY_ID, values);
+    }
+
+    /**
      * Fetch records that have <code>store_id BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchRangeOfStoreId(ULong lowerInclusive, ULong upperInclusive) {
@@ -73,6 +87,34 @@ public class ItemCategoryDao extends DAOImpl<ItemCategoryRecord, com.wuda.founda
      */
     public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchByStoreId(ULong... values) {
         return fetch(ItemCategory.ITEM_CATEGORY.STORE_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>name BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchRangeOfName(String lowerInclusive, String upperInclusive) {
+        return fetchRange(ItemCategory.ITEM_CATEGORY.NAME, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>name IN (values)</code>
+     */
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchByName(String... values) {
+        return fetch(ItemCategory.ITEM_CATEGORY.NAME, values);
+    }
+
+    /**
+     * Fetch records that have <code>description BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchRangeOfDescription(String lowerInclusive, String upperInclusive) {
+        return fetchRange(ItemCategory.ITEM_CATEGORY.DESCRIPTION, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>description IN (values)</code>
+     */
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchByDescription(String... values) {
+        return fetch(ItemCategory.ITEM_CATEGORY.DESCRIPTION, values);
     }
 
     /**

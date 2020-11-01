@@ -12,13 +12,11 @@ import java.util.List;
 
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
-import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
 /**
- * 树形结构的节点。有很多数据是用树形结构组织的，比如商品分类，文章分类，组织架构等等，通常我们都是为它们单独设计一个表，比如商品分类表，部门表，然后每个表都写了差不多相同的处理逻辑，如何避免重复处理类似树形的数据呢？这个表的目的就是为了统一处理这些类似树形结构的表，以这个表为核心，扩展出商品分类，文章分类，部门等。owner 
- * type，owner identifi;er，use三个字段被引入进来的主要原因是：通常，在树的同一个level，不允许出现同名的节点，如果不引进这些标记归属的字段，那么看上去这个表的数
+ * 树形结构的节点。有很多数据是用树形结构组织的，比如商品分类，文章分类，组织架构等等，通常我们都是为它们单独设计一个表，比如商品分类表，部门表，然后每个表都写了差不多相同的处理逻辑，如何避免重复处理类似树形的数据呢？这个表的目的就是为了统一处理这些类似树形结构的表，以这个表为核心，扩展出商品分类，文章分类，部门等。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TreeNodeDao extends DAOImpl<TreeNodeRecord, com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode, ULong> {
@@ -64,87 +62,17 @@ public class TreeNodeDao extends DAOImpl<TreeNodeRecord, com.wuda.foundation.com
     }
 
     /**
-     * Fetch records that have <code>name BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>parent_tree_node_id BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchRangeOfName(String lowerInclusive, String upperInclusive) {
-        return fetchRange(TreeNode.TREE_NODE.NAME, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchRangeOfParentTreeNodeId(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(TreeNode.TREE_NODE.PARENT_TREE_NODE_ID, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>name IN (values)</code>
+     * Fetch records that have <code>parent_tree_node_id IN (values)</code>
      */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchByName(String... values) {
-        return fetch(TreeNode.TREE_NODE.NAME, values);
-    }
-
-    /**
-     * Fetch records that have <code>description BETWEEN lowerInclusive AND upperInclusive</code>
-     */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchRangeOfDescription(String lowerInclusive, String upperInclusive) {
-        return fetchRange(TreeNode.TREE_NODE.DESCRIPTION, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>description IN (values)</code>
-     */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchByDescription(String... values) {
-        return fetch(TreeNode.TREE_NODE.DESCRIPTION, values);
-    }
-
-    /**
-     * Fetch records that have <code>parent_node_id BETWEEN lowerInclusive AND upperInclusive</code>
-     */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchRangeOfParentNodeId(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(TreeNode.TREE_NODE.PARENT_NODE_ID, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>parent_node_id IN (values)</code>
-     */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchByParentNodeId(ULong... values) {
-        return fetch(TreeNode.TREE_NODE.PARENT_NODE_ID, values);
-    }
-
-    /**
-     * Fetch records that have <code>owner_type BETWEEN lowerInclusive AND upperInclusive</code>
-     */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchRangeOfOwnerType(UByte lowerInclusive, UByte upperInclusive) {
-        return fetchRange(TreeNode.TREE_NODE.OWNER_TYPE, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>owner_type IN (values)</code>
-     */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchByOwnerType(UByte... values) {
-        return fetch(TreeNode.TREE_NODE.OWNER_TYPE, values);
-    }
-
-    /**
-     * Fetch records that have <code>owner_iendtifier BETWEEN lowerInclusive AND upperInclusive</code>
-     */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchRangeOfOwnerIendtifier(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(TreeNode.TREE_NODE.OWNER_IENDTIFIER, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>owner_iendtifier IN (values)</code>
-     */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchByOwnerIendtifier(ULong... values) {
-        return fetch(TreeNode.TREE_NODE.OWNER_IENDTIFIER, values);
-    }
-
-    /**
-     * Fetch records that have <code>use BETWEEN lowerInclusive AND upperInclusive</code>
-     */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchRangeOfUse(UByte lowerInclusive, UByte upperInclusive) {
-        return fetchRange(TreeNode.TREE_NODE.USE, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>use IN (values)</code>
-     */
-    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchByUse(UByte... values) {
-        return fetch(TreeNode.TREE_NODE.USE, values);
+    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchByParentTreeNodeId(ULong... values) {
+        return fetch(TreeNode.TREE_NODE.PARENT_TREE_NODE_ID, values);
     }
 
     /**

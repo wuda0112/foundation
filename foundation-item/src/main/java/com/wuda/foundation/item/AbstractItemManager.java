@@ -1,5 +1,7 @@
 package com.wuda.foundation.item;
 
+import com.wuda.foundation.commons.CreateGroup;
+import com.wuda.foundation.commons.GroupManager;
 import com.wuda.foundation.commons.TreeManager;
 import com.wuda.foundation.lang.*;
 
@@ -76,19 +78,17 @@ public abstract class AbstractItemManager implements ItemManager {
     protected abstract long updateDescriptionDbOp(Long itemDescriptionId, String description, Long opUserId);
 
     @Override
-    public CreateResult createCategory(TreeManager treeManager, CreateItemCategory createItemCategory, Long opUserId) throws AlreadyExistsException {
-        CreateResult createResult = treeManager.createNode(createItemCategory.toCreateTreeNode(), CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
-        if (createResult.getExistsRecordId() != null) {
-            throw new AlreadyExistsException("category name = " + createItemCategory.getName() + "在同一级别中已经存在");
-        }
+    public CreateResult createCategory(TreeManager treeManager, GroupManager groupManager, CreateItemCategory createItemCategory, Long opUserId) throws AlreadyExistsException {
+        treeManager.createNode(createItemCategory.toCreateTreeNode(), CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
+        CreateGroup createGroup = createItemCategory.toCreateGroup();
+        groupManager.createGroup(createGroup, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
         return createCategoryDbOp(createItemCategory, opUserId);
     }
 
     protected abstract CreateResult createCategoryDbOp(CreateItemCategory createItemCategory, Long opUserId);
 
     @Override
-    public void updateCategory(TreeManager treeManager, UpdateItemCategory updateItemCategory, Long opUserId) throws AlreadyExistsException {
-        treeManager.updateNode(updateItemCategory, opUserId);
+    public void updateCategory(UpdateItemCategory updateItemCategory, Long opUserId) throws AlreadyExistsException {
         updateCategoryDbOp(updateItemCategory, opUserId);
     }
 
@@ -107,7 +107,7 @@ public abstract class AbstractItemManager implements ItemManager {
     protected abstract void deleteCategoryDbOp(Long categoryId, Long opUserId) throws RelatedDataExists;
 
     @Override
-    public int itemCountInCategory(Long categoryId){
+    public int itemCountInCategory(Long categoryId) {
         return itemCountInCategoryDbOp(categoryId);
     }
 

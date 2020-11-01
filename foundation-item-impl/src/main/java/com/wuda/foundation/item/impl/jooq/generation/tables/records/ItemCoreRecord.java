@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record10;
-import org.jooq.Row10;
+import org.jooq.Record9;
+import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
@@ -21,9 +21,9 @@ import org.jooq.types.ULong;
  * 物品核心信息，代表所有的物品，之前有把用户ID放进来，表示该物品所属的用户，但是考虑到如果有子账号的情况，物品难道属于这个子账号所属的用户吗？而且记录了创建人用户ID，考虑这两个因素，因此不设置用户ID列
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ItemCoreRecord extends UpdatableRecordImpl<ItemCoreRecord> implements Record10<ULong, ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class ItemCoreRecord extends UpdatableRecordImpl<ItemCoreRecord> implements Record9<ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 391345773;
+    private static final long serialVersionUID = -825872737;
 
     /**
      * Setter for <code>foundation_item.item_core.item_core_id</code>.
@@ -54,115 +54,101 @@ public class ItemCoreRecord extends UpdatableRecordImpl<ItemCoreRecord> implemen
     }
 
     /**
-     * Setter for <code>foundation_item.item_core.store_id</code>. 所属店铺ID
-     */
-    public void setStoreId(ULong value) {
-        set(2, value);
-    }
-
-    /**
-     * Getter for <code>foundation_item.item_core.store_id</code>. 所属店铺ID
-     */
-    public ULong getStoreId() {
-        return (ULong) get(2);
-    }
-
-    /**
      * Setter for <code>foundation_item.item_core.type</code>. 商品类型 . 不同类型的商品, 保存到各自不同的表中. 参考 https://learnwoo.com/woocommerce-different-product-types/
      */
     public void setType(UByte value) {
-        set(3, value);
+        set(2, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_core.type</code>. 商品类型 . 不同类型的商品, 保存到各自不同的表中. 参考 https://learnwoo.com/woocommerce-different-product-types/
      */
     public UByte getType() {
-        return (UByte) get(3);
+        return (UByte) get(2);
     }
 
     /**
      * Setter for <code>foundation_item.item_core.state</code>. 状态
      */
     public void setState(UByte value) {
-        set(4, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_core.state</code>. 状态
      */
     public UByte getState() {
-        return (UByte) get(4);
+        return (UByte) get(3);
     }
 
     /**
      * Setter for <code>foundation_item.item_core.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
-        set(5, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_core.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
-        return (LocalDateTime) get(5);
+        return (LocalDateTime) get(4);
     }
 
     /**
      * Setter for <code>foundation_item.item_core.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
-        set(6, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_core.create_user_id</code>.
      */
     public ULong getCreateUserId() {
-        return (ULong) get(6);
+        return (ULong) get(5);
     }
 
     /**
      * Setter for <code>foundation_item.item_core.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
-        set(7, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_core.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
-        return (LocalDateTime) get(7);
+        return (LocalDateTime) get(6);
     }
 
     /**
      * Setter for <code>foundation_item.item_core.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
-        set(8, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_core.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
-        return (ULong) get(8);
+        return (ULong) get(7);
     }
 
     /**
      * Setter for <code>foundation_item.item_core.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
-        set(9, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_core.is_deleted</code>.
      */
     public ULong getIsDeleted() {
-        return (ULong) get(9);
+        return (ULong) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -175,17 +161,17 @@ public class ItemCoreRecord extends UpdatableRecordImpl<ItemCoreRecord> implemen
     }
 
     // -------------------------------------------------------------------------
-    // Record10 type implementation
+    // Record9 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<ULong, ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row10) super.fieldsRow();
+    public Row9<ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 
     @Override
-    public Row10<ULong, ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
-        return (Row10) super.valuesRow();
+    public Row9<ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+        return (Row9) super.valuesRow();
     }
 
     @Override
@@ -199,42 +185,37 @@ public class ItemCoreRecord extends UpdatableRecordImpl<ItemCoreRecord> implemen
     }
 
     @Override
-    public Field<ULong> field3() {
-        return ItemCore.ITEM_CORE.STORE_ID;
-    }
-
-    @Override
-    public Field<UByte> field4() {
+    public Field<UByte> field3() {
         return ItemCore.ITEM_CORE.TYPE;
     }
 
     @Override
-    public Field<UByte> field5() {
+    public Field<UByte> field4() {
         return ItemCore.ITEM_CORE.STATE;
     }
 
     @Override
-    public Field<LocalDateTime> field6() {
+    public Field<LocalDateTime> field5() {
         return ItemCore.ITEM_CORE.CREATE_TIME;
     }
 
     @Override
-    public Field<ULong> field7() {
+    public Field<ULong> field6() {
         return ItemCore.ITEM_CORE.CREATE_USER_ID;
     }
 
     @Override
-    public Field<LocalDateTime> field8() {
+    public Field<LocalDateTime> field7() {
         return ItemCore.ITEM_CORE.LAST_MODIFY_TIME;
     }
 
     @Override
-    public Field<ULong> field9() {
+    public Field<ULong> field8() {
         return ItemCore.ITEM_CORE.LAST_MODIFY_USER_ID;
     }
 
     @Override
-    public Field<ULong> field10() {
+    public Field<ULong> field9() {
         return ItemCore.ITEM_CORE.IS_DELETED;
     }
 
@@ -249,42 +230,37 @@ public class ItemCoreRecord extends UpdatableRecordImpl<ItemCoreRecord> implemen
     }
 
     @Override
-    public ULong component3() {
-        return getStoreId();
-    }
-
-    @Override
-    public UByte component4() {
+    public UByte component3() {
         return getType();
     }
 
     @Override
-    public UByte component5() {
+    public UByte component4() {
         return getState();
     }
 
     @Override
-    public LocalDateTime component6() {
+    public LocalDateTime component5() {
         return getCreateTime();
     }
 
     @Override
-    public ULong component7() {
+    public ULong component6() {
         return getCreateUserId();
     }
 
     @Override
-    public LocalDateTime component8() {
+    public LocalDateTime component7() {
         return getLastModifyTime();
     }
 
     @Override
-    public ULong component9() {
+    public ULong component8() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong component10() {
+    public ULong component9() {
         return getIsDeleted();
     }
 
@@ -299,42 +275,37 @@ public class ItemCoreRecord extends UpdatableRecordImpl<ItemCoreRecord> implemen
     }
 
     @Override
-    public ULong value3() {
-        return getStoreId();
-    }
-
-    @Override
-    public UByte value4() {
+    public UByte value3() {
         return getType();
     }
 
     @Override
-    public UByte value5() {
+    public UByte value4() {
         return getState();
     }
 
     @Override
-    public LocalDateTime value6() {
+    public LocalDateTime value5() {
         return getCreateTime();
     }
 
     @Override
-    public ULong value7() {
+    public ULong value6() {
         return getCreateUserId();
     }
 
     @Override
-    public LocalDateTime value8() {
+    public LocalDateTime value7() {
         return getLastModifyTime();
     }
 
     @Override
-    public ULong value9() {
+    public ULong value8() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong value10() {
+    public ULong value9() {
         return getIsDeleted();
     }
 
@@ -351,55 +322,49 @@ public class ItemCoreRecord extends UpdatableRecordImpl<ItemCoreRecord> implemen
     }
 
     @Override
-    public ItemCoreRecord value3(ULong value) {
-        setStoreId(value);
-        return this;
-    }
-
-    @Override
-    public ItemCoreRecord value4(UByte value) {
+    public ItemCoreRecord value3(UByte value) {
         setType(value);
         return this;
     }
 
     @Override
-    public ItemCoreRecord value5(UByte value) {
+    public ItemCoreRecord value4(UByte value) {
         setState(value);
         return this;
     }
 
     @Override
-    public ItemCoreRecord value6(LocalDateTime value) {
+    public ItemCoreRecord value5(LocalDateTime value) {
         setCreateTime(value);
         return this;
     }
 
     @Override
-    public ItemCoreRecord value7(ULong value) {
+    public ItemCoreRecord value6(ULong value) {
         setCreateUserId(value);
         return this;
     }
 
     @Override
-    public ItemCoreRecord value8(LocalDateTime value) {
+    public ItemCoreRecord value7(LocalDateTime value) {
         setLastModifyTime(value);
         return this;
     }
 
     @Override
-    public ItemCoreRecord value9(ULong value) {
+    public ItemCoreRecord value8(ULong value) {
         setLastModifyUserId(value);
         return this;
     }
 
     @Override
-    public ItemCoreRecord value10(ULong value) {
+    public ItemCoreRecord value9(ULong value) {
         setIsDeleted(value);
         return this;
     }
 
     @Override
-    public ItemCoreRecord values(ULong value1, ULong value2, ULong value3, UByte value4, UByte value5, LocalDateTime value6, ULong value7, LocalDateTime value8, ULong value9, ULong value10) {
+    public ItemCoreRecord values(ULong value1, ULong value2, UByte value3, UByte value4, LocalDateTime value5, ULong value6, LocalDateTime value7, ULong value8, ULong value9) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -409,7 +374,6 @@ public class ItemCoreRecord extends UpdatableRecordImpl<ItemCoreRecord> implemen
         value7(value7);
         value8(value8);
         value9(value9);
-        value10(value10);
         return this;
     }
 
@@ -427,18 +391,17 @@ public class ItemCoreRecord extends UpdatableRecordImpl<ItemCoreRecord> implemen
     /**
      * Create a detached, initialised ItemCoreRecord
      */
-    public ItemCoreRecord(ULong itemCoreId, ULong itemId, ULong storeId, UByte type, UByte state, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public ItemCoreRecord(ULong itemCoreId, ULong itemId, UByte type, UByte state, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(ItemCore.ITEM_CORE);
 
         set(0, itemCoreId);
         set(1, itemId);
-        set(2, storeId);
-        set(3, type);
-        set(4, state);
-        set(5, createTime);
-        set(6, createUserId);
-        set(7, lastModifyTime);
-        set(8, lastModifyUserId);
-        set(9, isDeleted);
+        set(2, type);
+        set(3, state);
+        set(4, createTime);
+        set(5, createUserId);
+        set(6, lastModifyTime);
+        set(7, lastModifyUserId);
+        set(8, isDeleted);
     }
 }

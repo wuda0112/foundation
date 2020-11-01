@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record7;
-import org.jooq.Row7;
+import org.jooq.Record10;
+import org.jooq.Row10;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.ULong;
 
@@ -20,106 +20,148 @@ import org.jooq.types.ULong;
  * 物品分类
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ItemCategoryRecord extends UpdatableRecordImpl<ItemCategoryRecord> implements Record7<ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class ItemCategoryRecord extends UpdatableRecordImpl<ItemCategoryRecord> implements Record10<ULong, ULong, ULong, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -158175284;
+    private static final long serialVersionUID = 1971991857;
 
     /**
-     * Setter for <code>foundation_item.item_category.item_category_id</code>. 一定和【tree_node.tree_node_id】相等，因为实际表示树形结构的数据在tree_node表中，这里只是对tree_node的引用。tree_node表负责树形结构的维护，这里维护树形结构以外的内容，比如store_id字段用于维护归属。
+     * Setter for <code>foundation_item.item_category.item_category_id</code>. 一定和【tree_node.tree_node_id】相等，因为实际表示树形结构的数据在tree_node表中，这里只是对tree_node的引用。tree_node表负责树形结构的维护，这里维护树形结构以外的内容，比如store_id字段用于维护归属。一定和【group.group_id】相等，因为分类是一种组。
      */
     public void setItemCategoryId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>foundation_item.item_category.item_category_id</code>. 一定和【tree_node.tree_node_id】相等，因为实际表示树形结构的数据在tree_node表中，这里只是对tree_node的引用。tree_node表负责树形结构的维护，这里维护树形结构以外的内容，比如store_id字段用于维护归属。
+     * Getter for <code>foundation_item.item_category.item_category_id</code>. 一定和【tree_node.tree_node_id】相等，因为实际表示树形结构的数据在tree_node表中，这里只是对tree_node的引用。tree_node表负责树形结构的维护，这里维护树形结构以外的内容，比如store_id字段用于维护归属。一定和【group.group_id】相等，因为分类是一种组。
      */
     public ULong getItemCategoryId() {
         return (ULong) get(0);
     }
 
     /**
+     * Setter for <code>foundation_item.item_category.parent_item_category_id</code>.
+     */
+    public void setParentItemCategoryId(ULong value) {
+        set(1, value);
+    }
+
+    /**
+     * Getter for <code>foundation_item.item_category.parent_item_category_id</code>.
+     */
+    public ULong getParentItemCategoryId() {
+        return (ULong) get(1);
+    }
+
+    /**
      * Setter for <code>foundation_item.item_category.store_id</code>. 所属店铺ID
      */
     public void setStoreId(ULong value) {
-        set(1, value);
+        set(2, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_category.store_id</code>. 所属店铺ID
      */
     public ULong getStoreId() {
-        return (ULong) get(1);
+        return (ULong) get(2);
+    }
+
+    /**
+     * Setter for <code>foundation_item.item_category.name</code>. 分类名称
+     */
+    public void setName(String value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>foundation_item.item_category.name</code>. 分类名称
+     */
+    public String getName() {
+        return (String) get(3);
+    }
+
+    /**
+     * Setter for <code>foundation_item.item_category.description</code>. 描述
+     */
+    public void setDescription(String value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>foundation_item.item_category.description</code>. 描述
+     */
+    public String getDescription() {
+        return (String) get(4);
     }
 
     /**
      * Setter for <code>foundation_item.item_category.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
-        set(2, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_category.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
-        return (LocalDateTime) get(2);
+        return (LocalDateTime) get(5);
     }
 
     /**
      * Setter for <code>foundation_item.item_category.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
-        set(3, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_category.create_user_id</code>.
      */
     public ULong getCreateUserId() {
-        return (ULong) get(3);
+        return (ULong) get(6);
     }
 
     /**
      * Setter for <code>foundation_item.item_category.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
-        set(4, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_category.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
-        return (LocalDateTime) get(4);
+        return (LocalDateTime) get(7);
     }
 
     /**
      * Setter for <code>foundation_item.item_category.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
-        set(5, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_category.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
-        return (ULong) get(5);
+        return (ULong) get(8);
     }
 
     /**
      * Setter for <code>foundation_item.item_category.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
-        set(6, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_category.is_deleted</code>.
      */
     public ULong getIsDeleted() {
-        return (ULong) get(6);
+        return (ULong) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -132,17 +174,17 @@ public class ItemCategoryRecord extends UpdatableRecordImpl<ItemCategoryRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Record7 type implementation
+    // Record10 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row10<ULong, ULong, ULong, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 
     @Override
-    public Row7<ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
-        return (Row7) super.valuesRow();
+    public Row10<ULong, ULong, ULong, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+        return (Row10) super.valuesRow();
     }
 
     @Override
@@ -152,31 +194,46 @@ public class ItemCategoryRecord extends UpdatableRecordImpl<ItemCategoryRecord> 
 
     @Override
     public Field<ULong> field2() {
+        return ItemCategory.ITEM_CATEGORY.PARENT_ITEM_CATEGORY_ID;
+    }
+
+    @Override
+    public Field<ULong> field3() {
         return ItemCategory.ITEM_CATEGORY.STORE_ID;
     }
 
     @Override
-    public Field<LocalDateTime> field3() {
+    public Field<String> field4() {
+        return ItemCategory.ITEM_CATEGORY.NAME;
+    }
+
+    @Override
+    public Field<String> field5() {
+        return ItemCategory.ITEM_CATEGORY.DESCRIPTION;
+    }
+
+    @Override
+    public Field<LocalDateTime> field6() {
         return ItemCategory.ITEM_CATEGORY.CREATE_TIME;
     }
 
     @Override
-    public Field<ULong> field4() {
+    public Field<ULong> field7() {
         return ItemCategory.ITEM_CATEGORY.CREATE_USER_ID;
     }
 
     @Override
-    public Field<LocalDateTime> field5() {
+    public Field<LocalDateTime> field8() {
         return ItemCategory.ITEM_CATEGORY.LAST_MODIFY_TIME;
     }
 
     @Override
-    public Field<ULong> field6() {
+    public Field<ULong> field9() {
         return ItemCategory.ITEM_CATEGORY.LAST_MODIFY_USER_ID;
     }
 
     @Override
-    public Field<ULong> field7() {
+    public Field<ULong> field10() {
         return ItemCategory.ITEM_CATEGORY.IS_DELETED;
     }
 
@@ -187,31 +244,46 @@ public class ItemCategoryRecord extends UpdatableRecordImpl<ItemCategoryRecord> 
 
     @Override
     public ULong component2() {
+        return getParentItemCategoryId();
+    }
+
+    @Override
+    public ULong component3() {
         return getStoreId();
     }
 
     @Override
-    public LocalDateTime component3() {
+    public String component4() {
+        return getName();
+    }
+
+    @Override
+    public String component5() {
+        return getDescription();
+    }
+
+    @Override
+    public LocalDateTime component6() {
         return getCreateTime();
     }
 
     @Override
-    public ULong component4() {
+    public ULong component7() {
         return getCreateUserId();
     }
 
     @Override
-    public LocalDateTime component5() {
+    public LocalDateTime component8() {
         return getLastModifyTime();
     }
 
     @Override
-    public ULong component6() {
+    public ULong component9() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong component7() {
+    public ULong component10() {
         return getIsDeleted();
     }
 
@@ -222,31 +294,46 @@ public class ItemCategoryRecord extends UpdatableRecordImpl<ItemCategoryRecord> 
 
     @Override
     public ULong value2() {
+        return getParentItemCategoryId();
+    }
+
+    @Override
+    public ULong value3() {
         return getStoreId();
     }
 
     @Override
-    public LocalDateTime value3() {
+    public String value4() {
+        return getName();
+    }
+
+    @Override
+    public String value5() {
+        return getDescription();
+    }
+
+    @Override
+    public LocalDateTime value6() {
         return getCreateTime();
     }
 
     @Override
-    public ULong value4() {
+    public ULong value7() {
         return getCreateUserId();
     }
 
     @Override
-    public LocalDateTime value5() {
+    public LocalDateTime value8() {
         return getLastModifyTime();
     }
 
     @Override
-    public ULong value6() {
+    public ULong value9() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong value7() {
+    public ULong value10() {
         return getIsDeleted();
     }
 
@@ -258,42 +345,60 @@ public class ItemCategoryRecord extends UpdatableRecordImpl<ItemCategoryRecord> 
 
     @Override
     public ItemCategoryRecord value2(ULong value) {
+        setParentItemCategoryId(value);
+        return this;
+    }
+
+    @Override
+    public ItemCategoryRecord value3(ULong value) {
         setStoreId(value);
         return this;
     }
 
     @Override
-    public ItemCategoryRecord value3(LocalDateTime value) {
+    public ItemCategoryRecord value4(String value) {
+        setName(value);
+        return this;
+    }
+
+    @Override
+    public ItemCategoryRecord value5(String value) {
+        setDescription(value);
+        return this;
+    }
+
+    @Override
+    public ItemCategoryRecord value6(LocalDateTime value) {
         setCreateTime(value);
         return this;
     }
 
     @Override
-    public ItemCategoryRecord value4(ULong value) {
+    public ItemCategoryRecord value7(ULong value) {
         setCreateUserId(value);
         return this;
     }
 
     @Override
-    public ItemCategoryRecord value5(LocalDateTime value) {
+    public ItemCategoryRecord value8(LocalDateTime value) {
         setLastModifyTime(value);
         return this;
     }
 
     @Override
-    public ItemCategoryRecord value6(ULong value) {
+    public ItemCategoryRecord value9(ULong value) {
         setLastModifyUserId(value);
         return this;
     }
 
     @Override
-    public ItemCategoryRecord value7(ULong value) {
+    public ItemCategoryRecord value10(ULong value) {
         setIsDeleted(value);
         return this;
     }
 
     @Override
-    public ItemCategoryRecord values(ULong value1, ULong value2, LocalDateTime value3, ULong value4, LocalDateTime value5, ULong value6, ULong value7) {
+    public ItemCategoryRecord values(ULong value1, ULong value2, ULong value3, String value4, String value5, LocalDateTime value6, ULong value7, LocalDateTime value8, ULong value9, ULong value10) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -301,6 +406,9 @@ public class ItemCategoryRecord extends UpdatableRecordImpl<ItemCategoryRecord> 
         value5(value5);
         value6(value6);
         value7(value7);
+        value8(value8);
+        value9(value9);
+        value10(value10);
         return this;
     }
 
@@ -318,15 +426,18 @@ public class ItemCategoryRecord extends UpdatableRecordImpl<ItemCategoryRecord> 
     /**
      * Create a detached, initialised ItemCategoryRecord
      */
-    public ItemCategoryRecord(ULong itemCategoryId, ULong storeId, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public ItemCategoryRecord(ULong itemCategoryId, ULong parentItemCategoryId, ULong storeId, String name, String description, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(ItemCategory.ITEM_CATEGORY);
 
         set(0, itemCategoryId);
-        set(1, storeId);
-        set(2, createTime);
-        set(3, createUserId);
-        set(4, lastModifyTime);
-        set(5, lastModifyUserId);
-        set(6, isDeleted);
+        set(1, parentItemCategoryId);
+        set(2, storeId);
+        set(3, name);
+        set(4, description);
+        set(5, createTime);
+        set(6, createUserId);
+        set(7, lastModifyTime);
+        set(8, lastModifyUserId);
+        set(9, isDeleted);
     }
 }

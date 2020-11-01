@@ -309,6 +309,7 @@ public interface JooqCommonDbOp {
      * 按顺序返回record中的所有field和value.
      *
      * @param record record
+     * @param <R>    record的类型
      * @return select field
      */
     default <R extends Record> SelectSelectStep<R> getSelectFields(R record) {
@@ -329,6 +330,40 @@ public interface JooqCommonDbOp {
      */
     default ULong notDeleted() {
         return ULong.valueOf(IsDeleted.NO.getValue());
+    }
+
+    /**
+     * 更新field value不为<code>null</code>的字段.
+     *
+     * @param dataSource {@link DataSource}
+     * @param record     record
+     * @param <R>        记录的类型
+     */
+    default <R extends UpdatableRecord> void updateSelectiveByPrimaryKey(DataSource dataSource, R record) {
+        changedIfNotNull(record);
+        attach(dataSource, record);
+        record.update();
+    }
+
+    /**
+     * 遍历record,如果当field的value不为<code>null</code>,则认为已经changed.
+     * 查看{@link Record#changed(Field, boolean)}的定义.
+     *
+     * @param record record
+     * @param <R>    record的类型
+     */
+    default <R extends UpdatableRecord> void changedIfNotNull(R record) {
+        int fieldSize = record.size();
+        for (int i = 0; i < fieldSize; i++) {
+            Field field = record.field(i);
+            Object value = record.get(i);
+            if (value != null) {
+                record.changed(field, true);
+            } else {
+                // 有些字段调用了setter方法后,即使set的值为null,也会被标记为changed
+                record.changed(field, false);
+            }
+        }
     }
 
 }

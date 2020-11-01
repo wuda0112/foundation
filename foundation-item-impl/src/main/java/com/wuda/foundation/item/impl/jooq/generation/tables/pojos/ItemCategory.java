@@ -16,10 +16,13 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemCategory implements Serializable {
 
-    private static final long serialVersionUID = 128950264;
+    private static final long serialVersionUID = -1220839747;
 
     private ULong         itemCategoryId;
+    private ULong         parentItemCategoryId;
     private ULong         storeId;
+    private String        name;
+    private String        description;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private LocalDateTime lastModifyTime;
@@ -30,7 +33,10 @@ public class ItemCategory implements Serializable {
 
     public ItemCategory(ItemCategory value) {
         this.itemCategoryId = value.itemCategoryId;
+        this.parentItemCategoryId = value.parentItemCategoryId;
         this.storeId = value.storeId;
+        this.name = value.name;
+        this.description = value.description;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.lastModifyTime = value.lastModifyTime;
@@ -40,7 +46,10 @@ public class ItemCategory implements Serializable {
 
     public ItemCategory(
         ULong         itemCategoryId,
+        ULong         parentItemCategoryId,
         ULong         storeId,
+        String        name,
+        String        description,
         LocalDateTime createTime,
         ULong         createUserId,
         LocalDateTime lastModifyTime,
@@ -48,7 +57,10 @@ public class ItemCategory implements Serializable {
         ULong         isDeleted
     ) {
         this.itemCategoryId = itemCategoryId;
+        this.parentItemCategoryId = parentItemCategoryId;
         this.storeId = storeId;
+        this.name = name;
+        this.description = description;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.lastModifyTime = lastModifyTime;
@@ -64,12 +76,36 @@ public class ItemCategory implements Serializable {
         this.itemCategoryId = itemCategoryId;
     }
 
+    public ULong getParentItemCategoryId() {
+        return this.parentItemCategoryId;
+    }
+
+    public void setParentItemCategoryId(ULong parentItemCategoryId) {
+        this.parentItemCategoryId = parentItemCategoryId;
+    }
+
     public ULong getStoreId() {
         return this.storeId;
     }
 
     public void setStoreId(ULong storeId) {
         this.storeId = storeId;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDateTime getCreateTime() {
@@ -117,7 +153,10 @@ public class ItemCategory implements Serializable {
         StringBuilder sb = new StringBuilder("ItemCategory (");
 
         sb.append(itemCategoryId);
+        sb.append(", ").append(parentItemCategoryId);
         sb.append(", ").append(storeId);
+        sb.append(", ").append(name);
+        sb.append(", ").append(description);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(lastModifyTime);

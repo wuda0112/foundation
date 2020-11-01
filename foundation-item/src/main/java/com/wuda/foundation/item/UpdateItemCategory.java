@@ -8,7 +8,13 @@ import java.util.Objects;
 @Data
 public class UpdateItemCategory extends UpdateTreeNode {
 
+    protected String name;
+    protected String description;
+
     public static class Builder extends UpdateTreeNode.Builder {
+
+        protected String name;
+        protected String description;
 
         public Builder setId(Long id) {
             this.id = id;

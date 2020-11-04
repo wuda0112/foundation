@@ -24,6 +24,18 @@ public class CreateGroup {
     }
 
     /**
+     * 生成用于创建树节点的参数.
+     *
+     * @return {@link CreateTreeNode}
+     */
+    public CreateTreeNode toCreateTreeNode() {
+        return new CreateTreeNode.Builder()
+                .setId(this.groupId)
+                .setParentTreeNodeId(this.parentGroupId)
+                .build();
+    }
+
+    /**
      * 用于创建{@link CreateGroup}.
      *
      * @author wuda

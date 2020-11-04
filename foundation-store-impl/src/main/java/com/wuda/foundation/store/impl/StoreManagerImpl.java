@@ -131,8 +131,8 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
         LocalDateTime now = LocalDateTime.now();
         return new StoreCoreRecord(ULong.valueOf(createStoreCore.getId()),
                 ULong.valueOf(createStoreCore.getStoreId()),
-                UByte.valueOf(createStoreCore.getStoreType()),
-                UByte.valueOf(createStoreCore.getStoreState()),
+                UByte.valueOf(createStoreCore.getStoreType().getCode()),
+                UByte.valueOf(createStoreCore.getStoreState().getCode()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 }

@@ -1,8 +1,6 @@
 package com.wuda.foundation.lang.tree;
 
-import com.wuda.foundation.lang.AbstractUniqueCodeDescriptor;
 import com.wuda.foundation.lang.UniqueCodeDescriptor;
-import com.wuda.foundation.lang.UniqueCodeDescriptorRegistry;
 import org.junit.Test;
 
 public class UniqueCodeDescriptorTest {

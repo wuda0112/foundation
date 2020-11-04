@@ -12,6 +12,7 @@ import org.jooq.DSLContext;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 import javax.sql.DataSource;
@@ -28,7 +29,7 @@ public class TreeManagerImpl extends AbstractTreeManager implements JooqCommonDb
 
     @Override
     public CreateResult createNodeDbOp(CreateTreeNode createTreeNode, CreateMode createMode, Long opUserId) {
-        SelectConditionStep<Record1<ULong>> existsRecordSelector = selectCondition(createTreeNode.getId(), createTreeNode.getParentNodeId());
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = selectCondition(createTreeNode.getId(), createTreeNode.getParentTreeNodeId());
         return insertDispatcher(dataSource, createMode, TREE_NODE, treeNodeRecordForInsert(createTreeNode, opUserId), existsRecordSelector);
     }
 
@@ -72,7 +73,9 @@ public class TreeManagerImpl extends AbstractTreeManager implements JooqCommonDb
     private TreeNodeRecord treeNodeRecordForInsert(CreateTreeNode createTreeNode, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new TreeNodeRecord(ULong.valueOf(createTreeNode.getId()),
-                ULong.valueOf(createTreeNode.getParentNodeId()),
+                ULong.valueOf(createTreeNode.getRootTreeNodeId()),
+                ULong.valueOf(createTreeNode.getParentTreeNodeId()),
+                UByte.valueOf(createTreeNode.getDepth()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 }

@@ -1,11 +1,7 @@
 package com.wuda.foundation.notification;
 
-import com.wuda.foundation.commons.BuiltinTreeNodeUse;
 import com.wuda.foundation.commons.CreateGroup;
 import com.wuda.foundation.commons.CreateTreeNode;
-import com.wuda.foundation.lang.Constant;
-import com.wuda.foundation.lang.identify.BuiltinIdentifierTypes;
-import com.wuda.foundation.lang.identify.LongIdentifier;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -32,7 +28,7 @@ public class CreateNotificationCategory {
     public CreateTreeNode toCreateTreeNode() {
         return new CreateTreeNode.Builder()
                 .setId(this.id)
-                .setParentNodeId(this.parentCategoryId)
+                .setParentTreeNodeId(this.parentCategoryId)
                 .build();
     }
 

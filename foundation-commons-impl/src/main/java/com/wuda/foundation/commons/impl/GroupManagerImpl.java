@@ -8,7 +8,9 @@ import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.lang.RelatedDataExists;
 import org.jooq.Configuration;
+import org.jooq.DSLContext;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
@@ -21,10 +23,25 @@ import static com.wuda.foundation.commons.impl.jooq.generation.tables.Group.GROU
 public class GroupManagerImpl extends AbstractGroupManager implements JooqCommonDbOp {
 
     @Override
-    protected CreateResult createGroupCoreDbOp(CreateGroup createGroup, CreateMode createMode, Long opUserId) {
+    protected CreateResult createGroupDbOp(CreateGroup createGroup, CreateMode createMode, Long opUserId) {
         GroupRecord record = groupRecordForInsert(createGroup, opUserId);
         SelectConditionStep<Record1<ULong>> selectCondition = selectCondition(createGroup.getGroupId(), createGroup.getParentGroupId());
         return insertDispatcher(JooqContext.getDataSource(), createMode, GROUP, record, selectCondition);
+    }
+
+    @Override
+    protected void deleteGroupDbOp(Long groupId, Long opUserId) throws RelatedDataExists {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext(JooqContext.getDataSource());
+        int childrenCount = dslContext.fetchCount(GROUP,
+                GROUP.PARENT_GROUP_ID.eq(ULong.valueOf(groupId))
+                        .and(GROUP.IS_DELETED.eq(notDeleted())));
+        if (childrenCount > 0) {
+            throw new RelatedDataExists("group id = " + groupId + ",还有子节点,不能删除");
+        }
+        dslContext.update(GROUP)
+                .set(GROUP.IS_DELETED, GROUP.GROUP_ID)
+                .where(GROUP.GROUP_ID.eq(ULong.valueOf(groupId)))
+                .execute();
     }
 
     private GroupRecord groupRecordForInsert(CreateGroup createGroup, Long opUserId) {

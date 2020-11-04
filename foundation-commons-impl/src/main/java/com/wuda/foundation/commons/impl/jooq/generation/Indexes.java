@@ -30,6 +30,7 @@ public class Indexes {
     public static final Index PROPERTY_MOUNT_FK_ATTRIBUTE_KEY_ID = Indexes0.PROPERTY_MOUNT_FK_ATTRIBUTE_KEY_ID;
     public static final Index PROPERTY_MOUNT_IDX_MOUNT = Indexes0.PROPERTY_MOUNT_IDX_MOUNT;
     public static final Index TREE_NODE_IDX_PARENT = Indexes0.TREE_NODE_IDX_PARENT;
+    public static final Index TREE_NODE_IDX_ROOT = Indexes0.TREE_NODE_IDX_ROOT;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -41,5 +42,6 @@ public class Indexes {
         public static Index PROPERTY_MOUNT_FK_ATTRIBUTE_KEY_ID = Internal.createIndex("fk_attribute_key_id", PropertyMount.PROPERTY_MOUNT, new OrderField[] { PropertyMount.PROPERTY_MOUNT.PROPERTY_KEY_ID }, false);
         public static Index PROPERTY_MOUNT_IDX_MOUNT = Internal.createIndex("idx_mount", PropertyMount.PROPERTY_MOUNT, new OrderField[] { PropertyMount.PROPERTY_MOUNT.MOUNT_POINT_TYPE, PropertyMount.PROPERTY_MOUNT.MOUNT_POINT_IDENFIER }, false);
         public static Index TREE_NODE_IDX_PARENT = Internal.createIndex("idx_parent", TreeNode.TREE_NODE, new OrderField[] { TreeNode.TREE_NODE.PARENT_TREE_NODE_ID }, false);
+        public static Index TREE_NODE_IDX_ROOT = Internal.createIndex("idx_root", TreeNode.TREE_NODE, new OrderField[] { TreeNode.TREE_NODE.ROOT_TREE_NODE_ID }, false);
     }
 }

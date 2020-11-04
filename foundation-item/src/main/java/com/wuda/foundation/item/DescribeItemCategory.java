@@ -17,16 +17,16 @@ public class DescribeItemCategory implements TreeNode<Long> {
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
     public Long getId() {
-        return null;
+        return id;
     }
 
     @Override
     public Long getPid() {
-        return null;
+        return parentCategoryId;
     }
 }

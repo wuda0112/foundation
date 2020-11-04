@@ -161,6 +161,14 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
                         .and(ITEM_GROUP_RELATION.IS_DELETED.eq(notDeleted())));
     }
 
+    @Override
+    protected int childCountDbOp(Long categoryId) {
+        return JooqContext.getOrCreateDSLContext(JooqContext.getDataSource())
+                .fetchCount(ITEM_CATEGORY,
+                        ITEM_CATEGORY.PARENT_ITEM_CATEGORY_ID.eq(ULong.valueOf(categoryId))
+                                .and(ITEM_CATEGORY.IS_DELETED.eq(notDeleted())));
+    }
+
     private ItemCategoryRecord itemCategoryRecordForInsert(CreateItemCategory createItemCategory, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new ItemCategoryRecord(ULong.valueOf(createItemCategory.getId()),
@@ -185,8 +193,8 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
         LocalDateTime now = LocalDateTime.now();
         return new ItemCoreRecord(ULong.valueOf(createItemCore.getId()),
                 ULong.valueOf(createItemCore.getItemId()),
-                UByte.valueOf(createItemCore.getItemType()),
-                UByte.valueOf(createItemCore.getItemState()),
+                UByte.valueOf(createItemCore.getItemType().getCode()),
+                UByte.valueOf(createItemCore.getItemState().getCode()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
@@ -228,7 +236,7 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
         return new ItemVariationRecord(ULong.valueOf(createItemVariation.getId()),
                 ULong.valueOf(createItemVariation.getItemId()),
                 createItemVariation.getName(),
-                UByte.valueOf(createItemVariation.getState()),
+                UByte.valueOf(createItemVariation.getState().getCode()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 

@@ -19,7 +19,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row7;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -27,6 +27,7 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
@@ -36,7 +37,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TreeNode extends TableImpl<TreeNodeRecord> {
 
-    private static final long serialVersionUID = 238072950;
+    private static final long serialVersionUID = 2090929494;
 
     /**
      * The reference instance of <code>foundation_commons.tree_node</code>
@@ -57,9 +58,19 @@ public class TreeNode extends TableImpl<TreeNodeRecord> {
     public final TableField<TreeNodeRecord, ULong> TREE_NODE_ID = createField(DSL.name("tree_node_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
+     * The column <code>foundation_commons.tree_node.root_tree_node_id</code>. 树的根节点的ID。
+     */
+    public final TableField<TreeNodeRecord, ULong> ROOT_TREE_NODE_ID = createField(DSL.name("root_tree_node_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "树的根节点的ID。");
+
+    /**
      * The column <code>foundation_commons.tree_node.parent_tree_node_id</code>. 指向父节点ID
      */
     public final TableField<TreeNodeRecord, ULong> PARENT_TREE_NODE_ID = createField(DSL.name("parent_tree_node_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "指向父节点ID");
+
+    /**
+     * The column <code>foundation_commons.tree_node.depth</code>. depth
+     */
+    public final TableField<TreeNodeRecord, UByte> DEPTH = createField(DSL.name("depth"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "depth");
 
     /**
      * The column <code>foundation_commons.tree_node.create_time</code>.
@@ -126,7 +137,7 @@ public class TreeNode extends TableImpl<TreeNodeRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.TREE_NODE_IDX_PARENT);
+        return Arrays.<Index>asList(Indexes.TREE_NODE_IDX_PARENT, Indexes.TREE_NODE_IDX_ROOT);
     }
 
     @Override
@@ -171,11 +182,11 @@ public class TreeNode extends TableImpl<TreeNodeRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row7 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row9<ULong, ULong, ULong, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 }

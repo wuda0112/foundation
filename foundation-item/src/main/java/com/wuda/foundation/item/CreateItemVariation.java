@@ -15,7 +15,7 @@ public class CreateItemVariation {
     private Long id;
     private Long itemId;
     private String name;
-    private Byte state;
+    private ItemVariationState state;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -34,7 +34,7 @@ public class CreateItemVariation {
         private Long id;
         private Long itemId;
         private String name;
-        private Byte state;
+        private ItemVariationState state;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -51,7 +51,7 @@ public class CreateItemVariation {
             return this;
         }
 
-        public Builder setState(Byte state) {
+        public Builder setState(ItemVariationState state) {
             this.state = state;
             return this;
         }

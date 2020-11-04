@@ -2,6 +2,7 @@ package com.wuda.foundation.notification;
 
 import com.wuda.foundation.commons.CreateTreeNode;
 import com.wuda.foundation.commons.GroupManager;
+import com.wuda.foundation.commons.ParentNodeNotExistsException;
 import com.wuda.foundation.commons.TreeManager;
 import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateResult;
@@ -23,8 +24,9 @@ public interface NotificationManager {
      * @param opUserId                   操作人用户ID
      * @return 创建结果
      * @throws AlreadyExistsException 如果已经存在给定名称的分类
+     * @throws ParentNodeNotExistsException 如果父级不存在
      */
-    CreateResult createCategory(TreeManager treeManager, GroupManager groupManager, CreateNotificationCategory createNotificationCategory, Long opUserId) throws AlreadyExistsException;
+    CreateResult createCategory(TreeManager treeManager, GroupManager groupManager, CreateNotificationCategory createNotificationCategory, Long opUserId) throws AlreadyExistsException,ParentNodeNotExistsException;
 
     /**
      * 更新分类.

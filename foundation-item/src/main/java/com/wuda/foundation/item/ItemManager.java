@@ -1,6 +1,7 @@
 package com.wuda.foundation.item;
 
 import com.wuda.foundation.commons.GroupManager;
+import com.wuda.foundation.commons.ParentNodeNotExistsException;
 import com.wuda.foundation.commons.TreeManager;
 import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateMode;
@@ -107,9 +108,10 @@ public interface ItemManager {
      * @param createItemCategory 新建分类的参数
      * @param opUserId           操作人用户ID
      * @return {@link CreateResult}
-     * @throws AlreadyExistsException 如果已经存在给定名称的分类
+     * @throws AlreadyExistsException       如果已经存在给定名称的分类
+     * @throws ParentNodeNotExistsException 如果父级不存在
      */
-    CreateResult createCategory(TreeManager treeManager, GroupManager groupManager, CreateItemCategory createItemCategory, Long opUserId) throws AlreadyExistsException;
+    CreateResult createCategory(TreeManager treeManager, GroupManager groupManager, CreateItemCategory createItemCategory, Long opUserId) throws AlreadyExistsException, ParentNodeNotExistsException;
 
     /**
      * 更新分类.
@@ -121,12 +123,15 @@ public interface ItemManager {
     void updateCategory(UpdateItemCategory updateItemCategory, Long opUserId) throws AlreadyExistsException;
 
     /**
-     * @param treeManager item分类是基于{@link com.wuda.foundation.commons.CreateTreeNode}创建的,因此需要{@link TreeManager}
-     * @param categoryId  category id
-     * @param opUserId    操作人用户ID
+     * 删除分类.
+     *
+     * @param treeManager  item分类是树形结构,因此需要{@link TreeManager}
+     * @param groupManager item分类是一种组,因此需要{@link GroupManager}
+     * @param categoryId   category id
+     * @param opUserId     操作人用户ID
      * @throws RelatedDataExists 如果该分类还有下级分类，或者分类下还有item
      */
-    void deleteCategory(TreeManager treeManager, Long categoryId, Long opUserId) throws RelatedDataExists;
+    void deleteCategory(TreeManager treeManager, GroupManager groupManager, Long categoryId, Long opUserId) throws RelatedDataExists;
 
     /**
      * 统计分类下的item数量.
@@ -135,4 +140,12 @@ public interface ItemManager {
      * @return count
      */
     int itemCountInCategory(Long categoryId);
+
+    /**
+     * 统计分类下child的数量.
+     *
+     * @param categoryId category id
+     * @return child的数量
+     */
+    int childCount(Long categoryId);
 }

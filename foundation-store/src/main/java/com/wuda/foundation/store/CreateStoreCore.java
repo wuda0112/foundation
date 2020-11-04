@@ -15,8 +15,8 @@ public class CreateStoreCore {
 
     private Long id;
     private Long storeId;
-    private Byte storeType;
-    private Byte storeState;
+    private StoreType storeType;
+    private StoreState storeState;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -35,8 +35,8 @@ public class CreateStoreCore {
 
         private Long id;
         private Long storeId;
-        private Byte storeType;
-        private Byte storeState;
+        private StoreType storeType;
+        private StoreState storeState;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -48,12 +48,12 @@ public class CreateStoreCore {
             return this;
         }
 
-        public Builder setStoreType(Byte storeType) {
+        public Builder setStoreType(StoreType storeType) {
             this.storeType = storeType;
             return this;
         }
 
-        public Builder setStoreState(Byte storeState) {
+        public Builder setStoreState(StoreState storeState) {
             this.storeState = storeState;
             return this;
         }

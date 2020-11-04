@@ -23,7 +23,7 @@ public class CreateItemCategory {
     public CreateTreeNode toCreateTreeNode() {
         return new CreateTreeNode.Builder()
                 .setId(this.id)
-                .setParentNodeId(this.parentCategoryId)
+                .setParentTreeNodeId(this.parentCategoryId)
                 .build();
     }
 

@@ -7,6 +7,7 @@ package com.wuda.foundation.commons.impl.jooq.generation.tables.pojos;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
@@ -16,10 +17,12 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TreeNode implements Serializable {
 
-    private static final long serialVersionUID = -1399985964;
+    private static final long serialVersionUID = -518134705;
 
     private ULong         treeNodeId;
+    private ULong         rootTreeNodeId;
     private ULong         parentTreeNodeId;
+    private UByte         depth;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private LocalDateTime lastModifyTime;
@@ -30,7 +33,9 @@ public class TreeNode implements Serializable {
 
     public TreeNode(TreeNode value) {
         this.treeNodeId = value.treeNodeId;
+        this.rootTreeNodeId = value.rootTreeNodeId;
         this.parentTreeNodeId = value.parentTreeNodeId;
+        this.depth = value.depth;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.lastModifyTime = value.lastModifyTime;
@@ -40,7 +45,9 @@ public class TreeNode implements Serializable {
 
     public TreeNode(
         ULong         treeNodeId,
+        ULong         rootTreeNodeId,
         ULong         parentTreeNodeId,
+        UByte         depth,
         LocalDateTime createTime,
         ULong         createUserId,
         LocalDateTime lastModifyTime,
@@ -48,7 +55,9 @@ public class TreeNode implements Serializable {
         ULong         isDeleted
     ) {
         this.treeNodeId = treeNodeId;
+        this.rootTreeNodeId = rootTreeNodeId;
         this.parentTreeNodeId = parentTreeNodeId;
+        this.depth = depth;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.lastModifyTime = lastModifyTime;
@@ -64,12 +73,28 @@ public class TreeNode implements Serializable {
         this.treeNodeId = treeNodeId;
     }
 
+    public ULong getRootTreeNodeId() {
+        return this.rootTreeNodeId;
+    }
+
+    public void setRootTreeNodeId(ULong rootTreeNodeId) {
+        this.rootTreeNodeId = rootTreeNodeId;
+    }
+
     public ULong getParentTreeNodeId() {
         return this.parentTreeNodeId;
     }
 
     public void setParentTreeNodeId(ULong parentTreeNodeId) {
         this.parentTreeNodeId = parentTreeNodeId;
+    }
+
+    public UByte getDepth() {
+        return this.depth;
+    }
+
+    public void setDepth(UByte depth) {
+        this.depth = depth;
     }
 
     public LocalDateTime getCreateTime() {
@@ -117,7 +142,9 @@ public class TreeNode implements Serializable {
         StringBuilder sb = new StringBuilder("TreeNode (");
 
         sb.append(treeNodeId);
+        sb.append(", ").append(rootTreeNodeId);
         sb.append(", ").append(parentTreeNodeId);
+        sb.append(", ").append(depth);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(lastModifyTime);

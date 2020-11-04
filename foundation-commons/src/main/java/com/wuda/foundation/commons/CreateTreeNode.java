@@ -14,13 +14,58 @@ import java.util.Objects;
 public class CreateTreeNode {
 
     protected Long id;
-    protected Long parentNodeId;
+    protected Long parentTreeNodeId;
+
+    /**
+     * root节点的ID.
+     */
+    private Long rootTreeNodeId;
+    /**
+     * 节点的深度.
+     */
+    private int depth;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
      */
     protected CreateTreeNode() {
 
+    }
+
+    /**
+     * 包访问权限,也就是说这个字段的值不能通过外部设置,只能通过程序内部设置.
+     *
+     * @param rootTreeNodeId root tree node id
+     */
+    void setRootTreeNodeId(Long rootTreeNodeId) {
+        this.rootTreeNodeId = rootTreeNodeId;
+    }
+
+    /**
+     * get root tree node id;
+     *
+     * @return root tree node id
+     */
+    public Long getRootTreeNodeId() {
+        return rootTreeNodeId;
+    }
+
+    /**
+     * 包访问权限,也就是说这个字段的值不能通过外部设置,只能通过程序内部设置.
+     *
+     * @param depth depth
+     */
+    void setDepth(int depth) {
+        this.depth = depth;
+    }
+
+    /**
+     * get depth.
+     *
+     * @return depth
+     */
+    public int getDepth() {
+        return depth;
     }
 
     /**
@@ -32,15 +77,15 @@ public class CreateTreeNode {
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateTreeNode> {
 
         protected Long id;
-        protected Long parentNodeId;
+        protected Long parentTreeNodeId;
 
         public Builder setId(Long id) {
             this.id = id;
             return this;
         }
 
-        public Builder setParentNodeId(Long parentNodeId) {
-            this.parentNodeId = parentNodeId;
+        public Builder setParentTreeNodeId(Long parentTreeNodeId) {
+            this.parentTreeNodeId = parentTreeNodeId;
             return this;
         }
 
@@ -49,7 +94,7 @@ public class CreateTreeNode {
         public CreateTreeNode build() {
             CreateTreeNode createTreeNode = new CreateTreeNode();
             createTreeNode.id = Objects.requireNonNull(this.id);
-            createTreeNode.parentNodeId = Objects.requireNonNull(parentNodeId);
+            createTreeNode.parentTreeNodeId = Objects.requireNonNull(parentTreeNodeId);
             return createTreeNode;
         }
     }

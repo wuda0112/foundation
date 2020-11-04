@@ -2,6 +2,7 @@ package com.wuda.foundation.item;
 
 import com.wuda.foundation.commons.CreateGroup;
 import com.wuda.foundation.commons.GroupManager;
+import com.wuda.foundation.commons.ParentNodeNotExistsException;
 import com.wuda.foundation.commons.TreeManager;
 import com.wuda.foundation.lang.*;
 
@@ -78,10 +79,9 @@ public abstract class AbstractItemManager implements ItemManager {
     protected abstract long updateDescriptionDbOp(Long itemDescriptionId, String description, Long opUserId);
 
     @Override
-    public CreateResult createCategory(TreeManager treeManager, GroupManager groupManager, CreateItemCategory createItemCategory, Long opUserId) throws AlreadyExistsException {
-        treeManager.createNode(createItemCategory.toCreateTreeNode(), CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
+    public CreateResult createCategory(TreeManager treeManager, GroupManager groupManager, CreateItemCategory createItemCategory, Long opUserId) throws AlreadyExistsException, ParentNodeNotExistsException {
         CreateGroup createGroup = createItemCategory.toCreateGroup();
-        groupManager.createGroup(createGroup, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
+        groupManager.createGroup(treeManager, createGroup, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
         return createCategoryDbOp(createItemCategory, opUserId);
     }
 
@@ -95,12 +95,16 @@ public abstract class AbstractItemManager implements ItemManager {
     protected abstract void updateCategoryDbOp(UpdateItemCategory updateItemCategory, Long opUserId);
 
     @Override
-    public void deleteCategory(TreeManager treeManager, Long categoryId, Long opUserId) throws RelatedDataExists {
+    public void deleteCategory(TreeManager treeManager, GroupManager groupManager, Long categoryId, Long opUserId) throws RelatedDataExists {
         int itemCount = itemCountInCategory(categoryId);
         if (itemCount > 0) {
-            throw new RelatedDataExists("分类下还有item");
+            throw new RelatedDataExists("该分类下还有item");
         }
-        treeManager.deleteNode(categoryId, opUserId);
+        int childCount = childCount(categoryId);
+        if (childCount > 0) {
+            throw new RelatedDataExists("该分类还有下级");
+        }
+        groupManager.deleteGroup(treeManager, categoryId, opUserId);
         deleteCategoryDbOp(categoryId, opUserId);
     }
 
@@ -112,4 +116,11 @@ public abstract class AbstractItemManager implements ItemManager {
     }
 
     protected abstract int itemCountInCategoryDbOp(Long categoryId);
+
+    @Override
+    public int childCount(Long categoryId) {
+        return childCountDbOp(categoryId);
+    }
+
+    protected abstract int childCountDbOp(Long categoryId);
 }

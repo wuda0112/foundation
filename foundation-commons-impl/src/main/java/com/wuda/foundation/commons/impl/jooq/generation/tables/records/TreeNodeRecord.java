@@ -10,9 +10,10 @@ import java.time.LocalDateTime;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record7;
-import org.jooq.Row7;
+import org.jooq.Record9;
+import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
@@ -20,9 +21,9 @@ import org.jooq.types.ULong;
  * 树形结构的节点。有很多数据是用树形结构组织的，比如商品分类，文章分类，组织架构等等，通常我们都是为它们单独设计一个表，比如商品分类表，部门表，然后每个表都写了差不多相同的处理逻辑，如何避免重复处理类似树形的数据呢？这个表的目的就是为了统一处理这些类似树形结构的表，以这个表为核心，扩展出商品分类，文章分类，部门等。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implements Record7<ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implements Record9<ULong, ULong, ULong, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -1137554188;
+    private static final long serialVersionUID = 1375892312;
 
     /**
      * Setter for <code>foundation_commons.tree_node.tree_node_id</code>.
@@ -39,87 +40,115 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
     }
 
     /**
+     * Setter for <code>foundation_commons.tree_node.root_tree_node_id</code>. 树的根节点的ID。
+     */
+    public void setRootTreeNodeId(ULong value) {
+        set(1, value);
+    }
+
+    /**
+     * Getter for <code>foundation_commons.tree_node.root_tree_node_id</code>. 树的根节点的ID。
+     */
+    public ULong getRootTreeNodeId() {
+        return (ULong) get(1);
+    }
+
+    /**
      * Setter for <code>foundation_commons.tree_node.parent_tree_node_id</code>. 指向父节点ID
      */
     public void setParentTreeNodeId(ULong value) {
-        set(1, value);
+        set(2, value);
     }
 
     /**
      * Getter for <code>foundation_commons.tree_node.parent_tree_node_id</code>. 指向父节点ID
      */
     public ULong getParentTreeNodeId() {
-        return (ULong) get(1);
+        return (ULong) get(2);
+    }
+
+    /**
+     * Setter for <code>foundation_commons.tree_node.depth</code>. depth
+     */
+    public void setDepth(UByte value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>foundation_commons.tree_node.depth</code>. depth
+     */
+    public UByte getDepth() {
+        return (UByte) get(3);
     }
 
     /**
      * Setter for <code>foundation_commons.tree_node.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
-        set(2, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>foundation_commons.tree_node.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
-        return (LocalDateTime) get(2);
+        return (LocalDateTime) get(4);
     }
 
     /**
      * Setter for <code>foundation_commons.tree_node.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
-        set(3, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>foundation_commons.tree_node.create_user_id</code>.
      */
     public ULong getCreateUserId() {
-        return (ULong) get(3);
+        return (ULong) get(5);
     }
 
     /**
      * Setter for <code>foundation_commons.tree_node.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
-        set(4, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>foundation_commons.tree_node.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
-        return (LocalDateTime) get(4);
+        return (LocalDateTime) get(6);
     }
 
     /**
      * Setter for <code>foundation_commons.tree_node.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
-        set(5, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>foundation_commons.tree_node.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
-        return (ULong) get(5);
+        return (ULong) get(7);
     }
 
     /**
      * Setter for <code>foundation_commons.tree_node.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
-        set(6, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>foundation_commons.tree_node.is_deleted</code>.
      */
     public ULong getIsDeleted() {
-        return (ULong) get(6);
+        return (ULong) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -132,17 +161,17 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
     }
 
     // -------------------------------------------------------------------------
-    // Record7 type implementation
+    // Record9 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row7<ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row7) super.fieldsRow();
+    public Row9<ULong, ULong, ULong, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 
     @Override
-    public Row7<ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
-        return (Row7) super.valuesRow();
+    public Row9<ULong, ULong, ULong, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+        return (Row9) super.valuesRow();
     }
 
     @Override
@@ -152,31 +181,41 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
 
     @Override
     public Field<ULong> field2() {
+        return TreeNode.TREE_NODE.ROOT_TREE_NODE_ID;
+    }
+
+    @Override
+    public Field<ULong> field3() {
         return TreeNode.TREE_NODE.PARENT_TREE_NODE_ID;
     }
 
     @Override
-    public Field<LocalDateTime> field3() {
-        return TreeNode.TREE_NODE.CREATE_TIME;
-    }
-
-    @Override
-    public Field<ULong> field4() {
-        return TreeNode.TREE_NODE.CREATE_USER_ID;
+    public Field<UByte> field4() {
+        return TreeNode.TREE_NODE.DEPTH;
     }
 
     @Override
     public Field<LocalDateTime> field5() {
-        return TreeNode.TREE_NODE.LAST_MODIFY_TIME;
+        return TreeNode.TREE_NODE.CREATE_TIME;
     }
 
     @Override
     public Field<ULong> field6() {
+        return TreeNode.TREE_NODE.CREATE_USER_ID;
+    }
+
+    @Override
+    public Field<LocalDateTime> field7() {
+        return TreeNode.TREE_NODE.LAST_MODIFY_TIME;
+    }
+
+    @Override
+    public Field<ULong> field8() {
         return TreeNode.TREE_NODE.LAST_MODIFY_USER_ID;
     }
 
     @Override
-    public Field<ULong> field7() {
+    public Field<ULong> field9() {
         return TreeNode.TREE_NODE.IS_DELETED;
     }
 
@@ -187,31 +226,41 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
 
     @Override
     public ULong component2() {
+        return getRootTreeNodeId();
+    }
+
+    @Override
+    public ULong component3() {
         return getParentTreeNodeId();
     }
 
     @Override
-    public LocalDateTime component3() {
-        return getCreateTime();
-    }
-
-    @Override
-    public ULong component4() {
-        return getCreateUserId();
+    public UByte component4() {
+        return getDepth();
     }
 
     @Override
     public LocalDateTime component5() {
-        return getLastModifyTime();
+        return getCreateTime();
     }
 
     @Override
     public ULong component6() {
+        return getCreateUserId();
+    }
+
+    @Override
+    public LocalDateTime component7() {
+        return getLastModifyTime();
+    }
+
+    @Override
+    public ULong component8() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong component7() {
+    public ULong component9() {
         return getIsDeleted();
     }
 
@@ -222,31 +271,41 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
 
     @Override
     public ULong value2() {
+        return getRootTreeNodeId();
+    }
+
+    @Override
+    public ULong value3() {
         return getParentTreeNodeId();
     }
 
     @Override
-    public LocalDateTime value3() {
-        return getCreateTime();
-    }
-
-    @Override
-    public ULong value4() {
-        return getCreateUserId();
+    public UByte value4() {
+        return getDepth();
     }
 
     @Override
     public LocalDateTime value5() {
-        return getLastModifyTime();
+        return getCreateTime();
     }
 
     @Override
     public ULong value6() {
+        return getCreateUserId();
+    }
+
+    @Override
+    public LocalDateTime value7() {
+        return getLastModifyTime();
+    }
+
+    @Override
+    public ULong value8() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong value7() {
+    public ULong value9() {
         return getIsDeleted();
     }
 
@@ -258,42 +317,54 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
 
     @Override
     public TreeNodeRecord value2(ULong value) {
+        setRootTreeNodeId(value);
+        return this;
+    }
+
+    @Override
+    public TreeNodeRecord value3(ULong value) {
         setParentTreeNodeId(value);
         return this;
     }
 
     @Override
-    public TreeNodeRecord value3(LocalDateTime value) {
-        setCreateTime(value);
-        return this;
-    }
-
-    @Override
-    public TreeNodeRecord value4(ULong value) {
-        setCreateUserId(value);
+    public TreeNodeRecord value4(UByte value) {
+        setDepth(value);
         return this;
     }
 
     @Override
     public TreeNodeRecord value5(LocalDateTime value) {
-        setLastModifyTime(value);
+        setCreateTime(value);
         return this;
     }
 
     @Override
     public TreeNodeRecord value6(ULong value) {
+        setCreateUserId(value);
+        return this;
+    }
+
+    @Override
+    public TreeNodeRecord value7(LocalDateTime value) {
+        setLastModifyTime(value);
+        return this;
+    }
+
+    @Override
+    public TreeNodeRecord value8(ULong value) {
         setLastModifyUserId(value);
         return this;
     }
 
     @Override
-    public TreeNodeRecord value7(ULong value) {
+    public TreeNodeRecord value9(ULong value) {
         setIsDeleted(value);
         return this;
     }
 
     @Override
-    public TreeNodeRecord values(ULong value1, ULong value2, LocalDateTime value3, ULong value4, LocalDateTime value5, ULong value6, ULong value7) {
+    public TreeNodeRecord values(ULong value1, ULong value2, ULong value3, UByte value4, LocalDateTime value5, ULong value6, LocalDateTime value7, ULong value8, ULong value9) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -301,6 +372,8 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
         value5(value5);
         value6(value6);
         value7(value7);
+        value8(value8);
+        value9(value9);
         return this;
     }
 
@@ -318,15 +391,17 @@ public class TreeNodeRecord extends UpdatableRecordImpl<TreeNodeRecord> implemen
     /**
      * Create a detached, initialised TreeNodeRecord
      */
-    public TreeNodeRecord(ULong treeNodeId, ULong parentTreeNodeId, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public TreeNodeRecord(ULong treeNodeId, ULong rootTreeNodeId, ULong parentTreeNodeId, UByte depth, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(TreeNode.TREE_NODE);
 
         set(0, treeNodeId);
-        set(1, parentTreeNodeId);
-        set(2, createTime);
-        set(3, createUserId);
-        set(4, lastModifyTime);
-        set(5, lastModifyUserId);
-        set(6, isDeleted);
+        set(1, rootTreeNodeId);
+        set(2, parentTreeNodeId);
+        set(3, depth);
+        set(4, createTime);
+        set(5, createUserId);
+        set(6, lastModifyTime);
+        set(7, lastModifyUserId);
+        set(8, isDeleted);
     }
 }

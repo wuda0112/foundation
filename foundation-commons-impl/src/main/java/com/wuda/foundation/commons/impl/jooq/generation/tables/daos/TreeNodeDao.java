@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
@@ -62,6 +63,20 @@ public class TreeNodeDao extends DAOImpl<TreeNodeRecord, com.wuda.foundation.com
     }
 
     /**
+     * Fetch records that have <code>root_tree_node_id BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchRangeOfRootTreeNodeId(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(TreeNode.TREE_NODE.ROOT_TREE_NODE_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>root_tree_node_id IN (values)</code>
+     */
+    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchByRootTreeNodeId(ULong... values) {
+        return fetch(TreeNode.TREE_NODE.ROOT_TREE_NODE_ID, values);
+    }
+
+    /**
      * Fetch records that have <code>parent_tree_node_id BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchRangeOfParentTreeNodeId(ULong lowerInclusive, ULong upperInclusive) {
@@ -73,6 +88,20 @@ public class TreeNodeDao extends DAOImpl<TreeNodeRecord, com.wuda.foundation.com
      */
     public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchByParentTreeNodeId(ULong... values) {
         return fetch(TreeNode.TREE_NODE.PARENT_TREE_NODE_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>depth BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchRangeOfDepth(UByte lowerInclusive, UByte upperInclusive) {
+        return fetchRange(TreeNode.TREE_NODE.DEPTH, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>depth IN (values)</code>
+     */
+    public List<com.wuda.foundation.commons.impl.jooq.generation.tables.pojos.TreeNode> fetchByDepth(UByte... values) {
+        return fetch(TreeNode.TREE_NODE.DEPTH, values);
     }
 
     /**

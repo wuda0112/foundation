@@ -13,24 +13,7 @@ import java.util.Objects;
  * @since 1.0.3
  */
 @Getter
-public class CreateNotificationCategory {
-
-    private Long id;
-    private String name;
-    private String description;
-    private Long parentCategoryId;
-
-    /**
-     * 生成用于创建树节点的参数.
-     *
-     * @return {@link CreateTreeNode}
-     */
-    public CreateTreeNode toCreateTreeNode() {
-        return new CreateTreeNode.Builder()
-                .setId(this.id)
-                .setParentTreeNodeId(this.parentCategoryId)
-                .build();
-    }
+public class CreateNotificationCategory extends CreateTreeNode {
 
     /**
      * 生成用于创建组的参数.
@@ -40,7 +23,7 @@ public class CreateNotificationCategory {
     public CreateGroup toCreateGroup() {
         return new CreateGroup.Builder()
                 .setGroupId(this.id)
-                .setParentGroupId(this.parentCategoryId)
+                .setParentGroupId(this.parentId)
                 .build();
     }
 
@@ -50,28 +33,27 @@ public class CreateNotificationCategory {
      * @author wuda
      * @since 1.0.3
      */
-    public static class Builder implements com.wuda.foundation.lang.Builder<CreateNotificationCategory> {
+    public static class Builder extends CreateTreeNodeBuilder<CreateNotificationCategory, Builder> {
 
-        private Long id;
-        private String name;
-        private String description;
-        private Long parentCategoryId;
-
+        @Override
         public Builder setId(Long id) {
             this.id = id;
             return this;
         }
 
-        public Builder setParentCategoryId(Long parentCategoryId) {
-            this.parentCategoryId = parentCategoryId;
+        @Override
+        public Builder setParentId(Long parentId) {
+            this.parentId = parentId;
             return this;
         }
 
+        @Override
         public Builder setName(String name) {
             this.name = name;
             return this;
         }
 
+        @Override
         public Builder setDescription(String description) {
             this.description = description;
             return this;
@@ -81,7 +63,7 @@ public class CreateNotificationCategory {
         public CreateNotificationCategory build() {
             CreateNotificationCategory createNotificationCategory = new CreateNotificationCategory();
             createNotificationCategory.id = Objects.requireNonNull(id);
-            createNotificationCategory.parentCategoryId = Objects.requireNonNull(parentCategoryId);
+            createNotificationCategory.parentId = Objects.requireNonNull(parentId);
             createNotificationCategory.name = Objects.requireNonNull(name);
             createNotificationCategory.description = Objects.requireNonNull(description);
             return createNotificationCategory;

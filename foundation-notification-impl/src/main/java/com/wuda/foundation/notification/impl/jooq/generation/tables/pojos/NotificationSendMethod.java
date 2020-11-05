@@ -11,12 +11,12 @@ import org.jooq.types.ULong;
 
 
 /**
- * 通知发表的方式，比如通过email，sms发送，很多国外的术语中，database表示保存到本地数据库表，也就是通常所说的站内信；但是像公告这种类型的通知，是不需要真正发送到具接收者的，它并没有发送的概念，因此使用post而不是send这个单词。
+ * 通知发表的方式，比如通过email，sms发送，很多国外的术语中，database表示保存到本地数据库表，也就是通常所说的站内信
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class NotificationSendMethod implements Serializable {
 
-    private static final long serialVersionUID = -425640824;
+    private static final long serialVersionUID = -408324276;
 
     private ULong         notificationSendMethodId;
     private String        name;

@@ -7,25 +7,9 @@ import lombok.Data;
 import java.util.Objects;
 
 @Data
-public class CreateItemCategory {
+public class CreateItemCategory extends CreateTreeNode {
 
-    private Long id;
     private Long storeId;
-    private String name;
-    private String description;
-    private Long parentCategoryId;
-
-    /**
-     * 生成用于创建树节点的参数.
-     *
-     * @return {@link CreateTreeNode}
-     */
-    public CreateTreeNode toCreateTreeNode() {
-        return new CreateTreeNode.Builder()
-                .setId(this.id)
-                .setParentTreeNodeId(this.parentCategoryId)
-                .build();
-    }
 
     /**
      * 生成用于创建组的参数.
@@ -35,16 +19,12 @@ public class CreateItemCategory {
     public CreateGroup toCreateGroup() {
         return new CreateGroup.Builder()
                 .setGroupId(this.id)
-                .setParentGroupId(this.parentCategoryId)
+                .setParentGroupId(this.parentId)
                 .build();
     }
 
-    public static class Builder implements com.wuda.foundation.lang.Builder<CreateItemCategory> {
-        private Long id;
+    public static class Builder extends CreateTreeNodeBuilder<CreateItemCategory, Builder> {
         private Long storeId;
-        private String name;
-        private String description;
-        private Long parentCategoryId;
 
         public Builder setStoreId(Long storeId) {
             this.storeId = storeId;
@@ -53,6 +33,12 @@ public class CreateItemCategory {
 
         public Builder setId(Long id) {
             this.id = id;
+            return this;
+        }
+
+        @Override
+        public Builder setParentId(Long parentId) {
+            this.parentId = parentId;
             return this;
         }
 
@@ -66,19 +52,14 @@ public class CreateItemCategory {
             return this;
         }
 
-        public Builder setParentCategoryId(Long parentCategoryId) {
-            this.parentCategoryId = parentCategoryId;
-            return this;
-        }
-
         @Override
         public CreateItemCategory build() {
             CreateItemCategory createItemCategory = new CreateItemCategory();
             createItemCategory.id = Objects.requireNonNull(this.id);
+            createItemCategory.parentId = Objects.requireNonNull(parentId);
             createItemCategory.storeId = Objects.requireNonNull(this.storeId);
             createItemCategory.name = Objects.requireNonNull(this.name);
             createItemCategory.description = this.description;
-            createItemCategory.parentCategoryId = Objects.requireNonNull(parentCategoryId);
             return createItemCategory;
         }
     }

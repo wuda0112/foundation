@@ -1,8 +1,7 @@
 package com.wuda.foundation.commons;
 
+import com.wuda.foundation.lang.Builder;
 import lombok.Getter;
-
-import java.util.Objects;
 
 /**
  * for update tree node.
@@ -13,26 +12,24 @@ import java.util.Objects;
 @Getter
 public class UpdateTreeNode {
 
+    /**
+     * 准备更新的节点的ID.
+     */
     protected Long id;
+    /**
+     * 节点名称.
+     */
+    protected String name;
+    /**
+     * 节点描述.
+     */
+    protected String description;
 
     /**
-     * 禁止实例化,使用{@link Builder}实例化.
+     * 禁止实例化,使用{@link UpdateTreeNodeBuilder}实例化.
      */
     protected UpdateTreeNode() {
 
-    }
-
-    /**
-     * create or update时很有用.
-     *
-     * @param id             tree node id
-     * @param createTreeNode 创建时的参数
-     * @return 更新的参数
-     */
-    public static UpdateTreeNode from(Long id, CreateTreeNode createTreeNode) {
-        return new Builder()
-                .setId(id)
-                .build();
     }
 
     /**
@@ -41,21 +38,42 @@ public class UpdateTreeNode {
      * @author wuda
      * @since 1.0.0
      */
-    public static class Builder implements com.wuda.foundation.lang.Builder<UpdateTreeNode> {
-
+    public abstract static class UpdateTreeNodeBuilder<T extends UpdateTreeNode, B extends UpdateTreeNodeBuilder<T, B>> implements Builder<T> {
+        /**
+         * 准备更新的节点的ID.
+         */
         protected Long id;
+        /**
+         * 节点名称.
+         */
+        protected String name;
+        /**
+         * 节点描述.
+         */
+        protected String description;
 
-        public Builder setId(Long id) {
-            this.id = id;
-            return this;
-        }
+        /**
+         * 设置准备更新的节点的ID.
+         *
+         * @param id 节点的ID
+         * @return this
+         */
+        public abstract B setId(Long id);
 
+        /**
+         * 设置准备更新的节点的名称.
+         *
+         * @param name 节点名称
+         * @return this
+         */
+        public abstract B setName(String name);
 
-        @Override
-        public UpdateTreeNode build() {
-            UpdateTreeNode createTreeNode = new UpdateTreeNode();
-            createTreeNode.id = Objects.requireNonNull(this.id);
-            return createTreeNode;
-        }
+        /**
+         * 设置准备更新的节点的描述.
+         *
+         * @param description 节点描述
+         * @return this
+         */
+        public abstract B setDescription(String description);
     }
 }

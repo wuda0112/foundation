@@ -19,7 +19,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row9;
+import org.jooq.Row11;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -27,6 +27,7 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
@@ -36,7 +37,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class NotificationCategory extends TableImpl<NotificationCategoryRecord> {
 
-    private static final long serialVersionUID = -2034986165;
+    private static final long serialVersionUID = 1130256548;
 
     /**
      * The reference instance of <code>foundation_notification.notification_category</code>
@@ -60,6 +61,16 @@ public class NotificationCategory extends TableImpl<NotificationCategoryRecord> 
      * The column <code>foundation_notification.notification_category.parent_notification_category_id</code>. 父级，一定和组的parent_group_id相等。
      */
     public final TableField<NotificationCategoryRecord, ULong> PARENT_NOTIFICATION_CATEGORY_ID = createField(DSL.name("parent_notification_category_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "父级，一定和组的parent_group_id相等。");
+
+    /**
+     * The column <code>foundation_notification.notification_category.root_notification_category_id</code>.
+     */
+    public final TableField<NotificationCategoryRecord, ULong> ROOT_NOTIFICATION_CATEGORY_ID = createField(DSL.name("root_notification_category_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+
+    /**
+     * The column <code>foundation_notification.notification_category.depth</code>.
+     */
+    public final TableField<NotificationCategoryRecord, UByte> DEPTH = createField(DSL.name("depth"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "");
 
     /**
      * The column <code>foundation_notification.notification_category.name</code>. 名称
@@ -136,7 +147,7 @@ public class NotificationCategory extends TableImpl<NotificationCategoryRecord> 
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.NOTIFICATION_CATEGORY_IDX_PARENT_NOTIFICATION_CATEGORY_ID);
+        return Arrays.<Index>asList(Indexes.NOTIFICATION_CATEGORY_IDX_PARENT_NOTIFICATION_CATEGORY_ID, Indexes.NOTIFICATION_CATEGORY_IDX_ROOT_NOTIFICATION_CATEGORY_ID);
     }
 
     @Override
@@ -181,11 +192,11 @@ public class NotificationCategory extends TableImpl<NotificationCategoryRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Row9 type methods
+    // Row11 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<ULong, ULong, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row11<ULong, ULong, ULong, UByte, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row11) super.fieldsRow();
     }
 }

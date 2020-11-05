@@ -14,9 +14,9 @@ import org.jooq.types.ULong;
  * 通知定义所属的组
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class NotificationDifinitionGroupRelationship implements Serializable {
+public class NotificationDifinitionGroupRelation implements Serializable {
 
-    private static final long serialVersionUID = -819733409;
+    private static final long serialVersionUID = 418446559;
 
     private ULong         id;
     private ULong         notificationDifinitionId;
@@ -27,9 +27,9 @@ public class NotificationDifinitionGroupRelationship implements Serializable {
     private ULong         lastModifyUserId;
     private ULong         isDeleted;
 
-    public NotificationDifinitionGroupRelationship() {}
+    public NotificationDifinitionGroupRelation() {}
 
-    public NotificationDifinitionGroupRelationship(NotificationDifinitionGroupRelationship value) {
+    public NotificationDifinitionGroupRelation(NotificationDifinitionGroupRelation value) {
         this.id = value.id;
         this.notificationDifinitionId = value.notificationDifinitionId;
         this.groupId = value.groupId;
@@ -40,7 +40,7 @@ public class NotificationDifinitionGroupRelationship implements Serializable {
         this.isDeleted = value.isDeleted;
     }
 
-    public NotificationDifinitionGroupRelationship(
+    public NotificationDifinitionGroupRelation(
         ULong         id,
         ULong         notificationDifinitionId,
         ULong         groupId,
@@ -126,7 +126,7 @@ public class NotificationDifinitionGroupRelationship implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("NotificationDifinitionGroupRelationship (");
+        StringBuilder sb = new StringBuilder("NotificationDifinitionGroupRelation (");
 
         sb.append(id);
         sb.append(", ").append(notificationDifinitionId);

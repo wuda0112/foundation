@@ -10,7 +10,7 @@ import com.wuda.foundation.notification.impl.jooq.generation.tables.Notification
 import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDefinitionObserver;
 import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDefinitionObserverrExpandSnapshot;
 import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDefinitionSendMethod;
-import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDifinitionGroupRelationship;
+import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDifinitionGroupRelation;
 import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationInstanceContent;
 import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationInstanceSendHistory;
 import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationInstanceTrace;
@@ -57,7 +57,7 @@ public class Tables {
     /**
      * 通知定义所属的组
      */
-    public static final NotificationDifinitionGroupRelationship NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP = NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP;
+    public static final NotificationDifinitionGroupRelation NOTIFICATION_DIFINITION_GROUP_RELATION = NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION;
 
     /**
      * 代表一条实际已经发送的通知。通知模块的设计，不局限于发给用户，或者从用户发出来，任何实体都可以发送和接收，比如service A可以发送给service B，因此会有receiver type和sender type的设计。同样的内容，可以通过多种方式发送，比如通过邮件，短信发送同样的内容，因此发送方式不放到这个表中，这样的好处是不同的发送方式可以指向（共享）同一个通知。
@@ -75,7 +75,7 @@ public class Tables {
     public static final NotificationInstanceTrace NOTIFICATION_INSTANCE_TRACE = NotificationInstanceTrace.NOTIFICATION_INSTANCE_TRACE;
 
     /**
-     * 通知发表的方式，比如通过email，sms发送，很多国外的术语中，database表示保存到本地数据库表，也就是通常所说的站内信；但是像公告这种类型的通知，是不需要真正发送到具接收者的，它并没有发送的概念，因此使用post而不是send这个单词。
+     * 通知发表的方式，比如通过email，sms发送，很多国外的术语中，database表示保存到本地数据库表，也就是通常所说的站内信
      */
     public static final NotificationSendMethod NOTIFICATION_SEND_METHOD = NotificationSendMethod.NOTIFICATION_SEND_METHOD;
 

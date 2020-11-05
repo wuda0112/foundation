@@ -8,24 +8,21 @@ import java.util.Objects;
 @Data
 public class UpdateItemCategory extends UpdateTreeNode {
 
-    protected String name;
-    protected String description;
+    public static class Builder extends UpdateTreeNode.UpdateTreeNodeBuilder {
 
-    public static class Builder extends UpdateTreeNode.Builder {
-
-        protected String name;
-        protected String description;
-
+        @Override
         public Builder setId(Long id) {
             this.id = id;
             return this;
         }
 
+        @Override
         public Builder setName(String name) {
             this.name = name;
             return this;
         }
 
+        @Override
         public Builder setDescription(String description) {
             this.description = description;
             return this;
@@ -33,11 +30,11 @@ public class UpdateItemCategory extends UpdateTreeNode {
 
         @Override
         public UpdateItemCategory build() {
-            UpdateItemCategory createItemCategory = new UpdateItemCategory();
-            createItemCategory.id = Objects.requireNonNull(this.id);
-            createItemCategory.name = Objects.requireNonNull(this.name);
-            createItemCategory.description = this.description;
-            return createItemCategory;
+            UpdateItemCategory updateItemCategory = new UpdateItemCategory();
+            updateItemCategory.id = Objects.requireNonNull(this.id);
+            updateItemCategory.name = this.name;
+            updateItemCategory.description = this.description;
+            return updateItemCategory;
         }
     }
 }

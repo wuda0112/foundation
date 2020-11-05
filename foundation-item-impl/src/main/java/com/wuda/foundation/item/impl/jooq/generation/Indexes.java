@@ -28,6 +28,8 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
+    public static final Index ITEM_CATEGORY_IDX_PARENT = Indexes0.ITEM_CATEGORY_IDX_PARENT;
+    public static final Index ITEM_CATEGORY_IDX_ROOT = Indexes0.ITEM_CATEGORY_IDX_ROOT;
     public static final Index ITEM_CATEGORY_IDX_STORE_ID = Indexes0.ITEM_CATEGORY_IDX_STORE_ID;
     public static final Index ITEM_CORE_IDX_ITEM_ID = Indexes0.ITEM_CORE_IDX_ITEM_ID;
     public static final Index ITEM_DESCRIPTION_FK_ITEM_VARIATION_ID = Indexes0.ITEM_DESCRIPTION_FK_ITEM_VARIATION_ID;
@@ -44,6 +46,8 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
+        public static Index ITEM_CATEGORY_IDX_PARENT = Internal.createIndex("idx_parent", ItemCategory.ITEM_CATEGORY, new OrderField[] { ItemCategory.ITEM_CATEGORY.PARENT_ITEM_CATEGORY_ID }, false);
+        public static Index ITEM_CATEGORY_IDX_ROOT = Internal.createIndex("idx_root", ItemCategory.ITEM_CATEGORY, new OrderField[] { ItemCategory.ITEM_CATEGORY.ROOT_ITEM_CATEGORY_ID }, false);
         public static Index ITEM_CATEGORY_IDX_STORE_ID = Internal.createIndex("idx_store_id", ItemCategory.ITEM_CATEGORY, new OrderField[] { ItemCategory.ITEM_CATEGORY.STORE_ID }, false);
         public static Index ITEM_CORE_IDX_ITEM_ID = Internal.createIndex("idx_item_id", ItemCore.ITEM_CORE, new OrderField[] { ItemCore.ITEM_CORE.ITEM_ID }, false);
         public static Index ITEM_DESCRIPTION_FK_ITEM_VARIATION_ID = Internal.createIndex("fk_item_variation_id", ItemDescription.ITEM_DESCRIPTION, new OrderField[] { ItemDescription.ITEM_DESCRIPTION.ITEM_VARIATION_ID }, false);

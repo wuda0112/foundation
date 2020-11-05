@@ -366,4 +366,20 @@ public interface JooqCommonDbOp {
         }
     }
 
+    /**
+     * 根据主键ID获取记录.
+     *
+     * @param id    id
+     * @param table table
+     * @param <R>   记录的类型
+     * @return record
+     */
+    default <R extends Record> R getById(Long id, Table<R> table) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext();
+        TableField<R, ULong> idColumn = getPrimaryKeyField(table);
+        return dslContext.selectFrom(table)
+                .where(idColumn.eq(ULong.valueOf(id)))
+                .fetchOne();
+    }
+
 }

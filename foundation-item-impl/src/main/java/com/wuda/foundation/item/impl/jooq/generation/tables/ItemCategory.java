@@ -19,7 +19,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row10;
+import org.jooq.Row12;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -27,6 +27,7 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
@@ -36,7 +37,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemCategory extends TableImpl<ItemCategoryRecord> {
 
-    private static final long serialVersionUID = 427775650;
+    private static final long serialVersionUID = 1043343277;
 
     /**
      * The reference instance of <code>foundation_item.item_category</code>
@@ -57,14 +58,24 @@ public class ItemCategory extends TableImpl<ItemCategoryRecord> {
     public final TableField<ItemCategoryRecord, ULong> ITEM_CATEGORY_ID = createField(DSL.name("item_category_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "一定和【tree_node.tree_node_id】相等，因为实际表示树形结构的数据在tree_node表中，这里只是对tree_node的引用。tree_node表负责树形结构的维护，这里维护树形结构以外的内容，比如store_id字段用于维护归属。一定和【group.group_id】相等，因为分类是一种组。");
 
     /**
-     * The column <code>foundation_item.item_category.parent_item_category_id</code>.
+     * The column <code>foundation_item.item_category.parent_item_category_id</code>. 父节点ID
      */
-    public final TableField<ItemCategoryRecord, ULong> PARENT_ITEM_CATEGORY_ID = createField(DSL.name("parent_item_category_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<ItemCategoryRecord, ULong> PARENT_ITEM_CATEGORY_ID = createField(DSL.name("parent_item_category_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "父节点ID");
+
+    /**
+     * The column <code>foundation_item.item_category.root_item_category_id</code>.
+     */
+    public final TableField<ItemCategoryRecord, ULong> ROOT_ITEM_CATEGORY_ID = createField(DSL.name("root_item_category_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
      * The column <code>foundation_item.item_category.store_id</code>. 所属店铺ID
      */
     public final TableField<ItemCategoryRecord, ULong> STORE_ID = createField(DSL.name("store_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "所属店铺ID");
+
+    /**
+     * The column <code>foundation_item.item_category.depth</code>. depth
+     */
+    public final TableField<ItemCategoryRecord, UByte> DEPTH = createField(DSL.name("depth"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "depth");
 
     /**
      * The column <code>foundation_item.item_category.name</code>. 分类名称
@@ -141,7 +152,7 @@ public class ItemCategory extends TableImpl<ItemCategoryRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ITEM_CATEGORY_IDX_STORE_ID);
+        return Arrays.<Index>asList(Indexes.ITEM_CATEGORY_IDX_PARENT, Indexes.ITEM_CATEGORY_IDX_ROOT, Indexes.ITEM_CATEGORY_IDX_STORE_ID);
     }
 
     @Override
@@ -186,11 +197,11 @@ public class ItemCategory extends TableImpl<ItemCategoryRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row10 type methods
+    // Row12 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<ULong, ULong, ULong, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row10) super.fieldsRow();
+    public Row12<ULong, ULong, ULong, ULong, UByte, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row12) super.fieldsRow();
     }
 }

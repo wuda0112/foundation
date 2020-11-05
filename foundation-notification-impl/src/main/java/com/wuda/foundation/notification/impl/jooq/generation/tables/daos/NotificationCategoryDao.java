@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
@@ -73,6 +74,34 @@ public class NotificationCategoryDao extends DAOImpl<NotificationCategoryRecord,
      */
     public List<com.wuda.foundation.notification.impl.jooq.generation.tables.pojos.NotificationCategory> fetchByParentNotificationCategoryId(ULong... values) {
         return fetch(NotificationCategory.NOTIFICATION_CATEGORY.PARENT_NOTIFICATION_CATEGORY_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>root_notification_category_id BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.notification.impl.jooq.generation.tables.pojos.NotificationCategory> fetchRangeOfRootNotificationCategoryId(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(NotificationCategory.NOTIFICATION_CATEGORY.ROOT_NOTIFICATION_CATEGORY_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>root_notification_category_id IN (values)</code>
+     */
+    public List<com.wuda.foundation.notification.impl.jooq.generation.tables.pojos.NotificationCategory> fetchByRootNotificationCategoryId(ULong... values) {
+        return fetch(NotificationCategory.NOTIFICATION_CATEGORY.ROOT_NOTIFICATION_CATEGORY_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>depth BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.notification.impl.jooq.generation.tables.pojos.NotificationCategory> fetchRangeOfDepth(UByte lowerInclusive, UByte upperInclusive) {
+        return fetchRange(NotificationCategory.NOTIFICATION_CATEGORY.DEPTH, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>depth IN (values)</code>
+     */
+    public List<com.wuda.foundation.notification.impl.jooq.generation.tables.pojos.NotificationCategory> fetchByDepth(UByte... values) {
+        return fetch(NotificationCategory.NOTIFICATION_CATEGORY.DEPTH, values);
     }
 
     /**

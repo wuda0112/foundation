@@ -1,7 +1,5 @@
 package com.wuda.foundation.notification.impl;
 
-import com.wuda.foundation.commons.GroupManager;
-import com.wuda.foundation.commons.TreeManager;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.AlreadyExistsException;
@@ -15,7 +13,6 @@ import org.jooq.types.ULong;
 
 import java.time.LocalDateTime;
 
-import static com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationCategory.NOTIFICATION_CATEGORY;
 import static com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDefinitionContent.NOTIFICATION_DEFINITION_CONTENT;
 import static com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDefinitionCore.NOTIFICATION_DEFINITION_CORE;
 import static com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDefinitionObserver.NOTIFICATION_DEFINITION_OBSERVER;
@@ -24,18 +21,6 @@ import static com.wuda.foundation.notification.impl.jooq.generation.tables.Notif
 import static com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationTemplate.NOTIFICATION_TEMPLATE;
 
 public class NotificationManagerImpl extends AbstractNotificationManager implements JooqCommonDbOp {
-
-    @Override
-    protected CreateResult createCategoryDbOp(TreeManager treeManager, GroupManager groupManager, CreateNotificationCategory createNotificationCategory, Long opUserId) throws AlreadyExistsException {
-        NotificationCategoryRecord record = notificationCategoryRecordForInsert(createNotificationCategory, opUserId);
-        return insert(JooqContext.getDataSource(), NOTIFICATION_CATEGORY, record);
-    }
-
-    @Override
-    protected void updateCategoryDbOp(TreeManager treeManager, UpdateNotificationCategory updateNotificationCategory, Long opUserId) throws AlreadyExistsException {
-        NotificationCategoryRecord record = notificationCategoryRecordForUpdate(updateNotificationCategory, opUserId);
-        updateSelectiveByPrimaryKey(JooqContext.getDataSource(), record);
-    }
 
     @Override
     protected CreateResult createDefinitionContentDbOp(CreateNotificationDefinitionContent createNotificationDefinitionContent, Long opUserId) {
@@ -95,25 +80,6 @@ public class NotificationManagerImpl extends AbstractNotificationManager impleme
     protected void updateTemplateDbOp(UpdateNotificationTemplate updateNotificationTemplate, Long opUserId) {
         NotificationTemplateRecord record = notificationTemplateRecordForUpdate(updateNotificationTemplate, opUserId);
         updateSelectiveByPrimaryKey(JooqContext.getDataSource(), record);
-    }
-
-    private NotificationCategoryRecord notificationCategoryRecordForInsert(CreateNotificationCategory createNotificationCategory, Long opUserId) {
-        LocalDateTime now = LocalDateTime.now();
-        return new NotificationCategoryRecord(ULong.valueOf(createNotificationCategory.getId()),
-                ULong.valueOf(createNotificationCategory.getParentCategoryId()),
-                createNotificationCategory.getName(),
-                createNotificationCategory.getDescription(),
-                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
-    }
-
-    private NotificationCategoryRecord notificationCategoryRecordForUpdate(UpdateNotificationCategory updateNotificationCategory, Long opUserId) {
-        NotificationCategoryRecord record = new NotificationCategoryRecord();
-        record.setNotificationCategoryId(ULong.valueOf(updateNotificationCategory.getId()));
-        record.setName(updateNotificationCategory.getName());
-        record.setDescription(updateNotificationCategory.getDescription());
-        record.setLastModifyUserId(ULong.valueOf(opUserId));
-        record.setLastModifyTime(LocalDateTime.now());
-        return record;
     }
 
     private NotificationDefinitionContentRecord notificationDefinitionContentRecordForInsert(CreateNotificationDefinitionContent createNotificationDefinitionContent, Long opUserId) {

@@ -4,44 +4,36 @@ import com.wuda.foundation.item.*;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.*;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.*;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.FoundationContext;
+import com.wuda.foundation.lang.IsDeleted;
 import org.jooq.Configuration;
-import org.jooq.DSLContext;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategory.ITEM_CATEGORY;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemCore.ITEM_CORE;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemDescription.ITEM_DESCRIPTION;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemGeneral.ITEM_GENERAL;
-import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemGroupRelation.ITEM_GROUP_RELATION;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemVariation.ITEM_VARIATION;
 
 public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDbOp {
 
-    private DataSource dataSource;
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
     @Override
     protected void directBatchInsertItemCoreDbOp(List<CreateItemCore> createItemCores, Long opUserId) {
-        batchInsert(dataSource, ITEM_CORE, itemCoreRecordsForInsert(createItemCores, opUserId));
+        batchInsert(JooqContext.getDataSource(), ITEM_CORE, itemCoreRecordsForInsert(createItemCores, opUserId));
     }
 
     @Override
     protected long createItemCoreDbOp(CreateItemCore createItemCore, Long opUserId) {
-        long itemCoreId = insert(dataSource, ITEM_CORE, itemCoreRecordForInsert(createItemCore, opUserId)).getRecordId();
+        long itemCoreId = insert(JooqContext.getDataSource(), ITEM_CORE, itemCoreRecordForInsert(createItemCore, opUserId)).getRecordId();
         createItemCategoryRelation(createItemCore.getCategoryId(), createItemCore.getItemId(), opUserId);
         createItemStoreRelation(createItemCore.getStoreId(), createItemCore.getItemId(), opUserId);
         return itemCoreId;
@@ -49,13 +41,13 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
 
     private void createItemCategoryRelation(Long categoryId, Long itemId, Long opUserId) {
         ItemGroupRelationRecord itemGroupRelationRecord = itemGroupRelationRecordForInsert(categoryId, itemId, opUserId);
-        attach(dataSource, itemGroupRelationRecord);
+        attach(JooqContext.getDataSource(), itemGroupRelationRecord);
         itemGroupRelationRecord.insert();
     }
 
     private void createItemStoreRelation(Long storeId, Long itemId, Long opUserId) {
         ItemGroupRelationRecord itemGroupRelationRecord = itemGroupRelationRecordForInsert(storeId, itemId, opUserId);
-        attach(dataSource, itemGroupRelationRecord);
+        attach(JooqContext.getDataSource(), itemGroupRelationRecord);
         itemGroupRelationRecord.insert();
     }
 
@@ -70,12 +62,12 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
 
     @Override
     protected void directBatchInsertItemGeneralDbOp(List<CreateItemGeneral> createItemGenerals, Long opUserId) {
-        batchInsert(dataSource, ITEM_GENERAL, itemGeneralRecordsForInsert(createItemGenerals, opUserId));
+        batchInsert(JooqContext.getDataSource(), ITEM_GENERAL, itemGeneralRecordsForInsert(createItemGenerals, opUserId));
     }
 
     @Override
     protected long createOrUpdateItemGeneralDbOp(CreateItemGeneral createItemGeneral, CreateMode createMode, Long opUserId) {
-        Configuration configuration = JooqContext.getConfiguration(dataSource);
+        Configuration configuration = JooqContext.getConfiguration(JooqContext.getDataSource());
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
                 .select(ITEM_GENERAL.ITEM_GENERAL_ID)
                 .from(ITEM_GENERAL)
@@ -86,23 +78,23 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
             itemGeneralRecord.attach(configuration);
             itemGeneralRecord.update();
         };
-        return insertOrUpdate(createMode, dataSource, ITEM_GENERAL, itemGeneralRecordForInsert(createItemGeneral, opUserId), existsRecordSelector, updateAction);
+        return insertOrUpdate(createMode, JooqContext.getDataSource(), ITEM_GENERAL, itemGeneralRecordForInsert(createItemGeneral, opUserId), existsRecordSelector, updateAction);
     }
 
     @Override
     protected void directBatchInsertItemVariationDbOp(List<CreateItemVariation> createItemVariations, Long opUserId) {
-        batchInsert(dataSource, ITEM_VARIATION, itemVariationRecordsForInsert(createItemVariations, opUserId));
+        batchInsert(JooqContext.getDataSource(), ITEM_VARIATION, itemVariationRecordsForInsert(createItemVariations, opUserId));
     }
 
     @Override
     protected void directBatchInsertItemDescriptionDbOp(List<CreateItemDescription> createItemDescriptions, Long opUserId) {
-        batchInsert(dataSource, ITEM_DESCRIPTION, itemDescriptionRecordsForInsert(createItemDescriptions, opUserId));
+        batchInsert(JooqContext.getDataSource(), ITEM_DESCRIPTION, itemDescriptionRecordsForInsert(createItemDescriptions, opUserId));
     }
 
     @Override
     protected long createOrUpdateItemDescriptionDbOp(CreateItemDescription createItemDescription, CreateMode createMode, Long opUserId) {
         ItemDescriptionRecord record = itemDescriptionRecordForInsert(createItemDescription, opUserId);
-        Configuration configuration = JooqContext.getConfiguration(dataSource);
+        Configuration configuration = JooqContext.getConfiguration(JooqContext.getDataSource());
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
                 .select(ITEM_DESCRIPTION.ITEM_DESCRIPTION_ID)
                 .from(ITEM_DESCRIPTION)
@@ -112,12 +104,12 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
         Consumer<Long> existsRecordUpdateAction = itemDescriptionRecordId -> {
             updateDescriptionDbOp(itemDescriptionRecordId, createItemDescription.getContent(), opUserId);
         };
-        return insertOrUpdate(CreateMode.CREATE_AFTER_SELECT_CHECK, dataSource, ITEM_DESCRIPTION, record, existsRecordSelector, existsRecordUpdateAction);
+        return insertOrUpdate(CreateMode.CREATE_AFTER_SELECT_CHECK, JooqContext.getDataSource(), ITEM_DESCRIPTION, record, existsRecordSelector, existsRecordUpdateAction);
     }
 
     @Override
     protected long createItemVariationDbOp(CreateItemVariation createItemVariation, Long opUserId) {
-        return insert(dataSource, ITEM_VARIATION, itemVariationRecordForInsert(createItemVariation, opUserId)).getRecordId();
+        return insert(JooqContext.getDataSource(), ITEM_VARIATION, itemVariationRecordForInsert(createItemVariation, opUserId)).getRecordId();
     }
 
     @Override
@@ -127,67 +119,11 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
         itemDescriptionRecord.setContent(description);
         itemDescriptionRecord.setLastModifyUserId(ULong.valueOf(opUserId));
         itemDescriptionRecord.setLastModifyTime(LocalDateTime.now());
-        Configuration configuration = JooqContext.getConfiguration(dataSource);
+        Configuration configuration = JooqContext.getConfiguration(JooqContext.getDataSource());
         itemDescriptionRecord.attach(configuration);
         return itemDescriptionRecord.update();
     }
 
-    @Override
-    protected CreateResult createCategoryDbOp(CreateItemCategory createItemCategory, Long opUserId) {
-        return insert(dataSource, ITEM_CATEGORY, itemCategoryRecordForInsert(createItemCategory, opUserId));
-    }
-
-    @Override
-    protected void updateCategoryDbOp(UpdateItemCategory updateItemCategory, Long opUserId) {
-        ItemCategoryRecord record = itemCategoryRecordForUpdate(updateItemCategory, opUserId);
-        updateSelectiveByPrimaryKey(dataSource, record);
-    }
-
-    @Override
-    protected void deleteCategoryDbOp(Long categoryId, Long opUserId) throws RelatedDataExists {
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        dslContext.update(ITEM_CATEGORY)
-                .set(ITEM_CATEGORY.IS_DELETED, ITEM_CATEGORY.ITEM_CATEGORY_ID)
-                .set(ITEM_CATEGORY.LAST_MODIFY_USER_ID, ULong.valueOf(opUserId))
-                .set(ITEM_CATEGORY.LAST_MODIFY_TIME, LocalDateTime.now())
-                .execute();
-    }
-
-    @Override
-    protected int itemCountInCategoryDbOp(Long categoryId) {
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        return dslContext.fetchCount(ITEM_GROUP_RELATION,
-                ITEM_GROUP_RELATION.GROUP_ID.eq(ULong.valueOf(categoryId))
-                        .and(ITEM_GROUP_RELATION.IS_DELETED.eq(notDeleted())));
-    }
-
-    @Override
-    protected int childCountDbOp(Long categoryId) {
-        return JooqContext.getOrCreateDSLContext(JooqContext.getDataSource())
-                .fetchCount(ITEM_CATEGORY,
-                        ITEM_CATEGORY.PARENT_ITEM_CATEGORY_ID.eq(ULong.valueOf(categoryId))
-                                .and(ITEM_CATEGORY.IS_DELETED.eq(notDeleted())));
-    }
-
-    private ItemCategoryRecord itemCategoryRecordForInsert(CreateItemCategory createItemCategory, Long opUserId) {
-        LocalDateTime now = LocalDateTime.now();
-        return new ItemCategoryRecord(ULong.valueOf(createItemCategory.getId()),
-                ULong.valueOf(createItemCategory.getParentCategoryId()),
-                ULong.valueOf(createItemCategory.getStoreId()),
-                createItemCategory.getName(),
-                createItemCategory.getDescription(),
-                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
-    }
-
-    private ItemCategoryRecord itemCategoryRecordForUpdate(UpdateItemCategory updateItemCategory, Long opUserId) {
-        ItemCategoryRecord record = new ItemCategoryRecord();
-        record.setItemCategoryId(ULong.valueOf(updateItemCategory.getId()));
-        record.setName(updateItemCategory.getName());
-        record.setDescription(updateItemCategory.getDescription());
-        record.setLastModifyTime(LocalDateTime.now());
-        record.setLastModifyUserId(ULong.valueOf(opUserId));
-        return record;
-    }
 
     private ItemCoreRecord itemCoreRecordForInsert(CreateItemCore createItemCore, long opUserId) {
         LocalDateTime now = LocalDateTime.now();

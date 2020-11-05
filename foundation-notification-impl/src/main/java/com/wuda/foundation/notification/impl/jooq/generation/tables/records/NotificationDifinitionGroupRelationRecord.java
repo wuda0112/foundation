@@ -4,7 +4,7 @@
 package com.wuda.foundation.notification.impl.jooq.generation.tables.records;
 
 
-import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDifinitionGroupRelationship;
+import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDifinitionGroupRelation;
 
 import java.time.LocalDateTime;
 
@@ -20,117 +20,117 @@ import org.jooq.types.ULong;
  * 通知定义所属的组
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class NotificationDifinitionGroupRelationshipRecord extends UpdatableRecordImpl<NotificationDifinitionGroupRelationshipRecord> implements Record8<ULong, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class NotificationDifinitionGroupRelationRecord extends UpdatableRecordImpl<NotificationDifinitionGroupRelationRecord> implements Record8<ULong, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -1190980890;
+    private static final long serialVersionUID = 68476998;
 
     /**
-     * Setter for <code>foundation_notification.notification_difinition_group_relationship.id</code>.
+     * Setter for <code>foundation_notification.notification_difinition_group_relation.id</code>.
      */
     public void setId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>foundation_notification.notification_difinition_group_relationship.id</code>.
+     * Getter for <code>foundation_notification.notification_difinition_group_relation.id</code>.
      */
     public ULong getId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>foundation_notification.notification_difinition_group_relationship.notification_difinition_id</code>.
+     * Setter for <code>foundation_notification.notification_difinition_group_relation.notification_difinition_id</code>.
      */
     public void setNotificationDifinitionId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>foundation_notification.notification_difinition_group_relationship.notification_difinition_id</code>.
+     * Getter for <code>foundation_notification.notification_difinition_group_relation.notification_difinition_id</code>.
      */
     public ULong getNotificationDifinitionId() {
         return (ULong) get(1);
     }
 
     /**
-     * Setter for <code>foundation_notification.notification_difinition_group_relationship.group_id</code>.
+     * Setter for <code>foundation_notification.notification_difinition_group_relation.group_id</code>.
      */
     public void setGroupId(ULong value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>foundation_notification.notification_difinition_group_relationship.group_id</code>.
+     * Getter for <code>foundation_notification.notification_difinition_group_relation.group_id</code>.
      */
     public ULong getGroupId() {
         return (ULong) get(2);
     }
 
     /**
-     * Setter for <code>foundation_notification.notification_difinition_group_relationship.create_time</code>.
+     * Setter for <code>foundation_notification.notification_difinition_group_relation.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>foundation_notification.notification_difinition_group_relationship.create_time</code>.
+     * Getter for <code>foundation_notification.notification_difinition_group_relation.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(3);
     }
 
     /**
-     * Setter for <code>foundation_notification.notification_difinition_group_relationship.create_user_id</code>.
+     * Setter for <code>foundation_notification.notification_difinition_group_relation.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>foundation_notification.notification_difinition_group_relationship.create_user_id</code>.
+     * Getter for <code>foundation_notification.notification_difinition_group_relation.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(4);
     }
 
     /**
-     * Setter for <code>foundation_notification.notification_difinition_group_relationship.last_modify_time</code>.
+     * Setter for <code>foundation_notification.notification_difinition_group_relation.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>foundation_notification.notification_difinition_group_relationship.last_modify_time</code>.
+     * Getter for <code>foundation_notification.notification_difinition_group_relation.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(5);
     }
 
     /**
-     * Setter for <code>foundation_notification.notification_difinition_group_relationship.last_modify_user_id</code>.
+     * Setter for <code>foundation_notification.notification_difinition_group_relation.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>foundation_notification.notification_difinition_group_relationship.last_modify_user_id</code>.
+     * Getter for <code>foundation_notification.notification_difinition_group_relation.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(6);
     }
 
     /**
-     * Setter for <code>foundation_notification.notification_difinition_group_relationship.is_deleted</code>.
+     * Setter for <code>foundation_notification.notification_difinition_group_relation.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>foundation_notification.notification_difinition_group_relationship.is_deleted</code>.
+     * Getter for <code>foundation_notification.notification_difinition_group_relation.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(7);
@@ -161,42 +161,42 @@ public class NotificationDifinitionGroupRelationshipRecord extends UpdatableReco
 
     @Override
     public Field<ULong> field1() {
-        return NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP.ID;
+        return NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION.ID;
     }
 
     @Override
     public Field<ULong> field2() {
-        return NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP.NOTIFICATION_DIFINITION_ID;
+        return NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION.NOTIFICATION_DIFINITION_ID;
     }
 
     @Override
     public Field<ULong> field3() {
-        return NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP.GROUP_ID;
+        return NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION.GROUP_ID;
     }
 
     @Override
     public Field<LocalDateTime> field4() {
-        return NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP.CREATE_TIME;
+        return NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION.CREATE_TIME;
     }
 
     @Override
     public Field<ULong> field5() {
-        return NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP.CREATE_USER_ID;
+        return NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION.CREATE_USER_ID;
     }
 
     @Override
     public Field<LocalDateTime> field6() {
-        return NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP.LAST_MODIFY_TIME;
+        return NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION.LAST_MODIFY_TIME;
     }
 
     @Override
     public Field<ULong> field7() {
-        return NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP.LAST_MODIFY_USER_ID;
+        return NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION.LAST_MODIFY_USER_ID;
     }
 
     @Override
     public Field<ULong> field8() {
-        return NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP.IS_DELETED;
+        return NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION.IS_DELETED;
     }
 
     @Override
@@ -280,55 +280,55 @@ public class NotificationDifinitionGroupRelationshipRecord extends UpdatableReco
     }
 
     @Override
-    public NotificationDifinitionGroupRelationshipRecord value1(ULong value) {
+    public NotificationDifinitionGroupRelationRecord value1(ULong value) {
         setId(value);
         return this;
     }
 
     @Override
-    public NotificationDifinitionGroupRelationshipRecord value2(ULong value) {
+    public NotificationDifinitionGroupRelationRecord value2(ULong value) {
         setNotificationDifinitionId(value);
         return this;
     }
 
     @Override
-    public NotificationDifinitionGroupRelationshipRecord value3(ULong value) {
+    public NotificationDifinitionGroupRelationRecord value3(ULong value) {
         setGroupId(value);
         return this;
     }
 
     @Override
-    public NotificationDifinitionGroupRelationshipRecord value4(LocalDateTime value) {
+    public NotificationDifinitionGroupRelationRecord value4(LocalDateTime value) {
         setCreateTime(value);
         return this;
     }
 
     @Override
-    public NotificationDifinitionGroupRelationshipRecord value5(ULong value) {
+    public NotificationDifinitionGroupRelationRecord value5(ULong value) {
         setCreateUserId(value);
         return this;
     }
 
     @Override
-    public NotificationDifinitionGroupRelationshipRecord value6(LocalDateTime value) {
+    public NotificationDifinitionGroupRelationRecord value6(LocalDateTime value) {
         setLastModifyTime(value);
         return this;
     }
 
     @Override
-    public NotificationDifinitionGroupRelationshipRecord value7(ULong value) {
+    public NotificationDifinitionGroupRelationRecord value7(ULong value) {
         setLastModifyUserId(value);
         return this;
     }
 
     @Override
-    public NotificationDifinitionGroupRelationshipRecord value8(ULong value) {
+    public NotificationDifinitionGroupRelationRecord value8(ULong value) {
         setIsDeleted(value);
         return this;
     }
 
     @Override
-    public NotificationDifinitionGroupRelationshipRecord values(ULong value1, ULong value2, ULong value3, LocalDateTime value4, ULong value5, LocalDateTime value6, ULong value7, ULong value8) {
+    public NotificationDifinitionGroupRelationRecord values(ULong value1, ULong value2, ULong value3, LocalDateTime value4, ULong value5, LocalDateTime value6, ULong value7, ULong value8) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -345,17 +345,17 @@ public class NotificationDifinitionGroupRelationshipRecord extends UpdatableReco
     // -------------------------------------------------------------------------
 
     /**
-     * Create a detached NotificationDifinitionGroupRelationshipRecord
+     * Create a detached NotificationDifinitionGroupRelationRecord
      */
-    public NotificationDifinitionGroupRelationshipRecord() {
-        super(NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP);
+    public NotificationDifinitionGroupRelationRecord() {
+        super(NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION);
     }
 
     /**
-     * Create a detached, initialised NotificationDifinitionGroupRelationshipRecord
+     * Create a detached, initialised NotificationDifinitionGroupRelationRecord
      */
-    public NotificationDifinitionGroupRelationshipRecord(ULong id, ULong notificationDifinitionId, ULong groupId, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
-        super(NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP);
+    public NotificationDifinitionGroupRelationRecord(ULong id, ULong notificationDifinitionId, ULong groupId, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+        super(NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION);
 
         set(0, id);
         set(1, notificationDifinitionId);

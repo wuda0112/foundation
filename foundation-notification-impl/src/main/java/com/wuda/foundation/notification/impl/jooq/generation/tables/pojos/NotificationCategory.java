@@ -7,6 +7,7 @@ package com.wuda.foundation.notification.impl.jooq.generation.tables.pojos;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
@@ -16,10 +17,12 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class NotificationCategory implements Serializable {
 
-    private static final long serialVersionUID = 538105729;
+    private static final long serialVersionUID = 389869157;
 
     private ULong         notificationCategoryId;
     private ULong         parentNotificationCategoryId;
+    private ULong         rootNotificationCategoryId;
+    private UByte         depth;
     private String        name;
     private String        description;
     private LocalDateTime createTime;
@@ -33,6 +36,8 @@ public class NotificationCategory implements Serializable {
     public NotificationCategory(NotificationCategory value) {
         this.notificationCategoryId = value.notificationCategoryId;
         this.parentNotificationCategoryId = value.parentNotificationCategoryId;
+        this.rootNotificationCategoryId = value.rootNotificationCategoryId;
+        this.depth = value.depth;
         this.name = value.name;
         this.description = value.description;
         this.createTime = value.createTime;
@@ -45,6 +50,8 @@ public class NotificationCategory implements Serializable {
     public NotificationCategory(
         ULong         notificationCategoryId,
         ULong         parentNotificationCategoryId,
+        ULong         rootNotificationCategoryId,
+        UByte         depth,
         String        name,
         String        description,
         LocalDateTime createTime,
@@ -55,6 +62,8 @@ public class NotificationCategory implements Serializable {
     ) {
         this.notificationCategoryId = notificationCategoryId;
         this.parentNotificationCategoryId = parentNotificationCategoryId;
+        this.rootNotificationCategoryId = rootNotificationCategoryId;
+        this.depth = depth;
         this.name = name;
         this.description = description;
         this.createTime = createTime;
@@ -78,6 +87,22 @@ public class NotificationCategory implements Serializable {
 
     public void setParentNotificationCategoryId(ULong parentNotificationCategoryId) {
         this.parentNotificationCategoryId = parentNotificationCategoryId;
+    }
+
+    public ULong getRootNotificationCategoryId() {
+        return this.rootNotificationCategoryId;
+    }
+
+    public void setRootNotificationCategoryId(ULong rootNotificationCategoryId) {
+        this.rootNotificationCategoryId = rootNotificationCategoryId;
+    }
+
+    public UByte getDepth() {
+        return this.depth;
+    }
+
+    public void setDepth(UByte depth) {
+        this.depth = depth;
     }
 
     public String getName() {
@@ -142,6 +167,8 @@ public class NotificationCategory implements Serializable {
 
         sb.append(notificationCategoryId);
         sb.append(", ").append(parentNotificationCategoryId);
+        sb.append(", ").append(rootNotificationCategoryId);
+        sb.append(", ").append(depth);
         sb.append(", ").append(name);
         sb.append(", ").append(description);
         sb.append(", ").append(createTime);

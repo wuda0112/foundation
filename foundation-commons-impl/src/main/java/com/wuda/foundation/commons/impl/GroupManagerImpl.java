@@ -32,12 +32,6 @@ public class GroupManagerImpl extends AbstractGroupManager implements JooqCommon
     @Override
     protected void deleteGroupDbOp(Long groupId, Long opUserId) throws RelatedDataExists {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(JooqContext.getDataSource());
-        int childrenCount = dslContext.fetchCount(GROUP,
-                GROUP.PARENT_GROUP_ID.eq(ULong.valueOf(groupId))
-                        .and(GROUP.IS_DELETED.eq(notDeleted())));
-        if (childrenCount > 0) {
-            throw new RelatedDataExists("group id = " + groupId + ",还有子节点,不能删除");
-        }
         dslContext.update(GROUP)
                 .set(GROUP.IS_DELETED, GROUP.GROUP_ID)
                 .where(GROUP.GROUP_ID.eq(ULong.valueOf(groupId)))

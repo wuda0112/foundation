@@ -16,29 +16,6 @@ import com.wuda.foundation.lang.CreateResult;
 public interface NotificationManager {
 
     /**
-     * 创建分类.
-     *
-     * @param treeManager                item分类是树形结构,因此需要{@link TreeManager}
-     * @param groupManager               item分类是一种组,因此需要{@link GroupManager}
-     * @param createNotificationCategory 创建分类的参数
-     * @param opUserId                   操作人用户ID
-     * @return 创建结果
-     * @throws AlreadyExistsException 如果已经存在给定名称的分类
-     * @throws ParentNodeNotExistsException 如果父级不存在
-     */
-    CreateResult createCategory(TreeManager treeManager, GroupManager groupManager, CreateNotificationCategory createNotificationCategory, Long opUserId) throws AlreadyExistsException,ParentNodeNotExistsException;
-
-    /**
-     * 更新分类.
-     *
-     * @param treeManager                由于分类是基于{@link CreateTreeNode}创建的,因此需要{@link TreeManager}
-     * @param updateNotificationCategory 更新参数
-     * @param opUserId                   操作人用户ID
-     * @throws AlreadyExistsException 如果已经存在给定名称的分类
-     */
-    void updateCategory(TreeManager treeManager, UpdateNotificationCategory updateNotificationCategory, Long opUserId) throws AlreadyExistsException;
-
-    /**
      * 创建通知定义的内容.
      *
      * @param createNotificationDefinitionContent 创建通知定义的内容的参数

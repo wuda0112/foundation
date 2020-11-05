@@ -4,19 +4,19 @@ import com.wuda.foundation.lang.*;
 
 import java.util.List;
 
-public abstract class AbstractTreeManager implements TreeManager {
+public abstract class AbstractTreeManager<C extends CreateTreeNode, U extends UpdateTreeNode, D extends DescribeTreeNode> implements TreeManager<C, U, D> {
     @Override
-    public CreateResult createTreeNode(CreateTreeNode createTreeNode, CreateMode createMode, Long opUserId) throws AlreadyExistsException, ParentNodeNotExistsException {
+    public CreateResult createTreeNode(C createTreeNode, CreateMode createMode, Long opUserId) throws AlreadyExistsException, ParentNodeNotExistsException {
         boolean isCreatingRootTreeNode = isCreatingRootTreeNode(createTreeNode);
         DescribeTreeNode parentTreeNode = null;
         if (!isCreatingRootTreeNode) {
-            parentTreeNode = getTreeNode(createTreeNode.parentTreeNodeId);
+            parentTreeNode = getTreeNode(createTreeNode.parentId);
             if (parentTreeNode == null) {
-                throw new ParentNodeNotExistsException("parent tree node id = " + createTreeNode.parentTreeNodeId + ",不存在");
+                throw new ParentNodeNotExistsException("parent tree node id = " + createTreeNode.parentId + ",不存在");
             }
         }
         supplementArg(createTreeNode, isCreatingRootTreeNode, parentTreeNode);
-        CreateResult createResult = createNodeDbOp(createTreeNode, createMode, opUserId);
+        CreateResult createResult = createTreeNodeDbOp(createTreeNode, createMode, opUserId);
         if (createResult.getExistsRecordId() != null) {
             throw new AlreadyExistsException("树中已经存在");
         }
@@ -35,62 +35,61 @@ public abstract class AbstractTreeManager implements TreeManager {
         int depth;
         if (!isCreatingRootTreeNode) {
             if (isRootTreeNode(parentTreeNode)) {
-                rootTreeNodeId = parentTreeNode.getTreeNodeId();
+                rootTreeNodeId = parentTreeNode.getId();
             } else {
-                rootTreeNodeId = parentTreeNode.getRootTreeNodeId();
+                rootTreeNodeId = parentTreeNode.getRootId();
             }
             depth = parentTreeNode.getDepth() + 1;
         } else {
             rootTreeNodeId = Constant.NOT_EXISTS_ID;
             depth = 1;
         }
-        creating.setRootTreeNodeId(rootTreeNodeId);
+        creating.setRootId(rootTreeNodeId);
         creating.setDepth(depth);
     }
 
-    public abstract CreateResult createNodeDbOp(CreateTreeNode createTreeNode, CreateMode createMode, Long opUserId);
+    protected abstract CreateResult createTreeNodeDbOp(C createTreeNode, CreateMode createMode, Long opUserId);
 
     @Override
-    public void updateNode(UpdateTreeNode updateTreeNode, Long opUserId) throws AlreadyExistsException {
-        updateNodeDbOp(updateTreeNode, opUserId);
+    public void updateNode(U updateTreeNode, Long opUserId) throws AlreadyExistsException {
+        updateTreeNodeDbOp(updateTreeNode, opUserId);
     }
 
-    public abstract void updateNodeDbOp(UpdateTreeNode updateTreeNode, Long opUserId) throws AlreadyExistsException;
+    protected abstract void updateTreeNodeDbOp(U updateTreeNode, Long opUserId) throws AlreadyExistsException;
 
     @Override
-    public void deleteNode(Long nodeId, Long opUserId) throws RelatedDataExists {
-        deleteNodeDbOp(nodeId, opUserId);
+    public void deleteTreeNode(Long nodeId, Long opUserId) throws RelatedDataExists {
+        int childCount = childCount(nodeId);
+        if (childCount > 0) {
+            throw new RelatedDataExists("节点ID = " + nodeId + ",还有下级");
+        }
+        deleteTreeNodeDbOp(nodeId, opUserId);
     }
 
-    protected abstract void deleteNodeDbOp(Long nodeId, Long opUserId) throws RelatedDataExists;
+    protected abstract void deleteTreeNodeDbOp(Long nodeId, Long opUserId) throws RelatedDataExists;
 
     @Override
-    public List<Long> getDescendants(Long nodeId) {
+    public List<D> getDescendants(Long nodeId) {
         return null;
     }
 
     @Override
-    public List<Long> getAncestors(Long nodeId) {
+    public List<D> getAncestors(Long nodeId) {
         return null;
     }
 
     @Override
-    public List<Long> getChildren(Long nodeId) {
-        return null;
-    }
-
-    @Override
-    public DescribeTreeNode getTreeNode(Long nodeId) {
+    public List<D> getChildren(Long nodeId) {
         return null;
     }
 
     @Override
     public boolean isCreatingRootTreeNode(CreateTreeNode createTreeNode) {
-        return false;
+        return createTreeNode.parentId.equals(Constant.NOT_EXISTS_ID);
     }
 
     @Override
     public boolean isRootTreeNode(DescribeTreeNode describeTreeNode) {
-        return false;
+        return describeTreeNode.getParentId().equals(Constant.NOT_EXISTS_ID);
     }
 }

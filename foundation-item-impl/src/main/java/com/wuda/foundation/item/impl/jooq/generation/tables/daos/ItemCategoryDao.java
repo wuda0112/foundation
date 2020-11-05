@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
@@ -76,6 +77,20 @@ public class ItemCategoryDao extends DAOImpl<ItemCategoryRecord, com.wuda.founda
     }
 
     /**
+     * Fetch records that have <code>root_item_category_id BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchRangeOfRootItemCategoryId(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(ItemCategory.ITEM_CATEGORY.ROOT_ITEM_CATEGORY_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>root_item_category_id IN (values)</code>
+     */
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchByRootItemCategoryId(ULong... values) {
+        return fetch(ItemCategory.ITEM_CATEGORY.ROOT_ITEM_CATEGORY_ID, values);
+    }
+
+    /**
      * Fetch records that have <code>store_id BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchRangeOfStoreId(ULong lowerInclusive, ULong upperInclusive) {
@@ -87,6 +102,20 @@ public class ItemCategoryDao extends DAOImpl<ItemCategoryRecord, com.wuda.founda
      */
     public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchByStoreId(ULong... values) {
         return fetch(ItemCategory.ITEM_CATEGORY.STORE_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>depth BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchRangeOfDepth(UByte lowerInclusive, UByte upperInclusive) {
+        return fetchRange(ItemCategory.ITEM_CATEGORY.DEPTH, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>depth IN (values)</code>
+     */
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemCategory> fetchByDepth(UByte... values) {
+        return fetch(ItemCategory.ITEM_CATEGORY.DEPTH, values);
     }
 
     /**

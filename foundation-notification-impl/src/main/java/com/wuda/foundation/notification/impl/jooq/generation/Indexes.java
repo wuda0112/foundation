@@ -10,7 +10,7 @@ import com.wuda.foundation.notification.impl.jooq.generation.tables.Notification
 import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDefinitionObserver;
 import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDefinitionObserverrExpandSnapshot;
 import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDefinitionSendMethod;
-import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDifinitionGroupRelationship;
+import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationDifinitionGroupRelation;
 import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationInstanceContent;
 import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationInstanceSendHistory;
 import com.wuda.foundation.notification.impl.jooq.generation.tables.NotificationInstanceTrace;
@@ -32,6 +32,7 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     public static final Index NOTIFICATION_CATEGORY_IDX_PARENT_NOTIFICATION_CATEGORY_ID = Indexes0.NOTIFICATION_CATEGORY_IDX_PARENT_NOTIFICATION_CATEGORY_ID;
+    public static final Index NOTIFICATION_CATEGORY_IDX_ROOT_NOTIFICATION_CATEGORY_ID = Indexes0.NOTIFICATION_CATEGORY_IDX_ROOT_NOTIFICATION_CATEGORY_ID;
     public static final Index NOTIFICATION_DEFINITION_CONTENT_IDX_NOTIFICATION_DECLARATION_ID = Indexes0.NOTIFICATION_DEFINITION_CONTENT_IDX_NOTIFICATION_DECLARATION_ID;
     public static final Index NOTIFICATION_DEFINITION_CONTENT_IDX_NOTIFICATION_DEFINITION_SEND_METHOD_ID = Indexes0.NOTIFICATION_DEFINITION_CONTENT_IDX_NOTIFICATION_DEFINITION_SEND_METHOD_ID;
     public static final Index NOTIFICATION_DEFINITION_CORE_IDX_NOTIFICATION_DEFINITION_ID = Indexes0.NOTIFICATION_DEFINITION_CORE_IDX_NOTIFICATION_DEFINITION_ID;
@@ -41,9 +42,9 @@ public class Indexes {
     public static final Index NOTIFICATION_DEFINITION_OBSERVERR_EXPAND_SNAPSHOT_IDX_NOTIFICATION_DEFINITION_RECEIVER_ID = Indexes0.NOTIFICATION_DEFINITION_OBSERVERR_EXPAND_SNAPSHOT_IDX_NOTIFICATION_DEFINITION_RECEIVER_ID;
     public static final Index NOTIFICATION_DEFINITION_SEND_METHOD_IDX_NOTIFICATION_DEFINITION_ID = Indexes0.NOTIFICATION_DEFINITION_SEND_METHOD_IDX_NOTIFICATION_DEFINITION_ID;
     public static final Index NOTIFICATION_DEFINITION_SEND_METHOD_IDX_NOTIFICATION_TEMPLATE_ID = Indexes0.NOTIFICATION_DEFINITION_SEND_METHOD_IDX_NOTIFICATION_TEMPLATE_ID;
-    public static final Index NOTIFICATION_DEFINITION_SEND_METHOD_IDX_POST_METHOD_ID = Indexes0.NOTIFICATION_DEFINITION_SEND_METHOD_IDX_POST_METHOD_ID;
-    public static final Index NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP_IDX_GROUP_ID = Indexes0.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP_IDX_GROUP_ID;
-    public static final Index NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP_IDX_NOTIFICATION_DEFINITION_ID = Indexes0.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP_IDX_NOTIFICATION_DEFINITION_ID;
+    public static final Index NOTIFICATION_DEFINITION_SEND_METHOD_IDX_SEND_METHOD_ID = Indexes0.NOTIFICATION_DEFINITION_SEND_METHOD_IDX_SEND_METHOD_ID;
+    public static final Index NOTIFICATION_DIFINITION_GROUP_RELATION_IDX_GROUP_ID = Indexes0.NOTIFICATION_DIFINITION_GROUP_RELATION_IDX_GROUP_ID;
+    public static final Index NOTIFICATION_DIFINITION_GROUP_RELATION_IDX_NOTIFICATION_DEFINITION_ID = Indexes0.NOTIFICATION_DIFINITION_GROUP_RELATION_IDX_NOTIFICATION_DEFINITION_ID;
     public static final Index NOTIFICATION_INSTANCE_CONTENT_IDX_CATEGORY = Indexes0.NOTIFICATION_INSTANCE_CONTENT_IDX_CATEGORY;
     public static final Index NOTIFICATION_INSTANCE_CONTENT_IDX_NOTIFICATION_DEFINITION_CONTENT_ID = Indexes0.NOTIFICATION_INSTANCE_CONTENT_IDX_NOTIFICATION_DEFINITION_CONTENT_ID;
     public static final Index NOTIFICATION_INSTANCE_CONTENT_IDX_NOTIFICATION_DEFINITION_SEND_METHOD_ID = Indexes0.NOTIFICATION_INSTANCE_CONTENT_IDX_NOTIFICATION_DEFINITION_SEND_METHOD_ID;
@@ -57,6 +58,7 @@ public class Indexes {
 
     private static class Indexes0 {
         public static Index NOTIFICATION_CATEGORY_IDX_PARENT_NOTIFICATION_CATEGORY_ID = Internal.createIndex("idx_parent_notification_category_id", NotificationCategory.NOTIFICATION_CATEGORY, new OrderField[] { NotificationCategory.NOTIFICATION_CATEGORY.PARENT_NOTIFICATION_CATEGORY_ID }, false);
+        public static Index NOTIFICATION_CATEGORY_IDX_ROOT_NOTIFICATION_CATEGORY_ID = Internal.createIndex("idx_root_notification_category_id", NotificationCategory.NOTIFICATION_CATEGORY, new OrderField[] { NotificationCategory.NOTIFICATION_CATEGORY.ROOT_NOTIFICATION_CATEGORY_ID }, false);
         public static Index NOTIFICATION_DEFINITION_CONTENT_IDX_NOTIFICATION_DECLARATION_ID = Internal.createIndex("idx_notification_declaration_id", NotificationDefinitionContent.NOTIFICATION_DEFINITION_CONTENT, new OrderField[] { NotificationDefinitionContent.NOTIFICATION_DEFINITION_CONTENT.NOTIFICATION_DEFINITIONF_ID }, false);
         public static Index NOTIFICATION_DEFINITION_CONTENT_IDX_NOTIFICATION_DEFINITION_SEND_METHOD_ID = Internal.createIndex("idx_notification_definition_send_method_id", NotificationDefinitionContent.NOTIFICATION_DEFINITION_CONTENT, new OrderField[] { NotificationDefinitionContent.NOTIFICATION_DEFINITION_CONTENT.NOTIFICATION_DEFINITION_SEND_METHOD_ID }, false);
         public static Index NOTIFICATION_DEFINITION_CORE_IDX_NOTIFICATION_DEFINITION_ID = Internal.createIndex("idx_notification_definition_id", NotificationDefinitionCore.NOTIFICATION_DEFINITION_CORE, new OrderField[] { NotificationDefinitionCore.NOTIFICATION_DEFINITION_CORE.NOTIFICATION_DEFINITION_ID }, false);
@@ -66,9 +68,9 @@ public class Indexes {
         public static Index NOTIFICATION_DEFINITION_OBSERVERR_EXPAND_SNAPSHOT_IDX_NOTIFICATION_DEFINITION_RECEIVER_ID = Internal.createIndex("idx_notification_definition_receiver_id", NotificationDefinitionObserverrExpandSnapshot.NOTIFICATION_DEFINITION_OBSERVERR_EXPAND_SNAPSHOT, new OrderField[] { NotificationDefinitionObserverrExpandSnapshot.NOTIFICATION_DEFINITION_OBSERVERR_EXPAND_SNAPSHOT.NOTIFICATION_DEFINITION_RECEIVER_ID }, false);
         public static Index NOTIFICATION_DEFINITION_SEND_METHOD_IDX_NOTIFICATION_DEFINITION_ID = Internal.createIndex("idx_notification_definition_id", NotificationDefinitionSendMethod.NOTIFICATION_DEFINITION_SEND_METHOD, new OrderField[] { NotificationDefinitionSendMethod.NOTIFICATION_DEFINITION_SEND_METHOD.NOTIFICATION_DEFINITION_ID }, false);
         public static Index NOTIFICATION_DEFINITION_SEND_METHOD_IDX_NOTIFICATION_TEMPLATE_ID = Internal.createIndex("idx_notification_template_id", NotificationDefinitionSendMethod.NOTIFICATION_DEFINITION_SEND_METHOD, new OrderField[] { NotificationDefinitionSendMethod.NOTIFICATION_DEFINITION_SEND_METHOD.NOTIFICATION_TEMPLATE_ID }, false);
-        public static Index NOTIFICATION_DEFINITION_SEND_METHOD_IDX_POST_METHOD_ID = Internal.createIndex("idx_post_method_id", NotificationDefinitionSendMethod.NOTIFICATION_DEFINITION_SEND_METHOD, new OrderField[] { NotificationDefinitionSendMethod.NOTIFICATION_DEFINITION_SEND_METHOD.NOTIFICATION_SEND_METHOD_ID }, false);
-        public static Index NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP_IDX_GROUP_ID = Internal.createIndex("idx_group_id", NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP, new OrderField[] { NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP.GROUP_ID }, false);
-        public static Index NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP_IDX_NOTIFICATION_DEFINITION_ID = Internal.createIndex("idx_notification_definition_id", NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP, new OrderField[] { NotificationDifinitionGroupRelationship.NOTIFICATION_DIFINITION_GROUP_RELATIONSHIP.NOTIFICATION_DIFINITION_ID }, false);
+        public static Index NOTIFICATION_DEFINITION_SEND_METHOD_IDX_SEND_METHOD_ID = Internal.createIndex("idx_send_method_id", NotificationDefinitionSendMethod.NOTIFICATION_DEFINITION_SEND_METHOD, new OrderField[] { NotificationDefinitionSendMethod.NOTIFICATION_DEFINITION_SEND_METHOD.NOTIFICATION_SEND_METHOD_ID }, false);
+        public static Index NOTIFICATION_DIFINITION_GROUP_RELATION_IDX_GROUP_ID = Internal.createIndex("idx_group_id", NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION, new OrderField[] { NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION.GROUP_ID }, false);
+        public static Index NOTIFICATION_DIFINITION_GROUP_RELATION_IDX_NOTIFICATION_DEFINITION_ID = Internal.createIndex("idx_notification_definition_id", NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION, new OrderField[] { NotificationDifinitionGroupRelation.NOTIFICATION_DIFINITION_GROUP_RELATION.NOTIFICATION_DIFINITION_ID }, false);
         public static Index NOTIFICATION_INSTANCE_CONTENT_IDX_CATEGORY = Internal.createIndex("idx_category", NotificationInstanceContent.NOTIFICATION_INSTANCE_CONTENT, new OrderField[] { NotificationInstanceContent.NOTIFICATION_INSTANCE_CONTENT.NOTIFICATION_CATEGORY_ID }, false);
         public static Index NOTIFICATION_INSTANCE_CONTENT_IDX_NOTIFICATION_DEFINITION_CONTENT_ID = Internal.createIndex("idx_notification_definition_content_id", NotificationInstanceContent.NOTIFICATION_INSTANCE_CONTENT, new OrderField[] { NotificationInstanceContent.NOTIFICATION_INSTANCE_CONTENT.NOTIFICATION_DEFINITION_CONTENT_ID }, false);
         public static Index NOTIFICATION_INSTANCE_CONTENT_IDX_NOTIFICATION_DEFINITION_SEND_METHOD_ID = Internal.createIndex("idx_notification_definition_send_method_id", NotificationInstanceContent.NOTIFICATION_INSTANCE_CONTENT, new OrderField[] { NotificationInstanceContent.NOTIFICATION_INSTANCE_CONTENT.NOTIFICATION_DEFINITION_SEND_METHOD_ID }, false);

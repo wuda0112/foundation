@@ -7,6 +7,7 @@ package com.wuda.foundation.item.impl.jooq.generation.tables.pojos;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
@@ -16,11 +17,13 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemCategory implements Serializable {
 
-    private static final long serialVersionUID = -1220839747;
+    private static final long serialVersionUID = -1356553705;
 
     private ULong         itemCategoryId;
     private ULong         parentItemCategoryId;
+    private ULong         rootItemCategoryId;
     private ULong         storeId;
+    private UByte         depth;
     private String        name;
     private String        description;
     private LocalDateTime createTime;
@@ -34,7 +37,9 @@ public class ItemCategory implements Serializable {
     public ItemCategory(ItemCategory value) {
         this.itemCategoryId = value.itemCategoryId;
         this.parentItemCategoryId = value.parentItemCategoryId;
+        this.rootItemCategoryId = value.rootItemCategoryId;
         this.storeId = value.storeId;
+        this.depth = value.depth;
         this.name = value.name;
         this.description = value.description;
         this.createTime = value.createTime;
@@ -47,7 +52,9 @@ public class ItemCategory implements Serializable {
     public ItemCategory(
         ULong         itemCategoryId,
         ULong         parentItemCategoryId,
+        ULong         rootItemCategoryId,
         ULong         storeId,
+        UByte         depth,
         String        name,
         String        description,
         LocalDateTime createTime,
@@ -58,7 +65,9 @@ public class ItemCategory implements Serializable {
     ) {
         this.itemCategoryId = itemCategoryId;
         this.parentItemCategoryId = parentItemCategoryId;
+        this.rootItemCategoryId = rootItemCategoryId;
         this.storeId = storeId;
+        this.depth = depth;
         this.name = name;
         this.description = description;
         this.createTime = createTime;
@@ -84,12 +93,28 @@ public class ItemCategory implements Serializable {
         this.parentItemCategoryId = parentItemCategoryId;
     }
 
+    public ULong getRootItemCategoryId() {
+        return this.rootItemCategoryId;
+    }
+
+    public void setRootItemCategoryId(ULong rootItemCategoryId) {
+        this.rootItemCategoryId = rootItemCategoryId;
+    }
+
     public ULong getStoreId() {
         return this.storeId;
     }
 
     public void setStoreId(ULong storeId) {
         this.storeId = storeId;
+    }
+
+    public UByte getDepth() {
+        return this.depth;
+    }
+
+    public void setDepth(UByte depth) {
+        this.depth = depth;
     }
 
     public String getName() {
@@ -154,7 +179,9 @@ public class ItemCategory implements Serializable {
 
         sb.append(itemCategoryId);
         sb.append(", ").append(parentItemCategoryId);
+        sb.append(", ").append(rootItemCategoryId);
         sb.append(", ").append(storeId);
+        sb.append(", ").append(depth);
         sb.append(", ").append(name);
         sb.append(", ").append(description);
         sb.append(", ").append(createTime);

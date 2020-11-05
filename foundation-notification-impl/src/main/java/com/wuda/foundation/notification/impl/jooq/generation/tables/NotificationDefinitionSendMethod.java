@@ -36,7 +36,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class NotificationDefinitionSendMethod extends TableImpl<NotificationDefinitionSendMethodRecord> {
 
-    private static final long serialVersionUID = 428928299;
+    private static final long serialVersionUID = 1143409683;
 
     /**
      * The reference instance of <code>foundation_notification.notification_definition_send_method</code>
@@ -136,7 +136,7 @@ public class NotificationDefinitionSendMethod extends TableImpl<NotificationDefi
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.NOTIFICATION_DEFINITION_SEND_METHOD_IDX_NOTIFICATION_DEFINITION_ID, Indexes.NOTIFICATION_DEFINITION_SEND_METHOD_IDX_NOTIFICATION_TEMPLATE_ID, Indexes.NOTIFICATION_DEFINITION_SEND_METHOD_IDX_POST_METHOD_ID);
+        return Arrays.<Index>asList(Indexes.NOTIFICATION_DEFINITION_SEND_METHOD_IDX_NOTIFICATION_DEFINITION_ID, Indexes.NOTIFICATION_DEFINITION_SEND_METHOD_IDX_NOTIFICATION_TEMPLATE_ID, Indexes.NOTIFICATION_DEFINITION_SEND_METHOD_IDX_SEND_METHOD_ID);
     }
 
     @Override

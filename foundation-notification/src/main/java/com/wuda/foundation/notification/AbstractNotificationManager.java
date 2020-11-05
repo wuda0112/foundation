@@ -1,27 +1,9 @@
 package com.wuda.foundation.notification;
 
-import com.wuda.foundation.commons.GroupManager;
-import com.wuda.foundation.commons.ParentNodeNotExistsException;
-import com.wuda.foundation.commons.TreeManager;
 import com.wuda.foundation.lang.AlreadyExistsException;
-import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 
 public abstract class AbstractNotificationManager implements NotificationManager {
-    @Override
-    public CreateResult createCategory(TreeManager treeManager, GroupManager groupManager, CreateNotificationCategory createNotificationCategory, Long opUserId) throws AlreadyExistsException, ParentNodeNotExistsException {
-        groupManager.createGroup(treeManager, createNotificationCategory.toCreateGroup(), CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
-        return createCategoryDbOp(treeManager, groupManager, createNotificationCategory, opUserId);
-    }
-
-    protected abstract CreateResult createCategoryDbOp(TreeManager treeManager, GroupManager groupManager, CreateNotificationCategory createNotificationCategory, Long opUserId) throws AlreadyExistsException;
-
-    @Override
-    public void updateCategory(TreeManager treeManager, UpdateNotificationCategory updateNotificationCategory, Long opUserId) throws AlreadyExistsException {
-        updateCategoryDbOp(treeManager, updateNotificationCategory, opUserId);
-    }
-
-    protected abstract void updateCategoryDbOp(TreeManager treeManager, UpdateNotificationCategory updateNotificationCategory, Long opUserId) throws AlreadyExistsException;
 
     @Override
     public CreateResult createDefinitionContent(CreateNotificationDefinitionContent createNotificationDefinitionContent, Long opUserId) {

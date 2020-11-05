@@ -14,31 +14,27 @@ import java.util.Objects;
 @Getter
 public class UpdateNotificationCategory extends UpdateTreeNode {
 
-    private String name;
-    private String description;
-
     /**
      * for build {@link UpdateNotificationCategory}
      *
      * @author wuda
      * @since 1.0.3
      */
-    public static class Builder implements com.wuda.foundation.lang.Builder<UpdateNotificationCategory> {
+    public static class Builder extends UpdateTreeNodeBuilder<UpdateNotificationCategory, Builder> {
 
-        private Long id;
-        private String name;
-        private String description;
-
+        @Override
         public Builder setId(Long id) {
             this.id = id;
             return this;
         }
 
+        @Override
         public Builder setName(String name) {
             this.name = name;
             return this;
         }
 
+        @Override
         public Builder setDescription(String description) {
             this.description = description;
             return this;

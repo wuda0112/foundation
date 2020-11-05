@@ -1,4 +1,4 @@
-package com.wuda.foundation.item;
+package com.wuda.foundation.notification;
 
 import com.wuda.foundation.commons.DescribeTreeNode;
 import lombok.AllArgsConstructor;
@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class DescribeItemCategory extends DescribeTreeNode {
+public class DescribeNotificationCategory extends DescribeTreeNode {
 
-    private Long storeId;
 }

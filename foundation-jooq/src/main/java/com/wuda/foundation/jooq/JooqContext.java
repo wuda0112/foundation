@@ -29,6 +29,10 @@ public class JooqContext {
      */
     private static Supplier<DataSource> dataSourceSupplier = null;
 
+    public static DSLContext getOrCreateDSLContext(){
+        return getOrCreateDSLContext(getDataSource());
+    }
+
     public static DSLContext getOrCreateDSLContext(DataSource dataSource) {
         if (dslContextByDatasourceMap.get(dataSource) == null) {
             dslContextLock.lock();

@@ -1,7 +1,13 @@
 package com.wuda.foundation.commons;
 
-import com.wuda.foundation.lang.*;
+import com.wuda.foundation.lang.AlreadyExistsException;
+import com.wuda.foundation.lang.Constant;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
+import com.wuda.foundation.lang.RelatedDataExists;
+import com.wuda.foundation.lang.tree.IdPidEntryUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractTreeManager<C extends CreateTreeNode, U extends UpdateTreeNode, D extends DescribeTreeNode> implements TreeManager<C, U, D> {
@@ -69,18 +75,33 @@ public abstract class AbstractTreeManager<C extends CreateTreeNode, U extends Up
     protected abstract void deleteTreeNodeDbOp(Long nodeId, Long opUserId) throws RelatedDataExists;
 
     @Override
-    public List<D> getDescendants(Long nodeId) {
-        return null;
+    public List<D> getDescendant(Long nodeId) {
+        if (nodeId == null) {
+            return null;
+        }
+        D treeNode = getTreeNode(nodeId);
+        if (treeNode == null) {
+            return null;
+        }
+        List<D> fullNodes = getDescendantOfRoot(treeNode.getRootId());
+        List<D> descendant = new ArrayList<>();
+        IdPidEntryUtils.getDescendant(nodeId, fullNodes, descendant);
+        return descendant;
     }
 
     @Override
-    public List<D> getAncestors(Long nodeId) {
-        return null;
-    }
-
-    @Override
-    public List<D> getChildren(Long nodeId) {
-        return null;
+    public List<D> getAncestor(Long nodeId) {
+        if (nodeId == null) {
+            return null;
+        }
+        D treeNode = getTreeNode(nodeId);
+        if (treeNode == null) {
+            return null;
+        }
+        List<D> fullNodes = getDescendantOfRoot(treeNode.getRootId());
+        List<D> ancestor = new ArrayList<>();
+        IdPidEntryUtils.getAncestor(nodeId, fullNodes, ancestor);
+        return ancestor;
     }
 
     @Override

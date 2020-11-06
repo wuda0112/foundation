@@ -1,6 +1,11 @@
 package com.wuda.foundation.lang.tree;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 使用{@link java.util.Map}实现树形结构.
@@ -104,7 +109,9 @@ public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implemen
             // 更新当前节点下的所有子节点的深度
             Set<T> children = getDirectChildrenIdSet(id);
             if (children != null && children.size() > 0) {
-                for (T child : children) setDepth(get(child));
+                for (T child : children) {
+                    setDepth(get(child));
+                }
             }
         }
     }
@@ -154,6 +161,7 @@ public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implemen
      * @param id id
      * @return node
      */
+    @Override
     public E get(T id) {
         return id2NodeMap.get(id);
     }
@@ -174,6 +182,13 @@ public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implemen
             index++;
         }
         return ancestors;
+    }
+
+    @Override
+    public LinkedList<E> getDescendant(T id) {
+        LinkedList<E> descendant = new LinkedList<>();
+        IdPidEntryUtils.getDescendant(id, id2NodeMap.values(), descendant);
+        return descendant;
     }
 
     @Override
@@ -253,8 +268,13 @@ public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implemen
     }
 
     @Override
-    public Treeable<T, E> getRootTreeable() {
-        Collection<E> nodes = id2NodeMap.values();
+    public Treeable<T, E> toTreeable(T startIdInclusive) {
+        E self = get(startIdInclusive);
+        if (self == null) {
+            return null;
+        }
+        Collection<E> nodes = getDescendant(startIdInclusive);
+        nodes.add(self);
         /**
          * 节点ID对应的{@link Treeable}.
          */
@@ -282,6 +302,6 @@ public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implemen
                 }
             }
         }
-        return id2Treeable.get(root.getId());
+        return id2Treeable.get(startIdInclusive);
     }
 }

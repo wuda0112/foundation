@@ -7,7 +7,11 @@ import com.wuda.foundation.item.UpdateItemCategory;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemCategoryRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.*;
+import com.wuda.foundation.lang.AlreadyExistsException;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
+import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.lang.RelatedDataExists;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.types.UByte;
@@ -36,6 +40,16 @@ public class ItemCategoryManagerImpl extends AbstractItemCategoryManager impleme
                 .fetchCount(ITEM_CATEGORY,
                         ITEM_CATEGORY.PARENT_ITEM_CATEGORY_ID.eq(ULong.valueOf(categoryId))
                                 .and(ITEM_CATEGORY.IS_DELETED.eq(notDeleted())));
+    }
+
+    @Override
+    public List<DescribeItemCategory> getChildren(Long nodeId) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext();
+        Result<ItemCategoryRecord> records = dslContext.selectFrom(ITEM_CATEGORY)
+                .where(ITEM_CATEGORY.PARENT_ITEM_CATEGORY_ID.eq(ULong.valueOf(nodeId)))
+                .and(ITEM_CATEGORY.IS_DELETED.eq(notDeleted()))
+                .fetch();
+        return copyFromItemCategoryRecords(records);
     }
 
     @Override

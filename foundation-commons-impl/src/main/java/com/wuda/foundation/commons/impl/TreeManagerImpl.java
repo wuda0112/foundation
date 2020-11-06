@@ -7,8 +7,16 @@ import com.wuda.foundation.commons.UpdateTreeNode;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.TreeNodeRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.*;
-import org.jooq.*;
+import com.wuda.foundation.lang.AlreadyExistsException;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
+import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.lang.RelatedDataExists;
+import org.jooq.Configuration;
+import org.jooq.DSLContext;
+import org.jooq.Record1;
+import org.jooq.Result;
+import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
@@ -73,6 +81,16 @@ public class TreeManagerImpl extends AbstractTreeManager implements JooqCommonDb
                 .fetchCount(TREE_NODE,
                         TREE_NODE.PARENT_TREE_NODE_ID.eq(ULong.valueOf(nodeId))
                                 .and(TREE_NODE.IS_DELETED.eq(notDeleted())));
+    }
+
+    @Override
+    public List getChildren(Long nodeId) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext();
+        Result<TreeNodeRecord> records = dslContext.selectFrom(TREE_NODE)
+                .where(TREE_NODE.PARENT_TREE_NODE_ID.eq(ULong.valueOf(nodeId)))
+                .and(TREE_NODE.IS_DELETED.eq(notDeleted()))
+                .fetch();
+        return copyFromItemCategoryRecords(records);
     }
 
     @Override

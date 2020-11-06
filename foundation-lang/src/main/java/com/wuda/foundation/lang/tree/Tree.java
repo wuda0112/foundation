@@ -72,9 +72,19 @@ public interface Tree<T extends Comparable<T>, E extends TreeNode<T>> {
     LinkedList<E> getAncestor(T id, int count);
 
     /**
-     * 获取root节点对应的{@link Treeable}.
+     * 获取给定节点的后裔.
      *
-     * @return root节点对应的{@link Treeable}.
+     * @param id node id
+     * @return 所有后裔
      */
-    Treeable<T, E> getRootTreeable();
+    LinkedList<E> getDescendant(T id);
+
+
+    /**
+     * 将起始节点及以下的所有节点生成{@link Treeable}.
+     *
+     * @param startIdInclusive 起始节点(包含)
+     * @return {@link Treeable}.
+     */
+    Treeable<T, E> toTreeable(T startIdInclusive);
 }

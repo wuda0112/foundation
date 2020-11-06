@@ -2,7 +2,11 @@ package com.wuda.foundation.notification.impl;
 
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.*;
+import com.wuda.foundation.lang.AlreadyExistsException;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
+import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.lang.RelatedDataExists;
 import com.wuda.foundation.notification.AbstractNotificationCategoryManager;
 import com.wuda.foundation.notification.CreateNotificationCategory;
 import com.wuda.foundation.notification.DescribeNotificationCategory;
@@ -62,6 +66,16 @@ public class NotificationCategoryManagerImpl extends AbstractNotificationCategor
         record.setLastModifyUserId(ULong.valueOf(opUserId));
         record.setLastModifyTime(LocalDateTime.now());
         return record;
+    }
+
+    @Override
+    public List<DescribeNotificationCategory> getChildren(Long nodeId) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext();
+        Result<NotificationCategoryRecord> records = dslContext.selectFrom(NOTIFICATION_CATEGORY)
+                .where(NOTIFICATION_CATEGORY.PARENT_NOTIFICATION_CATEGORY_ID.eq(ULong.valueOf(nodeId)))
+                .and(NOTIFICATION_CATEGORY.IS_DELETED.eq(notDeleted()))
+                .fetch();
+        return copyFromNotificationCategoryRecords(records);
     }
 
     @Override

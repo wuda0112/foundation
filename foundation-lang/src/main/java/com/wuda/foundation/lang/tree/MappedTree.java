@@ -1,5 +1,7 @@
 package com.wuda.foundation.lang.tree;
 
+import com.wuda.foundation.lang.utils.MyCollectionUtils;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -268,40 +270,15 @@ public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implemen
     }
 
     @Override
-    public Treeable<T, E> toTreeable(T startIdInclusive) {
-        E self = get(startIdInclusive);
+    public Treeable<T, E> getTreeable(T nodeId) {
+        E self = get(nodeId);
         if (self == null) {
             return null;
         }
-        Collection<E> nodes = getDescendant(startIdInclusive);
+        Collection<E> nodes = getDescendant(nodeId);
         nodes.add(self);
-        /**
-         * 节点ID对应的{@link Treeable}.
-         */
-        Map<T, Treeable<T, E>> id2Treeable = new HashMap<>(nodes.size());
-        /**
-         * 为每个节点都生成对应的{@link Treeable}.
-         */
-        for (E node : nodes) {
-            Treeable<T, E> treeable = new Treeable<>();
-            treeable.setNode(node);
-            id2Treeable.put(node.getId(), treeable);
-        }
-        Set<Map.Entry<T, Treeable<T, E>>> entrySet = id2Treeable.entrySet();
-        /**
-         * 为每个{@link Treeable}添加child.
-         */
-        for (Map.Entry<T, Treeable<T, E>> entry : entrySet) {
-            T id = entry.getKey();
-            Treeable<T, E> treeable = entry.getValue();
-            Set<T> childNodeIdSet = getDirectChildrenIdSet(id);
-            if (childNodeIdSet != null && !childNodeIdSet.isEmpty()) {
-                for (T childNodeId : childNodeIdSet) {
-                    Treeable<T, E> childTreeable = id2Treeable.get(childNodeId);
-                    treeable.addChild(childTreeable);
-                }
-            }
-        }
-        return id2Treeable.get(startIdInclusive);
+        Collection<Treeable<T, E>> treeables = IdPidEntryUtils.generateTreeable(nodes);
+        Map<T, Treeable<T, E>> id2Treeable = MyCollectionUtils.toMap(treeables, treeable -> treeable.getNode().getId());
+        return id2Treeable.get(nodeId);
     }
 }

@@ -2,7 +2,6 @@ package com.wuda.foundation.notification.impl;
 
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.IsDeleted;
@@ -31,7 +30,7 @@ public class NotificationCategoryManagerImpl extends AbstractNotificationCategor
     }
 
     @Override
-    protected void updateTreeNodeDbOp(UpdateNotificationCategory updateTreeNode, Long opUserId) throws AlreadyExistsException {
+    protected void updateTreeNodeDbOp(UpdateNotificationCategory updateTreeNode, Long opUserId) {
         NotificationCategoryRecord record = notificationCategoryRecordForUpdate(updateTreeNode, opUserId);
         updateSelectiveByPrimaryKey(JooqContext.getDataSource(), record);
     }
@@ -69,6 +68,14 @@ public class NotificationCategoryManagerImpl extends AbstractNotificationCategor
     }
 
     @Override
+    public int childCount(Long nodeId) {
+        return JooqContext.getOrCreateDSLContext(JooqContext.getDataSource())
+                .fetchCount(NOTIFICATION_CATEGORY,
+                        NOTIFICATION_CATEGORY.PARENT_NOTIFICATION_CATEGORY_ID.eq(ULong.valueOf(nodeId))
+                                .and(NOTIFICATION_CATEGORY.IS_DELETED.eq(notDeleted())));
+    }
+
+    @Override
     public List<DescribeNotificationCategory> getChildren(Long nodeId) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext();
         Result<NotificationCategoryRecord> records = dslContext.selectFrom(NOTIFICATION_CATEGORY)
@@ -92,6 +99,16 @@ public class NotificationCategoryManagerImpl extends AbstractNotificationCategor
                 .and(NOTIFICATION_CATEGORY.IS_DELETED.eq(notDeleted()))
                 .fetch();
         return copyFromNotificationCategoryRecords(records);
+    }
+
+    @Override
+    public boolean checkNameExists(Long parentId, String childName) {
+        int count = JooqContext.getOrCreateDSLContext(JooqContext.getDataSource())
+                .fetchCount(NOTIFICATION_CATEGORY,
+                        NOTIFICATION_CATEGORY.PARENT_NOTIFICATION_CATEGORY_ID.eq(ULong.valueOf(parentId))
+                                .and(NOTIFICATION_CATEGORY.NAME.eq(childName))
+                                .and(NOTIFICATION_CATEGORY.IS_DELETED.eq(notDeleted())));
+        return count > 0;
     }
 
     private DescribeNotificationCategory copyFromNotificationCategoryRecord(NotificationCategoryRecord record) {

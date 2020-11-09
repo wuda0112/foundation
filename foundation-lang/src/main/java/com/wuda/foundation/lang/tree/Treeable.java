@@ -7,12 +7,45 @@ import java.util.List;
 /**
  * 可以展示树形结构的类.该类主要的用法就是方便把树形结构生成Json,
  * 供Html等前端程序展示树形结构,理解这个类最直接的方式就是使用jackson等Json库输出Json,
- * 查看该Json的格式就可以很好理解了.
+ * 查看该Json的格式就可以很好理解了.比如
+ * <pre>
+ * <block>
+ * {
+ * 	"node": {
+ * 		"name": "湖南省",
+ * 		"id": 2,
+ * 		"pid": 1
+ *        },
+ * 	"children": [{
+ * 		"node": {
+ * 			"name": "张家界市",
+ * 			"id": 3,
+ * 			"pid": 2
+ *        },
+ * 		"children": [{
+ * 			"node": {
+ * 				"name": "桑植县",
+ * 				"id": 5,
+ * 				"pid": 3
+ *            },
+ * 			"children": null
+ *        }]
+ *    }, {
+ * 		"node": {
+ * 			"name": "长沙市",
+ * 			"id": 4,
+ * 			"pid": 2
+ *        },
+ * 		"children": null
+ *    }]
+ * }
+ * </block>
+ * </pre>
  *
  * @author wuda
  * @since 1.0.3
  */
-public class Treeable<T extends Comparable<T>, N extends TreeNode<T>> implements Serializable {
+public class Treeable<T extends Comparable<T>, N extends IdPidEntry<T>> implements Serializable {
     /**
      * 当前节点.
      */

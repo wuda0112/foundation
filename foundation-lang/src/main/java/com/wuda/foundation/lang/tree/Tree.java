@@ -81,10 +81,10 @@ public interface Tree<T extends Comparable<T>, E extends TreeNode<T>> {
 
 
     /**
-     * 将起始节点及以下的所有节点生成{@link Treeable}.
+     * 获取给定节点的{@link Treeable}.
      *
-     * @param startIdInclusive 起始节点(包含)
+     * @param nodeId 节点ID
      * @return {@link Treeable}.
      */
-    Treeable<T, E> toTreeable(T startIdInclusive);
+    Treeable<T, E> getTreeable(T nodeId);
 }

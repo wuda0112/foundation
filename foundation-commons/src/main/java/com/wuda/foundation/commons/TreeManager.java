@@ -26,7 +26,7 @@ public interface TreeManager<C extends CreateTreeNode, U extends UpdateTreeNode,
      * @param createMode     create mode
      * @param opUserId       操作者用户ID
      * @return 创建结果
-     * @throws AlreadyExistsException       如果已经存在
+     * @throws AlreadyExistsException       比如节点名称在同一个父节点下已经存在(同一个父节点下不允许存在同名的子节点)
      * @throws ParentNodeNotExistsException 父节点不存在
      */
     CreateResult createTreeNode(C createTreeNode, CreateMode createMode, Long opUserId) throws AlreadyExistsException, ParentNodeNotExistsException;
@@ -36,7 +36,7 @@ public interface TreeManager<C extends CreateTreeNode, U extends UpdateTreeNode,
      *
      * @param updateTreeNode 更新参数
      * @param opUserId       操作者用户ID
-     * @throws AlreadyExistsException 如果更新节点的名称,并且和当前节点平级的节点中已经有该名称的节点
+     * @throws AlreadyExistsException 比如更新后的节点名称在同一个父节点下已经存在(同一个父节点下不允许存在同名的子节点)
      */
     void updateNode(U updateTreeNode, Long opUserId) throws AlreadyExistsException;
 
@@ -117,5 +117,14 @@ public interface TreeManager<C extends CreateTreeNode, U extends UpdateTreeNode,
      * @return root节点的所有后裔, 如果给定的ID并不是root节点的ID, 则不会有节点返回, 可能为<code>null</code>,也可能为空集合
      */
     List<D> getDescendantOfRoot(Long rootId);
+
+    /**
+     * 在给定的父节点下是否已经存在指定名称的节点.
+     *
+     * @param parentId  parent id
+     * @param childName 子节点名称
+     * @return <code>true</code>-如果存在
+     */
+    boolean checkNameExists(Long parentId, String childName);
 
 }

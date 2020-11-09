@@ -6,11 +6,22 @@ import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.RelatedDataExists;
 import com.wuda.foundation.lang.tree.IdPidEntryUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 通用树形管理的抽象实现类.
+ *
+ * @param <C> 用于创建节点的参数的类型
+ * @param <U> 用于更新节点的参数的类型
+ * @param <D> 用于描述节点的类型
+ * @author wuda
+ * @since 1.0.3
+ */
 public abstract class AbstractTreeManager<C extends CreateTreeNode, U extends UpdateTreeNode, D extends DescribeTreeNode> implements TreeManager<C, U, D> {
+
     @Override
     public CreateResult createTreeNode(C createTreeNode, CreateMode createMode, Long opUserId) throws AlreadyExistsException, ParentNodeNotExistsException {
         boolean isCreatingRootTreeNode = isCreatingRootTreeNode(createTreeNode);
@@ -20,6 +31,10 @@ public abstract class AbstractTreeManager<C extends CreateTreeNode, U extends Up
             if (parentTreeNode == null) {
                 throw new ParentNodeNotExistsException("parent tree node id = " + createTreeNode.parentId + ",不存在");
             }
+        }
+        boolean nameExists = checkNameExists(createTreeNode.parentId, createTreeNode.name);
+        if (nameExists) {
+            throw new AlreadyExistsException("parent tree node id = " + createTreeNode.parentId + ",已经存在名称为 " + createTreeNode.name + " 的子节点");
         }
         supplementArg(createTreeNode, isCreatingRootTreeNode, parentTreeNode);
         CreateResult createResult = createTreeNodeDbOp(createTreeNode, createMode, opUserId);
@@ -54,14 +69,36 @@ public abstract class AbstractTreeManager<C extends CreateTreeNode, U extends Up
         creating.setDepth(depth);
     }
 
+    /**
+     * 新增节点实际执行的数据库操作.
+     *
+     * @param createTreeNode 创建节点的参数
+     * @param createMode     create mode
+     * @param opUserId       操作人用户ID
+     * @return 新建的节点的ID
+     */
     protected abstract CreateResult createTreeNodeDbOp(C createTreeNode, CreateMode createMode, Long opUserId);
 
     @Override
     public void updateNode(U updateTreeNode, Long opUserId) throws AlreadyExistsException {
+        D existsTreeNode = getTreeNode(updateTreeNode.id);
+        if (StringUtils.equals(existsTreeNode.name, updateTreeNode.name)) {
+            // 更新了名称,需要检查名称是否已经存在
+            boolean nameExists = checkNameExists(existsTreeNode.getParentId(), updateTreeNode.name);
+            if (nameExists) {
+                throw new AlreadyExistsException("parent tree node id = " + existsTreeNode.parentId + ",已经存在名称为 " + updateTreeNode.name + " 的子节点");
+            }
+        }
         updateTreeNodeDbOp(updateTreeNode, opUserId);
     }
 
-    protected abstract void updateTreeNodeDbOp(U updateTreeNode, Long opUserId) throws AlreadyExistsException;
+    /**
+     * 更新节点实际执行的数据库操作.
+     *
+     * @param opUserId       操作人用户ID
+     * @param updateTreeNode 更新节点的参数
+     */
+    protected abstract void updateTreeNodeDbOp(U updateTreeNode, Long opUserId);
 
     @Override
     public void deleteTreeNode(Long nodeId, Long opUserId) throws RelatedDataExists {
@@ -72,6 +109,12 @@ public abstract class AbstractTreeManager<C extends CreateTreeNode, U extends Up
         deleteTreeNodeDbOp(nodeId, opUserId);
     }
 
+    /**
+     * 删除节点实际执行的数据库操作.
+     *
+     * @param opUserId 操作人用户ID
+     * @param nodeId   节点ID
+     */
     protected abstract void deleteTreeNodeDbOp(Long nodeId, Long opUserId) throws RelatedDataExists;
 
     @Override

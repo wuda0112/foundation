@@ -89,7 +89,7 @@ class IntIdTreeTestBase {
             builder.add(tree, nodes);
             TreeUtils.print(tree, root.getId());
 
-            Treeable<Integer, MyTreeNode> treeable = tree.toTreeable(hunan_province.id);
+            Treeable<Integer, MyTreeNode> treeable = tree.getTreeable(hunan_province.id);
             ObjectMapper objectMapper = new ObjectMapper();
             try {
                 String json = objectMapper.writeValueAsString(treeable);

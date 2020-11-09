@@ -7,7 +7,6 @@ import com.wuda.foundation.item.UpdateItemCategory;
 import com.wuda.foundation.item.impl.jooq.generation.tables.records.ItemCategoryRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.IsDeleted;
@@ -58,7 +57,7 @@ public class ItemCategoryManagerImpl extends AbstractItemCategoryManager impleme
     }
 
     @Override
-    protected void updateTreeNodeDbOp(UpdateItemCategory updateItemCategory, Long opUserId) throws AlreadyExistsException {
+    protected void updateTreeNodeDbOp(UpdateItemCategory updateItemCategory, Long opUserId) {
         ItemCategoryRecord record = itemCategoryRecordForUpdate(updateItemCategory, opUserId);
         updateSelectiveByPrimaryKey(JooqContext.getDataSource(), record);
     }
@@ -92,6 +91,16 @@ public class ItemCategoryManagerImpl extends AbstractItemCategoryManager impleme
                 .and(ITEM_CATEGORY.IS_DELETED.eq(notDeleted()))
                 .fetch();
         return copyFromItemCategoryRecords(records);
+    }
+
+    @Override
+    public boolean checkNameExists(Long parentId, String childName) {
+        int count = JooqContext.getOrCreateDSLContext(JooqContext.getDataSource())
+                .fetchCount(ITEM_CATEGORY,
+                        ITEM_CATEGORY.PARENT_ITEM_CATEGORY_ID.eq(ULong.valueOf(parentId))
+                                .and(ITEM_CATEGORY.NAME.eq(childName))
+                                .and(ITEM_CATEGORY.IS_DELETED.eq(notDeleted())));
+        return count > 0;
     }
 
     private ItemCategoryRecord itemCategoryRecordForInsert(CreateItemCategory createItemCategory, Long opUserId) {

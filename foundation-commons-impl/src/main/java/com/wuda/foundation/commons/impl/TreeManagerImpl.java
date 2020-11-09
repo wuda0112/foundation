@@ -36,7 +36,7 @@ public class TreeManagerImpl extends AbstractTreeManager implements JooqCommonDb
     }
 
     @Override
-    public void updateTreeNodeDbOp(UpdateTreeNode updateTreeNode, Long opUserId) throws AlreadyExistsException {
+    public void updateTreeNodeDbOp(UpdateTreeNode updateTreeNode, Long opUserId) {
 
     }
 
@@ -107,6 +107,11 @@ public class TreeManagerImpl extends AbstractTreeManager implements JooqCommonDb
                 .and(TREE_NODE.IS_DELETED.eq(notDeleted()))
                 .fetch();
         return copyFromItemCategoryRecords(records);
+    }
+
+    @Override
+    public boolean checkNameExists(Long parentId, String childName) {
+        return false;
     }
 
     private DescribeTreeNode copyFromTreeNodeRecord(TreeNodeRecord record) {

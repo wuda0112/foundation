@@ -1,5 +1,7 @@
 package com.wuda.foundation.lang.tree;
 
+import com.wuda.foundation.lang.utils.MyCollectionUtils;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -127,6 +129,22 @@ public class IdPidEntryUtils {
         getAncestor(pid, candidates, ancestor);
     }
 
+    /**
+     * 为给定的ID寻找所有children.
+     *
+     * @param id         给定的ID
+     * @param candidates 候选实体
+     * @param <T>        ID的类型
+     * @param <E>        具有id-pid关系的实体的类型
+     */
+    public static <T extends Comparable<T>, E extends IdPidEntry<T>> List<E> getChildren(T id, Collection<E> candidates) {
+        if (id == null || candidates == null || candidates.isEmpty()) {
+            return null;
+        }
+        Map<T, List<E>> childrenByPidMap = groupByPid(candidates);
+        return childrenByPidMap.get(id);
+    }
+
 
     /**
      * 在连续的具有id-pid关系的节点中,获取处于最上层的节点.比如有如下的树形结构
@@ -201,5 +219,89 @@ public class IdPidEntryUtils {
             nextCandidates.add(parentEntry);
         }
         return getTop(nextCandidates, topSet);
+    }
+
+    /**
+     * 请查看{@link #getTop(Collection, Set)}的说明.
+     *
+     * @param candidates 候选节点
+     * @param <T>        节点的ID的数据类型
+     * @param <E>        节点的类型
+     * @return top list
+     */
+    public static <T extends Comparable<T>, E extends IdPidEntry<T>> List<E> getTop(Collection<E> candidates) {
+        Set<T> topIdSet = new HashSet<>();
+        getTop(candidates, topIdSet);
+        List<E> list = new ArrayList<>(topIdSet.size());
+        Map<T, E> entryByIdMap = groupById(candidates);
+        for (T id : topIdSet) {
+            E e = entryByIdMap.get(id);
+            if (e != null) {
+                list.add(e);
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 生成并且返回所有处于top的{@link Treeable}.关于top的定义,查看{@link #getTop(Collection, Set)}方法的说明.
+     *
+     * @param entryList 具有id-pid关系的实体
+     * @param <T>       节点的ID的数据类型
+     * @param <E>       节点的类型
+     * @return top list
+     */
+    public static <T extends Comparable<T>, E extends IdPidEntry<T>> List<Treeable<T, E>> generateAndGetTopTreeable(List<E> entryList) {
+        Collection<Treeable<T, E>> treeableList = generateTreeable(entryList);
+        Map<T, Treeable<T, E>> id2Treeable = MyCollectionUtils.toMap(treeableList, treeable -> treeable.getNode().getId());
+        List<E> topEntryList = getTop(entryList);
+        List<Treeable<T, E>> topTreeableList = new ArrayList<>(topEntryList.size());
+        for (E topEntry : topEntryList) {
+            Treeable<T, E> treeable = id2Treeable.get(topEntry.getId());
+            topTreeableList.add(treeable);
+        }
+        return topTreeableList;
+    }
+
+    /**
+     * 为每个{@link IdPidEntry}生成对应的{@link Treeable}.
+     *
+     * @param entryCollection 具有id-pid关系的实体
+     * @param <T>             节点的ID的数据类型
+     * @param <E>             节点的类型
+     * @return {@link Treeable} list
+     */
+    public static <T extends Comparable<T>, E extends IdPidEntry<T>> Collection<Treeable<T, E>> generateTreeable(Collection<E> entryCollection) {
+        if (entryCollection == null || entryCollection.isEmpty()) {
+            return null;
+        }
+        /**
+         * ID对应的{@link Treeable}.
+         */
+        Map<T, Treeable<T, E>> id2Treeable = new HashMap<>(entryCollection.size());
+        /**
+         * 为每个entry都生成对应的{@link Treeable}.
+         */
+        for (E entry : entryCollection) {
+            Treeable<T, E> treeable = new Treeable<>();
+            treeable.setNode(entry);
+            id2Treeable.put(entry.getId(), treeable);
+        }
+        Set<Map.Entry<T, Treeable<T, E>>> mapEntrySet = id2Treeable.entrySet();
+        /**
+         * 为每个{@link Treeable}添加child.
+         */
+        for (Map.Entry<T, Treeable<T, E>> mapEntry : mapEntrySet) {
+            T id = mapEntry.getKey();
+            Treeable<T, E> treeable = mapEntry.getValue();
+            List<E> children = getChildren(id, entryCollection);
+            if (children != null && !children.isEmpty()) {
+                for (E child : children) {
+                    Treeable<T, E> childTreeable = id2Treeable.get(child.getId());
+                    treeable.addChild(childTreeable);
+                }
+            }
+        }
+        return id2Treeable.values();
     }
 }

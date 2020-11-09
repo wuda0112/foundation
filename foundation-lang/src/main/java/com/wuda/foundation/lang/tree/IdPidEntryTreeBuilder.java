@@ -24,7 +24,7 @@ public class IdPidEntryTreeBuilder<T extends Comparable<T>, Z extends TreeNode<T
      * 向已经存在的{@link Tree}中添加新的节点.
      *
      * @param tree  已经存在的{@link Tree}
-     * @param nodes 新的节点
+     * @param nodes 新的节点,如果这些节点是不连续的,则不能完整的生成树
      */
     public void add(Tree<T, Z> tree, List<Z> nodes) {
         if (nodes == null || nodes.isEmpty()) {

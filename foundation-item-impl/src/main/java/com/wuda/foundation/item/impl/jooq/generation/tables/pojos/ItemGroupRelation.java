@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
 
 /**
@@ -16,11 +17,12 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemGroupRelation implements Serializable {
 
-    private static final long serialVersionUID = -2035069771;
+    private static final long serialVersionUID = -705229805;
 
     private ULong         id;
     private ULong         itemId;
-    private ULong         groupId;
+    private UShort        groupType;
+    private ULong         groupIdentifier;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private LocalDateTime lastModifyTime;
@@ -32,7 +34,8 @@ public class ItemGroupRelation implements Serializable {
     public ItemGroupRelation(ItemGroupRelation value) {
         this.id = value.id;
         this.itemId = value.itemId;
-        this.groupId = value.groupId;
+        this.groupType = value.groupType;
+        this.groupIdentifier = value.groupIdentifier;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.lastModifyTime = value.lastModifyTime;
@@ -43,7 +46,8 @@ public class ItemGroupRelation implements Serializable {
     public ItemGroupRelation(
         ULong         id,
         ULong         itemId,
-        ULong         groupId,
+        UShort        groupType,
+        ULong         groupIdentifier,
         LocalDateTime createTime,
         ULong         createUserId,
         LocalDateTime lastModifyTime,
@@ -52,7 +56,8 @@ public class ItemGroupRelation implements Serializable {
     ) {
         this.id = id;
         this.itemId = itemId;
-        this.groupId = groupId;
+        this.groupType = groupType;
+        this.groupIdentifier = groupIdentifier;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.lastModifyTime = lastModifyTime;
@@ -76,12 +81,20 @@ public class ItemGroupRelation implements Serializable {
         this.itemId = itemId;
     }
 
-    public ULong getGroupId() {
-        return this.groupId;
+    public UShort getGroupType() {
+        return this.groupType;
     }
 
-    public void setGroupId(ULong groupId) {
-        this.groupId = groupId;
+    public void setGroupType(UShort groupType) {
+        this.groupType = groupType;
+    }
+
+    public ULong getGroupIdentifier() {
+        return this.groupIdentifier;
+    }
+
+    public void setGroupIdentifier(ULong groupIdentifier) {
+        this.groupIdentifier = groupIdentifier;
     }
 
     public LocalDateTime getCreateTime() {
@@ -130,7 +143,8 @@ public class ItemGroupRelation implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(itemId);
-        sb.append(", ").append(groupId);
+        sb.append(", ").append(groupType);
+        sb.append(", ").append(groupIdentifier);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(lastModifyTime);

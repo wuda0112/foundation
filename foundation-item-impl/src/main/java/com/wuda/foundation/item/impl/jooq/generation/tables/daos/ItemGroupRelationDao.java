@@ -13,6 +13,7 @@ import java.util.List;
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
 import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
 
 /**
@@ -76,17 +77,31 @@ public class ItemGroupRelationDao extends DAOImpl<ItemGroupRelationRecord, com.w
     }
 
     /**
-     * Fetch records that have <code>group_id BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>group_type BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemGroupRelation> fetchRangeOfGroupId(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(ItemGroupRelation.ITEM_GROUP_RELATION.GROUP_ID, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemGroupRelation> fetchRangeOfGroupType(UShort lowerInclusive, UShort upperInclusive) {
+        return fetchRange(ItemGroupRelation.ITEM_GROUP_RELATION.GROUP_TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>group_id IN (values)</code>
+     * Fetch records that have <code>group_type IN (values)</code>
      */
-    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemGroupRelation> fetchByGroupId(ULong... values) {
-        return fetch(ItemGroupRelation.ITEM_GROUP_RELATION.GROUP_ID, values);
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemGroupRelation> fetchByGroupType(UShort... values) {
+        return fetch(ItemGroupRelation.ITEM_GROUP_RELATION.GROUP_TYPE, values);
+    }
+
+    /**
+     * Fetch records that have <code>group_identifier BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemGroupRelation> fetchRangeOfGroupIdentifier(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(ItemGroupRelation.ITEM_GROUP_RELATION.GROUP_IDENTIFIER, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>group_identifier IN (values)</code>
+     */
+    public List<com.wuda.foundation.item.impl.jooq.generation.tables.pojos.ItemGroupRelation> fetchByGroupIdentifier(ULong... values) {
+        return fetch(ItemGroupRelation.ITEM_GROUP_RELATION.GROUP_IDENTIFIER, values);
     }
 
     /**

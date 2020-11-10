@@ -19,7 +19,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row8;
+import org.jooq.Row9;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -28,6 +28,7 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
 import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
 
 /**
@@ -36,7 +37,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ItemGroupRelation extends TableImpl<ItemGroupRelationRecord> {
 
-    private static final long serialVersionUID = 85109661;
+    private static final long serialVersionUID = 520644918;
 
     /**
      * The reference instance of <code>foundation_item.item_group_relation</code>
@@ -62,9 +63,14 @@ public class ItemGroupRelation extends TableImpl<ItemGroupRelationRecord> {
     public final TableField<ItemGroupRelationRecord, ULong> ITEM_ID = createField(DSL.name("item_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>foundation_item.item_group_relation.group_id</code>.
+     * The column <code>foundation_item.item_group_relation.group_type</code>. 组的类型，比如店铺是一种组
      */
-    public final TableField<ItemGroupRelationRecord, ULong> GROUP_ID = createField(DSL.name("group_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<ItemGroupRelationRecord, UShort> GROUP_TYPE = createField(DSL.name("group_type"), org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "组的类型，比如店铺是一种组");
+
+    /**
+     * The column <code>foundation_item.item_group_relation.group_identifier</code>. 组的identifier，比如当group_type为店铺时，则组的唯一标记就是店铺ID
+     */
+    public final TableField<ItemGroupRelationRecord, ULong> GROUP_IDENTIFIER = createField(DSL.name("group_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "组的identifier，比如当group_type为店铺时，则组的唯一标记就是店铺ID");
 
     /**
      * The column <code>foundation_item.item_group_relation.create_time</code>.
@@ -131,7 +137,7 @@ public class ItemGroupRelation extends TableImpl<ItemGroupRelationRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.ITEM_GROUP_RELATION_IDX_GROUP_ID, Indexes.ITEM_GROUP_RELATION_IDX_ITEM_ID);
+        return Arrays.<Index>asList(Indexes.ITEM_GROUP_RELATION_IDX_ITEM_ID);
     }
 
     @Override
@@ -176,11 +182,11 @@ public class ItemGroupRelation extends TableImpl<ItemGroupRelationRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<ULong, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row9<ULong, ULong, UShort, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 }

@@ -10,19 +10,20 @@ import java.time.LocalDateTime;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record8;
-import org.jooq.Row8;
+import org.jooq.Record9;
+import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
 
 /**
  * 表示item所属的组。比如店铺是一种组，分类也是一种组，等等。item与所有的组的关系都记录在这个表里。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class ItemGroupRelationRecord extends UpdatableRecordImpl<ItemGroupRelationRecord> implements Record8<ULong, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class ItemGroupRelationRecord extends UpdatableRecordImpl<ItemGroupRelationRecord> implements Record9<ULong, ULong, UShort, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 287913218;
+    private static final long serialVersionUID = -1997782001;
 
     /**
      * Setter for <code>foundation_item.item_group_relation.id</code>.
@@ -53,87 +54,101 @@ public class ItemGroupRelationRecord extends UpdatableRecordImpl<ItemGroupRelati
     }
 
     /**
-     * Setter for <code>foundation_item.item_group_relation.group_id</code>.
+     * Setter for <code>foundation_item.item_group_relation.group_type</code>. 组的类型，比如店铺是一种组
      */
-    public void setGroupId(ULong value) {
+    public void setGroupType(UShort value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>foundation_item.item_group_relation.group_id</code>.
+     * Getter for <code>foundation_item.item_group_relation.group_type</code>. 组的类型，比如店铺是一种组
      */
-    public ULong getGroupId() {
-        return (ULong) get(2);
+    public UShort getGroupType() {
+        return (UShort) get(2);
+    }
+
+    /**
+     * Setter for <code>foundation_item.item_group_relation.group_identifier</code>. 组的identifier，比如当group_type为店铺时，则组的唯一标记就是店铺ID
+     */
+    public void setGroupIdentifier(ULong value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>foundation_item.item_group_relation.group_identifier</code>. 组的identifier，比如当group_type为店铺时，则组的唯一标记就是店铺ID
+     */
+    public ULong getGroupIdentifier() {
+        return (ULong) get(3);
     }
 
     /**
      * Setter for <code>foundation_item.item_group_relation.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
-        set(3, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_group_relation.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
-        return (LocalDateTime) get(3);
+        return (LocalDateTime) get(4);
     }
 
     /**
      * Setter for <code>foundation_item.item_group_relation.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
-        set(4, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_group_relation.create_user_id</code>.
      */
     public ULong getCreateUserId() {
-        return (ULong) get(4);
+        return (ULong) get(5);
     }
 
     /**
      * Setter for <code>foundation_item.item_group_relation.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
-        set(5, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_group_relation.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
-        return (LocalDateTime) get(5);
+        return (LocalDateTime) get(6);
     }
 
     /**
      * Setter for <code>foundation_item.item_group_relation.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
-        set(6, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_group_relation.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
-        return (ULong) get(6);
+        return (ULong) get(7);
     }
 
     /**
      * Setter for <code>foundation_item.item_group_relation.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
-        set(7, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>foundation_item.item_group_relation.is_deleted</code>.
      */
     public ULong getIsDeleted() {
-        return (ULong) get(7);
+        return (ULong) get(8);
     }
 
     // -------------------------------------------------------------------------
@@ -146,17 +161,17 @@ public class ItemGroupRelationRecord extends UpdatableRecordImpl<ItemGroupRelati
     }
 
     // -------------------------------------------------------------------------
-    // Record8 type implementation
+    // Record9 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<ULong, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row9<ULong, ULong, UShort, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row9) super.fieldsRow();
     }
 
     @Override
-    public Row8<ULong, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
-        return (Row8) super.valuesRow();
+    public Row9<ULong, ULong, UShort, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+        return (Row9) super.valuesRow();
     }
 
     @Override
@@ -170,32 +185,37 @@ public class ItemGroupRelationRecord extends UpdatableRecordImpl<ItemGroupRelati
     }
 
     @Override
-    public Field<ULong> field3() {
-        return ItemGroupRelation.ITEM_GROUP_RELATION.GROUP_ID;
+    public Field<UShort> field3() {
+        return ItemGroupRelation.ITEM_GROUP_RELATION.GROUP_TYPE;
     }
 
     @Override
-    public Field<LocalDateTime> field4() {
+    public Field<ULong> field4() {
+        return ItemGroupRelation.ITEM_GROUP_RELATION.GROUP_IDENTIFIER;
+    }
+
+    @Override
+    public Field<LocalDateTime> field5() {
         return ItemGroupRelation.ITEM_GROUP_RELATION.CREATE_TIME;
     }
 
     @Override
-    public Field<ULong> field5() {
+    public Field<ULong> field6() {
         return ItemGroupRelation.ITEM_GROUP_RELATION.CREATE_USER_ID;
     }
 
     @Override
-    public Field<LocalDateTime> field6() {
+    public Field<LocalDateTime> field7() {
         return ItemGroupRelation.ITEM_GROUP_RELATION.LAST_MODIFY_TIME;
     }
 
     @Override
-    public Field<ULong> field7() {
+    public Field<ULong> field8() {
         return ItemGroupRelation.ITEM_GROUP_RELATION.LAST_MODIFY_USER_ID;
     }
 
     @Override
-    public Field<ULong> field8() {
+    public Field<ULong> field9() {
         return ItemGroupRelation.ITEM_GROUP_RELATION.IS_DELETED;
     }
 
@@ -210,32 +230,37 @@ public class ItemGroupRelationRecord extends UpdatableRecordImpl<ItemGroupRelati
     }
 
     @Override
-    public ULong component3() {
-        return getGroupId();
+    public UShort component3() {
+        return getGroupType();
     }
 
     @Override
-    public LocalDateTime component4() {
+    public ULong component4() {
+        return getGroupIdentifier();
+    }
+
+    @Override
+    public LocalDateTime component5() {
         return getCreateTime();
     }
 
     @Override
-    public ULong component5() {
+    public ULong component6() {
         return getCreateUserId();
     }
 
     @Override
-    public LocalDateTime component6() {
+    public LocalDateTime component7() {
         return getLastModifyTime();
     }
 
     @Override
-    public ULong component7() {
+    public ULong component8() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong component8() {
+    public ULong component9() {
         return getIsDeleted();
     }
 
@@ -250,32 +275,37 @@ public class ItemGroupRelationRecord extends UpdatableRecordImpl<ItemGroupRelati
     }
 
     @Override
-    public ULong value3() {
-        return getGroupId();
+    public UShort value3() {
+        return getGroupType();
     }
 
     @Override
-    public LocalDateTime value4() {
+    public ULong value4() {
+        return getGroupIdentifier();
+    }
+
+    @Override
+    public LocalDateTime value5() {
         return getCreateTime();
     }
 
     @Override
-    public ULong value5() {
+    public ULong value6() {
         return getCreateUserId();
     }
 
     @Override
-    public LocalDateTime value6() {
+    public LocalDateTime value7() {
         return getLastModifyTime();
     }
 
     @Override
-    public ULong value7() {
+    public ULong value8() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong value8() {
+    public ULong value9() {
         return getIsDeleted();
     }
 
@@ -292,43 +322,49 @@ public class ItemGroupRelationRecord extends UpdatableRecordImpl<ItemGroupRelati
     }
 
     @Override
-    public ItemGroupRelationRecord value3(ULong value) {
-        setGroupId(value);
+    public ItemGroupRelationRecord value3(UShort value) {
+        setGroupType(value);
         return this;
     }
 
     @Override
-    public ItemGroupRelationRecord value4(LocalDateTime value) {
+    public ItemGroupRelationRecord value4(ULong value) {
+        setGroupIdentifier(value);
+        return this;
+    }
+
+    @Override
+    public ItemGroupRelationRecord value5(LocalDateTime value) {
         setCreateTime(value);
         return this;
     }
 
     @Override
-    public ItemGroupRelationRecord value5(ULong value) {
+    public ItemGroupRelationRecord value6(ULong value) {
         setCreateUserId(value);
         return this;
     }
 
     @Override
-    public ItemGroupRelationRecord value6(LocalDateTime value) {
+    public ItemGroupRelationRecord value7(LocalDateTime value) {
         setLastModifyTime(value);
         return this;
     }
 
     @Override
-    public ItemGroupRelationRecord value7(ULong value) {
+    public ItemGroupRelationRecord value8(ULong value) {
         setLastModifyUserId(value);
         return this;
     }
 
     @Override
-    public ItemGroupRelationRecord value8(ULong value) {
+    public ItemGroupRelationRecord value9(ULong value) {
         setIsDeleted(value);
         return this;
     }
 
     @Override
-    public ItemGroupRelationRecord values(ULong value1, ULong value2, ULong value3, LocalDateTime value4, ULong value5, LocalDateTime value6, ULong value7, ULong value8) {
+    public ItemGroupRelationRecord values(ULong value1, ULong value2, UShort value3, ULong value4, LocalDateTime value5, ULong value6, LocalDateTime value7, ULong value8, ULong value9) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -337,6 +373,7 @@ public class ItemGroupRelationRecord extends UpdatableRecordImpl<ItemGroupRelati
         value6(value6);
         value7(value7);
         value8(value8);
+        value9(value9);
         return this;
     }
 
@@ -354,16 +391,17 @@ public class ItemGroupRelationRecord extends UpdatableRecordImpl<ItemGroupRelati
     /**
      * Create a detached, initialised ItemGroupRelationRecord
      */
-    public ItemGroupRelationRecord(ULong id, ULong itemId, ULong groupId, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public ItemGroupRelationRecord(ULong id, ULong itemId, UShort groupType, ULong groupIdentifier, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(ItemGroupRelation.ITEM_GROUP_RELATION);
 
         set(0, id);
         set(1, itemId);
-        set(2, groupId);
-        set(3, createTime);
-        set(4, createUserId);
-        set(5, lastModifyTime);
-        set(6, lastModifyUserId);
-        set(7, isDeleted);
+        set(2, groupType);
+        set(3, groupIdentifier);
+        set(4, createTime);
+        set(5, createUserId);
+        set(6, lastModifyTime);
+        set(7, lastModifyUserId);
+        set(8, isDeleted);
     }
 }

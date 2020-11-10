@@ -7,12 +7,15 @@ import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.FoundationContext;
 import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.lang.identify.BuiltinIdentifierTypes;
+import com.wuda.foundation.lang.identify.IdentifierType;
 import org.jooq.Configuration;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,22 +43,23 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     }
 
     private void createItemCategoryRelation(Long categoryId, Long itemId, Long opUserId) {
-        ItemGroupRelationRecord itemGroupRelationRecord = itemGroupRelationRecordForInsert(categoryId, itemId, opUserId);
+        ItemGroupRelationRecord itemGroupRelationRecord = itemGroupRelationRecordForInsert(BuiltinIdentifierTypes.ITEM_CATEGORY, categoryId, itemId, opUserId);
         attach(JooqContext.getDataSource(), itemGroupRelationRecord);
         itemGroupRelationRecord.insert();
     }
 
     private void createItemStoreRelation(Long storeId, Long itemId, Long opUserId) {
-        ItemGroupRelationRecord itemGroupRelationRecord = itemGroupRelationRecordForInsert(storeId, itemId, opUserId);
+        ItemGroupRelationRecord itemGroupRelationRecord = itemGroupRelationRecordForInsert(BuiltinIdentifierTypes.TABLE_STORE, storeId, itemId, opUserId);
         attach(JooqContext.getDataSource(), itemGroupRelationRecord);
         itemGroupRelationRecord.insert();
     }
 
-    private ItemGroupRelationRecord itemGroupRelationRecordForInsert(Long groupId, Long itemId, Long opUserId) {
+    private ItemGroupRelationRecord itemGroupRelationRecordForInsert(IdentifierType groupType, Long groupId, Long itemId, Long opUserId) {
         long id = FoundationContext.getLongKeyGenerator().next();
         LocalDateTime now = LocalDateTime.now();
         return new ItemGroupRelationRecord(ULong.valueOf(id),
                 ULong.valueOf(itemId),
+                UShort.valueOf(groupType.getCode()),
                 ULong.valueOf(groupId),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }

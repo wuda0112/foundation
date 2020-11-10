@@ -11,10 +11,12 @@ import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.RelatedDataExists;
+import com.wuda.foundation.lang.identify.BuiltinIdentifierTypes;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,7 +31,8 @@ public class ItemCategoryManagerImpl extends AbstractItemCategoryManager impleme
     protected int itemCountInCategoryDbOp(Long categoryId) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(JooqContext.getDataSource());
         return dslContext.fetchCount(ITEM_GROUP_RELATION,
-                ITEM_GROUP_RELATION.GROUP_ID.eq(ULong.valueOf(categoryId))
+                ITEM_GROUP_RELATION.GROUP_IDENTIFIER.eq(ULong.valueOf(categoryId))
+                        .and(ITEM_GROUP_RELATION.GROUP_TYPE.eq(UShort.valueOf(BuiltinIdentifierTypes.ITEM_CATEGORY.getCode())))
                         .and(ITEM_GROUP_RELATION.IS_DELETED.eq(notDeleted())));
     }
 

@@ -22,6 +22,11 @@ public class BuiltinIdentifierTypes {
     public final static IdentifierType TABLE_STORE = new IdentifierTypeImpl(2, "表示store表");
 
     /**
+     * 表示item_category表.
+     */
+    public final static IdentifierType ITEM_CATEGORY = new IdentifierTypeImpl(2, "表示item_category表");
+
+    /**
      * 不需要实例化.
      */
     private BuiltinIdentifierTypes(){

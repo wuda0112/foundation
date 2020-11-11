@@ -33,13 +33,6 @@ public abstract class AbstractStoreManager implements StoreManager {
         directBatchInsertStoreGeneralDbOp(createStoreGenerals, opUserId);
     }
 
-    @Override
-    public void directBatchBindStoreUser(List<BindStoreUser> bindStoreUserList, Long opUserId) {
-        directBatchBindStoreUserDbOp(bindStoreUserList, opUserId);
-    }
-
-    protected abstract void directBatchBindStoreUserDbOp(List<BindStoreUser> bindStoreUserList, Long opUserId);
-
     protected abstract void directBatchInsertStoreGeneralDbOp(List<CreateStoreGeneral> createStoreGenerals, Long opUserId);
 
     protected abstract long createOrUpdateStoreGeneralDbOp(CreateStoreGeneral createStoreGeneral, CreateMode createMode, Long opUserId);

@@ -37,7 +37,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class StoreCore extends TableImpl<StoreCoreRecord> {
 
-    private static final long serialVersionUID = 1998777469;
+    private static final long serialVersionUID = 223724045;
 
     /**
      * The reference instance of <code>foundation_store.store_core</code>
@@ -58,9 +58,9 @@ public class StoreCore extends TableImpl<StoreCoreRecord> {
     public final TableField<StoreCoreRecord, ULong> STORE_CORE_ID = createField(DSL.name("store_core_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>foundation_store.store_core.store_id</code>. store id
+     * The column <code>foundation_store.store_core.store_id</code>. store id。一定和【group_core.group_id】相等，因为【store is a group】。
      */
-    public final TableField<StoreCoreRecord, ULong> STORE_ID = createField(DSL.name("store_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "store id");
+    public final TableField<StoreCoreRecord, ULong> STORE_ID = createField(DSL.name("store_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "store id。一定和【group_core.group_id】相等，因为【store is a group】。");
 
     /**
      * The column <code>foundation_store.store_core.type</code>. 店铺类型

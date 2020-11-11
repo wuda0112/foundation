@@ -3,12 +3,17 @@ package com.wuda.foundation.store.impl;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.CreateMode;
-import com.wuda.foundation.lang.FoundationContext;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.store.*;
+import com.wuda.foundation.lang.identify.BuiltinIdentifierTypes;
+import com.wuda.foundation.lang.identify.LongIdentifier;
+import com.wuda.foundation.store.AbstractStoreManager;
+import com.wuda.foundation.store.CreateStoreCore;
+import com.wuda.foundation.store.CreateStoreGeneral;
+import com.wuda.foundation.store.UpdateStoreGeneral;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreCoreRecord;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreGeneralRecord;
-import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreUserRelationshipRecord;
+import com.wuda.foundation.user.UserBelongsToGroupManager;
+import com.wuda.foundation.user.UserJoinGroupRequest;
 import org.jooq.Configuration;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
@@ -25,11 +30,11 @@ import java.util.function.Consumer;
 
 import static com.wuda.foundation.store.impl.jooq.generation.tables.StoreCore.STORE_CORE;
 import static com.wuda.foundation.store.impl.jooq.generation.tables.StoreGeneral.STORE_GENERAL;
-import static com.wuda.foundation.store.impl.jooq.generation.tables.StoreUserRelationship.STORE_USER_RELATIONSHIP;
 
 public class StoreManagerImpl extends AbstractStoreManager implements JooqCommonDbOp {
 
     private DataSource dataSource;
+    private UserBelongsToGroupManager userBelongsToGroupManager;
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -47,19 +52,12 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
     @Override
     public long createStoreCoreDbOp(Long ownerUserId, CreateStoreCore createStoreCore, Long opUserId) {
         long storeCoreId = insert(dataSource, STORE_CORE, storeRecordForInsert(createStoreCore, opUserId)).getRecordId();
-        BindStoreUser bindStoreUser = new BindStoreUser.Builder()
-                .setId(FoundationContext.getLongKeyGenerator().next())
-                .setStoreId(createStoreCore.getStoreId())
+        UserJoinGroupRequest userJoinGroupRequest = new UserJoinGroupRequest.Builder()
                 .setUserId(ownerUserId)
-                .isStoreOwner(true)
+                .setGroup(new LongIdentifier(createStoreCore.getStoreId(), BuiltinIdentifierTypes.TABLE_STORE))
                 .build();
-        insert(dataSource, STORE_USER_RELATIONSHIP, storeUserRelationshipRecordForInsert(bindStoreUser, opUserId));
+        userBelongsToGroupManager.userJoinGroup(userJoinGroupRequest, opUserId);
         return storeCoreId;
-    }
-
-    @Override
-    protected void directBatchBindStoreUserDbOp(List<BindStoreUser> bindStoreUserList, Long opUserId) {
-        batchInsert(dataSource, STORE_USER_RELATIONSHIP, storeUserRelationshipRecordsForInsert(bindStoreUserList, opUserId));
     }
 
     @Override
@@ -107,24 +105,6 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
                 ULong.valueOf(createStoreGeneral.getStoreId()),
                 createStoreGeneral.getStoreName(),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
-    }
-
-    private StoreUserRelationshipRecord storeUserRelationshipRecordForInsert(BindStoreUser bindStoreUser, Long opUserId) {
-        return new StoreUserRelationshipRecord(ULong.valueOf(bindStoreUser.getId()),
-                ULong.valueOf(bindStoreUser.getStoreId()),
-                ULong.valueOf(bindStoreUser.getUserId()),
-                bindStoreUser.getIsStoreOwner(),
-                LocalDateTime.now(),
-                ULong.valueOf(opUserId),
-                ULong.valueOf(IsDeleted.NO.getValue()));
-    }
-
-    private List<StoreUserRelationshipRecord> storeUserRelationshipRecordsForInsert(List<BindStoreUser> bindStoreUserList, Long opUserId) {
-        List<StoreUserRelationshipRecord> list = new ArrayList<>(bindStoreUserList.size());
-        for (BindStoreUser bindStoreUser : bindStoreUserList) {
-            list.add(storeUserRelationshipRecordForInsert(bindStoreUser, opUserId));
-        }
-        return list;
     }
 
     private StoreCoreRecord storeRecordForInsert(CreateStoreCore createStoreCore, Long opUserId) {

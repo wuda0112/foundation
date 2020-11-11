@@ -36,7 +36,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class StoreGeneral extends TableImpl<StoreGeneralRecord> {
 
-    private static final long serialVersionUID = 1008852237;
+    private static final long serialVersionUID = -2027469001;
 
     /**
      * The reference instance of <code>foundation_store.store_general</code>
@@ -131,7 +131,7 @@ public class StoreGeneral extends TableImpl<StoreGeneralRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.STORE_GENERAL_FK_STORE_ID);
+        return Arrays.<Index>asList(Indexes.STORE_GENERAL_IDX_STORE_ID);
     }
 
     @Override

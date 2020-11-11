@@ -5,6 +5,7 @@ package com.wuda.foundation.user.impl.jooq.generation.tables;
 
 
 import com.wuda.foundation.user.impl.jooq.generation.FoundationUser;
+import com.wuda.foundation.user.impl.jooq.generation.Indexes;
 import com.wuda.foundation.user.impl.jooq.generation.Keys;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserAccountRecord;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
+import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
 import org.jooq.Row10;
@@ -35,7 +37,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserAccount extends TableImpl<UserAccountRecord> {
 
-    private static final long serialVersionUID = -1256803247;
+    private static final long serialVersionUID = -164969442;
 
     /**
      * The reference instance of <code>foundation_user.user_account</code>
@@ -136,6 +138,11 @@ public class UserAccount extends TableImpl<UserAccountRecord> {
     @Override
     public Schema getSchema() {
         return FoundationUser.FOUNDATION_USER;
+    }
+
+    @Override
+    public List<Index> getIndexes() {
+        return Arrays.<Index>asList(Indexes.USER_ACCOUNT_IDX_USER_ID);
     }
 
     @Override

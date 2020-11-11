@@ -49,14 +49,6 @@ public interface StoreManager {
     void directBatchInsertStoreGeneral(List<CreateStoreGeneral> createStoreGenerals, Long opUserId);
 
     /**
-     * 为绑定用户和店铺.
-     *
-     * @param bindStoreUserList 绑定用户和店铺的参数
-     * @param opUserId          操作人用户ID
-     */
-    void directBatchBindStoreUser(List<BindStoreUser> bindStoreUserList, Long opUserId);
-
-    /**
      * 更新店铺新增基本信息.
      *
      * @param updateStoreGeneral 更新基本信息的参数

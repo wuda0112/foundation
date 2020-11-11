@@ -22,18 +22,18 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemBelongsToGroup.ITEM_BELONGS_TO_GROUP;
 import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategory.ITEM_CATEGORY;
-import static com.wuda.foundation.item.impl.jooq.generation.tables.ItemGroupRelation.ITEM_GROUP_RELATION;
 
 public class ItemCategoryManagerImpl extends AbstractItemCategoryManager implements JooqCommonDbOp {
 
     @Override
     protected int itemCountInCategoryDbOp(Long categoryId) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(JooqContext.getDataSource());
-        return dslContext.fetchCount(ITEM_GROUP_RELATION,
-                ITEM_GROUP_RELATION.GROUP_IDENTIFIER.eq(ULong.valueOf(categoryId))
-                        .and(ITEM_GROUP_RELATION.GROUP_TYPE.eq(UShort.valueOf(BuiltinIdentifierTypes.ITEM_CATEGORY.getCode())))
-                        .and(ITEM_GROUP_RELATION.IS_DELETED.eq(notDeleted())));
+        return dslContext.fetchCount(ITEM_BELONGS_TO_GROUP,
+                ITEM_BELONGS_TO_GROUP.GROUP_IDENTIFIER.eq(ULong.valueOf(categoryId))
+                        .and(ITEM_BELONGS_TO_GROUP.GROUP_TYPE.eq(UShort.valueOf(BuiltinIdentifierTypes.ITEM_CATEGORY.getCode())))
+                        .and(ITEM_BELONGS_TO_GROUP.IS_DELETED.eq(notDeleted())));
     }
 
     @Override

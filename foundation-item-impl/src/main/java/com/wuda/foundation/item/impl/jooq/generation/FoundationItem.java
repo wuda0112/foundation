@@ -4,11 +4,11 @@
 package com.wuda.foundation.item.impl.jooq.generation;
 
 
+import com.wuda.foundation.item.impl.jooq.generation.tables.ItemBelongsToGroup;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemCategory;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemCore;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemDescription;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemGeneral;
-import com.wuda.foundation.item.impl.jooq.generation.tables.ItemGroupRelation;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemPrice;
 import com.wuda.foundation.item.impl.jooq.generation.tables.ItemVariation;
 
@@ -26,12 +26,17 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationItem extends SchemaImpl {
 
-    private static final long serialVersionUID = 2142005567;
+    private static final long serialVersionUID = 841455545;
 
     /**
      * The reference instance of <code>foundation_item</code>
      */
     public static final FoundationItem FOUNDATION_ITEM = new FoundationItem();
+
+    /**
+     * 表示item所属的组。比如店铺是一种组，分类也是一种组，等等。item与所有的组的关系都记录在这个表里。
+     */
+    public final ItemBelongsToGroup ITEM_BELONGS_TO_GROUP = ItemBelongsToGroup.ITEM_BELONGS_TO_GROUP;
 
     /**
      * 物品分类
@@ -52,11 +57,6 @@ public class FoundationItem extends SchemaImpl {
      * 物品基本信息，也可以表示物品某个规格的基本信息，如果variation id不等于0
      */
     public final ItemGeneral ITEM_GENERAL = ItemGeneral.ITEM_GENERAL;
-
-    /**
-     * 表示item所属的组。比如店铺是一种组，分类也是一种组，等等。item与所有的组的关系都记录在这个表里。
-     */
-    public final ItemGroupRelation ITEM_GROUP_RELATION = ItemGroupRelation.ITEM_GROUP_RELATION;
 
     /**
      * 物品级别的价格，在价格体系中处于最低级别，当其他价格都没有设置的，取该价格。比如：当物品规格有自己的价格时，优先使用规格的价格。同时需要特别注意的是：同一个物品只能有一条记录，代表在没有任何业务的情况下，该物品使用的价格。随着业务的发展，该物品可能需要其他价格，这些价格必须保存到具体的业务相关的表中，也就是说该表不保存任何与业务相关的价格。
@@ -84,11 +84,11 @@ public class FoundationItem extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
+            ItemBelongsToGroup.ITEM_BELONGS_TO_GROUP,
             ItemCategory.ITEM_CATEGORY,
             ItemCore.ITEM_CORE,
             ItemDescription.ITEM_DESCRIPTION,
             ItemGeneral.ITEM_GENERAL,
-            ItemGroupRelation.ITEM_GROUP_RELATION,
             ItemPrice.ITEM_PRICE,
             ItemVariation.ITEM_VARIATION);
     }

@@ -43,21 +43,21 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     }
 
     private void createItemCategoryRelation(Long categoryId, Long itemId, Long opUserId) {
-        ItemGroupRelationRecord itemGroupRelationRecord = itemGroupRelationRecordForInsert(BuiltinIdentifierTypes.ITEM_CATEGORY, categoryId, itemId, opUserId);
-        attach(JooqContext.getDataSource(), itemGroupRelationRecord);
-        itemGroupRelationRecord.insert();
+        ItemBelongsToGroupRecord itemBelongsToGroupRecord = itemBelongsToGroupRecordForInsert(BuiltinIdentifierTypes.ITEM_CATEGORY, categoryId, itemId, opUserId);
+        attach(JooqContext.getDataSource(), itemBelongsToGroupRecord);
+        itemBelongsToGroupRecord.insert();
     }
 
     private void createItemStoreRelation(Long storeId, Long itemId, Long opUserId) {
-        ItemGroupRelationRecord itemGroupRelationRecord = itemGroupRelationRecordForInsert(BuiltinIdentifierTypes.TABLE_STORE, storeId, itemId, opUserId);
-        attach(JooqContext.getDataSource(), itemGroupRelationRecord);
-        itemGroupRelationRecord.insert();
+        ItemBelongsToGroupRecord itemBelongsToGroupRecord = itemBelongsToGroupRecordForInsert(BuiltinIdentifierTypes.TABLE_STORE, storeId, itemId, opUserId);
+        attach(JooqContext.getDataSource(), itemBelongsToGroupRecord);
+        itemBelongsToGroupRecord.insert();
     }
 
-    private ItemGroupRelationRecord itemGroupRelationRecordForInsert(IdentifierType groupType, Long groupId, Long itemId, Long opUserId) {
+    private ItemBelongsToGroupRecord itemBelongsToGroupRecordForInsert(IdentifierType groupType, Long groupId, Long itemId, Long opUserId) {
         long id = FoundationContext.getLongKeyGenerator().next();
         LocalDateTime now = LocalDateTime.now();
-        return new ItemGroupRelationRecord(ULong.valueOf(id),
+        return new ItemBelongsToGroupRecord(ULong.valueOf(id),
                 ULong.valueOf(itemId),
                 UShort.valueOf(groupType.getCode()),
                 ULong.valueOf(groupId),

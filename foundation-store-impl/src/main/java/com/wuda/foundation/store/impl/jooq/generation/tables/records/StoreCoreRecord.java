@@ -23,7 +23,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class StoreCoreRecord extends UpdatableRecordImpl<StoreCoreRecord> implements Record9<ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -741115592;
+    private static final long serialVersionUID = -1683212620;
 
     /**
      * Setter for <code>foundation_store.store_core.store_core_id</code>.
@@ -40,14 +40,14 @@ public class StoreCoreRecord extends UpdatableRecordImpl<StoreCoreRecord> implem
     }
 
     /**
-     * Setter for <code>foundation_store.store_core.store_id</code>. store id
+     * Setter for <code>foundation_store.store_core.store_id</code>. store id。一定和【group_core.group_id】相等，因为【store is a group】。
      */
     public void setStoreId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>foundation_store.store_core.store_id</code>. store id
+     * Getter for <code>foundation_store.store_core.store_id</code>. store id。一定和【group_core.group_id】相等，因为【store is a group】。
      */
     public ULong getStoreId() {
         return (ULong) get(1);

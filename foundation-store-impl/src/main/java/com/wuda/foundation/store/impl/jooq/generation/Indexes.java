@@ -6,7 +6,6 @@ package com.wuda.foundation.store.impl.jooq.generation;
 
 import com.wuda.foundation.store.impl.jooq.generation.tables.StoreCore;
 import com.wuda.foundation.store.impl.jooq.generation.tables.StoreGeneral;
-import com.wuda.foundation.store.impl.jooq.generation.tables.StoreUserRelationship;
 
 import org.jooq.Index;
 import org.jooq.OrderField;
@@ -25,9 +24,7 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     public static final Index STORE_CORE_IDX_STORE_ID = Indexes0.STORE_CORE_IDX_STORE_ID;
-    public static final Index STORE_GENERAL_FK_STORE_ID = Indexes0.STORE_GENERAL_FK_STORE_ID;
-    public static final Index STORE_USER_RELATIONSHIP_FK_STORE_ID = Indexes0.STORE_USER_RELATIONSHIP_FK_STORE_ID;
-    public static final Index STORE_USER_RELATIONSHIP_FK_USER_ID = Indexes0.STORE_USER_RELATIONSHIP_FK_USER_ID;
+    public static final Index STORE_GENERAL_IDX_STORE_ID = Indexes0.STORE_GENERAL_IDX_STORE_ID;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -35,8 +32,6 @@ public class Indexes {
 
     private static class Indexes0 {
         public static Index STORE_CORE_IDX_STORE_ID = Internal.createIndex("idx_store_id", StoreCore.STORE_CORE, new OrderField[] { StoreCore.STORE_CORE.STORE_ID }, false);
-        public static Index STORE_GENERAL_FK_STORE_ID = Internal.createIndex("fk_store_id", StoreGeneral.STORE_GENERAL, new OrderField[] { StoreGeneral.STORE_GENERAL.STORE_ID }, false);
-        public static Index STORE_USER_RELATIONSHIP_FK_STORE_ID = Internal.createIndex("fk_store_id", StoreUserRelationship.STORE_USER_RELATIONSHIP, new OrderField[] { StoreUserRelationship.STORE_USER_RELATIONSHIP.STORE_ID }, false);
-        public static Index STORE_USER_RELATIONSHIP_FK_USER_ID = Internal.createIndex("fk_user_id", StoreUserRelationship.STORE_USER_RELATIONSHIP, new OrderField[] { StoreUserRelationship.STORE_USER_RELATIONSHIP.USER_ID }, false);
+        public static Index STORE_GENERAL_IDX_STORE_ID = Internal.createIndex("idx_store_id", StoreGeneral.STORE_GENERAL, new OrderField[] { StoreGeneral.STORE_GENERAL.STORE_ID }, false);
     }
 }

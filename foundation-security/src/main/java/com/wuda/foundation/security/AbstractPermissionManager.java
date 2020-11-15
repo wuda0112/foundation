@@ -13,18 +13,18 @@ public abstract class AbstractPermissionManager implements PermissionManager {
     @Override
     public CreateResult createPermissionTarget(CreatePermissionTarget target, CreateMode createMode, Long opUserId) {
         ExtObjects.requireNonNull(target, opUserId);
-        return createPermissionTargetDbOp(target,createMode, opUserId);
+        return createPermissionTargetDbOp(target, createMode, opUserId);
     }
 
-    protected abstract CreateResult createPermissionTargetDbOp(CreatePermissionTarget target,CreateMode createMode, Long opUserId);
+    protected abstract CreateResult createPermissionTargetDbOp(CreatePermissionTarget target, CreateMode createMode, Long opUserId);
 
     @Override
-    public CreateResult createPermissionAction(CreatePermissionAction action, CreateMode createMode,Long opUserId) {
+    public CreateResult createPermissionAction(CreatePermissionAction action, CreateMode createMode, Long opUserId) {
         ExtObjects.requireNonNull(action, opUserId);
-        return createPermissionActionDbOp(action,createMode, opUserId);
+        return createPermissionActionDbOp(action, createMode, opUserId);
     }
 
-    protected abstract CreateResult createPermissionActionDbOp(CreatePermissionAction action,CreateMode createMode, Long opUserId);
+    protected abstract CreateResult createPermissionActionDbOp(CreatePermissionAction action, CreateMode createMode, Long opUserId);
 
     @Override
     public long createPermission(CreatePermissionTarget target, Set<CreatePermissionAction> actions, Long opUserId) {
@@ -55,7 +55,7 @@ public abstract class AbstractPermissionManager implements PermissionManager {
     }
 
     @Override
-    public void deleteActionByTarget(Long permissionTargetId, Long opUserId){
+    public void deleteActionByTarget(Long permissionTargetId, Long opUserId) {
         deleteActionByTargetDbOp(permissionTargetId, opUserId);
     }
 
@@ -72,7 +72,7 @@ public abstract class AbstractPermissionManager implements PermissionManager {
     protected abstract void deleteTargetDbOp(Long permissionTargetId, Long opUserId);
 
     @Override
-    public void updatePermissionTarget(Long targetId, String name, String description, Long opUserId) throws AlreadyExistsException{
+    public void updatePermissionTarget(Long targetId, String name, String description, Long opUserId) throws AlreadyExistsException {
         ExtObjects.requireNonNull(targetId, name, description, opUserId);
         updatePermissionTargetDbOp(targetId, name, description, opUserId);
     }
@@ -80,7 +80,7 @@ public abstract class AbstractPermissionManager implements PermissionManager {
     protected abstract void updatePermissionTargetDbOp(Long targetId, String name, String description, Long opUserId) throws AlreadyExistsException;
 
     @Override
-    public void updatePermissionAction(Long actionId, String name, String description, Long opUserId) throws AlreadyExistsException{
+    public void updatePermissionAction(Long actionId, String name, String description, Long opUserId) throws AlreadyExistsException {
         ExtObjects.requireNonNull(actionId, name, description, opUserId);
         updatePermissionActionDbOp(actionId, name, description, opUserId);
     }
@@ -114,4 +114,25 @@ public abstract class AbstractPermissionManager implements PermissionManager {
     }
 
     protected abstract DescribePermission getPermissionDbOp(Long permissionTargetId);
+
+    @Override
+    public CreateResult createPermissionRole(CreatePermissionRoleRequest request,CreateMode createMode, Long opUserId) {
+        return createPermissionRoleDbOp(request,createMode, opUserId);
+    }
+
+    protected abstract CreateResult createPermissionRoleDbOp(CreatePermissionRoleRequest request, CreateMode createMode,Long opUserId);
+
+    @Override
+    public void updatePermissionRole(UpdatePermissionRoleRequest request, Long opUserId) throws AlreadyExistsException {
+        updatePermissionRoleDbOp(request, opUserId);
+    }
+
+    protected abstract void updatePermissionRoleDbOp(UpdatePermissionRoleRequest request, Long opUserId) throws AlreadyExistsException;
+
+    @Override
+    public DescribePermissionRole getPermissionRoleById(Long id) {
+        return getPermissionRoleByIdDbOp(id);
+    }
+
+    protected abstract DescribePermissionRole getPermissionRoleByIdDbOp(Long id);
 }

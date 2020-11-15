@@ -7,6 +7,7 @@ package com.wuda.foundation.security.impl.jooq.generation;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAction;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAssignment;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionCategory;
+import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionRole;
 import com.wuda.foundation.security.impl.jooq.generation.tables.PermissionTarget;
 
 import java.util.Arrays;
@@ -23,7 +24,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationSecurity extends SchemaImpl {
 
-    private static final long serialVersionUID = -1764617598;
+    private static final long serialVersionUID = 941083698;
 
     /**
      * The reference instance of <code>foundation_security</code>
@@ -36,7 +37,7 @@ public class FoundationSecurity extends SchemaImpl {
     public final PermissionAction PERMISSION_ACTION = PermissionAction.PERMISSION_ACTION;
 
     /**
-     * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject
+     * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject，role 【IS A】 subject等等。
      */
     public final PermissionAssignment PERMISSION_ASSIGNMENT = PermissionAssignment.PERMISSION_ASSIGNMENT;
 
@@ -44,6 +45,11 @@ public class FoundationSecurity extends SchemaImpl {
      * permission分类
      */
     public final PermissionCategory PERMISSION_CATEGORY = PermissionCategory.PERMISSION_CATEGORY;
+
+    /**
+     * 角色
+     */
+    public final PermissionRole PERMISSION_ROLE = PermissionRole.PERMISSION_ROLE;
 
     /**
      * permission作用的对象，分为两类，1，关联外部对象，使用type字段表明外部对象的类型，referenced_id表明外部对象的唯一标记，比如在web系统中，已经拥有了菜单表，如果要对菜单权限控制，使用referenced_id关联菜单表的主键ID，就可以将permission与菜单数据建立联系，而不需要把菜单相关的逻辑引入到权限体系中；2，不关联外部对象，当前表中的信息就已经描述了作用对象的信息。对于permission体系来说，permission target是主体（一等公民），permiss
@@ -69,6 +75,7 @@ public class FoundationSecurity extends SchemaImpl {
             PermissionAction.PERMISSION_ACTION,
             PermissionAssignment.PERMISSION_ASSIGNMENT,
             PermissionCategory.PERMISSION_CATEGORY,
+            PermissionRole.PERMISSION_ROLE,
             PermissionTarget.PERMISSION_TARGET);
     }
 }

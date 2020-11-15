@@ -18,12 +18,13 @@ import org.jooq.types.ULong;
 
 
 /**
- * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject
+ * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject，role 【IS 
+ * A】 subject等等。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAssignmentRecord> implements Record9<ULong, UByte, ULong, ULong, ULong, String, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1746317678;
+    private static final long serialVersionUID = 1824952012;
 
     /**
      * Setter for <code>foundation_security.permission_assignment.id</code>.

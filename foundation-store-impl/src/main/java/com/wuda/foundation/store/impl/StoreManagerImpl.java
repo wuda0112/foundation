@@ -13,7 +13,7 @@ import com.wuda.foundation.store.UpdateStoreGeneral;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreCoreRecord;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreGeneralRecord;
 import com.wuda.foundation.user.UserBelongsToGroupManager;
-import com.wuda.foundation.user.UserJoinGroupRequest;
+import com.wuda.foundation.user.CreateUserBelongsToGroupCoreRequest;
 import org.jooq.Configuration;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
@@ -52,11 +52,11 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
     @Override
     public long createStoreCoreDbOp(Long ownerUserId, CreateStoreCore createStoreCore, Long opUserId) {
         long storeCoreId = insert(dataSource, STORE_CORE, storeRecordForInsert(createStoreCore, opUserId)).getRecordId();
-        UserJoinGroupRequest userJoinGroupRequest = new UserJoinGroupRequest.Builder()
+        CreateUserBelongsToGroupCoreRequest createUserBelongsToGroupCoreRequest = new CreateUserBelongsToGroupCoreRequest.Builder()
                 .setUserId(ownerUserId)
                 .setGroup(new LongIdentifier(createStoreCore.getStoreId(), BuiltinIdentifierTypes.TABLE_STORE))
                 .build();
-        userBelongsToGroupManager.userJoinGroup(userJoinGroupRequest, opUserId);
+        userBelongsToGroupManager.createUserBelongsToGroupCore(createUserBelongsToGroupCoreRequest,CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
         return storeCoreId;
     }
 

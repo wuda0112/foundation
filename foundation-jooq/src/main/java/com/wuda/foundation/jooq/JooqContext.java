@@ -50,6 +50,10 @@ public class JooqContext {
         return dslContextByDatasourceMap.get(dataSource);
     }
 
+    public static Configuration getConfiguration(){
+        return getConfiguration(getDataSource());
+    }
+
     public static Configuration getConfiguration(DataSource dataSource) {
         Configuration configuration = new DefaultConfiguration()
                 .set(SQLDialect.MYSQL)

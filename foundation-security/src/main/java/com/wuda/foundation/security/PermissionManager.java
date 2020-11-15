@@ -85,10 +85,10 @@ public interface PermissionManager {
     /**
      * 更新permission target.
      *
-     * @param targetId permission target id
-     * @param name               permission target name
-     * @param description        描述信息
-     * @param opUserId           操作人用户ID
+     * @param targetId    permission target id
+     * @param name        permission target name
+     * @param description 描述信息
+     * @param opUserId    操作人用户ID
      * @throws AlreadyExistsException 如果已经有该名称的target
      */
     void updatePermissionTarget(Long targetId, String name, String description, Long opUserId) throws AlreadyExistsException;
@@ -96,10 +96,10 @@ public interface PermissionManager {
     /**
      * 更新permission action.
      *
-     * @param actionId permission action id
-     * @param name               permission action name
-     * @param opUserId           操作人用户ID
-     * @param description        描述信息
+     * @param actionId    permission action id
+     * @param name        permission action name
+     * @param opUserId    操作人用户ID
+     * @param description 描述信息
      * @throws AlreadyExistsException 如果次action所属的target已经拥有这个名称的action
      */
     void updatePermissionAction(Long actionId, String name, String description, Long opUserId) throws AlreadyExistsException;
@@ -135,5 +135,31 @@ public interface PermissionManager {
      * @return a permission
      */
     DescribePermission getPermission(Long permissionTargetId);
+
+    /**
+     * 创建permission role
+     *
+     * @param request  request
+     * @param opUserId 操作人用户ID
+     * @return 创建结果
+     */
+    CreateResult createPermissionRole(CreatePermissionRoleRequest request, CreateMode createMode, Long opUserId);
+
+    /**
+     * 更新permission role
+     *
+     * @param request  request
+     * @param opUserId 操作人用户ID
+     * @throws AlreadyExistsException 如果更新后的角色已经存在
+     */
+    void updatePermissionRole(UpdatePermissionRoleRequest request, Long opUserId) throws AlreadyExistsException;
+
+    /**
+     * 根据id获取.
+     *
+     * @param id id
+     * @return permission role
+     */
+    DescribePermissionRole getPermissionRoleById(Long id);
 
 }

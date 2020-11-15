@@ -17,7 +17,8 @@ import org.jooq.types.ULong;
 
 
 /**
- * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject
+ * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject，role 【IS 
+ * A】 subject等等。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAssignmentDao extends DAOImpl<PermissionAssignmentRecord, com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment, ULong> {

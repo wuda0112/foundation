@@ -32,12 +32,13 @@ import org.jooq.types.ULong;
 
 
 /**
- * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject
+ * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject，role 【IS 
+ * A】 subject等等。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> {
 
-    private static final long serialVersionUID = 1872059612;
+    private static final long serialVersionUID = -304602184;
 
     /**
      * The reference instance of <code>foundation_security.permission_assignment</code>
@@ -123,7 +124,7 @@ public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> 
     }
 
     private PermissionAssignment(Name alias, Table<PermissionAssignmentRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject"), TableOptions.table());
+        super(alias, null, aliased, parameters, DSL.comment("权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject，role 【IS A】 subject等等。"), TableOptions.table());
     }
 
     public <O extends Record> PermissionAssignment(Table<O> child, ForeignKey<O, PermissionAssignmentRecord> key) {

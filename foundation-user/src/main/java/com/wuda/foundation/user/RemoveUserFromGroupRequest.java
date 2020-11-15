@@ -6,13 +6,13 @@ import lombok.Getter;
 import java.util.Objects;
 
 /**
- * 用户加入组.
+ * 把用户从组中移除.
  *
  * @author wuda
  * @since 1.0.3
  */
 @Getter
-public class UserJoinGroupRequest {
+public class RemoveUserFromGroupRequest {
 
     private Long userId;
     private LongIdentifier group;
@@ -20,17 +20,17 @@ public class UserJoinGroupRequest {
     /**
      * 禁止实例化,使用{@link Builder}实例化.
      */
-    private UserJoinGroupRequest() {
+    private RemoveUserFromGroupRequest() {
 
     }
 
     /**
-     * 用于创建{@link UserJoinGroupRequest}.
+     * 用于创建{@link RemoveUserFromGroupRequest}.
      *
      * @author wuda
      * @since 1.0.0
      */
-    public static class Builder implements com.wuda.foundation.lang.Builder<UserJoinGroupRequest> {
+    public static class Builder implements com.wuda.foundation.lang.Builder<RemoveUserFromGroupRequest> {
 
         private Long userId;
         private LongIdentifier group;
@@ -46,11 +46,11 @@ public class UserJoinGroupRequest {
         }
 
         @Override
-        public UserJoinGroupRequest build() {
-            UserJoinGroupRequest userJoinGroupRequest = new UserJoinGroupRequest();
-            userJoinGroupRequest.userId = Objects.requireNonNull(this.userId);
-            userJoinGroupRequest.group = Objects.requireNonNull(this.group);
-            return userJoinGroupRequest;
+        public RemoveUserFromGroupRequest build() {
+            RemoveUserFromGroupRequest request = new RemoveUserFromGroupRequest();
+            request.userId = Objects.requireNonNull(this.userId);
+            request.group = Objects.requireNonNull(this.group);
+            return request;
         }
     }
 }

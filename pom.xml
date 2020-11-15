@@ -37,7 +37,7 @@
         <java.version>8</java.version>
         <delombok.output>target/generated-sources/delombok</delombok.output>
 
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
         <lombok.version>1.18.12</lombok.version>
         <lombok.maven.version>1.18.12.0</lombok.maven.version>
         <guava.version>20.0</guava.version>
@@ -45,8 +45,9 @@
         <commons.collections4.version>4.4</commons.collections4.version>
         <jooq.version>3.13.2</jooq.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-        <mysql.connector.java.version>8.0.13</mysql.connector.java.version>
+        <mysql.connector.java.version>8.0.22</mysql.connector.java.version>
         <mysql.jdbc.driver>com.mysql.cj.jdbc.Driver</mysql.jdbc.driver>
+        <jackson.version>2.11.3</jackson.version>
 
         <!--用于代码生成时连接数据库-->
         <mysql.url>jdbc:mysql://localhost:3306/?serverTimezone=UTC</mysql.url>
@@ -308,7 +309,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>LATEST</version>
+                <version>${jackson.version}</version>
             </dependency>
 
         </dependencies>

@@ -24,7 +24,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionTargetRecord extends UpdatableRecordImpl<PermissionTargetRecord> implements Record12<ULong, ULong, String, UByte, UByte, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1561849387;
+    private static final long serialVersionUID = 1436719851;
 
     /**
      * Setter for <code>foundation_security.permission_target.permission_target_id</code>.
@@ -69,14 +69,14 @@ public class PermissionTargetRecord extends UpdatableRecordImpl<PermissionTarget
     }
 
     /**
-     * Setter for <code>foundation_security.permission_target.type</code>. permission target的类型。假设在一个web系统中，有两种类型的权限控制，一种是为用户授权可以使用系统的哪些功能；另外一种是为用户授权可以使用哪种终端访问系统(比如App，pc)，这两类是完全不同的对象，需要区分开,便于管理。
+     * Setter for <code>foundation_security.permission_target.type</code>. permission target的类型。比如对象的类型是文件，或者对象的类型是菜单，等等。
      */
     public void setType(UByte value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>foundation_security.permission_target.type</code>. permission target的类型。假设在一个web系统中，有两种类型的权限控制，一种是为用户授权可以使用系统的哪些功能；另外一种是为用户授权可以使用哪种终端访问系统(比如App，pc)，这两类是完全不同的对象，需要区分开,便于管理。
+     * Getter for <code>foundation_security.permission_target.type</code>. permission target的类型。比如对象的类型是文件，或者对象的类型是菜单，等等。
      */
     public UByte getType() {
         return (UByte) get(3);

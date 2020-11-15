@@ -38,7 +38,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionTarget extends TableImpl<PermissionTargetRecord> {
 
-    private static final long serialVersionUID = 1797793389;
+    private static final long serialVersionUID = 459165101;
 
     /**
      * The reference instance of <code>foundation_security.permission_target</code>
@@ -69,9 +69,9 @@ public class PermissionTarget extends TableImpl<PermissionTargetRecord> {
     public final TableField<PermissionTargetRecord, String> NAME = createField(DSL.name("name"), org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "permission target  name。在java.security.Permission#getName设计中，name就唯一识别了作用对象，类似的，在我们这里，由于有分类，因此只要在分类中唯一即可");
 
     /**
-     * The column <code>foundation_security.permission_target.type</code>. permission target的类型。假设在一个web系统中，有两种类型的权限控制，一种是为用户授权可以使用系统的哪些功能；另外一种是为用户授权可以使用哪种终端访问系统(比如App，pc)，这两类是完全不同的对象，需要区分开,便于管理。
+     * The column <code>foundation_security.permission_target.type</code>. permission target的类型。比如对象的类型是文件，或者对象的类型是菜单，等等。
      */
-    public final TableField<PermissionTargetRecord, UByte> TYPE = createField(DSL.name("type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "permission target的类型。假设在一个web系统中，有两种类型的权限控制，一种是为用户授权可以使用系统的哪些功能；另外一种是为用户授权可以使用哪种终端访问系统(比如App，pc)，这两类是完全不同的对象，需要区分开,便于管理。");
+    public final TableField<PermissionTargetRecord, UByte> TYPE = createField(DSL.name("type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "permission target的类型。比如对象的类型是文件，或者对象的类型是菜单，等等。");
 
     /**
      * The column <code>foundation_security.permission_target.referenced_type</code>. 关联的外部对象的类型。注意和type字段的区别，在实际中，有可能这两个字段的值是一样的，但是在意义上却是完全不一样的，而且有可能一种type的target，由关联的多种referenced_type组成

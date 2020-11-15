@@ -12,6 +12,7 @@ import com.wuda.foundation.lang.identify.LongIdentifier;
 import com.wuda.foundation.security.*;
 import com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAction;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionActionRecord;
+import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionRoleRecord;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionTargetRecord;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAction.PERMISSION_ACTION;
+import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionRole.PERMISSION_ROLE;
 import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionTarget.PERMISSION_TARGET;
 
 public class PermissionManagerImpl extends AbstractPermissionManager implements JooqCommonDbOp {
@@ -256,6 +258,27 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
         return new DescribePermission(target, actions);
     }
 
+    @Override
+    protected CreateResult createPermissionRoleDbOp(CreatePermissionRoleRequest request, CreateMode createMode, Long opUserId) {
+        PermissionRoleRecord record = permissionRoleRecordForInsert(request, opUserId);
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = permissionRoleUniqueCondition(request.getType(), request.getName());
+        return insertDispatcher(JooqContext.getDataSource(), createMode, PERMISSION_ROLE, record, existsRecordSelector);
+    }
+
+    @Override
+    protected void updatePermissionRoleDbOp(UpdatePermissionRoleRequest request, Long opUserId) throws AlreadyExistsException {
+        PermissionRoleRecord record = permissionRoleRecordForUpdate(request, opUserId);
+        updateSelectiveByPrimaryKey(JooqContext.getDataSource(), record);
+    }
+
+    @Override
+    protected DescribePermissionRole getPermissionRoleByIdDbOp(Long id) {
+        PermissionRoleRecord record = JooqContext.getOrCreateDSLContext().selectFrom(PERMISSION_ROLE)
+                .where(PERMISSION_ROLE.PERMISSION_ROLE_ID.eq(ULong.valueOf(id)))
+                .fetchOne();
+        return copyRoleFrom(record);
+    }
+
     private DescribePermissionTarget from(PermissionTargetRecord target) {
         if (target == null) {
             return null;
@@ -295,4 +318,43 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
         }
         return list;
     }
+
+    private PermissionRoleRecord permissionRoleRecordForInsert(CreatePermissionRoleRequest request, Long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new PermissionRoleRecord(ULong.valueOf(request.getId()),
+                UByte.valueOf(request.getType().getCode()),
+                request.getName(),
+                request.getDescription(),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private PermissionRoleRecord permissionRoleRecordForUpdate(UpdatePermissionRoleRequest request, Long opUserId) {
+        PermissionRoleRecord record = new PermissionRoleRecord();
+        record.setPermissionRoleId(ULong.valueOf(request.getId()));
+        record.setName(request.getName());
+        record.setDescription(request.getDescription());
+        return record;
+    }
+
+    private DescribePermissionRole copyRoleFrom(PermissionRoleRecord record) {
+        DescribePermissionRole describe = new DescribePermissionRole();
+        describe.setId(record.getPermissionRoleId().longValue());
+        PermissionRoleType type = IdentifierTypeRegistry.defaultRegistry.lookup(record.getType().intValue());
+        describe.setType(type);
+        describe.setName(record.getName());
+        describe.setDescription(record.getDescription());
+        return describe;
+    }
+
+    private SelectConditionStep<Record1<ULong>> permissionRoleUniqueCondition(PermissionRoleType type, String name) {
+        Configuration configuration = JooqContext.getConfiguration();
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+                .select(PERMISSION_ROLE.PERMISSION_ROLE_ID)
+                .from(PERMISSION_ROLE)
+                .where(PERMISSION_ROLE.TYPE.eq(UByte.valueOf(type.getCode())))
+                .and(PERMISSION_ROLE.NAME.eq(name))
+                .and(PERMISSION_ROLE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
+        return existsRecordSelector;
+    }
+
 }

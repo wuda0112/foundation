@@ -49,7 +49,7 @@ public class CreateUserBelongsToGroupCoreRequest {
             return this;
         }
 
-        public Builder setUserBelongsToGroupId(Long userId) {
+        public Builder setUserBelongsToGroupId(Long userBelongsToGroupId) {
             this.userBelongsToGroupId = userBelongsToGroupId;
             return this;
         }

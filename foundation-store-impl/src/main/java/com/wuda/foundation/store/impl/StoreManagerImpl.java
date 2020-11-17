@@ -24,7 +24,6 @@ import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +35,12 @@ import static com.wuda.foundation.store.impl.jooq.generation.tables.StoreGeneral
 
 public class StoreManagerImpl extends AbstractStoreManager implements JooqCommonDbOp {
 
-    private DataSource dataSource;
     private UserBelongsToGroupManager userBelongsToGroupManager;
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public void setUserBelongsToGroupManager(UserBelongsToGroupManager userBelongsToGroupManager) {
+        this.userBelongsToGroupManager = userBelongsToGroupManager;
     }
+
 
     @Override
     protected void directBatchInsertStoreDbOp(List<CreateStoreCore> createStoreCores, Long opUserId) {
@@ -49,12 +48,12 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
         for (CreateStoreCore createStoreCore : createStoreCores) {
             records.add(storeRecordForInsert(createStoreCore, opUserId));
         }
-        batchInsert(dataSource, STORE_CORE, records);
+        batchInsert(JooqContext.getDataSource(), STORE_CORE, records);
     }
 
     @Override
     public long createStoreCoreDbOp(Long ownerUserId, CreateStoreCore createStoreCore, Long opUserId) {
-        long storeCoreId = insert(dataSource, STORE_CORE, storeRecordForInsert(createStoreCore, opUserId)).getRecordId();
+        long storeCoreId = insert(JooqContext.getDataSource(), STORE_CORE, storeRecordForInsert(createStoreCore, opUserId)).getRecordId();
 
         long userBelongsToGroupId = FoundationContext.getLongKeyGenerator().next();
         CreateUserBelongsToGroupCoreRequest createUserBelongsToGroupCoreRequest = new CreateUserBelongsToGroupCoreRequest.Builder()
@@ -80,12 +79,12 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
         for (CreateStoreGeneral createStoreGeneral : createStoreGenerals) {
             records.add(storeGeneralRecordForInsert(createStoreGeneral, opUserId));
         }
-        batchInsert(dataSource, STORE_GENERAL, records);
+        batchInsert(JooqContext.getDataSource(), STORE_GENERAL, records);
     }
 
     @Override
     public long createOrUpdateStoreGeneralDbOp(CreateStoreGeneral createStoreGeneral, CreateMode createMode, Long opUserId) {
-        Configuration configuration = JooqContext.getConfiguration(dataSource);
+        Configuration configuration = JooqContext.getConfiguration(JooqContext.getDataSource());
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
                 .select(STORE_GENERAL.STORE_GENERAL_ID)
                 .from(STORE_GENERAL)
@@ -95,7 +94,7 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
             UpdateStoreGeneral updateStoreGeneral = UpdateStoreGeneral.from(storeGeneralId, createStoreGeneral);
             updateStoreGeneralByIdDbOp(updateStoreGeneral, opUserId);
         };
-        return insertOrUpdate(createMode, dataSource, STORE_GENERAL, storeGeneralRecordForInsert(createStoreGeneral, opUserId), existsRecordSelector, updateAction);
+        return insertOrUpdate(createMode, JooqContext.getDataSource(), STORE_GENERAL, storeGeneralRecordForInsert(createStoreGeneral, opUserId), existsRecordSelector, updateAction);
     }
 
     @Override
@@ -108,7 +107,7 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
         }
         storeGeneralRecord.setLastModifyTime(now);
         storeGeneralRecord.setLastModifyUserId(ULong.valueOf(opUserId));
-        Configuration configuration = JooqContext.getConfiguration(dataSource);
+        Configuration configuration = JooqContext.getConfiguration(JooqContext.getDataSource());
         storeGeneralRecord.attach(configuration);
         storeGeneralRecord.update();
     }

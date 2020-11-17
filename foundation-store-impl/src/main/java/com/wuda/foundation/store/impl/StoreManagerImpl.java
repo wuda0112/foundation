@@ -3,17 +3,20 @@ package com.wuda.foundation.store.impl;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.FoundationContext;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.identify.BuiltinIdentifierTypes;
+import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.identify.LongIdentifier;
+import com.wuda.foundation.security.BuiltinRole;
 import com.wuda.foundation.store.AbstractStoreManager;
 import com.wuda.foundation.store.CreateStoreCore;
 import com.wuda.foundation.store.CreateStoreGeneral;
 import com.wuda.foundation.store.UpdateStoreGeneral;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreCoreRecord;
 import com.wuda.foundation.store.impl.jooq.generation.tables.records.StoreGeneralRecord;
-import com.wuda.foundation.user.UserBelongsToGroupManager;
 import com.wuda.foundation.user.CreateUserBelongsToGroupCoreRequest;
+import com.wuda.foundation.user.CreateUserBelongsToGroupRoleRequest;
+import com.wuda.foundation.user.UserBelongsToGroupManager;
 import org.jooq.Configuration;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
@@ -52,11 +55,22 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
     @Override
     public long createStoreCoreDbOp(Long ownerUserId, CreateStoreCore createStoreCore, Long opUserId) {
         long storeCoreId = insert(dataSource, STORE_CORE, storeRecordForInsert(createStoreCore, opUserId)).getRecordId();
+
+        long userBelongsToGroupId = FoundationContext.getLongKeyGenerator().next();
         CreateUserBelongsToGroupCoreRequest createUserBelongsToGroupCoreRequest = new CreateUserBelongsToGroupCoreRequest.Builder()
+                .setId(FoundationContext.getLongKeyGenerator().next())
                 .setUserId(ownerUserId)
-                .setGroup(new LongIdentifier(createStoreCore.getStoreId(), BuiltinIdentifierTypes.TABLE_STORE))
+                .setUserBelongsToGroupId(userBelongsToGroupId)
+                .setGroup(new LongIdentifier(createStoreCore.getStoreId(), BuiltinIdentifierType.TABLE_STORE))
                 .build();
-        userBelongsToGroupManager.createUserBelongsToGroupCore(createUserBelongsToGroupCoreRequest,CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
+        userBelongsToGroupManager.createUserBelongsToGroupCore(createUserBelongsToGroupCoreRequest, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
+
+        CreateUserBelongsToGroupRoleRequest createUserBelongsToGroupRoleRequest = new CreateUserBelongsToGroupRoleRequest.Builder()
+                .setId(ownerUserId)
+                .setUserBelongsToGroupId(userBelongsToGroupId)
+                .setPermissionRoleId(BuiltinRole.USER_BELONGS_TO_GROUP_OWNER_ROLE.getCode())
+                .build();
+        userBelongsToGroupManager.createUserBelongsToGroupRole(createUserBelongsToGroupRoleRequest, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
         return storeCoreId;
     }
 

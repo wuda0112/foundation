@@ -15,6 +15,7 @@ import java.util.Objects;
 public class CreateUserBelongsToGroupCoreRequest {
 
     private Long id;
+    private Long userBelongsToGroupId;
     private Long userId;
     private LongIdentifier group;
 
@@ -34,6 +35,7 @@ public class CreateUserBelongsToGroupCoreRequest {
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateUserBelongsToGroupCoreRequest> {
 
         private Long id;
+        private Long userBelongsToGroupId;
         private Long userId;
         private LongIdentifier group;
 
@@ -47,6 +49,11 @@ public class CreateUserBelongsToGroupCoreRequest {
             return this;
         }
 
+        public Builder setUserBelongsToGroupId(Long userId) {
+            this.userBelongsToGroupId = userBelongsToGroupId;
+            return this;
+        }
+
         public Builder setGroup(LongIdentifier group) {
             this.group = group;
             return this;
@@ -56,6 +63,7 @@ public class CreateUserBelongsToGroupCoreRequest {
         public CreateUserBelongsToGroupCoreRequest build() {
             CreateUserBelongsToGroupCoreRequest request = new CreateUserBelongsToGroupCoreRequest();
             request.id = Objects.requireNonNull(this.id);
+            request.userBelongsToGroupId = Objects.requireNonNull(this.userBelongsToGroupId);
             request.userId = Objects.requireNonNull(this.userId);
             request.group = Objects.requireNonNull(this.group);
             return request;

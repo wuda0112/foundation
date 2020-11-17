@@ -7,7 +7,6 @@ package com.wuda.foundation.commons.impl.jooq.generation;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.AdministrativeUnit;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Email;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.FlowHistory;
-import com.wuda.foundation.commons.impl.jooq.generation.tables.Group;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Phone;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKey;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKeyDefinition;
@@ -16,7 +15,6 @@ import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyValue;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Task;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.TaskLog;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.TaskPhase;
-import com.wuda.foundation.commons.impl.jooq.generation.tables.TreeNode;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Variable;
 
 import java.util.Arrays;
@@ -33,7 +31,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationCommons extends SchemaImpl {
 
-    private static final long serialVersionUID = 1682109227;
+    private static final long serialVersionUID = -1873064724;
 
     /**
      * The reference instance of <code>foundation_commons</code>
@@ -54,11 +52,6 @@ public class FoundationCommons extends SchemaImpl {
      * 流程处理历史记录
      */
     public final FlowHistory FLOW_HISTORY = FlowHistory.FLOW_HISTORY;
-
-    /**
-     * 店铺是一种组，组织机构是一种组，部门也是一种组，等等，这个表就作为所有这些组的基础结构。为什么要用一个组这样的基础表呢？原因是：1，这些组有很多相同的概念，因此可以统一处理这些组相关的逻辑,；2，组织机构等是可以有上下级的，因此，基于tree_node统一处理所有这些组的树形结构；3，基本上所有的实体都有以某种方式组织起来（比如分类），但是很多实体的组织在业务发展的一开始不是很明确的，比如用户属于公司某个部门，但是随着业务的发展，为用户创建了群（比如微信的群），如果使用抽象的group_id和user_id
-     */
-    public final Group GROUP = Group.GROUP;
 
     /**
      * 电话信息。
@@ -101,11 +94,6 @@ public class FoundationCommons extends SchemaImpl {
     public final TaskPhase TASK_PHASE = TaskPhase.TASK_PHASE;
 
     /**
-     * 树形结构的节点。有很多数据是用树形结构组织的，比如商品分类，文章分类，组织架构等等，通常我们都是为它们单独设计一个表，比如商品分类表，部门表，然后每个表都写了差不多相同的处理逻辑，如何避免重复处理类似树形的数据呢？这个表的目的就是为了统一处理这些类似树形结构的表，以这个表为核心，扩展出商品分类，文章分类，部门等。
-     */
-    public final TreeNode TREE_NODE = TreeNode.TREE_NODE;
-
-    /**
      * 简单的变量，使用name-value pair表示
      */
     public final Variable VARIABLE = Variable.VARIABLE;
@@ -129,7 +117,6 @@ public class FoundationCommons extends SchemaImpl {
             AdministrativeUnit.ADMINISTRATIVE_UNIT,
             Email.EMAIL,
             FlowHistory.FLOW_HISTORY,
-            Group.GROUP,
             Phone.PHONE,
             PropertyKey.PROPERTY_KEY,
             PropertyKeyDefinition.PROPERTY_KEY_DEFINITION,
@@ -138,7 +125,6 @@ public class FoundationCommons extends SchemaImpl {
             Task.TASK,
             TaskLog.TASK_LOG,
             TaskPhase.TASK_PHASE,
-            TreeNode.TREE_NODE,
             Variable.VARIABLE);
     }
 }

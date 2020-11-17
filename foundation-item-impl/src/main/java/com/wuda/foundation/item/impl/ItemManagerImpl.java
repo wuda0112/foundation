@@ -7,7 +7,7 @@ import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.FoundationContext;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.identify.BuiltinIdentifierTypes;
+import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierType;
 import org.jooq.Configuration;
 import org.jooq.Record1;
@@ -43,13 +43,13 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     }
 
     private void createItemCategoryRelation(Long categoryId, Long itemId, Long opUserId) {
-        ItemBelongsToGroupRecord itemBelongsToGroupRecord = itemBelongsToGroupRecordForInsert(BuiltinIdentifierTypes.ITEM_CATEGORY, categoryId, itemId, opUserId);
+        ItemBelongsToGroupRecord itemBelongsToGroupRecord = itemBelongsToGroupRecordForInsert(BuiltinIdentifierType.ITEM_CATEGORY, categoryId, itemId, opUserId);
         attach(JooqContext.getDataSource(), itemBelongsToGroupRecord);
         itemBelongsToGroupRecord.insert();
     }
 
     private void createItemStoreRelation(Long storeId, Long itemId, Long opUserId) {
-        ItemBelongsToGroupRecord itemBelongsToGroupRecord = itemBelongsToGroupRecordForInsert(BuiltinIdentifierTypes.TABLE_STORE, storeId, itemId, opUserId);
+        ItemBelongsToGroupRecord itemBelongsToGroupRecord = itemBelongsToGroupRecordForInsert(BuiltinIdentifierType.TABLE_STORE, storeId, itemId, opUserId);
         attach(JooqContext.getDataSource(), itemBelongsToGroupRecord);
         itemBelongsToGroupRecord.insert();
     }

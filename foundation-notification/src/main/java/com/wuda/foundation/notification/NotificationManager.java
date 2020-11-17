@@ -1,9 +1,5 @@
 package com.wuda.foundation.notification;
 
-import com.wuda.foundation.commons.CreateTreeNode;
-import com.wuda.foundation.commons.GroupManager;
-import com.wuda.foundation.commons.ParentNodeNotExistsException;
-import com.wuda.foundation.commons.TreeManager;
 import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateResult;
 

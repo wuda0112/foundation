@@ -7,7 +7,6 @@ package com.wuda.foundation.commons.impl.jooq.generation;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.AdministrativeUnit;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Email;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.FlowHistory;
-import com.wuda.foundation.commons.impl.jooq.generation.tables.Group;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Phone;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKey;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKeyDefinition;
@@ -16,12 +15,10 @@ import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyValue;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Task;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.TaskLog;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.TaskPhase;
-import com.wuda.foundation.commons.impl.jooq.generation.tables.TreeNode;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Variable;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.AdministrativeUnitRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.EmailRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.FlowHistoryRecord;
-import com.wuda.foundation.commons.impl.jooq.generation.tables.records.GroupRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PhoneRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyKeyDefinitionRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyKeyRecord;
@@ -30,7 +27,6 @@ import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyV
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.TaskLogRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.TaskPhaseRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.TaskRecord;
-import com.wuda.foundation.commons.impl.jooq.generation.tables.records.TreeNodeRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.VariableRecord;
 
 import org.jooq.Identity;
@@ -52,7 +48,6 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final Identity<EmailRecord, ULong> IDENTITY_EMAIL = Identities0.IDENTITY_EMAIL;
-    public static final Identity<GroupRecord, ULong> IDENTITY_GROUP = Identities0.IDENTITY_GROUP;
     public static final Identity<PhoneRecord, ULong> IDENTITY_PHONE = Identities0.IDENTITY_PHONE;
     public static final Identity<PropertyKeyRecord, ULong> IDENTITY_PROPERTY_KEY = Identities0.IDENTITY_PROPERTY_KEY;
     public static final Identity<PropertyKeyDefinitionRecord, ULong> IDENTITY_PROPERTY_KEY_DEFINITION = Identities0.IDENTITY_PROPERTY_KEY_DEFINITION;
@@ -61,7 +56,6 @@ public class Keys {
     public static final Identity<TaskRecord, ULong> IDENTITY_TASK = Identities0.IDENTITY_TASK;
     public static final Identity<TaskLogRecord, ULong> IDENTITY_TASK_LOG = Identities0.IDENTITY_TASK_LOG;
     public static final Identity<TaskPhaseRecord, ULong> IDENTITY_TASK_PHASE = Identities0.IDENTITY_TASK_PHASE;
-    public static final Identity<TreeNodeRecord, ULong> IDENTITY_TREE_NODE = Identities0.IDENTITY_TREE_NODE;
     public static final Identity<VariableRecord, ULong> IDENTITY_VARIABLE = Identities0.IDENTITY_VARIABLE;
 
     // -------------------------------------------------------------------------
@@ -72,7 +66,6 @@ public class Keys {
     public static final UniqueKey<EmailRecord> KEY_EMAIL_PRIMARY = UniqueKeys0.KEY_EMAIL_PRIMARY;
     public static final UniqueKey<EmailRecord> KEY_EMAIL_IDX_EMAIL_UNIQUE = UniqueKeys0.KEY_EMAIL_IDX_EMAIL_UNIQUE;
     public static final UniqueKey<FlowHistoryRecord> KEY_FLOW_HISTORY_PRIMARY = UniqueKeys0.KEY_FLOW_HISTORY_PRIMARY;
-    public static final UniqueKey<GroupRecord> KEY_GROUP_PRIMARY = UniqueKeys0.KEY_GROUP_PRIMARY;
     public static final UniqueKey<PhoneRecord> KEY_PHONE_PRIMARY = UniqueKeys0.KEY_PHONE_PRIMARY;
     public static final UniqueKey<PhoneRecord> KEY_PHONE_IDX_PHONE_NUMBER = UniqueKeys0.KEY_PHONE_IDX_PHONE_NUMBER;
     public static final UniqueKey<PropertyKeyRecord> KEY_PROPERTY_KEY_PRIMARY = UniqueKeys0.KEY_PROPERTY_KEY_PRIMARY;
@@ -84,7 +77,6 @@ public class Keys {
     public static final UniqueKey<TaskRecord> KEY_TASK_PRIMARY = UniqueKeys0.KEY_TASK_PRIMARY;
     public static final UniqueKey<TaskLogRecord> KEY_TASK_LOG_PRIMARY = UniqueKeys0.KEY_TASK_LOG_PRIMARY;
     public static final UniqueKey<TaskPhaseRecord> KEY_TASK_PHASE_PRIMARY = UniqueKeys0.KEY_TASK_PHASE_PRIMARY;
-    public static final UniqueKey<TreeNodeRecord> KEY_TREE_NODE_PRIMARY = UniqueKeys0.KEY_TREE_NODE_PRIMARY;
     public static final UniqueKey<VariableRecord> KEY_VARIABLE_PRIMARY = UniqueKeys0.KEY_VARIABLE_PRIMARY;
     public static final UniqueKey<VariableRecord> KEY_VARIABLE_IDX_OWNER = UniqueKeys0.KEY_VARIABLE_IDX_OWNER;
 
@@ -99,7 +91,6 @@ public class Keys {
 
     private static class Identities0 {
         public static Identity<EmailRecord, ULong> IDENTITY_EMAIL = Internal.createIdentity(Email.EMAIL, Email.EMAIL.EMAIL_ID);
-        public static Identity<GroupRecord, ULong> IDENTITY_GROUP = Internal.createIdentity(Group.GROUP, Group.GROUP.GROUP_ID);
         public static Identity<PhoneRecord, ULong> IDENTITY_PHONE = Internal.createIdentity(Phone.PHONE, Phone.PHONE.PHONE_ID);
         public static Identity<PropertyKeyRecord, ULong> IDENTITY_PROPERTY_KEY = Internal.createIdentity(PropertyKey.PROPERTY_KEY, PropertyKey.PROPERTY_KEY.PROPERTY_KEY_ID);
         public static Identity<PropertyKeyDefinitionRecord, ULong> IDENTITY_PROPERTY_KEY_DEFINITION = Internal.createIdentity(PropertyKeyDefinition.PROPERTY_KEY_DEFINITION, PropertyKeyDefinition.PROPERTY_KEY_DEFINITION.PROPERTY_DEFINITION_ID);
@@ -108,7 +99,6 @@ public class Keys {
         public static Identity<TaskRecord, ULong> IDENTITY_TASK = Internal.createIdentity(Task.TASK, Task.TASK.TASK_ID);
         public static Identity<TaskLogRecord, ULong> IDENTITY_TASK_LOG = Internal.createIdentity(TaskLog.TASK_LOG, TaskLog.TASK_LOG.TASK_LOG_ID);
         public static Identity<TaskPhaseRecord, ULong> IDENTITY_TASK_PHASE = Internal.createIdentity(TaskPhase.TASK_PHASE, TaskPhase.TASK_PHASE.TASK_PHASE_ID);
-        public static Identity<TreeNodeRecord, ULong> IDENTITY_TREE_NODE = Internal.createIdentity(TreeNode.TREE_NODE, TreeNode.TREE_NODE.TREE_NODE_ID);
         public static Identity<VariableRecord, ULong> IDENTITY_VARIABLE = Internal.createIdentity(Variable.VARIABLE, Variable.VARIABLE.VARIABLE_ID);
     }
 
@@ -117,7 +107,6 @@ public class Keys {
         public static final UniqueKey<EmailRecord> KEY_EMAIL_PRIMARY = Internal.createUniqueKey(Email.EMAIL, "KEY_email_PRIMARY", new TableField[] { Email.EMAIL.EMAIL_ID }, true);
         public static final UniqueKey<EmailRecord> KEY_EMAIL_IDX_EMAIL_UNIQUE = Internal.createUniqueKey(Email.EMAIL, "KEY_email_idx_email_unique", new TableField[] { Email.EMAIL.ADDRESS, Email.EMAIL.IS_DELETED }, true);
         public static final UniqueKey<FlowHistoryRecord> KEY_FLOW_HISTORY_PRIMARY = Internal.createUniqueKey(FlowHistory.FLOW_HISTORY, "KEY_flow_history_PRIMARY", new TableField[] { FlowHistory.FLOW_HISTORY.FLOW_HISTORY_ID }, true);
-        public static final UniqueKey<GroupRecord> KEY_GROUP_PRIMARY = Internal.createUniqueKey(Group.GROUP, "KEY_group_PRIMARY", new TableField[] { Group.GROUP.GROUP_ID }, true);
         public static final UniqueKey<PhoneRecord> KEY_PHONE_PRIMARY = Internal.createUniqueKey(Phone.PHONE, "KEY_phone_PRIMARY", new TableField[] { Phone.PHONE.PHONE_ID }, true);
         public static final UniqueKey<PhoneRecord> KEY_PHONE_IDX_PHONE_NUMBER = Internal.createUniqueKey(Phone.PHONE, "KEY_phone_idx_phone_number", new TableField[] { Phone.PHONE.NUMBER, Phone.PHONE.IS_DELETED }, true);
         public static final UniqueKey<PropertyKeyRecord> KEY_PROPERTY_KEY_PRIMARY = Internal.createUniqueKey(PropertyKey.PROPERTY_KEY, "KEY_property_key_PRIMARY", new TableField[] { PropertyKey.PROPERTY_KEY.PROPERTY_KEY_ID }, true);
@@ -129,7 +118,6 @@ public class Keys {
         public static final UniqueKey<TaskRecord> KEY_TASK_PRIMARY = Internal.createUniqueKey(Task.TASK, "KEY_task_PRIMARY", new TableField[] { Task.TASK.TASK_ID }, true);
         public static final UniqueKey<TaskLogRecord> KEY_TASK_LOG_PRIMARY = Internal.createUniqueKey(TaskLog.TASK_LOG, "KEY_task_log_PRIMARY", new TableField[] { TaskLog.TASK_LOG.TASK_LOG_ID }, true);
         public static final UniqueKey<TaskPhaseRecord> KEY_TASK_PHASE_PRIMARY = Internal.createUniqueKey(TaskPhase.TASK_PHASE, "KEY_task_phase_PRIMARY", new TableField[] { TaskPhase.TASK_PHASE.TASK_PHASE_ID }, true);
-        public static final UniqueKey<TreeNodeRecord> KEY_TREE_NODE_PRIMARY = Internal.createUniqueKey(TreeNode.TREE_NODE, "KEY_tree_node_PRIMARY", new TableField[] { TreeNode.TREE_NODE.TREE_NODE_ID }, true);
         public static final UniqueKey<VariableRecord> KEY_VARIABLE_PRIMARY = Internal.createUniqueKey(Variable.VARIABLE, "KEY_variable_PRIMARY", new TableField[] { Variable.VARIABLE.VARIABLE_ID }, true);
         public static final UniqueKey<VariableRecord> KEY_VARIABLE_IDX_OWNER = Internal.createUniqueKey(Variable.VARIABLE, "KEY_variable_idx_owner", new TableField[] { Variable.VARIABLE.OWNER_TYPE, Variable.VARIABLE.OWNER_IDENTIFIER }, true);
     }

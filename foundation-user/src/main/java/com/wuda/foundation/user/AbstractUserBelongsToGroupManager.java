@@ -4,6 +4,8 @@ import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.identify.LongIdentifier;
 
+import java.util.List;
+
 public abstract class AbstractUserBelongsToGroupManager implements UserBelongsToGroupManager {
     @Override
     public CreateResult createUserBelongsToGroupCore(CreateUserBelongsToGroupCoreRequest request, CreateMode createMode, Long opUserId) {
@@ -74,4 +76,18 @@ public abstract class AbstractUserBelongsToGroupManager implements UserBelongsTo
     }
 
     protected abstract DescribeUserBelongsToGroupRole getUserBelongsToGroupRoleDbOp(Long id);
+
+    @Override
+    public List<LongIdentifier> getGroups(Long userId) {
+        return getGroupsDbOp(userId);
+    }
+
+    protected abstract List<LongIdentifier> getGroupsDbOp(Long userId);
+
+    @Override
+    public List<Long> getMembers(LongIdentifier group) {
+        return getMembersDbOp(group);
+    }
+
+    protected abstract List<Long> getMembersDbOp(LongIdentifier group);
 }

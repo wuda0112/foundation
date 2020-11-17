@@ -77,7 +77,7 @@ public interface JooqCommonDbOp {
         if (existsRecord != null) {
             TableField<R, ULong> idColumn = getPrimaryKeyField(table);
             long existsRecordId = existsRecord.get(idColumn).longValue();
-            return new CreateResult(CreateMode.CREATE_AFTER_SELECT_CHECK, false, 0, existsRecordId, null);
+            return new CreateResult(CreateMode.CREATE_AFTER_SELECT_CHECK, existsRecordId, null);
         }
         return insert(dataSource, table, record);
     }
@@ -101,7 +101,7 @@ public interface JooqCommonDbOp {
         InsertResultStep<R> insertResultStep = insertSetStep.returning(idColumn);
         R r = insertResultStep.fetchOne();
         long id = r.get(idColumn).longValue();
-        return new CreateResult(CreateMode.DIRECT, true, 1, null, id);
+        return new CreateResult(CreateMode.DIRECT, null, id);
     }
 
     /**
@@ -134,16 +134,14 @@ public interface JooqCommonDbOp {
         R r = insertResultStep.fetchOne();
         Long existsRecordId = null;
         Long newlyAddedRecordId = null;
-        int affectedRows = 1;
         if (r == null) {
             attach(dataSource, existsRecordPKSelector);
             Record1<ULong> onlyContainsIdColumnRecord = existsRecordPKSelector.fetchOne();
             existsRecordId = onlyContainsIdColumnRecord.get(idColumn).longValue();
-            affectedRows = 0;
         } else {
             newlyAddedRecordId = r.get(idColumn).longValue();
         }
-        return new CreateResult(CreateMode.CREATE_WHERE_NOT_EXISTS, true, affectedRows, existsRecordId, newlyAddedRecordId);
+        return new CreateResult(CreateMode.CREATE_WHERE_NOT_EXISTS, existsRecordId, newlyAddedRecordId);
     }
 
     /**

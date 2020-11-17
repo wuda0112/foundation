@@ -4,7 +4,6 @@ import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
-import com.wuda.foundation.lang.FoundationContext;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.identify.IdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
@@ -13,15 +12,14 @@ import com.wuda.foundation.user.*;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserBelongsToGroupCoreRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserBelongsToGroupGeneralRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserBelongsToGroupRoleRecord;
-import org.jooq.Configuration;
-import org.jooq.DSLContext;
-import org.jooq.Record1;
-import org.jooq.SelectConditionStep;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.types.ULong;
 import org.jooq.types.UShort;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.wuda.foundation.user.impl.jooq.generation.Tables.USER_BELONGS_TO_GROUP_GENERAL;
 import static com.wuda.foundation.user.impl.jooq.generation.Tables.USER_BELONGS_TO_GROUP_ROLE;
@@ -116,11 +114,53 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
         return copyFrom(record);
     }
 
+    @Override
+    protected List<LongIdentifier> getGroupsDbOp(Long userId) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext();
+        Result<Record2<UShort, ULong>> results = dslContext.select(USER_BELONGS_TO_GROUP_CORE.GROUP_TYPE, USER_BELONGS_TO_GROUP_CORE.GROUP_IDENTIFIER)
+                .from(USER_BELONGS_TO_GROUP_CORE)
+                .where(USER_BELONGS_TO_GROUP_CORE.USER_ID.eq(ULong.valueOf(userId)))
+                .and(USER_BELONGS_TO_GROUP_CORE.IS_DELETED.eq(notDeleted()))
+                .fetch();
+        if (results == null || results.isEmpty()) {
+            return null;
+        }
+        List<LongIdentifier> groups = new ArrayList<>(results.size());
+        results.forEach((result -> {
+            long groupId = result.get(USER_BELONGS_TO_GROUP_CORE.GROUP_IDENTIFIER).longValue();
+            int _groupType = result.get(USER_BELONGS_TO_GROUP_CORE.GROUP_TYPE).intValue();
+            IdentifierType groupType = IdentifierTypeRegistry.defaultRegistry.lookup(_groupType);
+            LongIdentifier group = new LongIdentifier(groupId, groupType);
+            groups.add(group);
+        }));
+        return groups;
+    }
+
+    @Override
+    protected List<Long> getMembersDbOp(LongIdentifier group) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext();
+        Result<Record1<ULong>> results = dslContext.select(USER_BELONGS_TO_GROUP_CORE.USER_ID)
+                .from(USER_BELONGS_TO_GROUP_CORE)
+                .where(USER_BELONGS_TO_GROUP_CORE.GROUP_TYPE.eq(UShort.valueOf(group.getType().getCode())))
+                .and(USER_BELONGS_TO_GROUP_CORE.GROUP_IDENTIFIER.eq(ULong.valueOf(group.getValue())))
+                .and(USER_BELONGS_TO_GROUP_CORE.IS_DELETED.eq(notDeleted()))
+                .fetch();
+        if (results == null || results.isEmpty()) {
+            return null;
+        }
+        List<Long> userIds = new ArrayList<>(results.size());
+        results.forEach((result -> {
+            long userId = result.get(USER_BELONGS_TO_GROUP_CORE.USER_ID).longValue();
+            userIds.add(userId);
+        }));
+        return userIds;
+    }
+
     private UserBelongsToGroupCoreRecord userBelongsToGroupCoreRecordForInsert(CreateUserBelongsToGroupCoreRequest request, Long opUserId) {
         LongIdentifier group = request.getGroup();
         LocalDateTime now = LocalDateTime.now();
         return new UserBelongsToGroupCoreRecord(ULong.valueOf(request.getId()),
-                ULong.valueOf(FoundationContext.getLongKeyGenerator().next()),
+                ULong.valueOf(request.getUserBelongsToGroupId()),
                 ULong.valueOf(request.getUserId()),
                 UShort.valueOf(group.getType().getCode()),
                 ULong.valueOf(group.getValue()),

@@ -3,9 +3,34 @@ package com.wuda.foundation.user;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.identify.LongIdentifier;
+import com.wuda.foundation.security.BuiltinRole;
+
+import java.util.List;
 
 /**
  * 用户与组的关系的管理.
+ * 在组中, you can use roles to assign permissions to members of your group.
+ * There are 3 default roles for every group, and those roles can’t be removed.
+ * You can also create custom roles.
+ * You can modify the permissions for default and custom roles for every group.
+ * Permissions determine who can view, post, and moderate content and manage members
+ * and settings in the group.
+ * <p>
+ * 三种默认的角色是
+ * <ul>
+ * <li>Owner,拥有Owner角色的成员,可以完全管理这个组,使用{@link BuiltinRole#USER_BELONGS_TO_GROUP_OWNER_ROLE}表示</li>
+ * <li>Manager,By default, managers can do everything that owners can do except:
+ * <ul>
+ * <li>Delete the group.</li>
+ * <li>Make another member an owner.</li>
+ * <li>Change an owner’s role to manager or member.使用{@link BuiltinRole#USER_BELONGS_TO_GROUP_MANAGER_ROLE}表示</li>
+ * </ul>
+ * </li>
+ * <li>Member,Everyone in a group has the member role.
+ * Any permissions that are set for the member role are automatically given to managers and owners.
+ * 使用{@link BuiltinRole#USER_BELONGS_TO_GROUP_MEMBER_ROLE}表示
+ * </li>
+ * </ul>
  *
  * @author wuda
  * @since 1.0.3
@@ -104,4 +129,20 @@ public interface UserBelongsToGroupManager {
      * @return 用户在组中的角色信息
      */
     DescribeUserBelongsToGroupRole getUserBelongsToGroupRole(Long id);
+
+    /**
+     * 获取用户所属的所有组.
+     *
+     * @param userId user id
+     * @return 该用户所在的所有的组
+     */
+    List<LongIdentifier> getGroups(Long userId);
+
+    /**
+     * 获取组中的所有成员.
+     *
+     * @param group group
+     * @return 组中的所有成员
+     */
+    List<Long> getMembers(LongIdentifier group);
 }

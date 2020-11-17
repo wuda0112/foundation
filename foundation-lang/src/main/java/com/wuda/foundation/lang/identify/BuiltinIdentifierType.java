@@ -1,14 +1,38 @@
 package com.wuda.foundation.lang.identify;
 
 /**
- * 抽象实现类,主要是完成了自动注册到{@link IdentifierTypeRegistry}的操作.
+ * 内建的identifier type.
  *
  * @author wuda
- * @version 1.0.3
+ * @since 1.0.0
  */
-public abstract class AbstractIdentifierType implements IdentifierType {
+public enum BuiltinIdentifierType implements IdentifierType {
 
+    /**
+     * VIRTUAL.
+     */
+    VIRTUAL(0, "表示不存在的,通常用于虚拟数据"),
+    /**
+     * 表示item表.
+     */
+    TABLE_ITEM(1, "表示item表"),
+    /**
+     * 表示store表.
+     */
+    TABLE_STORE(2, "表示store表"),
+
+    /**
+     * 表示item_category表.
+     */
+    ITEM_CATEGORY(3, "表示item_category表");
+
+    /**
+     * unique code.
+     */
     protected int code;
+    /**
+     * 描述信息.
+     */
     protected String description;
 
     /**
@@ -17,7 +41,7 @@ public abstract class AbstractIdentifierType implements IdentifierType {
      * @param code        the unique code
      * @param description description
      */
-    public AbstractIdentifierType(int code, String description) {
+    BuiltinIdentifierType(int code, String description) {
         this.code = code;
         this.description = description;
         IdentifierTypeRegistry.defaultRegistry.register(this);

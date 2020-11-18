@@ -116,11 +116,18 @@ public abstract class AbstractPermissionManager implements PermissionManager {
     protected abstract DescribePermission getPermissionDbOp(Long permissionTargetId);
 
     @Override
-    public CreateResult createPermissionRole(CreatePermissionRoleRequest request,CreateMode createMode, Long opUserId) {
-        return createPermissionRoleDbOp(request,createMode, opUserId);
+    public List<DescribePermission> getPermissions(Subject subject) {
+        return getPermissionsDbOp(subject);
     }
 
-    protected abstract CreateResult createPermissionRoleDbOp(CreatePermissionRoleRequest request, CreateMode createMode,Long opUserId);
+    protected abstract List<DescribePermission> getPermissionsDbOp(Subject subject);
+
+    @Override
+    public CreateResult createPermissionRole(CreatePermissionRoleRequest request, CreateMode createMode, Long opUserId) {
+        return createPermissionRoleDbOp(request, createMode, opUserId);
+    }
+
+    protected abstract CreateResult createPermissionRoleDbOp(CreatePermissionRoleRequest request, CreateMode createMode, Long opUserId);
 
     @Override
     public void updatePermissionRole(UpdatePermissionRoleRequest request, Long opUserId) throws AlreadyExistsException {

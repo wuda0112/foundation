@@ -11,17 +11,17 @@ import com.wuda.foundation.lang.UniqueCodeDescriptor;
 public enum BuiltinRole implements UniqueCodeDescriptor<Long> {
 
     /**
-     * 组中的成员分配的Owner类型的角色.
+     * 组中的成员分配的Owner类型的角色,这个组是Store.
      */
-    USER_BELONGS_TO_GROUP_OWNER_ROLE(1L, "组中的成员分配的Owner类型的角色"),
+    USER_BELONGS_TO_GROUP_STORE_OWNER(1L, "组中的成员分配的Owner类型的角色,这个组是Store."),
     /**
-     * 组中的成员分配的Manager类型的角色.
+     * 组中的成员分配的Manager类型的角色,这个组是Store.
      */
-    USER_BELONGS_TO_GROUP_MANAGER_ROLE(1L, "组中的成员分配的Manager类型的角色"),
+    USER_BELONGS_TO_GROUP_STORE_MANAGER(1L, "组中的成员分配的Manager类型的角色,这个组是Store."),
     /**
-     * 组中的成员分配的Member类型的角色.
+     * 组中的成员分配的Member类型的角色,这个组是Store.
      */
-    USER_BELONGS_TO_GROUP_MEMBER_ROLE(1L, "组中的成员分配的Member类型的角色"),
+    USER_BELONGS_TO_GROUP_STORE_MEMBER(1L, "组中的成员分配的Member类型的角色,这个组是Store."),
     ;
 
     /**

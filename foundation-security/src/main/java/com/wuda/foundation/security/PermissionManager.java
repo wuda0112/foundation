@@ -137,6 +137,14 @@ public interface PermissionManager {
     DescribePermission getPermission(Long permissionTargetId);
 
     /**
+     * 获取分配给subject的所有permission.
+     *
+     * @param subject the subject
+     * @return list of permission
+     */
+    List<DescribePermission> getPermissions(Subject subject);
+
+    /**
      * 创建permission role
      *
      * @param request  request

@@ -18,17 +18,17 @@ import java.util.List;
  * <p>
  * 三种默认的角色是
  * <ul>
- * <li>Owner,拥有Owner角色的成员,可以完全管理这个组,使用{@link BuiltinRole#USER_BELONGS_TO_GROUP_OWNER_ROLE}表示</li>
+ * <li>Owner,拥有Owner角色的成员,可以完全管理这个组,使用{@link BuiltinRole#USER_BELONGS_TO_GROUP_STORE_OWNER}表示</li>
  * <li>Manager,By default, managers can do everything that owners can do except:
  * <ul>
  * <li>Delete the group.</li>
  * <li>Make another member an owner.</li>
- * <li>Change an owner’s role to manager or member.使用{@link BuiltinRole#USER_BELONGS_TO_GROUP_MANAGER_ROLE}表示</li>
+ * <li>Change an owner’s role to manager or member.使用{@link BuiltinRole#USER_BELONGS_TO_GROUP_STORE_MANAGER}表示</li>
  * </ul>
  * </li>
  * <li>Member,Everyone in a group has the member role.
  * Any permissions that are set for the member role are automatically given to managers and owners.
- * 使用{@link BuiltinRole#USER_BELONGS_TO_GROUP_MEMBER_ROLE}表示
+ * 使用{@link BuiltinRole#USER_BELONGS_TO_GROUP_STORE_MEMBER}表示
  * </li>
  * </ul>
  *

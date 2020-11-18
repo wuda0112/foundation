@@ -214,41 +214,21 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
     protected void updatePermissionActionDbOp(UpdatePermissionAction updatePermissionAction, Long opUserId) {
         PermissionActionRecord record = new PermissionActionRecord();
         record.setPermissionActionId(ULong.valueOf(updatePermissionAction.getId()));
-        boolean update = false;
-        if (updatePermissionAction.getName() != null) {
-            record.setName(updatePermissionAction.getName());
-            update = true;
-        }
-        if (updatePermissionAction.getDescription() != null) {
-            record.setDescription(updatePermissionAction.getDescription());
-            update = true;
-        }
+        record.setName(updatePermissionAction.getName());
+        record.setDescription(updatePermissionAction.getDescription());
         record.setLastModifyTime(LocalDateTime.now());
         record.setLastModifyUserId(ULong.valueOf(opUserId));
-        attach(dataSource, record);
-        if (update) {
-            record.update();
-        }
+        updateSelectiveByPrimaryKey(JooqContext.getDataSource(), record);
     }
 
     protected void updatePermissionTargetDbOp(UpdatePermissionTarget updatePermissionTarget, Long opUserId) {
         PermissionTargetRecord record = new PermissionTargetRecord();
         record.setPermissionTargetId(ULong.valueOf(updatePermissionTarget.getId()));
-        boolean update = false;
-        if (updatePermissionTarget.getName() != null) {
-            record.setName(updatePermissionTarget.getName());
-            update = true;
-        }
-        if (updatePermissionTarget.getDescription() != null) {
-            record.setDescription(updatePermissionTarget.getDescription());
-            update = true;
-        }
+        record.setName(updatePermissionTarget.getName());
+        record.setDescription(updatePermissionTarget.getDescription());
         record.setLastModifyTime(LocalDateTime.now());
         record.setLastModifyUserId(ULong.valueOf(opUserId));
-        attach(dataSource, record);
-        if (update) {
-            record.update();
-        }
+        updateSelectiveByPrimaryKey(JooqContext.getDataSource(), record);
     }
 
     @Override
@@ -256,6 +236,11 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
         DescribePermissionTarget target = getPermissionTargetByIdDbOp(permissionTargetId);
         List<DescribePermissionAction> actions = getPermissionActionByTargetDbOp(permissionTargetId);
         return new DescribePermission(target, actions);
+    }
+
+    @Override
+    protected List<DescribePermission> getPermissionsDbOp(Subject subject) {
+        return null;
     }
 
     @Override

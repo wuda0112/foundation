@@ -67,7 +67,7 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
         CreateUserBelongsToGroupRoleRequest createUserBelongsToGroupRoleRequest = new CreateUserBelongsToGroupRoleRequest.Builder()
                 .setId(ownerUserId)
                 .setUserBelongsToGroupId(userBelongsToGroupId)
-                .setPermissionRoleId(BuiltinRole.USER_BELONGS_TO_GROUP_OWNER_ROLE.getCode())
+                .setPermissionRoleId(BuiltinRole.USER_BELONGS_TO_GROUP_STORE_OWNER.getCode())
                 .build();
         userBelongsToGroupManager.createUserBelongsToGroupRole(createUserBelongsToGroupRoleRequest, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
         return storeCoreId;

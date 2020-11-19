@@ -21,4 +21,16 @@ public class Subject extends LongIdentifier {
     public Subject(Long value, IdentifierType type) {
         super(value, type);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj instanceof Subject) {
+            Subject other = (Subject) obj;
+            return this.getType().getCode() == ((Subject) obj).getType().getCode() && this.getValue().equals(other.getValue());
+        }
+        return false;
+    }
 }

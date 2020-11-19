@@ -9,12 +9,28 @@ import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.identify.IdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
-import com.wuda.foundation.security.*;
+import com.wuda.foundation.security.AbstractPermissionManager;
+import com.wuda.foundation.security.CreatePermissionAction;
+import com.wuda.foundation.security.CreatePermissionRoleRequest;
+import com.wuda.foundation.security.CreatePermissionTarget;
+import com.wuda.foundation.security.DescribePermission;
+import com.wuda.foundation.security.DescribePermissionAction;
+import com.wuda.foundation.security.DescribePermissionRole;
+import com.wuda.foundation.security.DescribePermissionTarget;
+import com.wuda.foundation.security.PermissionRoleType;
+import com.wuda.foundation.security.Subject;
+import com.wuda.foundation.security.UpdatePermissionAction;
+import com.wuda.foundation.security.UpdatePermissionRoleRequest;
+import com.wuda.foundation.security.UpdatePermissionTarget;
 import com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAction;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionActionRecord;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionRoleRecord;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionTargetRecord;
-import org.jooq.*;
+import org.jooq.Configuration;
+import org.jooq.DSLContext;
+import org.jooq.Record1;
+import org.jooq.RecordMapper;
+import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
@@ -165,17 +181,17 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
         PermissionTargetRecord target = dslContext.selectFrom(PERMISSION_TARGET)
                 .where(PERMISSION_TARGET.PERMISSION_TARGET_ID.eq(ULong.valueOf(permissionTargetId)))
                 .fetchOne();
-        return from(target);
+        return EntityConverter.from(target);
     }
 
     @Override
     protected DescribePermissionAction getPermissionActionByIdDbOp(Long permissionActionId) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        PermissionActionRecord action = dslContext.selectFrom(PERMISSION_ACTION)
+        PermissionActionRecord permissionActionRecord = dslContext.selectFrom(PERMISSION_ACTION)
                 .where(PERMISSION_ACTION.PERMISSION_ACTION_ID.eq(ULong.valueOf(permissionActionId)))
                 .fetchOne();
-        PermissionAction permissionAction = action.into(PermissionAction.class);
-        return from(permissionAction);
+        PermissionAction permissionAction = permissionActionRecord.into(PermissionAction.class);
+        return EntityConverter.fromAction(permissionAction);
     }
 
     @Override
@@ -186,7 +202,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
         List<PermissionAction> actions = dslContext.selectFrom(PERMISSION_ACTION)
                 .where(PERMISSION_ACTION.PERMISSION_TARGET_ID.eq(ULong.valueOf(permissionTargetId)))
                 .fetch(mapper);
-        return fromList(actions);
+        return EntityConverter.fromList(actions);
     }
 
     @Override
@@ -262,46 +278,6 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
                 .where(PERMISSION_ROLE.PERMISSION_ROLE_ID.eq(ULong.valueOf(id)))
                 .fetchOne();
         return copyRoleFrom(record);
-    }
-
-    private DescribePermissionTarget from(PermissionTargetRecord target) {
-        if (target == null) {
-            return null;
-        }
-        DescribePermissionTarget describePermissionTarget = new DescribePermissionTarget();
-        describePermissionTarget.setId(target.getPermissionTargetId().longValue());
-        describePermissionTarget.setCategoryId(target.getPermissionCategoryId().longValue());
-        describePermissionTarget.setName(target.getName());
-        describePermissionTarget.setType(target.getType().byteValue());
-        IdentifierType identifierType = IdentifierTypeRegistry.defaultRegistry.lookup(target.getReferencedType().intValue());
-        LongIdentifier referencedIdentifier = new LongIdentifier(target.getReferencedIdentifier().longValue(), identifierType);
-        describePermissionTarget.setReferencedIdentifier(referencedIdentifier);
-        describePermissionTarget.setDescription(target.getDescription());
-        return describePermissionTarget;
-    }
-
-    private DescribePermissionAction from(PermissionAction action) {
-        DescribePermissionAction describePermissionAction = new DescribePermissionAction();
-        describePermissionAction.setId(action.getPermissionActionId().longValue());
-        describePermissionAction.setPermissionTargetId(action.getPermissionTargetId().longValue());
-        describePermissionAction.setName(action.getName());
-        IdentifierType identifierType = IdentifierTypeRegistry.defaultRegistry.lookup(action.getReferencedType().intValue());
-        LongIdentifier identifier = new LongIdentifier(action.getReferencedIdentifier().longValue(), identifierType);
-        describePermissionAction.setDescription(action.getDescription());
-        describePermissionAction.setReferencedIdentifier(identifier);
-        return describePermissionAction;
-    }
-
-    private List<DescribePermissionAction> fromList(List<PermissionAction> actions) {
-        if (actions == null || actions.isEmpty()) {
-            return null;
-        }
-        List<DescribePermissionAction> list = new ArrayList<>(actions.size());
-        for (PermissionAction action : actions) {
-            DescribePermissionAction describePermissionAction = from(action);
-            list.add(describePermissionAction);
-        }
-        return list;
     }
 
     private PermissionRoleRecord permissionRoleRecordForInsert(CreatePermissionRoleRequest request, Long opUserId) {

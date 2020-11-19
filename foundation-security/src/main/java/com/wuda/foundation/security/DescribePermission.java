@@ -41,7 +41,9 @@ public class DescribePermission {
         List<DescribePermissionTarget> allTargets = permissions.stream().map(DescribePermission::getTarget).collect(Collectors.toList());
         List<DescribePermissionAction> allActions = new ArrayList<>();
         for (DescribePermission permission : permissions) {
-            allActions.addAll(permission.getActions());
+            if (permission.getActions() != null && !permission.getActions().isEmpty()) {
+                allActions.addAll(permission.getActions());
+            }
         }
         // 这个过程就相当于是合并了target,因为相同Id的target只有一个了
         Map<Long, DescribePermissionTarget> targetByIdMap = MyCollectionUtils.toMap(allTargets, DescribePermissionTarget::getId);

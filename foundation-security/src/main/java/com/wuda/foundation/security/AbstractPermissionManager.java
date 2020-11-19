@@ -115,11 +115,6 @@ public abstract class AbstractPermissionManager implements PermissionManager {
 
     protected abstract DescribePermission getPermissionDbOp(Long permissionTargetId);
 
-    @Override
-    public List<DescribePermission> getPermissions(Subject subject) {
-        return getPermissionsDbOp(subject);
-    }
-
     protected abstract List<DescribePermission> getPermissionsDbOp(Subject subject);
 
     @Override

@@ -67,10 +67,10 @@ public interface PermissionGrantManager {
     void revokeAction(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId);
 
     /**
-     * 获取{@link Subject}的{@link DescribePermissionAssignment}.
+     * 获取{@link Subject}的所有分配的permission.
      *
      * @param subject subject
-     * @return 该用户的permission
+     * @return 该 {@link Subject} 的permission
      */
-    List<DescribePermissionAssignment> getPermission(Subject subject);
+    List<DescribePermission> getPermissions(Subject subject);
 }

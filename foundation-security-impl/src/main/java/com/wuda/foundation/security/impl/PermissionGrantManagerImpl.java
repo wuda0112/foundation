@@ -6,12 +6,18 @@ import com.wuda.foundation.lang.Constant;
 import com.wuda.foundation.lang.FoundationContext;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.security.AbstractPermissionGrantManager;
+import com.wuda.foundation.security.DescribePermission;
+import com.wuda.foundation.security.DescribePermissionAction;
+import com.wuda.foundation.security.DescribePermissionAssignment;
+import com.wuda.foundation.security.DescribePermissionTarget;
+import com.wuda.foundation.security.DescribeSubjectPermission;
 import com.wuda.foundation.security.PermissionAssignmentCommand;
 import com.wuda.foundation.security.Subject;
-import com.wuda.foundation.security.DescribePermissionAssignment;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionActionRecord;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionAssignmentRecord;
+import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionTargetRecord;
 import org.jooq.DSLContext;
+import org.jooq.Record;
 import org.jooq.SelectConditionStep;
 import org.jooq.UpdateConditionStep;
 import org.jooq.types.UByte;
@@ -19,12 +25,14 @@ import org.jooq.types.ULong;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAction.PERMISSION_ACTION;
 import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAssignment.PERMISSION_ASSIGNMENT;
+import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionTarget.PERMISSION_TARGET;
 
 public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager implements JooqCommonDbOp {
 
@@ -162,6 +170,36 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
         return selectConditionStep.fetch();
     }
 
+    protected List<DescribeSubjectPermission> querySubjectPermissions(Subject subject, Long targetId) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
+        SelectConditionStep<Record> selectConditionStep = dslContext
+                .select()
+                .from(PERMISSION_ASSIGNMENT)
+                .leftJoin(PERMISSION_TARGET).on(PERMISSION_TARGET.PERMISSION_TARGET_ID.eq(PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID))
+                .leftJoin(PERMISSION_ACTION).on(PERMISSION_ACTION.PERMISSION_ACTION_ID.eq(PERMISSION_ASSIGNMENT.PERMISSION_ACTION_ID))
+                .where(PERMISSION_ASSIGNMENT.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
+                .and(PERMISSION_ASSIGNMENT.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())));
+        if (targetId != null) {
+            selectConditionStep.and(PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)));
+        }
+        selectConditionStep.and(PERMISSION_ASSIGNMENT.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
+        List<Record> recordList = selectConditionStep.fetch();
+        List<DescribeSubjectPermission> list = new ArrayList<>();
+        if (recordList != null && !recordList.isEmpty()) {
+            for (Record record : recordList) {
+                PermissionTargetRecord permissionTargetRecord = record.into(PERMISSION_TARGET);
+                DescribePermissionTarget describePermissionTarget = EntityConverter.from(permissionTargetRecord);
+                PermissionActionRecord permissionActionRecord = record.into(PERMISSION_ACTION);
+                DescribePermissionAction describePermissionAction = EntityConverter.fromActionRecord(permissionActionRecord);
+                PermissionAssignmentRecord permissionAssignmentRecord = record.into(PERMISSION_ASSIGNMENT);
+                DescribePermissionAssignment describePermissionAssignment = EntityConverter.fromAssignmentRecord(permissionAssignmentRecord);
+                DescribeSubjectPermission describeSubjectPermission = new DescribeSubjectPermission(describePermissionAssignment.getSubject(), describePermissionTarget, describePermissionAction, describePermissionAssignment.getCommand());
+                list.add(describeSubjectPermission);
+            }
+        }
+        return list;
+    }
+
     @Override
     protected void revokeTargetDbOp(Subject subject, Set<Long> targetIdSet, Long opUserId) {
         for (Long targetId : targetIdSet) {
@@ -196,8 +234,8 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
     }
 
     @Override
-    protected List<DescribePermissionAssignment> getPermissionDbOp(Subject subject) {
-        List<PermissionAssignmentRecord> records = queryPermissionAssignmentRecords(subject, null);
-        return null;
+    protected List<DescribePermission> getPermissionsDbOp(Subject subject) {
+        List<DescribeSubjectPermission> subjectPermissions = querySubjectPermissions(subject, null);
+        return DescribeSubjectPermission.merge(subjectPermissions, null);
     }
 }

@@ -28,4 +28,38 @@ public interface PermissionAssignmentManager {
      * @return {@link PermissionAssignmentExplain}
      */
     PermissionAssignmentExplain explain(Subject subject);
+
+    /**
+     * 获取{@link Target}所拥有的所有{@link Action}.
+     *
+     * @param target 目标对象
+     * @return 该target的所有的action
+     */
+    List<Action> getActions(Target target);
+
+    /**
+     * 获取某一类{@link Target}所拥有的所有{@link Action}.
+     * 比如假设{@link Target}的类型是file,则返回file的所有操作,比如read/write.
+     *
+     * @param targetType 一类{@link Target}
+     * @return 该permission target的所有action
+     */
+    List<Action> getActions(Target.Type targetType);
+
+    /**
+     * @param container action container. {@link Action}不一定代表一个具体的动作,也可以代表一类动作,
+     *                  就好比{@link Target}可以代表file,也可以代表folder. 更有说服力的是{@link java.io.File}
+     *                  既代表file,也可以代表directory.
+     * @return 该action所代表的一类action
+     */
+    List<Action> getActions(Action container);
+
+    /**
+     * 获取容器类型的{@link Target}所拥有的所有元素.
+     * 比如假设{@link Target}是文件夹,则返回这个文件夹下的所有文件和子文件夹.
+     *
+     * @param container 该类型的{@link Target}是容器类型,比如文件夹
+     * @return 该permission target下的所有元素
+     */
+    List<Target> getTargets(Target container);
 }

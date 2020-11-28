@@ -4,6 +4,8 @@ import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.identify.LongIdentifier;
 import com.wuda.foundation.security.BuiltinRole;
+import com.wuda.foundation.security.DescribePermission;
+import com.wuda.foundation.security.DescribePermissionRole;
 
 import java.util.List;
 
@@ -145,4 +147,31 @@ public interface UserBelongsToGroupManager {
      * @return 组中的所有成员
      */
     List<Long> getMembers(LongIdentifier group);
+
+    /**
+     * 获取用户在给定组中通过角色获得的所有权限.
+     *
+     * @param userId 用户ID
+     * @param group  组
+     * @return 权限的集合
+     */
+    List<DescribePermission> getPermissionsFromRole(Long userId, LongIdentifier group);
+
+    /**
+     * 获取用户在给定组中的所有角色.
+     *
+     * @param userId user id
+     * @param group  group
+     * @return 所有角色
+     */
+    List<DescribePermissionRole> getRoles(Long userId, LongIdentifier group);
+
+    /**
+     * 获取用户在给定组中通过角色获得的所有操作.
+     *
+     * @param userId user id
+     * @param group  group
+     * @return 操作的集合
+     */
+    List<DescribeMenuItem> getMenuItemsFromRole(Long userId, LongIdentifier group);
 }

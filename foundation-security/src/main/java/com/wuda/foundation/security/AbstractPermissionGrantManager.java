@@ -13,7 +13,7 @@ public abstract class AbstractPermissionGrantManager implements PermissionGrantM
 
     @Override
     public void grantAction(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId) {
-        grantActionDbOp(subject,targetId, actionIdSet, opUserId);
+        grantActionDbOp(subject, targetId, actionIdSet, opUserId);
     }
 
     protected abstract void grantActionDbOp(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId);
@@ -38,4 +38,11 @@ public abstract class AbstractPermissionGrantManager implements PermissionGrantM
     }
 
     protected abstract List<DescribePermission> getPermissionsDbOp(Subject subject);
+
+    @Override
+    public List<DescribePermission> getPermissions(List<Subject> subjects) {
+        return getPermissionsDbOp(subjects);
+    }
+
+    protected abstract List<DescribePermission> getPermissionsDbOp(List<Subject> subjects);
 }

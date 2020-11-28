@@ -8,11 +8,30 @@ import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.identify.IdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
-import com.wuda.foundation.user.*;
+import com.wuda.foundation.security.DescribePermission;
+import com.wuda.foundation.security.DescribePermissionRole;
+import com.wuda.foundation.security.PermissionGrantManager;
+import com.wuda.foundation.security.Subject;
+import com.wuda.foundation.user.AbstractUserBelongsToGroupManager;
+import com.wuda.foundation.user.CreateUserBelongsToGroupCoreRequest;
+import com.wuda.foundation.user.CreateUserBelongsToGroupGeneralRequest;
+import com.wuda.foundation.user.CreateUserBelongsToGroupRoleRequest;
+import com.wuda.foundation.user.DescribeMenuItem;
+import com.wuda.foundation.user.DescribeUserBelongsToGroupCore;
+import com.wuda.foundation.user.DescribeUserBelongsToGroupGeneral;
+import com.wuda.foundation.user.DescribeUserBelongsToGroupRole;
+import com.wuda.foundation.user.RemoveUserFromGroupRequest;
+import com.wuda.foundation.user.RemoveUsersRoleFromGroupRequest;
+import com.wuda.foundation.user.UpdateUserBelongsToGroupGeneralRequest;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserBelongsToGroupCoreRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserBelongsToGroupGeneralRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserBelongsToGroupRoleRecord;
-import org.jooq.*;
+import org.jooq.Configuration;
+import org.jooq.DSLContext;
+import org.jooq.Record1;
+import org.jooq.Record2;
+import org.jooq.Result;
+import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
 import org.jooq.types.ULong;
 import org.jooq.types.UShort;
@@ -26,6 +45,13 @@ import static com.wuda.foundation.user.impl.jooq.generation.Tables.USER_BELONGS_
 import static com.wuda.foundation.user.impl.jooq.generation.tables.UserBelongsToGroupCore.USER_BELONGS_TO_GROUP_CORE;
 
 public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupManager implements JooqCommonDbOp {
+
+    private PermissionGrantManager permissionGrantManager;
+
+    public void setPermissionGrantManager(PermissionGrantManager permissionGrantManager) {
+        this.permissionGrantManager = permissionGrantManager;
+    }
+
     @Override
     protected CreateResult createUserBelongsToGroupCoreDbOp(CreateUserBelongsToGroupCoreRequest request, CreateMode createMode, Long opUserId) {
         UserBelongsToGroupCoreRecord record = userBelongsToGroupCoreRecordForInsert(request, opUserId);
@@ -154,6 +180,41 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
             userIds.add(userId);
         }));
         return userIds;
+    }
+
+    @Override
+    protected List<DescribePermission> getPermissionsFromRoleDbOp(Long userId, LongIdentifier group) {
+        List<DescribePermissionRole> roles = getRoles(userId, group);
+        List<Subject> subjects = DescribePermissionRole.toSubjects(roles);
+        if (subjects == null || subjects.isEmpty()) {
+            return null;
+        }
+        return permissionGrantManager.getPermissions(subjects);
+    }
+
+    @Override
+    protected List<DescribePermissionRole> getRolesDbOp(Long userId, LongIdentifier group) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext();
+        Result<Record1<ULong>> roleIds = dslContext.select(USER_BELONGS_TO_GROUP_ROLE.PERMISSION_ROLE_ID)
+                .from(USER_BELONGS_TO_GROUP_CORE)
+                .leftJoin(USER_BELONGS_TO_GROUP_ROLE).on(USER_BELONGS_TO_GROUP_ROLE.USER_BELONGS_TO_GROUP_ID.eq(USER_BELONGS_TO_GROUP_CORE.USER_BELONGS_TO_GROUP_ID))
+                .where(USER_BELONGS_TO_GROUP_CORE.GROUP_TYPE.eq(UShort.valueOf(group.getType().getCode())))
+                .and(USER_BELONGS_TO_GROUP_CORE.GROUP_IDENTIFIER.eq(ULong.valueOf(group.getValue())))
+                .and(USER_BELONGS_TO_GROUP_CORE.USER_ID.eq(ULong.valueOf(userId)))
+                .and(USER_BELONGS_TO_GROUP_CORE.IS_DELETED.eq(notDeleted()))
+                .and(USER_BELONGS_TO_GROUP_ROLE.IS_DELETED.eq(notDeleted()))
+                .fetch();
+        return null;
+    }
+
+    @Override
+    protected List<DescribeMenuItem> getMenuItemsFromRoleDbOp(Long userId, LongIdentifier group) {
+        List<DescribePermission> permissions = getPermissionsFromRole(userId, group);
+        if (permissions == null || permissions.isEmpty()) {
+            return null;
+        }
+
+        return null;
     }
 
     private UserBelongsToGroupCoreRecord userBelongsToGroupCoreRecordForInsert(CreateUserBelongsToGroupCoreRequest request, Long opUserId) {

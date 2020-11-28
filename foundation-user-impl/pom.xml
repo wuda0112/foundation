@@ -33,6 +33,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.wuda0112</groupId>
+            <artifactId>foundation-security-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
     <profiles>

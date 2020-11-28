@@ -73,4 +73,12 @@ public interface PermissionGrantManager {
      * @return 该 {@link Subject} 的permission
      */
     List<DescribePermission> getPermissions(Subject subject);
+
+    /**
+     * 获取{@link Subject}的所有分配的permission.
+     *
+     * @param subjects list of subject
+     * @return 这些 {@link Subject} 的permission
+     */
+    List<DescribePermission> getPermissions(List<Subject> subjects);
 }

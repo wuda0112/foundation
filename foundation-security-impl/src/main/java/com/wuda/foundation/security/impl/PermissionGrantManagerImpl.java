@@ -238,4 +238,9 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
         List<DescribeSubjectPermission> subjectPermissions = querySubjectPermissions(subject, null);
         return DescribeSubjectPermission.merge(subjectPermissions, null);
     }
+
+    @Override
+    protected List<DescribePermission> getPermissionsDbOp(List<Subject> subjects) {
+        return null;
+    }
 }

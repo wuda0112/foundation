@@ -24,7 +24,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationSecurity extends SchemaImpl {
 
-    private static final long serialVersionUID = 941083698;
+    private static final long serialVersionUID = -875547324;
 
     /**
      * The reference instance of <code>foundation_security</code>
@@ -37,7 +37,7 @@ public class FoundationSecurity extends SchemaImpl {
     public final PermissionAction PERMISSION_ACTION = PermissionAction.PERMISSION_ACTION;
 
     /**
-     * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject，role 【IS A】 subject等等。
+     * 权限分配。subject可以代表任何主体，比如用户，或者想要访问其他资源的应用，因此我们可以说user 【IS A】 subject 。target可以代表任何对象，比如file，因此我们可以说file 【IS A】 target。action可以代表任何操作，比如read/write。subject , target , action这三个实体，不一定是某个具体的单个实体，也可以是一类实体，比如target如果是文件夹，那么可以代表subject对这个文件夹下的所有文件以及子文件夹（递归）都拥有权限；同样
      */
     public final PermissionAssignment PERMISSION_ASSIGNMENT = PermissionAssignment.PERMISSION_ASSIGNMENT;
 

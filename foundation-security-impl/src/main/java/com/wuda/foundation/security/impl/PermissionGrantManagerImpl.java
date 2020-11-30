@@ -2,245 +2,161 @@ package com.wuda.foundation.security.impl;
 
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.Constant;
 import com.wuda.foundation.lang.FoundationContext;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.security.AbstractPermissionGrantManager;
-import com.wuda.foundation.security.DescribePermission;
-import com.wuda.foundation.security.DescribePermissionAction;
-import com.wuda.foundation.security.DescribePermissionAssignment;
-import com.wuda.foundation.security.DescribePermissionTarget;
-import com.wuda.foundation.security.DescribeSubjectPermission;
-import com.wuda.foundation.security.PermissionAssignmentCommand;
-import com.wuda.foundation.security.Subject;
-import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionActionRecord;
+import com.wuda.foundation.security.*;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionAssignmentRecord;
-import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionTargetRecord;
 import org.jooq.DSLContext;
-import org.jooq.Record;
 import org.jooq.SelectConditionStep;
 import org.jooq.UpdateConditionStep;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
-import javax.sql.DataSource;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
-import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAction.PERMISSION_ACTION;
 import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionAssignment.PERMISSION_ASSIGNMENT;
-import static com.wuda.foundation.security.impl.jooq.generation.tables.PermissionTarget.PERMISSION_TARGET;
 
 public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager implements JooqCommonDbOp {
 
-    private DataSource dataSource;
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
     @Override
-    protected void grantTargetDbOp(Subject subject, Set<Long> targetIdSet, Long opUserId) {
-        for (Long targetId : targetIdSet) {
-            grantTargetDbOp(subject, targetId, opUserId);
+    protected void createAssignmentDbOp(Subject subject, Set<Target> targetSet, InclusionOrExclusion inclusionOrExclusion, Long opUserId) {
+        for (Target target : targetSet) {
+            createAssignmentDbOp(subject, target, inclusionOrExclusion, opUserId);
         }
     }
 
-    protected void grantTargetDbOp(Subject subject, Long targetId, Long opUserId) {
-        List<PermissionAssignmentRecord> records = getPermissionAssignment(subject, targetId);
-        if (records == null || records.size() == 0) {
-            PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, targetId, Constant.NOT_EXISTS_ID, PermissionAssignmentCommand.GRANT, opUserId);
-            insert(dataSource, PERMISSION_ASSIGNMENT, record);
-        } else if (records.size() == 1 && records.get(0).getPermissionActionId().longValue() == Constant.NOT_EXISTS_ID) {
-            // 已经有这样的记录,do nothing
-        } else { // 应该是分配的这个target的多个action
-            deletePermissionAssignment(subject, targetId, null);
-            PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, targetId, Constant.NOT_EXISTS_ID, PermissionAssignmentCommand.GRANT, opUserId);
-            insert(dataSource, PERMISSION_ASSIGNMENT, record);
+    protected void createAssignmentDbOp(Subject subject, Target target, InclusionOrExclusion inclusionOrExclusion, Long opUserId) {
+        if (subjectTargetAssigned(subject, target, inclusionOrExclusion)) {
+            return;
         }
+        List<PermissionAssignmentRecord> records = queryPermissionAssignmentRecords(subject, target);
+        if (records != null && records.size() > 0) {
+            // 之前已经建立过关联
+            deletePermissionAssignment(subject, target, null);
+        }
+        PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, target, Action.fake(), inclusionOrExclusion, opUserId);
+        insert(JooqContext.getDataSource(), PERMISSION_ASSIGNMENT, record);
     }
 
     private PermissionAssignmentRecord permissionAssignmentRecordForInsert(Subject subject,
-                                                                           Long targetId,
-                                                                           Long actionId,
-                                                                           PermissionAssignmentCommand command,
+                                                                           Target target,
+                                                                           Action action,
+                                                                           InclusionOrExclusion inclusionOrExclusion,
                                                                            Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new PermissionAssignmentRecord(
                 ULong.valueOf(FoundationContext.getLongKeyGenerator().next()),
                 UByte.valueOf(subject.getType().getCode()),
                 ULong.valueOf(subject.getValue()),
-                ULong.valueOf(targetId),
-                ULong.valueOf(actionId),
-                command.getCommand(),
+                UShort.valueOf(target.getType().getCode()),
+                ULong.valueOf(target.getValue()),
+                UShort.valueOf(action.getType().getCode()),
+                ULong.valueOf(action.getValue()),
+                InclusionOrExclusion.inclusion(inclusionOrExclusion),
                 now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
-    protected List<PermissionAssignmentRecord> getPermissionAssignment(Subject subject, Long targetId) {
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
+    protected List<PermissionAssignmentRecord> queryPermissionAssignmentRecords(Subject subject, Target target) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext();
         SelectConditionStep<PermissionAssignmentRecord> selectWhereStep = dslContext.selectFrom(PERMISSION_ASSIGNMENT)
                 .where(PERMISSION_ASSIGNMENT.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
                 .and(PERMISSION_ASSIGNMENT.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())))
-                .and(PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)))
                 .and(PERMISSION_ASSIGNMENT.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
+        if (target != null) {
+            selectWhereStep.and(PERMISSION_ASSIGNMENT.TARGET_TYPE.eq(UShort.valueOf(target.getType().getCode())))
+                    .and(PERMISSION_ASSIGNMENT.TARGET_IDENTIFIER.eq(ULong.valueOf(target.getValue())));
+        }
         return selectWhereStep.fetch();
     }
 
     @Override
-    protected void grantActionDbOp(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId) {
-        checkActionBelongToTarget(targetId, actionIdSet);
-        for (Long actionId : actionIdSet) {
-            grantActionDbOp(subject, targetId, actionId, opUserId);
+    protected void createAssignmentDbOp(Subject subject, Target target, Set<Action> actionSet, InclusionOrExclusion inclusionOrExclusion, Long opUserId) {
+        for (Action action : actionSet) {
+            Objects.requireNonNull(action);
+            createAssignmentDbOp(subject, target, action, inclusionOrExclusion, opUserId);
         }
     }
 
-    protected void grantActionDbOp(Subject subject, Long targetId, Long actionId, Long opUserId) {
-        PermissionAssignmentRecord permissionAssignmentRecord = queryPermissionAssignmentRecord(subject, targetId, actionId);
-        if (permissionAssignmentRecord == null) {
-            permissionAssignmentRecord = queryPermissionAssignmentRecord(subject, targetId, Constant.NOT_EXISTS_ID);
-        }
+    protected void createAssignmentDbOp(Subject subject, Target target, Action action, InclusionOrExclusion inclusionOrExclusion, Long opUserId) {
+        PermissionAssignmentRecord permissionAssignmentRecord = queryPermissionAssignmentRecord(subject, target, action);
         if (permissionAssignmentRecord != null
-                && permissionAssignmentRecord.getCommand().equals(PermissionAssignmentCommand.GRANT.getCommand())) {
+                && InclusionOrExclusion.equals(inclusionOrExclusion, permissionAssignmentRecord.getInclusion())) {
+            // 已经分配过
             return;
         }
         if (permissionAssignmentRecord != null) {
-            deletePermissionAssignment(subject, targetId, actionId);
+            deletePermissionAssignment(subject, target, action);
         }
-        PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, targetId, actionId, PermissionAssignmentCommand.GRANT, opUserId);
-        insert(dataSource, PERMISSION_ASSIGNMENT, record);
+        PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, target, action, inclusionOrExclusion, opUserId);
+        insert(JooqContext.getDataSource(), PERMISSION_ASSIGNMENT, record);
     }
 
-    protected void deletePermissionAssignment(Subject subject, Long targetId, Long actionId) {
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
+    protected void deletePermissionAssignment(Subject subject, Target target, Action action) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext();
         UpdateConditionStep<PermissionAssignmentRecord> updateConditionStep = dslContext.update(PERMISSION_ASSIGNMENT)
                 .set(PERMISSION_ASSIGNMENT.IS_DELETED, PERMISSION_ASSIGNMENT.ID)
                 .where(PERMISSION_ASSIGNMENT.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
                 .and(PERMISSION_ASSIGNMENT.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())))
-                .and(PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)));
-        if (actionId != null) {
-            updateConditionStep.and(PERMISSION_ASSIGNMENT.PERMISSION_ACTION_ID.eq(ULong.valueOf(actionId)));
+                .and(PERMISSION_ASSIGNMENT.TARGET_TYPE.eq(UShort.valueOf(target.getType().getCode())))
+                .and(PERMISSION_ASSIGNMENT.TARGET_IDENTIFIER.eq(ULong.valueOf(target.getValue())));
+        if (action != null) {
+            updateConditionStep.and(PERMISSION_ASSIGNMENT.ACTION_TYPE.eq(UShort.valueOf(action.getType().getCode())))
+                    .and(PERMISSION_ASSIGNMENT.ACTION_IDENTIFIER.eq(ULong.valueOf(action.getValue())));
         }
         updateConditionStep.execute();
     }
 
-    private void checkActionBelongToTarget(Long targetId, Set<Long> actionIdSet) {
-        List<PermissionActionRecord> list = queryPermissionActionRecord(actionIdSet);
-        for (PermissionActionRecord record : list) {
-            if (record.getPermissionTargetId().longValue() != targetId) {
-                throw new IllegalStateException("action id = " + record.getPermissionActionId().longValue() + ",不属于target id = " + targetId + "所表示的target");
-            }
-        }
-    }
-
-    protected List<PermissionActionRecord> queryPermissionActionRecord(Set<Long> actionIdSet) {
-        Set<ULong> set = new HashSet<>(actionIdSet.size());
-        for (Long actionId : actionIdSet) {
-            set.add(ULong.valueOf(actionId));
-        }
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        return dslContext.selectFrom(PERMISSION_ACTION)
-                .where(PERMISSION_ACTION.PERMISSION_ACTION_ID.in(set))
-                .and(PERMISSION_ACTION.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())))
-                .fetch();
-    }
-
-    protected PermissionAssignmentRecord queryPermissionAssignmentRecord(Subject subject, Long targetId, Long actionId) {
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
+    protected PermissionAssignmentRecord queryPermissionAssignmentRecord(Subject subject, Target target, Action action) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext();
         return dslContext.selectFrom(PERMISSION_ASSIGNMENT)
                 .where(PERMISSION_ASSIGNMENT.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
                 .and(PERMISSION_ASSIGNMENT.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())))
-                .and(PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)))
-                .and(PERMISSION_ASSIGNMENT.PERMISSION_ACTION_ID.eq(ULong.valueOf(actionId)))
-                .and(PERMISSION_ASSIGNMENT.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())))
+                .and(PERMISSION_ASSIGNMENT.TARGET_TYPE.eq(UShort.valueOf(target.getType().getCode())))
+                .and(PERMISSION_ASSIGNMENT.TARGET_IDENTIFIER.eq(ULong.valueOf(target.getValue())))
+                .and(PERMISSION_ASSIGNMENT.ACTION_TYPE.eq(UShort.valueOf(action.getType().getCode())))
+                .and(PERMISSION_ASSIGNMENT.ACTION_IDENTIFIER.eq(ULong.valueOf(action.getValue())))
+                .and(PERMISSION_ASSIGNMENT.IS_DELETED.eq(notDeleted()))
                 .fetchOne();
     }
 
-    protected List<PermissionAssignmentRecord> queryPermissionAssignmentRecords(Subject subject, Long targetId) {
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        SelectConditionStep<PermissionAssignmentRecord> selectConditionStep = dslContext.selectFrom(PERMISSION_ASSIGNMENT)
-                .where(PERMISSION_ASSIGNMENT.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
-                .and(PERMISSION_ASSIGNMENT.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())));
-        if (targetId != null) {
-            selectConditionStep.and(PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)));
+    @Override
+    protected void clearAssignmentDbOp(Subject subject, Set<Target> targetSet, Long opUserId) {
+        for (Target target : targetSet) {
+            deletePermissionAssignment(subject, target, null);
         }
-        selectConditionStep.and(PERMISSION_ASSIGNMENT.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        return selectConditionStep.fetch();
-    }
-
-    protected List<DescribeSubjectPermission> querySubjectPermissions(Subject subject, Long targetId) {
-        DSLContext dslContext = JooqContext.getOrCreateDSLContext(dataSource);
-        SelectConditionStep<Record> selectConditionStep = dslContext
-                .select()
-                .from(PERMISSION_ASSIGNMENT)
-                .leftJoin(PERMISSION_TARGET).on(PERMISSION_TARGET.PERMISSION_TARGET_ID.eq(PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID))
-                .leftJoin(PERMISSION_ACTION).on(PERMISSION_ACTION.PERMISSION_ACTION_ID.eq(PERMISSION_ASSIGNMENT.PERMISSION_ACTION_ID))
-                .where(PERMISSION_ASSIGNMENT.SUBJECT_TYPE.eq(UByte.valueOf(subject.getType().getCode())))
-                .and(PERMISSION_ASSIGNMENT.SUBJECT_IDENTIFIER.eq(ULong.valueOf(subject.getValue())));
-        if (targetId != null) {
-            selectConditionStep.and(PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID.eq(ULong.valueOf(targetId)));
-        }
-        selectConditionStep.and(PERMISSION_ASSIGNMENT.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        List<Record> recordList = selectConditionStep.fetch();
-        List<DescribeSubjectPermission> list = new ArrayList<>();
-        if (recordList != null && !recordList.isEmpty()) {
-            for (Record record : recordList) {
-                PermissionTargetRecord permissionTargetRecord = record.into(PERMISSION_TARGET);
-                DescribePermissionTarget describePermissionTarget = EntityConverter.from(permissionTargetRecord);
-                PermissionActionRecord permissionActionRecord = record.into(PERMISSION_ACTION);
-                DescribePermissionAction describePermissionAction = EntityConverter.fromActionRecord(permissionActionRecord);
-                PermissionAssignmentRecord permissionAssignmentRecord = record.into(PERMISSION_ASSIGNMENT);
-                DescribePermissionAssignment describePermissionAssignment = EntityConverter.fromAssignmentRecord(permissionAssignmentRecord);
-                DescribeSubjectPermission describeSubjectPermission = new DescribeSubjectPermission(describePermissionAssignment.getSubject(), describePermissionTarget, describePermissionAction, describePermissionAssignment.getCommand());
-                list.add(describeSubjectPermission);
-            }
-        }
-        return list;
     }
 
     @Override
-    protected void revokeTargetDbOp(Subject subject, Set<Long> targetIdSet, Long opUserId) {
-        for (Long targetId : targetIdSet) {
-            revokeTargetDbOp(subject, targetId, opUserId);
+    protected void clearAssignmentDbOp(Subject subject, Target target, Set<Action> actionSet, Long opUserId) {
+        for (Action action : actionSet) {
+            deletePermissionAssignment(subject, target, action);
         }
-    }
-
-    protected void revokeTargetDbOp(Subject subject, Long targetId, Long opUserId) {
-        deletePermissionAssignment(subject, targetId, null);
-    }
-
-    @Override
-    protected void revokeActionDbOp(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId) {
-        checkActionBelongToTarget(targetId, actionIdSet);
-        for (long actionId : actionIdSet) {
-            revokeActionDbOp(subject, targetId, actionId, opUserId);
-        }
-    }
-
-    protected void revokeActionDbOp(Subject subject, Long targetId, Long actionId, Long opUserId) {
-        PermissionAssignmentRecord existsPermissionAssignment = queryPermissionAssignmentRecord(subject, targetId, actionId);
-        if (existsPermissionAssignment != null
-                && existsPermissionAssignment.getCommand().equals(PermissionAssignmentCommand.REVOKE.getCommand())) {
-            // 已经revoke
-            return;
-        }
-        if (existsPermissionAssignment != null) {
-            deletePermissionAssignment(subject, targetId, actionId);
-        }
-        PermissionAssignmentRecord permissionAssignmentRecord = permissionAssignmentRecordForInsert(subject, targetId, actionId, PermissionAssignmentCommand.REVOKE, opUserId);
-        insert(dataSource, PERMISSION_ASSIGNMENT, permissionAssignmentRecord);
     }
 
     @Override
     protected List<DescribePermission> getPermissionsDbOp(Subject subject) {
-        List<DescribeSubjectPermission> subjectPermissions = querySubjectPermissions(subject, null);
-        return DescribeSubjectPermission.merge(subjectPermissions, null);
+        List<PermissionAssignmentRecord> permissionAssignmentRecords = queryPermissionAssignmentRecords(subject, null);
+        List<DescribePermissionAssignment> describePermissionAssignments = EntityConverter.fromAssignmentRecords(permissionAssignmentRecords);
+        return DescribePermissionAssignment.sameSubjectCalculate(describePermissionAssignments);
     }
 
     @Override
     protected List<DescribePermission> getPermissionsDbOp(List<Subject> subjects) {
         return null;
+    }
+
+    @Override
+    protected boolean subjectTargetAssignedDbOp(Subject subject, Target target, InclusionOrExclusion inclusionOrExclusion) {
+        List<PermissionAssignmentRecord> records = queryPermissionAssignmentRecords(subject, target);
+        if (records.size() == 1) {
+            PermissionAssignmentRecord record = records.get(0);
+            return EntityConverter.getAction(record).equals(Action.fake())
+                    && InclusionOrExclusion.equals(inclusionOrExclusion, record.getInclusion());
+        }
+        return false;
     }
 }

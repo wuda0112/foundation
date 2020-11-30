@@ -1,5 +1,7 @@
 package com.wuda.foundation.user.impl;
 
+import com.wuda.foundation.commons.DescribeMenuItem;
+import com.wuda.foundation.commons.MenuItemManager;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.CreateMode;
@@ -8,30 +10,12 @@ import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.identify.IdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
-import com.wuda.foundation.security.DescribePermission;
-import com.wuda.foundation.security.DescribePermissionRole;
-import com.wuda.foundation.security.PermissionGrantManager;
-import com.wuda.foundation.security.Subject;
-import com.wuda.foundation.user.AbstractUserBelongsToGroupManager;
-import com.wuda.foundation.user.CreateUserBelongsToGroupCoreRequest;
-import com.wuda.foundation.user.CreateUserBelongsToGroupGeneralRequest;
-import com.wuda.foundation.user.CreateUserBelongsToGroupRoleRequest;
-import com.wuda.foundation.user.DescribeMenuItem;
-import com.wuda.foundation.user.DescribeUserBelongsToGroupCore;
-import com.wuda.foundation.user.DescribeUserBelongsToGroupGeneral;
-import com.wuda.foundation.user.DescribeUserBelongsToGroupRole;
-import com.wuda.foundation.user.RemoveUserFromGroupRequest;
-import com.wuda.foundation.user.RemoveUsersRoleFromGroupRequest;
-import com.wuda.foundation.user.UpdateUserBelongsToGroupGeneralRequest;
+import com.wuda.foundation.security.*;
+import com.wuda.foundation.user.*;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserBelongsToGroupCoreRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserBelongsToGroupGeneralRecord;
 import com.wuda.foundation.user.impl.jooq.generation.tables.records.UserBelongsToGroupRoleRecord;
-import org.jooq.Configuration;
-import org.jooq.DSLContext;
-import org.jooq.Record1;
-import org.jooq.Record2;
-import org.jooq.Result;
-import org.jooq.SelectConditionStep;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.types.ULong;
 import org.jooq.types.UShort;
@@ -39,6 +23,7 @@ import org.jooq.types.UShort;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.wuda.foundation.user.impl.jooq.generation.Tables.USER_BELONGS_TO_GROUP_GENERAL;
 import static com.wuda.foundation.user.impl.jooq.generation.Tables.USER_BELONGS_TO_GROUP_ROLE;
@@ -48,8 +33,20 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
 
     private PermissionGrantManager permissionGrantManager;
 
+    private PermissionManager permissionManager;
+
+    private MenuItemManager menuItemManager;
+
     public void setPermissionGrantManager(PermissionGrantManager permissionGrantManager) {
         this.permissionGrantManager = permissionGrantManager;
+    }
+
+    public void setPermissionManager(PermissionManager permissionManager) {
+        this.permissionManager = permissionManager;
+    }
+
+    public void setMenuItemManager(MenuItemManager menuItemManager) {
+        this.menuItemManager = menuItemManager;
     }
 
     @Override
@@ -195,7 +192,7 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
     @Override
     protected List<DescribePermissionRole> getRolesDbOp(Long userId, LongIdentifier group) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext();
-        Result<Record1<ULong>> roleIds = dslContext.select(USER_BELONGS_TO_GROUP_ROLE.PERMISSION_ROLE_ID)
+        Result<Record1<ULong>> result = dslContext.select(USER_BELONGS_TO_GROUP_ROLE.PERMISSION_ROLE_ID)
                 .from(USER_BELONGS_TO_GROUP_CORE)
                 .leftJoin(USER_BELONGS_TO_GROUP_ROLE).on(USER_BELONGS_TO_GROUP_ROLE.USER_BELONGS_TO_GROUP_ID.eq(USER_BELONGS_TO_GROUP_CORE.USER_BELONGS_TO_GROUP_ID))
                 .where(USER_BELONGS_TO_GROUP_CORE.GROUP_TYPE.eq(UShort.valueOf(group.getType().getCode())))
@@ -204,17 +201,21 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
                 .and(USER_BELONGS_TO_GROUP_CORE.IS_DELETED.eq(notDeleted()))
                 .and(USER_BELONGS_TO_GROUP_ROLE.IS_DELETED.eq(notDeleted()))
                 .fetch();
-        return null;
+        if (result == null || result.isEmpty()) {
+            return null;
+        }
+        List<Long> roleIds = result.stream().map(Record1::value1).map(ULong::longValue).collect(Collectors.toList());
+        return permissionManager.getPermissionRoleByIds(roleIds);
     }
 
     @Override
     protected List<DescribeMenuItem> getMenuItemsFromRoleDbOp(Long userId, LongIdentifier group) {
-        List<DescribePermission> permissions = getPermissionsFromRole(userId, group);
-        if (permissions == null || permissions.isEmpty()) {
+        List<DescribePermissionRole> roles = getRolesDbOp(userId, group);
+        if (roles == null || roles.isEmpty()) {
             return null;
         }
-
-        return null;
+        List<Long> roleIds = roles.stream().map(DescribePermissionRole::getId).collect(Collectors.toList());
+        return menuItemManager.getMenuItemsFromRole(roleIds);
     }
 
     private UserBelongsToGroupCoreRecord userBelongsToGroupCoreRecordForInsert(CreateUserBelongsToGroupCoreRequest request, Long opUserId) {

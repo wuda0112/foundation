@@ -1,4 +1,4 @@
-package com.wuda.foundation.user;
+package com.wuda.foundation.commons;
 
 import lombok.Data;
 
@@ -12,7 +12,6 @@ import lombok.Data;
 public class DescribeMenuItem {
 
     private Long id;
-    private Short groupType;
     private String name;
     private String description;
 }

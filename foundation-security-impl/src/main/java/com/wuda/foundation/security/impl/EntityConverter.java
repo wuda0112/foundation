@@ -3,11 +3,7 @@ package com.wuda.foundation.security.impl;
 import com.wuda.foundation.lang.identify.IdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
-import com.wuda.foundation.security.DescribePermissionAction;
-import com.wuda.foundation.security.DescribePermissionAssignment;
-import com.wuda.foundation.security.DescribePermissionTarget;
-import com.wuda.foundation.security.PermissionAssignmentCommand;
-import com.wuda.foundation.security.Subject;
+import com.wuda.foundation.security.*;
 import com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAction;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionActionRecord;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionAssignmentRecord;
@@ -75,9 +71,29 @@ class EntityConverter {
         IdentifierType subjectType = IdentifierTypeRegistry.defaultRegistry.lookup(record.getSubjectType().intValue());
         Subject subject = new Subject(record.getSubjectIdentifier().longValue(), subjectType);
         descriptor.setSubject(subject);
-        descriptor.setTargetId(record.getPersissionTargetId().longValue());
-        descriptor.setActionId(record.getPermissionActionId().longValue());
-        descriptor.setCommand(PermissionAssignmentCommand.getByCommand(record.getCommand()));
+        IdentifierType targetType = IdentifierTypeRegistry.defaultRegistry.lookup(record.getTargetType().intValue());
+        Target target = new Target(record.getTargetIdentifier().longValue(), targetType);
+        descriptor.setTarget(target);
+        Action action = getAction(record);
+        descriptor.setAction(action);
+        descriptor.setInclusionOrExclusion(InclusionOrExclusion.parse(record.getInclusion()));
         return descriptor;
+    }
+
+    static List<DescribePermissionAssignment> fromAssignmentRecords(List<PermissionAssignmentRecord> records) {
+        if (records == null || records.isEmpty()) {
+            return null;
+        }
+        List<DescribePermissionAssignment> list = new ArrayList<>(records.size());
+        for (PermissionAssignmentRecord record : records) {
+            DescribePermissionAssignment describePermissionAssignment = fromAssignmentRecord(record);
+            list.add(describePermissionAssignment);
+        }
+        return list;
+    }
+
+    static Action getAction(PermissionAssignmentRecord record) {
+        IdentifierType actionType = IdentifierTypeRegistry.defaultRegistry.lookup(record.getActionType().intValue());
+        return new Action(record.getActionIdentifier().longValue(), actionType);
     }
 }

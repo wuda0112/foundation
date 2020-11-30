@@ -129,14 +129,6 @@ public interface PermissionManager {
     List<DescribePermissionAction> getPermissionActionByTarget(Long permissionTargetId);
 
     /**
-     * 获取permission.
-     *
-     * @param permissionTargetId permission target id
-     * @return a permission
-     */
-    DescribePermission getPermission(Long permissionTargetId);
-
-    /**
      * 创建permission role
      *
      * @param request  request
@@ -161,5 +153,13 @@ public interface PermissionManager {
      * @return permission role
      */
     DescribePermissionRole getPermissionRoleById(Long id);
+
+    /**
+     * 根据id获取.
+     *
+     * @param ids list of permission role id
+     * @return permission role
+     */
+    List<DescribePermissionRole> getPermissionRoleByIds(List<Long> ids);
 
 }

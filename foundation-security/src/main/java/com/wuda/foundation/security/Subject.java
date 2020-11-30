@@ -29,7 +29,7 @@ public class Subject extends LongIdentifier {
         }
         if (obj instanceof Subject) {
             Subject other = (Subject) obj;
-            return this.getType().getCode() == ((Subject) obj).getType().getCode() && this.getValue().equals(other.getValue());
+            return this.getType().getCode() == other.getType().getCode() && this.getValue().equals(other.getValue());
         }
         return false;
     }

@@ -1,5 +1,7 @@
 package com.wuda.foundation.lang.identify;
 
+import com.wuda.foundation.lang.Constant;
+
 /**
  * 唯一标记符的数据类型是{@link Long}.
  *
@@ -30,5 +32,14 @@ public class LongIdentifier implements Identifier<Long> {
     @Override
     public IdentifierType getType() {
         return type;
+    }
+
+    /**
+     * 一个不存在的，假的identifier.
+     *
+     * @return fake
+     */
+    public static LongIdentifier fake() {
+        return new LongIdentifier(Constant.NOT_EXISTS_ID, BuiltinIdentifierType.VIRTUAL);
     }
 }

@@ -4,23 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 类似于MySQL的Grant语法,这里就是grant action on target to {@link Subject}.
- * 如果只为{@link Subject}分配{@link DescribePermissionTarget},而没有分配{@link DescribePermissionAction},那我们也
- * 就只保存{@link Subject}与{@link DescribePermissionTarget}的关系,而没有{@link Subject}与{@link DescribePermissionAction}的关联关系,
- * 如果为{@link Subject}分配了{@link DescribePermissionAction},则一定也分配了{@link DescribePermissionTarget},因为{@link DescribePermissionAction}
- * 唯一属于一个{@link DescribePermissionTarget},那么我们就保存{@link Subject}与{@link DescribePermissionTarget}和{@link DescribePermissionAction}
- * 的关系,即对于{@link Subject}来说,分配了什么就有什么,也就是
- * <ul>
- * <li>分配了目标对象,却没有分配该对象的动作</li>
- * <li>分配了目标对象的动作,自然就被分配了该目标对象</li>
- * </ul>
- * ,你可能会问,只保存{@link Subject}与{@link DescribePermissionTarget}的关系,
- * 而不保存与{@link DescribePermissionAction}的关系,就好像是用户拥有这个目标对象,却不能做任何事情的感觉,那有什么意义呢?
- * 只能说这是具体应用才知道的,具体应用才知道他这样保存的意义,比如只为用户分配目标对象,而不分配允许的动作,
- * 是否就代表拥有这个目标对象的所有操作权限呢?这个是具体应用决定的,我们这里只负责帮它保存数据,维护好数据关系即可.
- * 如果说一定要找出一个理由,那么就是:在一开始的业务中,目标对象可能确实就没有声明有哪些操作,这个时候,
- * 只需要保存{@link Subject}与目标对象的关系,但是随着业务变化,这个{@link DescribePermissionTarget}才慢慢开始有{@link DescribePermissionAction}
- * <p>
+ * 类似于MySQL的Grant语法,这里是为{@link Subject}分配{@link Target}和{@link Action},
+ * 但是这种分配不一定是拥有,也可以是排除,主要看分配是使用的{@link InclusionOrExclusion}.
  *
  * @author wuda
  * @since 1.0.0
@@ -28,43 +13,58 @@ import java.util.Set;
 public interface PermissionGrantManager {
 
     /**
-     * grant permission on target to {@link Subject}.给{@link Subject}授权给定的target,
-     * 该target上的所有action都授权给了{@link Subject}.
+     * 为{@link Subject}分配{@link Target}.
      *
-     * @param subject     subject
-     * @param targetIdSet target id set
-     * @param opUserId    操作人用户ID
+     * @param subject              subject
+     * @param targetSet            target set
+     * @param inclusionOrExclusion {@link Subject}不一定是拥有{@link Target},也有可能是排除
+     * @param opUserId             操作人用户ID
      */
-    void grantTarget(Subject subject, Set<Long> targetIdSet, Long opUserId);
+    void createAssignment(Subject subject, Set<Target> targetSet, InclusionOrExclusion inclusionOrExclusion, Long opUserId);
 
     /**
      * grant permission on action to {@link Subject}.给{@link Subject}授权给定的action.
      *
-     * @param subject     subject
-     * @param targetId    target id
-     * @param actionIdSet action id set,这些action必须属于给定的target,不然会造成数据混乱
-     * @param opUserId    操作人用户ID
+     * @param subject              subject
+     * @param target               target
+     * @param actionSet            action set,这些action必须属于给定的target,不然会造成数据混乱
+     * @param inclusionOrExclusion {@link Subject}不一定是拥有{@link Action},也有可能是排除
+     * @param opUserId             操作人用户ID
      */
-    void grantAction(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId);
+    void createAssignment(Subject subject, Target target, Set<Action> actionSet, InclusionOrExclusion inclusionOrExclusion, Long opUserId);
 
     /**
-     * 取消{@link Subject}对target的权限,该target上的所有action都会被取消.
+     * 清除分配给{@link Subject}的{@link Target},分配给{@link Subject}的该{@link Target}上的所有{@link Action}都会被清除.
+     * clear assignment与{@link InclusionOrExclusion#EXCLUSION}的区别,clear assignment是完全清除掉实体之间的关联,清理后,
+     * 实体之间相互独立,没有了任何关联信息.{@link InclusionOrExclusion#EXCLUSION}是实体之间建立关联,只是这种关联表明{@link Subject}
+     * 排除{@link Target}和{@link Action}.比如有如下文件夹结构
+     * <pre>
+     *     a
+     *     - b
+     *     - - c
+     * </pre>
+     * 假设为用户A分配了文件夹a的所有权限,这时用户A自然也拥有了文件夹b和c的所有权限,但是
+     * <ul>
+     * <li>如果想排除掉文件夹b和c呢,这时只需要为用户A分配文件夹b,但是使用{@link InclusionOrExclusion#EXCLUSION}即可排除.</li>
+     * <li>如果是清除用户A和文件夹a的关系,则使用clear assignment,这时用户A和文件夹a就没有了任何关系</li>
+     * </ul>
+     * 所有,它们之间是有本质区别的,使用时应该注意.
      *
-     * @param subject     subject
-     * @param targetIdSet target id set
-     * @param opUserId    操作人用户ID
+     * @param subject   subject
+     * @param targetSet target set
+     * @param opUserId  操作人用户ID
      */
-    void revokeTarget(Subject subject, Set<Long> targetIdSet, Long opUserId);
+    void clearAssigment(Subject subject, Set<Target> targetSet, Long opUserId);
 
     /**
-     * 取消{@link Subject}拥有的action的权限.
+     * 清除分配给{@link Subject}的{@link Action}.更丰富的描述,查看{@link #clearAssigment(Subject, Set, Long)}.
      *
-     * @param subject     subject
-     * @param targetId    target id
-     * @param actionIdSet action id set,这些action必须属于给定的target,不然会造成数据混乱
-     * @param opUserId    操作人用户ID
+     * @param subject   subject
+     * @param target    target
+     * @param actionSet action  set,这些action必须属于给定的target,不然会造成数据混乱
+     * @param opUserId  操作人用户ID
      */
-    void revokeAction(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId);
+    void clearAssigment(Subject subject, Target target, Set<Action> actionSet, Long opUserId);
 
     /**
      * 获取{@link Subject}的所有分配的permission.
@@ -81,4 +81,14 @@ public interface PermissionGrantManager {
      * @return 这些 {@link Subject} 的permission
      */
     List<DescribePermission> getPermissions(List<Subject> subjects);
+
+    /**
+     * 检查是否已经为{@link Subject}分配了{@link Target}.
+     *
+     * @param subject subject
+     * @param target  target
+     * @param inclusionOrExclusion inclusionOrExclusion
+     * @return <code>true</code>-如果是
+     */
+    boolean subjectTargetAssigned(Subject subject, Target target, InclusionOrExclusion inclusionOrExclusion);
 }

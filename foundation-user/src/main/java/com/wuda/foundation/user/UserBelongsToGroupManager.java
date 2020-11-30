@@ -1,5 +1,6 @@
 package com.wuda.foundation.user;
 
+import com.wuda.foundation.commons.DescribeMenuItem;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.identify.LongIdentifier;

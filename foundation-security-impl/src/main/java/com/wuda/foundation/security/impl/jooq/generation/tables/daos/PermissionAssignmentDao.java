@@ -14,11 +14,12 @@ import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
 
 /**
- * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject，role 【IS 
- * A】 subject等等。
+ * 权限分配。subject可以代表任何主体，比如用户，或者想要访问其他资源的应用，因此我们可以说user 【IS A】 subject 。target可以代表任何对象，比如file，因此我们可以说file 
+ * 【IS A】 target。action可以代表任何操作，比如read/write。subject , target , action这三个实体，不一定是某个具体的单个实体，也可以是一类实体，比如target如果是文件夹，那么可以代表subject对这个文件夹下的所有文件以及子文件夹（递归）都拥有权限；同样
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAssignmentDao extends DAOImpl<PermissionAssignmentRecord, com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment, ULong> {
@@ -92,45 +93,73 @@ public class PermissionAssignmentDao extends DAOImpl<PermissionAssignmentRecord,
     }
 
     /**
-     * Fetch records that have <code>persission_target_id BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>target_type BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchRangeOfPersissionTargetId(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchRangeOfTargetType(UShort lowerInclusive, UShort upperInclusive) {
+        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.TARGET_TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>persission_target_id IN (values)</code>
+     * Fetch records that have <code>target_type IN (values)</code>
      */
-    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchByPersissionTargetId(ULong... values) {
-        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.PERSISSION_TARGET_ID, values);
+    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchByTargetType(UShort... values) {
+        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.TARGET_TYPE, values);
     }
 
     /**
-     * Fetch records that have <code>permission_action_id BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>target_identifier BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchRangeOfPermissionActionId(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.PERMISSION_ACTION_ID, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchRangeOfTargetIdentifier(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.TARGET_IDENTIFIER, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>permission_action_id IN (values)</code>
+     * Fetch records that have <code>target_identifier IN (values)</code>
      */
-    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchByPermissionActionId(ULong... values) {
-        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.PERMISSION_ACTION_ID, values);
+    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchByTargetIdentifier(ULong... values) {
+        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.TARGET_IDENTIFIER, values);
     }
 
     /**
-     * Fetch records that have <code>command BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>action_type BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchRangeOfCommand(String lowerInclusive, String upperInclusive) {
-        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.COMMAND, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchRangeOfActionType(UShort lowerInclusive, UShort upperInclusive) {
+        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.ACTION_TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>command IN (values)</code>
+     * Fetch records that have <code>action_type IN (values)</code>
      */
-    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchByCommand(String... values) {
-        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.COMMAND, values);
+    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchByActionType(UShort... values) {
+        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.ACTION_TYPE, values);
+    }
+
+    /**
+     * Fetch records that have <code>action_identifier BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchRangeOfActionIdentifier(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.ACTION_IDENTIFIER, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>action_identifier IN (values)</code>
+     */
+    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchByActionIdentifier(ULong... values) {
+        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.ACTION_IDENTIFIER, values);
+    }
+
+    /**
+     * Fetch records that have <code>inclusion BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchRangeOfInclusion(Boolean lowerInclusive, Boolean upperInclusive) {
+        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.INCLUSION, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>inclusion IN (values)</code>
+     */
+    public List<com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAssignment> fetchByInclusion(Boolean... values) {
+        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.INCLUSION, values);
     }
 
     /**

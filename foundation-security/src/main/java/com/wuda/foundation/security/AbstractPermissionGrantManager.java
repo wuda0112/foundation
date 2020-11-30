@@ -1,36 +1,43 @@
 package com.wuda.foundation.security;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public abstract class AbstractPermissionGrantManager implements PermissionGrantManager {
     @Override
-    public void grantTarget(Subject subject, Set<Long> targetIdSet, Long opUserId) {
-        grantTargetDbOp(subject, targetIdSet, opUserId);
+    public void createAssignment(Subject subject, Set<Target> targetSet, InclusionOrExclusion inclusionOrExclusion, Long opUserId) {
+        createAssignmentDbOp(subject, targetSet, inclusionOrExclusion, opUserId);
     }
 
-    protected abstract void grantTargetDbOp(Subject subject, Set<Long> targetIdSet, Long opUserId);
+    protected abstract void createAssignmentDbOp(Subject subject, Set<Target> targetSet, InclusionOrExclusion inclusionOrExclusion, Long opUserId);
 
     @Override
-    public void grantAction(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId) {
-        grantActionDbOp(subject, targetId, actionIdSet, opUserId);
+    public void createAssignment(Subject subject, Target target, Set<Action> actionSet, InclusionOrExclusion inclusionOrExclusion, Long opUserId) {
+        Objects.requireNonNull(actionSet);
+        if (!actionSet.isEmpty()) {
+            if (subjectTargetAssigned(subject, target, inclusionOrExclusion)) {
+                return;
+            }
+            createAssignmentDbOp(subject, target, actionSet,inclusionOrExclusion, opUserId);
+        }
     }
 
-    protected abstract void grantActionDbOp(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId);
+    protected abstract void createAssignmentDbOp(Subject subject, Target target, Set<Action> actionSet,InclusionOrExclusion inclusionOrExclusion, Long opUserId);
 
     @Override
-    public void revokeTarget(Subject subject, Set<Long> targetIdSet, Long opUserId) {
-        revokeTargetDbOp(subject, targetIdSet, opUserId);
+    public void clearAssigment(Subject subject, Set<Target> targetSet, Long opUserId) {
+        clearAssignmentDbOp(subject, targetSet, opUserId);
     }
 
-    protected abstract void revokeTargetDbOp(Subject subject, Set<Long> targetIdSet, Long opUserId);
+    protected abstract void clearAssignmentDbOp(Subject subject, Set<Target> targetSet, Long opUserId);
 
     @Override
-    public void revokeAction(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId) {
-        revokeActionDbOp(subject, targetId, actionIdSet, opUserId);
+    public void clearAssigment(Subject subject, Target target, Set<Action> actionSet, Long opUserId) {
+        clearAssignmentDbOp(subject, target, actionSet, opUserId);
     }
 
-    protected abstract void revokeActionDbOp(Subject subject, Long targetId, Set<Long> actionIdSet, Long opUserId);
+    protected abstract void clearAssignmentDbOp(Subject subject, Target target, Set<Action> actionSet, Long opUserId);
 
     @Override
     public List<DescribePermission> getPermissions(Subject subject) {
@@ -45,4 +52,10 @@ public abstract class AbstractPermissionGrantManager implements PermissionGrantM
     }
 
     protected abstract List<DescribePermission> getPermissionsDbOp(List<Subject> subjects);
+
+    public boolean subjectTargetAssigned(Subject subject, Target target, InclusionOrExclusion inclusionOrExclusion) {
+        return subjectTargetAssignedDbOp(subject, target, inclusionOrExclusion);
+    }
+
+    protected abstract boolean subjectTargetAssignedDbOp(Subject subject, Target target, InclusionOrExclusion inclusionOrExclusion);
 }

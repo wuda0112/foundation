@@ -7,6 +7,7 @@ package com.wuda.foundation.commons.impl.jooq.generation;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.AdministrativeUnit;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Email;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.FlowHistory;
+import com.wuda.foundation.commons.impl.jooq.generation.tables.MenuItem;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Phone;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKey;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKeyDefinition;
@@ -31,7 +32,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationCommons extends SchemaImpl {
 
-    private static final long serialVersionUID = -1873064724;
+    private static final long serialVersionUID = -758787732;
 
     /**
      * The reference instance of <code>foundation_commons</code>
@@ -52,6 +53,11 @@ public class FoundationCommons extends SchemaImpl {
      * 流程处理历史记录
      */
     public final FlowHistory FLOW_HISTORY = FlowHistory.FLOW_HISTORY;
+
+    /**
+     * 可以代表站点的功能菜单中的一个具体功能，导航栏菜单（Navigation menu）中的一个具体项等等，这些item可能是按钮，链接等。参考Android的Menu，MenuItem，https://developer.android.com/reference/android/view/MenuItem。
+     */
+    public final MenuItem MENU_ITEM = MenuItem.MENU_ITEM;
 
     /**
      * 电话信息。
@@ -117,6 +123,7 @@ public class FoundationCommons extends SchemaImpl {
             AdministrativeUnit.ADMINISTRATIVE_UNIT,
             Email.EMAIL,
             FlowHistory.FLOW_HISTORY,
+            MenuItem.MENU_ITEM,
             Phone.PHONE,
             PropertyKey.PROPERTY_KEY,
             PropertyKeyDefinition.PROPERTY_KEY_DEFINITION,

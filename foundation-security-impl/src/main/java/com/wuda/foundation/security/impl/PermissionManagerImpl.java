@@ -6,31 +6,14 @@ import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.identify.IdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
-import com.wuda.foundation.security.AbstractPermissionManager;
-import com.wuda.foundation.security.CreatePermissionAction;
-import com.wuda.foundation.security.CreatePermissionRoleRequest;
-import com.wuda.foundation.security.CreatePermissionTarget;
-import com.wuda.foundation.security.DescribePermission;
-import com.wuda.foundation.security.DescribePermissionAction;
-import com.wuda.foundation.security.DescribePermissionRole;
-import com.wuda.foundation.security.DescribePermissionTarget;
-import com.wuda.foundation.security.PermissionRoleType;
-import com.wuda.foundation.security.Subject;
-import com.wuda.foundation.security.UpdatePermissionAction;
-import com.wuda.foundation.security.UpdatePermissionRoleRequest;
-import com.wuda.foundation.security.UpdatePermissionTarget;
+import com.wuda.foundation.security.*;
 import com.wuda.foundation.security.impl.jooq.generation.tables.pojos.PermissionAction;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionActionRecord;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionRoleRecord;
 import com.wuda.foundation.security.impl.jooq.generation.tables.records.PermissionTargetRecord;
-import org.jooq.Configuration;
-import org.jooq.DSLContext;
-import org.jooq.Record1;
-import org.jooq.RecordMapper;
-import org.jooq.SelectConditionStep;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
@@ -248,18 +231,6 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
     }
 
     @Override
-    protected DescribePermission getPermissionDbOp(Long permissionTargetId) {
-        DescribePermissionTarget target = getPermissionTargetByIdDbOp(permissionTargetId);
-        List<DescribePermissionAction> actions = getPermissionActionByTargetDbOp(permissionTargetId);
-        return new DescribePermission(target, actions);
-    }
-
-    @Override
-    protected List<DescribePermission> getPermissionsDbOp(Subject subject) {
-        return null;
-    }
-
-    @Override
     protected CreateResult createPermissionRoleDbOp(CreatePermissionRoleRequest request, CreateMode createMode, Long opUserId) {
         PermissionRoleRecord record = permissionRoleRecordForInsert(request, opUserId);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = permissionRoleUniqueCondition(request.getType(), request.getName());
@@ -278,6 +249,14 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
                 .where(PERMISSION_ROLE.PERMISSION_ROLE_ID.eq(ULong.valueOf(id)))
                 .fetchOne();
         return copyRoleFrom(record);
+    }
+
+    @Override
+    protected List<DescribePermissionRole> getPermissionRoleByIdsDbOp(List<Long> ids) {
+        Result<PermissionRoleRecord> result = JooqContext.getOrCreateDSLContext().selectFrom(PERMISSION_ROLE)
+                .where(PERMISSION_ROLE.PERMISSION_ROLE_ID.in(ids))
+                .fetch();
+        return copyRoleFrom(result);
     }
 
     private PermissionRoleRecord permissionRoleRecordForInsert(CreatePermissionRoleRequest request, Long opUserId) {
@@ -305,6 +284,18 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
         describe.setName(record.getName());
         describe.setDescription(record.getDescription());
         return describe;
+    }
+
+    private List<DescribePermissionRole> copyRoleFrom(List<PermissionRoleRecord> records) {
+        if (records == null || records.isEmpty()) {
+            return null;
+        }
+        List<DescribePermissionRole> list = new ArrayList<>(records.size());
+        for (PermissionRoleRecord record : records) {
+            DescribePermissionRole describePermissionRole = copyRoleFrom(record);
+            list.add(describePermissionRole);
+        }
+        return list;
     }
 
     private SelectConditionStep<Record1<ULong>> permissionRoleUniqueCondition(PermissionRoleType type, String name) {

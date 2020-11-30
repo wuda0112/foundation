@@ -9,23 +9,26 @@ import java.time.LocalDateTime;
 
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
 
 /**
- * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject，role 【IS 
- * A】 subject等等。
+ * 权限分配。subject可以代表任何主体，比如用户，或者想要访问其他资源的应用，因此我们可以说user 【IS A】 subject 。target可以代表任何对象，比如file，因此我们可以说file 
+ * 【IS A】 target。action可以代表任何操作，比如read/write。subject , target , action这三个实体，不一定是某个具体的单个实体，也可以是一类实体，比如target如果是文件夹，那么可以代表subject对这个文件夹下的所有文件以及子文件夹（递归）都拥有权限；同样
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAssignment implements Serializable {
 
-    private static final long serialVersionUID = 1767825119;
+    private static final long serialVersionUID = -522012432;
 
     private ULong         id;
     private UByte         subjectType;
     private ULong         subjectIdentifier;
-    private ULong         persissionTargetId;
-    private ULong         permissionActionId;
-    private String        command;
+    private UShort        targetType;
+    private ULong         targetIdentifier;
+    private UShort        actionType;
+    private ULong         actionIdentifier;
+    private Boolean       inclusion;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private ULong         isDeleted;
@@ -36,9 +39,11 @@ public class PermissionAssignment implements Serializable {
         this.id = value.id;
         this.subjectType = value.subjectType;
         this.subjectIdentifier = value.subjectIdentifier;
-        this.persissionTargetId = value.persissionTargetId;
-        this.permissionActionId = value.permissionActionId;
-        this.command = value.command;
+        this.targetType = value.targetType;
+        this.targetIdentifier = value.targetIdentifier;
+        this.actionType = value.actionType;
+        this.actionIdentifier = value.actionIdentifier;
+        this.inclusion = value.inclusion;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.isDeleted = value.isDeleted;
@@ -48,9 +53,11 @@ public class PermissionAssignment implements Serializable {
         ULong         id,
         UByte         subjectType,
         ULong         subjectIdentifier,
-        ULong         persissionTargetId,
-        ULong         permissionActionId,
-        String        command,
+        UShort        targetType,
+        ULong         targetIdentifier,
+        UShort        actionType,
+        ULong         actionIdentifier,
+        Boolean       inclusion,
         LocalDateTime createTime,
         ULong         createUserId,
         ULong         isDeleted
@@ -58,9 +65,11 @@ public class PermissionAssignment implements Serializable {
         this.id = id;
         this.subjectType = subjectType;
         this.subjectIdentifier = subjectIdentifier;
-        this.persissionTargetId = persissionTargetId;
-        this.permissionActionId = permissionActionId;
-        this.command = command;
+        this.targetType = targetType;
+        this.targetIdentifier = targetIdentifier;
+        this.actionType = actionType;
+        this.actionIdentifier = actionIdentifier;
+        this.inclusion = inclusion;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.isDeleted = isDeleted;
@@ -90,28 +99,44 @@ public class PermissionAssignment implements Serializable {
         this.subjectIdentifier = subjectIdentifier;
     }
 
-    public ULong getPersissionTargetId() {
-        return this.persissionTargetId;
+    public UShort getTargetType() {
+        return this.targetType;
     }
 
-    public void setPersissionTargetId(ULong persissionTargetId) {
-        this.persissionTargetId = persissionTargetId;
+    public void setTargetType(UShort targetType) {
+        this.targetType = targetType;
     }
 
-    public ULong getPermissionActionId() {
-        return this.permissionActionId;
+    public ULong getTargetIdentifier() {
+        return this.targetIdentifier;
     }
 
-    public void setPermissionActionId(ULong permissionActionId) {
-        this.permissionActionId = permissionActionId;
+    public void setTargetIdentifier(ULong targetIdentifier) {
+        this.targetIdentifier = targetIdentifier;
     }
 
-    public String getCommand() {
-        return this.command;
+    public UShort getActionType() {
+        return this.actionType;
     }
 
-    public void setCommand(String command) {
-        this.command = command;
+    public void setActionType(UShort actionType) {
+        this.actionType = actionType;
+    }
+
+    public ULong getActionIdentifier() {
+        return this.actionIdentifier;
+    }
+
+    public void setActionIdentifier(ULong actionIdentifier) {
+        this.actionIdentifier = actionIdentifier;
+    }
+
+    public Boolean getInclusion() {
+        return this.inclusion;
+    }
+
+    public void setInclusion(Boolean inclusion) {
+        this.inclusion = inclusion;
     }
 
     public LocalDateTime getCreateTime() {
@@ -145,9 +170,11 @@ public class PermissionAssignment implements Serializable {
         sb.append(id);
         sb.append(", ").append(subjectType);
         sb.append(", ").append(subjectIdentifier);
-        sb.append(", ").append(persissionTargetId);
-        sb.append(", ").append(permissionActionId);
-        sb.append(", ").append(command);
+        sb.append(", ").append(targetType);
+        sb.append(", ").append(targetIdentifier);
+        sb.append(", ").append(actionType);
+        sb.append(", ").append(actionIdentifier);
+        sb.append(", ").append(inclusion);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(isDeleted);

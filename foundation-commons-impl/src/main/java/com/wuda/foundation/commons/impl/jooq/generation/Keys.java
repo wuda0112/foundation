@@ -7,6 +7,7 @@ package com.wuda.foundation.commons.impl.jooq.generation;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.AdministrativeUnit;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Email;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.FlowHistory;
+import com.wuda.foundation.commons.impl.jooq.generation.tables.MenuItem;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.Phone;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKey;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.PropertyKeyDefinition;
@@ -19,6 +20,7 @@ import com.wuda.foundation.commons.impl.jooq.generation.tables.Variable;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.AdministrativeUnitRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.EmailRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.FlowHistoryRecord;
+import com.wuda.foundation.commons.impl.jooq.generation.tables.records.MenuItemRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PhoneRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyKeyDefinitionRecord;
 import com.wuda.foundation.commons.impl.jooq.generation.tables.records.PropertyKeyRecord;
@@ -48,6 +50,7 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final Identity<EmailRecord, ULong> IDENTITY_EMAIL = Identities0.IDENTITY_EMAIL;
+    public static final Identity<MenuItemRecord, ULong> IDENTITY_MENU_ITEM = Identities0.IDENTITY_MENU_ITEM;
     public static final Identity<PhoneRecord, ULong> IDENTITY_PHONE = Identities0.IDENTITY_PHONE;
     public static final Identity<PropertyKeyRecord, ULong> IDENTITY_PROPERTY_KEY = Identities0.IDENTITY_PROPERTY_KEY;
     public static final Identity<PropertyKeyDefinitionRecord, ULong> IDENTITY_PROPERTY_KEY_DEFINITION = Identities0.IDENTITY_PROPERTY_KEY_DEFINITION;
@@ -66,6 +69,7 @@ public class Keys {
     public static final UniqueKey<EmailRecord> KEY_EMAIL_PRIMARY = UniqueKeys0.KEY_EMAIL_PRIMARY;
     public static final UniqueKey<EmailRecord> KEY_EMAIL_IDX_EMAIL_UNIQUE = UniqueKeys0.KEY_EMAIL_IDX_EMAIL_UNIQUE;
     public static final UniqueKey<FlowHistoryRecord> KEY_FLOW_HISTORY_PRIMARY = UniqueKeys0.KEY_FLOW_HISTORY_PRIMARY;
+    public static final UniqueKey<MenuItemRecord> KEY_MENU_ITEM_PRIMARY = UniqueKeys0.KEY_MENU_ITEM_PRIMARY;
     public static final UniqueKey<PhoneRecord> KEY_PHONE_PRIMARY = UniqueKeys0.KEY_PHONE_PRIMARY;
     public static final UniqueKey<PhoneRecord> KEY_PHONE_IDX_PHONE_NUMBER = UniqueKeys0.KEY_PHONE_IDX_PHONE_NUMBER;
     public static final UniqueKey<PropertyKeyRecord> KEY_PROPERTY_KEY_PRIMARY = UniqueKeys0.KEY_PROPERTY_KEY_PRIMARY;
@@ -91,6 +95,7 @@ public class Keys {
 
     private static class Identities0 {
         public static Identity<EmailRecord, ULong> IDENTITY_EMAIL = Internal.createIdentity(Email.EMAIL, Email.EMAIL.EMAIL_ID);
+        public static Identity<MenuItemRecord, ULong> IDENTITY_MENU_ITEM = Internal.createIdentity(MenuItem.MENU_ITEM, MenuItem.MENU_ITEM.MENU_ITEM_ID);
         public static Identity<PhoneRecord, ULong> IDENTITY_PHONE = Internal.createIdentity(Phone.PHONE, Phone.PHONE.PHONE_ID);
         public static Identity<PropertyKeyRecord, ULong> IDENTITY_PROPERTY_KEY = Internal.createIdentity(PropertyKey.PROPERTY_KEY, PropertyKey.PROPERTY_KEY.PROPERTY_KEY_ID);
         public static Identity<PropertyKeyDefinitionRecord, ULong> IDENTITY_PROPERTY_KEY_DEFINITION = Internal.createIdentity(PropertyKeyDefinition.PROPERTY_KEY_DEFINITION, PropertyKeyDefinition.PROPERTY_KEY_DEFINITION.PROPERTY_DEFINITION_ID);
@@ -107,6 +112,7 @@ public class Keys {
         public static final UniqueKey<EmailRecord> KEY_EMAIL_PRIMARY = Internal.createUniqueKey(Email.EMAIL, "KEY_email_PRIMARY", new TableField[] { Email.EMAIL.EMAIL_ID }, true);
         public static final UniqueKey<EmailRecord> KEY_EMAIL_IDX_EMAIL_UNIQUE = Internal.createUniqueKey(Email.EMAIL, "KEY_email_idx_email_unique", new TableField[] { Email.EMAIL.ADDRESS, Email.EMAIL.IS_DELETED }, true);
         public static final UniqueKey<FlowHistoryRecord> KEY_FLOW_HISTORY_PRIMARY = Internal.createUniqueKey(FlowHistory.FLOW_HISTORY, "KEY_flow_history_PRIMARY", new TableField[] { FlowHistory.FLOW_HISTORY.FLOW_HISTORY_ID }, true);
+        public static final UniqueKey<MenuItemRecord> KEY_MENU_ITEM_PRIMARY = Internal.createUniqueKey(MenuItem.MENU_ITEM, "KEY_menu_item_PRIMARY", new TableField[] { MenuItem.MENU_ITEM.MENU_ITEM_ID }, true);
         public static final UniqueKey<PhoneRecord> KEY_PHONE_PRIMARY = Internal.createUniqueKey(Phone.PHONE, "KEY_phone_PRIMARY", new TableField[] { Phone.PHONE.PHONE_ID }, true);
         public static final UniqueKey<PhoneRecord> KEY_PHONE_IDX_PHONE_NUMBER = Internal.createUniqueKey(Phone.PHONE, "KEY_phone_idx_phone_number", new TableField[] { Phone.PHONE.NUMBER, Phone.PHONE.IS_DELETED }, true);
         public static final UniqueKey<PropertyKeyRecord> KEY_PROPERTY_KEY_PRIMARY = Internal.createUniqueKey(PropertyKey.PROPERTY_KEY, "KEY_property_key_PRIMARY", new TableField[] { PropertyKey.PROPERTY_KEY.PROPERTY_KEY_ID }, true);

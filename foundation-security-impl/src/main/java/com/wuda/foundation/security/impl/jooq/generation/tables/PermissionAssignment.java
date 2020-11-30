@@ -19,7 +19,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row9;
+import org.jooq.Row11;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -29,16 +29,17 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
 
 /**
- * 权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject，role 【IS 
- * A】 subject等等。
+ * 权限分配。subject可以代表任何主体，比如用户，或者想要访问其他资源的应用，因此我们可以说user 【IS A】 subject 。target可以代表任何对象，比如file，因此我们可以说file 
+ * 【IS A】 target。action可以代表任何操作，比如read/write。subject , target , action这三个实体，不一定是某个具体的单个实体，也可以是一类实体，比如target如果是文件夹，那么可以代表subject对这个文件夹下的所有文件以及子文件夹（递归）都拥有权限；同样
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> {
 
-    private static final long serialVersionUID = -304602184;
+    private static final long serialVersionUID = 1919826226;
 
     /**
      * The reference instance of <code>foundation_security.permission_assignment</code>
@@ -69,19 +70,29 @@ public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> 
     public final TableField<PermissionAssignmentRecord, ULong> SUBJECT_IDENTIFIER = createField(DSL.name("subject_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "如果subject type代表用户，那么这个值可能就是用户ID");
 
     /**
-     * The column <code>foundation_security.permission_assignment.persission_target_id</code>.
+     * The column <code>foundation_security.permission_assignment.target_type</code>. target的类型，比如target代表文件
      */
-    public final TableField<PermissionAssignmentRecord, ULong> PERSISSION_TARGET_ID = createField(DSL.name("persission_target_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<PermissionAssignmentRecord, UShort> TARGET_TYPE = createField(DSL.name("target_type"), org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "target的类型，比如target代表文件");
 
     /**
-     * The column <code>foundation_security.permission_assignment.permission_action_id</code>. permission action id，如果为0，则表示没有分配action
+     * The column <code>foundation_security.permission_assignment.target_identifier</code>. target的唯一标记符
      */
-    public final TableField<PermissionAssignmentRecord, ULong> PERMISSION_ACTION_ID = createField(DSL.name("permission_action_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "permission action id，如果为0，则表示没有分配action");
+    public final TableField<PermissionAssignmentRecord, ULong> TARGET_IDENTIFIER = createField(DSL.name("target_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "target的唯一标记符");
 
     /**
-     * The column <code>foundation_security.permission_assignment.command</code>. 可选值有grant，revoke
+     * The column <code>foundation_security.permission_assignment.action_type</code>. action的类型
      */
-    public final TableField<PermissionAssignmentRecord, String> COMMAND = createField(DSL.name("command"), org.jooq.impl.SQLDataType.VARCHAR(6).nullable(false), this, "可选值有grant，revoke");
+    public final TableField<PermissionAssignmentRecord, UShort> ACTION_TYPE = createField(DSL.name("action_type"), org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "action的类型");
+
+    /**
+     * The column <code>foundation_security.permission_assignment.action_identifier</code>. action的唯一标记符
+     */
+    public final TableField<PermissionAssignmentRecord, ULong> ACTION_IDENTIFIER = createField(DSL.name("action_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "action的唯一标记符");
+
+    /**
+     * The column <code>foundation_security.permission_assignment.inclusion</code>. inclusion or exclusion，虽然为subject分配了target和action，但不一定是拥有，也可以是排除
+     */
+    public final TableField<PermissionAssignmentRecord, Boolean> INCLUSION = createField(DSL.name("inclusion"), org.jooq.impl.SQLDataType.BIT.nullable(false), this, "inclusion or exclusion，虽然为subject分配了target和action，但不一定是拥有，也可以是排除");
 
     /**
      * The column <code>foundation_security.permission_assignment.create_time</code>.
@@ -124,7 +135,7 @@ public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> 
     }
 
     private PermissionAssignment(Name alias, Table<PermissionAssignmentRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("权限分配。subject可以代表用户，也可以代表想要访问其他资源的应用，比如我们可以说user 【IS A】 subject，role 【IS A】 subject等等。"), TableOptions.table());
+        super(alias, null, aliased, parameters, DSL.comment("权限分配。subject可以代表任何主体，比如用户，或者想要访问其他资源的应用，因此我们可以说user 【IS A】 subject 。target可以代表任何对象，比如file，因此我们可以说file 【IS A】 target。action可以代表任何操作，比如read/write。subject , target , action这三个实体，不一定是某个具体的单个实体，也可以是一类实体，比如target如果是文件夹，那么可以代表subject对这个文件夹下的所有文件以及子文件夹（递归）都拥有权限；同样"), TableOptions.table());
     }
 
     public <O extends Record> PermissionAssignment(Table<O> child, ForeignKey<O, PermissionAssignmentRecord> key) {
@@ -138,7 +149,7 @@ public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> 
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PERMISSION_ASSIGNMENT_FK_PERMISSION_ACTION_ID, Indexes.PERMISSION_ASSIGNMENT_FK_PERMISSION_TARGET_ID, Indexes.PERMISSION_ASSIGNMENT_IDX_SUBJECT);
+        return Arrays.<Index>asList(Indexes.PERMISSION_ASSIGNMENT_IDX_ACTION, Indexes.PERMISSION_ASSIGNMENT_IDX_SUBJECT, Indexes.PERMISSION_ASSIGNMENT_IDX_TARGET);
     }
 
     @Override
@@ -183,11 +194,11 @@ public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Row9 type methods
+    // Row11 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<ULong, UByte, ULong, ULong, ULong, String, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row11<ULong, UByte, ULong, UShort, ULong, UShort, ULong, Boolean, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row11) super.fieldsRow();
     }
 }

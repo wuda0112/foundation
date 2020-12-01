@@ -2,7 +2,7 @@ package com.wuda.foundation.core.commons.impl;
 
 import com.wuda.foundation.core.commons.AbstractPhoneManager;
 import com.wuda.foundation.core.commons.CreatePhone;
-import com.wuda.foundation.core.commons.impl.jooq.generation.tables.records.PhoneRecord;
+import com.wuda.foundation.jooq.code.generation.commons.tables.records.PhoneRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.AlreadyExistsException;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wuda.foundation.core.commons.impl.jooq.generation.tables.Phone.PHONE;
+import static com.wuda.foundation.jooq.code.generation.commons.tables.Phone.PHONE;
 
 public class PhoneManagerImpl extends AbstractPhoneManager implements JooqCommonDbOp {
 

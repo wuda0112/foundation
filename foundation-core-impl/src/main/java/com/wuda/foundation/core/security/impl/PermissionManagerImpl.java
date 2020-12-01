@@ -11,10 +11,10 @@ import com.wuda.foundation.core.security.PermissionRoleType;
 import com.wuda.foundation.core.security.UpdatePermissionAction;
 import com.wuda.foundation.core.security.UpdatePermissionRoleRequest;
 import com.wuda.foundation.core.security.UpdatePermissionTarget;
-import com.wuda.foundation.core.security.impl.jooq.generation.tables.pojos.PermissionAction;
-import com.wuda.foundation.core.security.impl.jooq.generation.tables.records.PermissionActionRecord;
-import com.wuda.foundation.core.security.impl.jooq.generation.tables.records.PermissionRoleRecord;
-import com.wuda.foundation.core.security.impl.jooq.generation.tables.records.PermissionTargetRecord;
+import com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAction;
+import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionActionRecord;
+import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionRoleRecord;
+import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionTargetRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.AlreadyExistsException;
@@ -39,9 +39,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.wuda.foundation.core.security.impl.jooq.generation.tables.PermissionAction.PERMISSION_ACTION;
-import static com.wuda.foundation.core.security.impl.jooq.generation.tables.PermissionRole.PERMISSION_ROLE;
-import static com.wuda.foundation.core.security.impl.jooq.generation.tables.PermissionTarget.PERMISSION_TARGET;
+import static com.wuda.foundation.jooq.code.generation.security.tables.PermissionAction.PERMISSION_ACTION;
+import static com.wuda.foundation.jooq.code.generation.security.tables.PermissionRole.PERMISSION_ROLE;
+import static com.wuda.foundation.jooq.code.generation.security.tables.PermissionTarget.PERMISSION_TARGET;
 
 public class PermissionManagerImpl extends AbstractPermissionManager implements JooqCommonDbOp {
 

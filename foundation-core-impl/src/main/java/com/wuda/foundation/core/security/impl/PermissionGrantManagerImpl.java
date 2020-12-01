@@ -11,7 +11,7 @@ import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.FoundationContext;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.core.security.impl.jooq.generation.tables.records.PermissionAssignmentRecord;
+import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionAssignmentRecord;
 import org.jooq.DSLContext;
 import org.jooq.SelectConditionStep;
 import org.jooq.UpdateConditionStep;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.wuda.foundation.core.security.impl.jooq.generation.tables.PermissionAssignment.PERMISSION_ASSIGNMENT;
+import static com.wuda.foundation.jooq.code.generation.security.tables.PermissionAssignment.PERMISSION_ASSIGNMENT;
 
 public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager implements JooqCommonDbOp {
 

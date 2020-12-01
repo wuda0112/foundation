@@ -2,7 +2,7 @@ package com.wuda.foundation.core.commons.impl;
 
 import com.wuda.foundation.core.commons.AbstractMenuItemManager;
 import com.wuda.foundation.core.commons.DescribeMenuItem;
-import com.wuda.foundation.core.commons.impl.jooq.generation.tables.records.MenuItemRecord;
+import com.wuda.foundation.jooq.code.generation.commons.tables.records.MenuItemRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 
 import java.util.ArrayList;

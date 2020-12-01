@@ -12,8 +12,8 @@ import com.wuda.foundation.core.store.AbstractStoreManager;
 import com.wuda.foundation.core.store.CreateStoreCore;
 import com.wuda.foundation.core.store.CreateStoreGeneral;
 import com.wuda.foundation.core.store.UpdateStoreGeneral;
-import com.wuda.foundation.core.store.impl.jooq.generation.tables.records.StoreCoreRecord;
-import com.wuda.foundation.core.store.impl.jooq.generation.tables.records.StoreGeneralRecord;
+import com.wuda.foundation.jooq.code.generation.store.tables.records.StoreCoreRecord;
+import com.wuda.foundation.jooq.code.generation.store.tables.records.StoreGeneralRecord;
 import com.wuda.foundation.core.user.CreateUserBelongsToGroupCoreRequest;
 import com.wuda.foundation.core.user.CreateUserBelongsToGroupRoleRequest;
 import com.wuda.foundation.core.user.UserBelongsToGroupManager;
@@ -30,8 +30,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import static com.wuda.foundation.core.store.impl.jooq.generation.tables.StoreCore.STORE_CORE;
-import static com.wuda.foundation.core.store.impl.jooq.generation.tables.StoreGeneral.STORE_GENERAL;
+import static com.wuda.foundation.jooq.code.generation.store.tables.StoreCore.STORE_CORE;
+import static com.wuda.foundation.jooq.code.generation.store.tables.StoreGeneral.STORE_GENERAL;
 
 public class StoreManagerImpl extends AbstractStoreManager implements JooqCommonDbOp {
 

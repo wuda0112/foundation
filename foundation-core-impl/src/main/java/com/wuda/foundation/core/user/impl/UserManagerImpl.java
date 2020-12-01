@@ -6,10 +6,10 @@ import com.wuda.foundation.core.user.BindUserPhone;
 import com.wuda.foundation.core.user.CreateUserAccount;
 import com.wuda.foundation.core.user.CreateUserCore;
 import com.wuda.foundation.core.user.CreateUserWithAccount;
-import com.wuda.foundation.core.user.impl.jooq.generation.tables.records.UserAccountRecord;
-import com.wuda.foundation.core.user.impl.jooq.generation.tables.records.UserCoreRecord;
-import com.wuda.foundation.core.user.impl.jooq.generation.tables.records.UserEmailRecord;
-import com.wuda.foundation.core.user.impl.jooq.generation.tables.records.UserPhoneRecord;
+import com.wuda.foundation.jooq.code.generation.user.tables.records.UserAccountRecord;
+import com.wuda.foundation.jooq.code.generation.user.tables.records.UserCoreRecord;
+import com.wuda.foundation.jooq.code.generation.user.tables.records.UserEmailRecord;
+import com.wuda.foundation.jooq.code.generation.user.tables.records.UserPhoneRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.AlreadyExistsException;
@@ -29,10 +29,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wuda.foundation.core.user.impl.jooq.generation.tables.UserAccount.USER_ACCOUNT;
-import static com.wuda.foundation.core.user.impl.jooq.generation.tables.UserCore.USER_CORE;
-import static com.wuda.foundation.core.user.impl.jooq.generation.tables.UserEmail.USER_EMAIL;
-import static com.wuda.foundation.core.user.impl.jooq.generation.tables.UserPhone.USER_PHONE;
+import static com.wuda.foundation.jooq.code.generation.user.tables.UserAccount.USER_ACCOUNT;
+import static com.wuda.foundation.jooq.code.generation.user.tables.UserCore.USER_CORE;
+import static com.wuda.foundation.jooq.code.generation.user.tables.UserEmail.USER_EMAIL;
+import static com.wuda.foundation.jooq.code.generation.user.tables.UserPhone.USER_PHONE;
 
 public class UserManagerImpl extends AbstractUserManager implements JooqCommonDbOp {
 

@@ -5,11 +5,11 @@ import com.wuda.foundation.core.item.CreateItemCore;
 import com.wuda.foundation.core.item.CreateItemDescription;
 import com.wuda.foundation.core.item.CreateItemGeneral;
 import com.wuda.foundation.core.item.CreateItemVariation;
-import com.wuda.foundation.core.item.impl.jooq.generation.tables.records.ItemBelongsToGroupRecord;
-import com.wuda.foundation.core.item.impl.jooq.generation.tables.records.ItemCoreRecord;
-import com.wuda.foundation.core.item.impl.jooq.generation.tables.records.ItemDescriptionRecord;
-import com.wuda.foundation.core.item.impl.jooq.generation.tables.records.ItemGeneralRecord;
-import com.wuda.foundation.core.item.impl.jooq.generation.tables.records.ItemVariationRecord;
+import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemBelongsToGroupRecord;
+import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemCoreRecord;
+import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemDescriptionRecord;
+import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemGeneralRecord;
+import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemVariationRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.CreateMode;
@@ -30,10 +30,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static com.wuda.foundation.core.item.impl.jooq.generation.tables.ItemCore.ITEM_CORE;
-import static com.wuda.foundation.core.item.impl.jooq.generation.tables.ItemDescription.ITEM_DESCRIPTION;
-import static com.wuda.foundation.core.item.impl.jooq.generation.tables.ItemGeneral.ITEM_GENERAL;
-import static com.wuda.foundation.core.item.impl.jooq.generation.tables.ItemVariation.ITEM_VARIATION;
+import static com.wuda.foundation.jooq.code.generation.item.tables.ItemCore.ITEM_CORE;
+import static com.wuda.foundation.jooq.code.generation.item.tables.ItemDescription.ITEM_DESCRIPTION;
+import static com.wuda.foundation.jooq.code.generation.item.tables.ItemGeneral.ITEM_GENERAL;
+import static com.wuda.foundation.jooq.code.generation.item.tables.ItemVariation.ITEM_VARIATION;
 
 public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDbOp {
 

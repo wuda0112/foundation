@@ -17,9 +17,9 @@ import com.wuda.foundation.core.user.DescribeUserBelongsToGroupRole;
 import com.wuda.foundation.core.user.RemoveUserFromGroupRequest;
 import com.wuda.foundation.core.user.RemoveUsersRoleFromGroupRequest;
 import com.wuda.foundation.core.user.UpdateUserBelongsToGroupGeneralRequest;
-import com.wuda.foundation.core.user.impl.jooq.generation.tables.records.UserBelongsToGroupCoreRecord;
-import com.wuda.foundation.core.user.impl.jooq.generation.tables.records.UserBelongsToGroupGeneralRecord;
-import com.wuda.foundation.core.user.impl.jooq.generation.tables.records.UserBelongsToGroupRoleRecord;
+import com.wuda.foundation.jooq.code.generation.user.tables.records.UserBelongsToGroupCoreRecord;
+import com.wuda.foundation.jooq.code.generation.user.tables.records.UserBelongsToGroupGeneralRecord;
+import com.wuda.foundation.jooq.code.generation.user.tables.records.UserBelongsToGroupRoleRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.CreateMode;
@@ -43,9 +43,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.wuda.foundation.core.user.impl.jooq.generation.Tables.USER_BELONGS_TO_GROUP_GENERAL;
-import static com.wuda.foundation.core.user.impl.jooq.generation.Tables.USER_BELONGS_TO_GROUP_ROLE;
-import static com.wuda.foundation.core.user.impl.jooq.generation.tables.UserBelongsToGroupCore.USER_BELONGS_TO_GROUP_CORE;
+import static com.wuda.foundation.jooq.code.generation.user.Tables.USER_BELONGS_TO_GROUP_GENERAL;
+import static com.wuda.foundation.jooq.code.generation.user.Tables.USER_BELONGS_TO_GROUP_ROLE;
+import static com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupCore.USER_BELONGS_TO_GROUP_CORE;
 
 public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupManager implements JooqCommonDbOp {
 

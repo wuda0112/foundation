@@ -10,7 +10,7 @@ import com.wuda.foundation.core.notification.AbstractNotificationCategoryManager
 import com.wuda.foundation.core.notification.CreateNotificationCategory;
 import com.wuda.foundation.core.notification.DescribeNotificationCategory;
 import com.wuda.foundation.core.notification.UpdateNotificationCategory;
-import com.wuda.foundation.core.notification.impl.jooq.generation.tables.records.NotificationCategoryRecord;
+import com.wuda.foundation.jooq.code.generation.notification.tables.records.NotificationCategoryRecord;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 import org.jooq.types.UByte;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wuda.foundation.core.notification.impl.jooq.generation.tables.NotificationCategory.NOTIFICATION_CATEGORY;
+import static com.wuda.foundation.jooq.code.generation.notification.tables.NotificationCategory.NOTIFICATION_CATEGORY;
 
 public class NotificationCategoryManagerImpl extends AbstractNotificationCategoryManager implements JooqCommonDbOp {
     @Override

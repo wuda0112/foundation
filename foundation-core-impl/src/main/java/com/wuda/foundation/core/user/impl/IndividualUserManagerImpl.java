@@ -8,7 +8,7 @@ import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.core.user.AbstractIndividualUserManager;
 import com.wuda.foundation.core.user.CreateIndividualUserGeneral;
 import com.wuda.foundation.core.user.UpdateIndividualUserGeneral;
-import com.wuda.foundation.core.user.impl.jooq.generation.tables.records.IndividualUserGeneralRecord;
+import com.wuda.foundation.jooq.code.generation.user.tables.records.IndividualUserGeneralRecord;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.wuda.foundation.core.user.impl.jooq.generation.tables.IndividualUserGeneral.INDIVIDUAL_USER_GENERAL;
+import static com.wuda.foundation.jooq.code.generation.user.tables.IndividualUserGeneral.INDIVIDUAL_USER_GENERAL;
 
 public class IndividualUserManagerImpl extends AbstractIndividualUserManager implements JooqCommonDbOp {
 

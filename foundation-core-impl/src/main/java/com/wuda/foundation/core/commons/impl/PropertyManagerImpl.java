@@ -1,8 +1,8 @@
 package com.wuda.foundation.core.commons.impl;
 
-import com.wuda.foundation.core.commons.impl.jooq.generation.tables.records.PropertyKeyDefinitionRecord;
-import com.wuda.foundation.core.commons.impl.jooq.generation.tables.records.PropertyKeyRecord;
-import com.wuda.foundation.core.commons.impl.jooq.generation.tables.records.PropertyValueRecord;
+import com.wuda.foundation.jooq.code.generation.commons.tables.records.PropertyKeyDefinitionRecord;
+import com.wuda.foundation.jooq.code.generation.commons.tables.records.PropertyKeyRecord;
+import com.wuda.foundation.jooq.code.generation.commons.tables.records.PropertyValueRecord;
 import com.wuda.foundation.core.commons.property.AbstractPropertyManager;
 import com.wuda.foundation.core.commons.property.CreatePropertyKey;
 import com.wuda.foundation.core.commons.property.CreatePropertyKeyDefinition;
@@ -43,9 +43,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.wuda.foundation.core.commons.impl.jooq.generation.tables.PropertyKey.PROPERTY_KEY;
-import static com.wuda.foundation.core.commons.impl.jooq.generation.tables.PropertyKeyDefinition.PROPERTY_KEY_DEFINITION;
-import static com.wuda.foundation.core.commons.impl.jooq.generation.tables.PropertyValue.PROPERTY_VALUE;
+import static com.wuda.foundation.jooq.code.generation.commons.tables.PropertyKey.PROPERTY_KEY;
+import static com.wuda.foundation.jooq.code.generation.commons.tables.PropertyKeyDefinition.PROPERTY_KEY_DEFINITION;
+import static com.wuda.foundation.jooq.code.generation.commons.tables.PropertyValue.PROPERTY_VALUE;
 
 public class PropertyManagerImpl extends AbstractPropertyManager implements JooqCommonDbOp {
     private DataSource dataSource;

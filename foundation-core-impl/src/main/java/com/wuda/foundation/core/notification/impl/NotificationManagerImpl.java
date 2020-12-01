@@ -11,12 +11,12 @@ import com.wuda.foundation.core.notification.UpdateNotificationDefinitionContent
 import com.wuda.foundation.core.notification.UpdateNotificationDefinitionCore;
 import com.wuda.foundation.core.notification.UpdateNotificationSendMethod;
 import com.wuda.foundation.core.notification.UpdateNotificationTemplate;
-import com.wuda.foundation.core.notification.impl.jooq.generation.tables.records.NotificationDefinitionContentRecord;
-import com.wuda.foundation.core.notification.impl.jooq.generation.tables.records.NotificationDefinitionCoreRecord;
-import com.wuda.foundation.core.notification.impl.jooq.generation.tables.records.NotificationDefinitionObserverRecord;
-import com.wuda.foundation.core.notification.impl.jooq.generation.tables.records.NotificationDefinitionSendMethodRecord;
-import com.wuda.foundation.core.notification.impl.jooq.generation.tables.records.NotificationSendMethodRecord;
-import com.wuda.foundation.core.notification.impl.jooq.generation.tables.records.NotificationTemplateRecord;
+import com.wuda.foundation.jooq.code.generation.notification.tables.records.NotificationDefinitionContentRecord;
+import com.wuda.foundation.jooq.code.generation.notification.tables.records.NotificationDefinitionCoreRecord;
+import com.wuda.foundation.jooq.code.generation.notification.tables.records.NotificationDefinitionObserverRecord;
+import com.wuda.foundation.jooq.code.generation.notification.tables.records.NotificationDefinitionSendMethodRecord;
+import com.wuda.foundation.jooq.code.generation.notification.tables.records.NotificationSendMethodRecord;
+import com.wuda.foundation.jooq.code.generation.notification.tables.records.NotificationTemplateRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.AlreadyExistsException;
@@ -28,12 +28,12 @@ import org.jooq.types.ULong;
 
 import java.time.LocalDateTime;
 
-import static com.wuda.foundation.core.notification.impl.jooq.generation.tables.NotificationDefinitionContent.NOTIFICATION_DEFINITION_CONTENT;
-import static com.wuda.foundation.core.notification.impl.jooq.generation.tables.NotificationDefinitionCore.NOTIFICATION_DEFINITION_CORE;
-import static com.wuda.foundation.core.notification.impl.jooq.generation.tables.NotificationDefinitionObserver.NOTIFICATION_DEFINITION_OBSERVER;
-import static com.wuda.foundation.core.notification.impl.jooq.generation.tables.NotificationDefinitionSendMethod.NOTIFICATION_DEFINITION_SEND_METHOD;
-import static com.wuda.foundation.core.notification.impl.jooq.generation.tables.NotificationSendMethod.NOTIFICATION_SEND_METHOD;
-import static com.wuda.foundation.core.notification.impl.jooq.generation.tables.NotificationTemplate.NOTIFICATION_TEMPLATE;
+import static com.wuda.foundation.jooq.code.generation.notification.tables.NotificationDefinitionContent.NOTIFICATION_DEFINITION_CONTENT;
+import static com.wuda.foundation.jooq.code.generation.notification.tables.NotificationDefinitionCore.NOTIFICATION_DEFINITION_CORE;
+import static com.wuda.foundation.jooq.code.generation.notification.tables.NotificationDefinitionObserver.NOTIFICATION_DEFINITION_OBSERVER;
+import static com.wuda.foundation.jooq.code.generation.notification.tables.NotificationDefinitionSendMethod.NOTIFICATION_DEFINITION_SEND_METHOD;
+import static com.wuda.foundation.jooq.code.generation.notification.tables.NotificationSendMethod.NOTIFICATION_SEND_METHOD;
+import static com.wuda.foundation.jooq.code.generation.notification.tables.NotificationTemplate.NOTIFICATION_TEMPLATE;
 
 public class NotificationManagerImpl extends AbstractNotificationManager implements JooqCommonDbOp {
 

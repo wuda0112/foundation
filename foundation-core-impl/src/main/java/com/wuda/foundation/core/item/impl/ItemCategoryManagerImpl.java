@@ -4,7 +4,7 @@ import com.wuda.foundation.core.item.AbstractItemCategoryManager;
 import com.wuda.foundation.core.item.CreateItemCategory;
 import com.wuda.foundation.core.item.DescribeItemCategory;
 import com.wuda.foundation.core.item.UpdateItemCategory;
-import com.wuda.foundation.core.item.impl.jooq.generation.tables.records.ItemCategoryRecord;
+import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemCategoryRecord;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.CreateMode;
@@ -22,8 +22,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wuda.foundation.core.item.impl.jooq.generation.tables.ItemBelongsToGroup.ITEM_BELONGS_TO_GROUP;
-import static com.wuda.foundation.core.item.impl.jooq.generation.tables.ItemCategory.ITEM_CATEGORY;
+import static com.wuda.foundation.jooq.code.generation.item.tables.ItemBelongsToGroup.ITEM_BELONGS_TO_GROUP;
+import static com.wuda.foundation.jooq.code.generation.item.tables.ItemCategory.ITEM_CATEGORY;
 
 public class ItemCategoryManagerImpl extends AbstractItemCategoryManager implements JooqCommonDbOp {
 

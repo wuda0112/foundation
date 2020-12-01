@@ -12,15 +12,15 @@
  * 真实的颜色,而不是字面量#FFFFFF了.再比如属性是链接类型时,前端界面就可以以Url的形式显示,再比如是图片类型时,前端界面就显示图片,等等.所以属性有了type,
  * 设值和显示时体验就更好了,</li>
  * <li>换个角度思考,可以当作系统变量,环境变量等功能使用.只要把属性的owner设置成系统即可.
- * 这种用法下,在编程时,我们是明确要拿着这个property key使用的,为了不在代码中出现大量的魔法值,我们可以用{@link com.wuda.foundation.commons.property.PropertyKeyNaming}
+ * 这种用法下,在编程时,我们是明确要拿着这个property key使用的,为了不在代码中出现大量的魔法值,我们可以用{@link com.wuda.foundation.core.commons.property.PropertyKeyNaming}
  * 提前把property key用强类型(最好是枚举)固定下来,在代码中使用时,引用就方便了</li>
  * </ul>
  * <p>
- * 如何表示任意实体的属性?通过{@link com.wuda.foundation.commons.property.CreatePropertyKey#getOwner()}可以指定这个属性
+ * 如何表示任意实体的属性?通过{@link com.wuda.foundation.core.commons.property.CreatePropertyKey#getOwner()}可以指定这个属性
  * 属于任何owner,当owner type为商品时,owner identifier就表示商品的id;当owner type为店铺时,owner identifier就表示店铺的id,等等,
  * 通过这种方式就可以表示任意实体.
  * <p>
- * 如何像Column definition一样为属性设置definition?通过{@link com.wuda.foundation.commons.property.CreatePropertyKeyDefinition}为属性设置定义,
+ * 如何像Column definition一样为属性设置definition?通过{@link com.wuda.foundation.core.commons.property.CreatePropertyKeyDefinition}为属性设置定义,
  * 比如设置属性的{@link com.wuda.foundation.lang.datatype.DataType}数据类型,也可以不为属性设置definition,这时属性值就可以是任何字符串.
  * <p>
  */

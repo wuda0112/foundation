@@ -18,6 +18,8 @@
         <module>foundation-security-impl</module>
         <module>foundation-notification</module>
         <module>foundation-notification-impl</module>
+        <module>foundation-core</module>
+        <module>foundation-core-impl</module>
     </modules>
 
     <groupId>io.github.wuda0112</groupId>

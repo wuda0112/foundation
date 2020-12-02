@@ -42,9 +42,9 @@ public class DescribePermissionAssignment {
      */
     private Action action;
     /**
-     * inclusionOrExclusion.
+     * allowOrDeny.
      */
-    private InclusionOrExclusion inclusionOrExclusion;
+    private AllowOrDeny allowOrDeny;
 
     /**
      * 合并.每个{@link Subject}对给定的{@link Target}所能执行的{@link Action}的分配是多种多样的,并且有可能会重复,
@@ -68,24 +68,24 @@ public class DescribePermissionAssignment {
             DescribePermissionOnTarget describePermissionOnTarget = null;
 
             Set<Action> actions = new HashSet<>();
-            InclusionOrExclusion inclusionOrExclusionOfAction = null;
+            AllowOrDeny allowOrDenyOfAction = null;
             for (DescribePermissionAssignment assignment : assignmentList) {
                 if (assignment.getAction().equals(Action.fake())) {
                     if (describePermissionOnTarget == null) {
-                        describePermissionOnTarget = new DescribePermissionOnTarget(subject, target, assignment.getInclusionOrExclusion());
-                    } else if (!describePermissionOnTarget.getInclusionOrExclusion().equals(assignment.inclusionOrExclusion)) {
+                        describePermissionOnTarget = new DescribePermissionOnTarget(subject, target, assignment.getAllowOrDeny());
+                    } else if (!describePermissionOnTarget.getAllowOrDeny().equals(assignment.allowOrDeny)) {
                         throw new IllegalStateException("为subject分配的同一个target,InclusionOrExclusion应该只有一种");
                     }
                 } else {
-                    if (inclusionOrExclusionOfAction == null) {
-                        inclusionOrExclusionOfAction = assignment.inclusionOrExclusion;
-                    } else if (!inclusionOrExclusionOfAction.equals(assignment.inclusionOrExclusion)) {
+                    if (allowOrDenyOfAction == null) {
+                        allowOrDenyOfAction = assignment.allowOrDeny;
+                    } else if (!allowOrDenyOfAction.equals(assignment.allowOrDeny)) {
                         throw new IllegalStateException("为subject分配的同一个target的action,InclusionOrExclusion应该只有一种");
                     }
                     actions.add(assignment.getAction());
                 }
             }
-            DescribePermissionOnAction describePermissionOnAction = new DescribePermissionOnAction(subject, target, actions, inclusionOrExclusionOfAction);
+            DescribePermissionOnAction describePermissionOnAction = new DescribePermissionOnAction(subject, target, actions, allowOrDenyOfAction);
             DescribePermission describePermission = new DescribePermission(subject, target, describePermissionOnTarget, describePermissionOnAction);
             list.add(describePermission);
         }

@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.security.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.security.tables.PermissionRole;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record9;
@@ -13,8 +16,6 @@ import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-
 
 /**
  * 角色
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionRoleRecord extends UpdatableRecordImpl<PermissionRoleRecord> implements Record9<ULong, UByte, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -329954679;
+    private static final long serialVersionUID = 1104503465;
 
     /**
      * Setter for <code>foundation_security.permission_role.permission_role_id</code>.

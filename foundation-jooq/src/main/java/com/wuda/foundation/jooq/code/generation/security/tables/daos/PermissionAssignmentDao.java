@@ -6,14 +6,15 @@ package com.wuda.foundation.jooq.code.generation.security.tables.daos;
 
 import com.wuda.foundation.jooq.code.generation.security.tables.PermissionAssignment;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionAssignmentRecord;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 import org.jooq.types.UShort;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 
 /**
@@ -148,17 +149,17 @@ public class PermissionAssignmentDao extends DAOImpl<PermissionAssignmentRecord,
     }
 
     /**
-     * Fetch records that have <code>inclusion BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>allow BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAssignment> fetchRangeOfInclusion(Boolean lowerInclusive, Boolean upperInclusive) {
-        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.INCLUSION, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAssignment> fetchRangeOfAllow(Boolean lowerInclusive, Boolean upperInclusive) {
+        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.ALLOW, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>inclusion IN (values)</code>
+     * Fetch records that have <code>allow IN (values)</code>
      */
-    public List<com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAssignment> fetchByInclusion(Boolean... values) {
-        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.INCLUSION, values);
+    public List<com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAssignment> fetchByAllow(Boolean... values) {
+        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.ALLOW, values);
     }
 
     /**

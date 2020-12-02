@@ -1,6 +1,7 @@
 package com.wuda.foundation.core.user;
 
 import com.wuda.foundation.core.commons.DescribeMenuItem;
+import com.wuda.foundation.core.security.DescribePermissionAssignment;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.identify.LongIdentifier;
@@ -95,11 +96,11 @@ public abstract class AbstractUserBelongsToGroupManager implements UserBelongsTo
     protected abstract List<Long> getMembersDbOp(LongIdentifier group);
 
     @Override
-    public List<DescribePermission> getPermissionsFromRole(Long userId, LongIdentifier group) {
+    public List<DescribePermissionAssignment> getPermissionsFromRole(Long userId, LongIdentifier group) {
         return getPermissionsFromRoleDbOp(userId, group);
     }
 
-    protected abstract List<DescribePermission> getPermissionsFromRoleDbOp(Long userId, LongIdentifier group);
+    protected abstract List<DescribePermissionAssignment> getPermissionsFromRoleDbOp(Long userId, LongIdentifier group);
 
     @Override
     public List<DescribePermissionRole> getRoles(Long userId, LongIdentifier group) {

@@ -8,6 +8,11 @@ import com.wuda.foundation.jooq.code.generation.security.FoundationSecurity;
 import com.wuda.foundation.jooq.code.generation.security.Indexes;
 import com.wuda.foundation.jooq.code.generation.security.Keys;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionTargetRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -25,10 +30,6 @@ import org.jooq.impl.TableImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 
 /**
  * permission作用的对象，分为两类，1，关联外部对象，使用type字段表明外部对象的类型，referenced_id表明外部对象的唯一标记，比如在web系统中，已经拥有了菜单表，如果要对菜单权限控制，使用referenced_id关联菜单表的主键ID，就可以将permission与菜单数据建立联系，而不需要把菜单相关的逻辑引入到权限体系中；2，不关联外部对象，当前表中的信息就已经描述了作用对象的信息。对于permission体系来说，permission 
@@ -37,7 +38,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionTarget extends TableImpl<PermissionTargetRecord> {
 
-    private static final long serialVersionUID = 459165101;
+    private static final long serialVersionUID = -1970843638;
 
     /**
      * The reference instance of <code>foundation_security.permission_target</code>
@@ -75,12 +76,12 @@ public class PermissionTarget extends TableImpl<PermissionTargetRecord> {
     /**
      * The column <code>foundation_security.permission_target.referenced_type</code>. 关联的外部对象的类型。注意和type字段的区别，在实际中，有可能这两个字段的值是一样的，但是在意义上却是完全不一样的，而且有可能一种type的target，由关联的多种referenced_type组成
      */
-    public final TableField<PermissionTargetRecord, UByte> REFERENCED_TYPE = createField(DSL.name("referenced_type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.TINYINTUNSIGNED)), this, "关联的外部对象的类型。注意和type字段的区别，在实际中，有可能这两个字段的值是一样的，但是在意义上却是完全不一样的，而且有可能一种type的target，由关联的多种referenced_type组成");
+    public final TableField<PermissionTargetRecord, UByte> REFERENCED_TYPE = createField(DSL.name("referenced_type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINTUNSIGNED)), this, "关联的外部对象的类型。注意和type字段的区别，在实际中，有可能这两个字段的值是一样的，但是在意义上却是完全不一样的，而且有可能一种type的target，由关联的多种referenced_type组成");
 
     /**
      * The column <code>foundation_security.permission_target.referenced_identifier</code>. 该target关联的外部对象的唯一标记，如果为0，表示并没有关联外部对象。这样设计的目的是：不把作用对象放在权限体系中，而是任何想要使用权限体系的外部对象，通过该字段关联到自己，这样就可以做到权限体系的最大可扩展性。举例：在web系统中，如果已经拥有了菜单表，如果要对菜单权限控制，就可以使用该字段将permission与菜单数据建立联系，而不需要把菜单相关的逻辑引入到权限体系中，但是，如果多种外部对象通过该字段关联进来，有可能identifier冲突，因此需要type字段一起做唯一控制
      */
-    public final TableField<PermissionTargetRecord, ULong> REFERENCED_IDENTIFIER = createField(DSL.name("referenced_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "该target关联的外部对象的唯一标记，如果为0，表示并没有关联外部对象。这样设计的目的是：不把作用对象放在权限体系中，而是任何想要使用权限体系的外部对象，通过该字段关联到自己，这样就可以做到权限体系的最大可扩展性。举例：在web系统中，如果已经拥有了菜单表，如果要对菜单权限控制，就可以使用该字段将permission与菜单数据建立联系，而不需要把菜单相关的逻辑引入到权限体系中，但是，如果多种外部对象通过该字段关联进来，有可能identifier冲突，因此需要type字段一起做唯一控制");
+    public final TableField<PermissionTargetRecord, ULong> REFERENCED_IDENTIFIER = createField(DSL.name("referenced_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "该target关联的外部对象的唯一标记，如果为0，表示并没有关联外部对象。这样设计的目的是：不把作用对象放在权限体系中，而是任何想要使用权限体系的外部对象，通过该字段关联到自己，这样就可以做到权限体系的最大可扩展性。举例：在web系统中，如果已经拥有了菜单表，如果要对菜单权限控制，就可以使用该字段将permission与菜单数据建立联系，而不需要把菜单相关的逻辑引入到权限体系中，但是，如果多种外部对象通过该字段关联进来，有可能identifier冲突，因此需要type字段一起做唯一控制");
 
     /**
      * The column <code>foundation_security.permission_target.description</code>. 描述
@@ -90,7 +91,7 @@ public class PermissionTarget extends TableImpl<PermissionTargetRecord> {
     /**
      * The column <code>foundation_security.permission_target.create_time</code>.
      */
-    public final TableField<PermissionTargetRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<PermissionTargetRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_security.permission_target.create_user_id</code>.
@@ -100,7 +101,7 @@ public class PermissionTarget extends TableImpl<PermissionTargetRecord> {
     /**
      * The column <code>foundation_security.permission_target.last_modify_time</code>.
      */
-    public final TableField<PermissionTargetRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<PermissionTargetRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_security.permission_target.last_modify_user_id</code>.
@@ -110,7 +111,7 @@ public class PermissionTarget extends TableImpl<PermissionTargetRecord> {
     /**
      * The column <code>foundation_security.permission_target.is_deleted</code>.
      */
-    public final TableField<PermissionTargetRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<PermissionTargetRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_security.permission_target</code> table reference

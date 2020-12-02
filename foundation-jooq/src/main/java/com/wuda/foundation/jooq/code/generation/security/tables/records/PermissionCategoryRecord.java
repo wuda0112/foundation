@@ -5,14 +5,15 @@ package com.wuda.foundation.jooq.code.generation.security.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.security.tables.PermissionCategory;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record9;
 import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.ULong;
-
-import java.time.LocalDateTime;
 
 
 /**
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionCategoryRecord extends UpdatableRecordImpl<PermissionCategoryRecord> implements Record9<ULong, ULong, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 935690665;
+    private static final long serialVersionUID = 1843395017;
 
     /**
      * Setter for <code>foundation_security.permission_category.permission_category_id</code>.

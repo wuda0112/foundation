@@ -17,5 +17,5 @@ public class DescribePermissionOnTarget {
     /**
      * 主体对于该对象说执行的inclusionOrExclusion.
      */
-    private InclusionOrExclusion inclusionOrExclusion;
+    private AllowOrDeny allowOrDeny;
 }

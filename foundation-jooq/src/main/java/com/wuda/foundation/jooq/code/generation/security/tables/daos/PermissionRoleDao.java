@@ -6,13 +6,14 @@ package com.wuda.foundation.jooq.code.generation.security.tables.daos;
 
 import com.wuda.foundation.jooq.code.generation.security.tables.PermissionRole;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionRoleRecord;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 
 /**

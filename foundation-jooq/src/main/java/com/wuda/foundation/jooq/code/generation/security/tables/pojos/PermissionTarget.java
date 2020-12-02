@@ -4,11 +4,11 @@
 package com.wuda.foundation.jooq.code.generation.security.tables.pojos;
 
 
-import org.jooq.types.UByte;
-import org.jooq.types.ULong;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import org.jooq.types.UByte;
+import org.jooq.types.ULong;
 
 
 /**
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionTarget implements Serializable {
 
-    private static final long serialVersionUID = -989682588;
+    private static final long serialVersionUID = -686582617;
 
     private ULong         permissionTargetId;
     private ULong         permissionCategoryId;

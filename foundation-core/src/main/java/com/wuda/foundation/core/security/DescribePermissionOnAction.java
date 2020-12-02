@@ -23,5 +23,5 @@ public class DescribePermissionOnAction {
     /**
      * 对这些action执行的inclusionOrExclusion.
      */
-    private InclusionOrExclusion inclusionOrExclusion;
+    private AllowOrDeny allowOrDeny;
 }

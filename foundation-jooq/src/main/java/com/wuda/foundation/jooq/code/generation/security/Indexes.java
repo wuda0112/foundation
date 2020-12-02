@@ -8,6 +8,7 @@ import com.wuda.foundation.jooq.code.generation.security.tables.PermissionAction
 import com.wuda.foundation.jooq.code.generation.security.tables.PermissionAssignment;
 import com.wuda.foundation.jooq.code.generation.security.tables.PermissionCategory;
 import com.wuda.foundation.jooq.code.generation.security.tables.PermissionTarget;
+
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.Internal;

@@ -4,12 +4,12 @@
 package com.wuda.foundation.jooq.code.generation.security.tables.pojos;
 
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 import org.jooq.types.UShort;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 
 /**
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAssignment implements Serializable {
 
-    private static final long serialVersionUID = -522012432;
+    private static final long serialVersionUID = 156959354;
 
     private ULong         id;
     private UByte         subjectType;
@@ -28,7 +28,7 @@ public class PermissionAssignment implements Serializable {
     private ULong         targetIdentifier;
     private UShort        actionType;
     private ULong         actionIdentifier;
-    private Boolean       inclusion;
+    private Boolean       allow;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private ULong         isDeleted;
@@ -43,7 +43,7 @@ public class PermissionAssignment implements Serializable {
         this.targetIdentifier = value.targetIdentifier;
         this.actionType = value.actionType;
         this.actionIdentifier = value.actionIdentifier;
-        this.inclusion = value.inclusion;
+        this.allow = value.allow;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.isDeleted = value.isDeleted;
@@ -57,7 +57,7 @@ public class PermissionAssignment implements Serializable {
         ULong         targetIdentifier,
         UShort        actionType,
         ULong         actionIdentifier,
-        Boolean       inclusion,
+        Boolean       allow,
         LocalDateTime createTime,
         ULong         createUserId,
         ULong         isDeleted
@@ -69,7 +69,7 @@ public class PermissionAssignment implements Serializable {
         this.targetIdentifier = targetIdentifier;
         this.actionType = actionType;
         this.actionIdentifier = actionIdentifier;
-        this.inclusion = inclusion;
+        this.allow = allow;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.isDeleted = isDeleted;
@@ -131,12 +131,12 @@ public class PermissionAssignment implements Serializable {
         this.actionIdentifier = actionIdentifier;
     }
 
-    public Boolean getInclusion() {
-        return this.inclusion;
+    public Boolean getAllow() {
+        return this.allow;
     }
 
-    public void setInclusion(Boolean inclusion) {
-        this.inclusion = inclusion;
+    public void setAllow(Boolean allow) {
+        this.allow = allow;
     }
 
     public LocalDateTime getCreateTime() {
@@ -174,7 +174,7 @@ public class PermissionAssignment implements Serializable {
         sb.append(", ").append(targetIdentifier);
         sb.append(", ").append(actionType);
         sb.append(", ").append(actionIdentifier);
-        sb.append(", ").append(inclusion);
+        sb.append(", ").append(allow);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(isDeleted);

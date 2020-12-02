@@ -14,6 +14,7 @@ import com.wuda.foundation.jooq.code.generation.security.tables.records.Permissi
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionCategoryRecord;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionRoleRecord;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionTargetRecord;
+
 import org.jooq.Identity;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;

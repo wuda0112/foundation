@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.security.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.security.tables.PermissionAssignment;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record11;
@@ -14,8 +17,6 @@ import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 import org.jooq.types.UShort;
 
-import java.time.LocalDateTime;
-
 
 /**
  * 权限分配。subject可以代表任何主体，比如用户，或者想要访问其他资源的应用，因此我们可以说user 【IS A】 subject 。target可以代表任何对象，比如file，因此我们可以说file 
@@ -24,7 +25,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAssignmentRecord> implements Record11<ULong, UByte, ULong, UShort, ULong, UShort, ULong, Boolean, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -1320025944;
+    private static final long serialVersionUID = -2082100180;
 
     /**
      * Setter for <code>foundation_security.permission_assignment.id</code>.
@@ -125,16 +126,16 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
     }
 
     /**
-     * Setter for <code>foundation_security.permission_assignment.inclusion</code>. inclusion or exclusion，虽然为subject分配了target和action，但不一定是拥有，也可以是排除
+     * Setter for <code>foundation_security.permission_assignment.allow</code>. allow or deny，虽然为subject分配了target和action，但不一定是允许，也可以是拒绝
      */
-    public void setInclusion(Boolean value) {
+    public void setAllow(Boolean value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>foundation_security.permission_assignment.inclusion</code>. inclusion or exclusion，虽然为subject分配了target和action，但不一定是拥有，也可以是排除
+     * Getter for <code>foundation_security.permission_assignment.allow</code>. allow or deny，虽然为subject分配了target和action，但不一定是允许，也可以是拒绝
      */
-    public Boolean getInclusion() {
+    public Boolean getAllow() {
         return (Boolean) get(7);
     }
 
@@ -240,7 +241,7 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
 
     @Override
     public Field<Boolean> field8() {
-        return PermissionAssignment.PERMISSION_ASSIGNMENT.INCLUSION;
+        return PermissionAssignment.PERMISSION_ASSIGNMENT.ALLOW;
     }
 
     @Override
@@ -295,7 +296,7 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
 
     @Override
     public Boolean component8() {
-        return getInclusion();
+        return getAllow();
     }
 
     @Override
@@ -350,7 +351,7 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
 
     @Override
     public Boolean value8() {
-        return getInclusion();
+        return getAllow();
     }
 
     @Override
@@ -412,7 +413,7 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
 
     @Override
     public PermissionAssignmentRecord value8(Boolean value) {
-        setInclusion(value);
+        setAllow(value);
         return this;
     }
 
@@ -464,7 +465,7 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
     /**
      * Create a detached, initialised PermissionAssignmentRecord
      */
-    public PermissionAssignmentRecord(ULong id, UByte subjectType, ULong subjectIdentifier, UShort targetType, ULong targetIdentifier, UShort actionType, ULong actionIdentifier, Boolean inclusion, LocalDateTime createTime, ULong createUserId, ULong isDeleted) {
+    public PermissionAssignmentRecord(ULong id, UByte subjectType, ULong subjectIdentifier, UShort targetType, ULong targetIdentifier, UShort actionType, ULong actionIdentifier, Boolean allow, LocalDateTime createTime, ULong createUserId, ULong isDeleted) {
         super(PermissionAssignment.PERMISSION_ASSIGNMENT);
 
         set(0, id);
@@ -474,7 +475,7 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
         set(4, targetIdentifier);
         set(5, actionType);
         set(6, actionIdentifier);
-        set(7, inclusion);
+        set(7, allow);
         set(8, createTime);
         set(9, createUserId);
         set(10, isDeleted);

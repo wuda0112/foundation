@@ -1,12 +1,7 @@
 package com.wuda.foundation.core.security.impl;
 
-import com.wuda.foundation.core.security.Action;
-import com.wuda.foundation.core.security.DescribePermissionAction;
-import com.wuda.foundation.core.security.DescribePermissionAssignment;
-import com.wuda.foundation.core.security.DescribePermissionTarget;
-import com.wuda.foundation.core.security.InclusionOrExclusion;
-import com.wuda.foundation.core.security.Subject;
-import com.wuda.foundation.core.security.Target;
+import com.wuda.foundation.core.security.*;
+import com.wuda.foundation.core.security.AllowOrDeny;
 import com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAction;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionActionRecord;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionAssignmentRecord;
@@ -82,7 +77,7 @@ class EntityConverter {
         descriptor.setTarget(target);
         Action action = getAction(record);
         descriptor.setAction(action);
-        descriptor.setInclusionOrExclusion(InclusionOrExclusion.parse(record.getInclusion()));
+        descriptor.setAllowOrDeny(AllowOrDeny.parse(record.getAllow()));
         return descriptor;
     }
 

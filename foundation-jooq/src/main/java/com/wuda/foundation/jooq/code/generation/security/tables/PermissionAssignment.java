@@ -8,6 +8,11 @@ import com.wuda.foundation.jooq.code.generation.security.FoundationSecurity;
 import com.wuda.foundation.jooq.code.generation.security.Indexes;
 import com.wuda.foundation.jooq.code.generation.security.Keys;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionAssignmentRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -26,10 +31,6 @@ import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 import org.jooq.types.UShort;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 
 /**
  * 权限分配。subject可以代表任何主体，比如用户，或者想要访问其他资源的应用，因此我们可以说user 【IS A】 subject 。target可以代表任何对象，比如file，因此我们可以说file 
@@ -38,7 +39,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> {
 
-    private static final long serialVersionUID = 1919826226;
+    private static final long serialVersionUID = 1537809054;
 
     /**
      * The reference instance of <code>foundation_security.permission_assignment</code>
@@ -89,14 +90,14 @@ public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> 
     public final TableField<PermissionAssignmentRecord, ULong> ACTION_IDENTIFIER = createField(DSL.name("action_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "action的唯一标记符");
 
     /**
-     * The column <code>foundation_security.permission_assignment.inclusion</code>. inclusion or exclusion，虽然为subject分配了target和action，但不一定是拥有，也可以是排除
+     * The column <code>foundation_security.permission_assignment.allow</code>. allow or deny，虽然为subject分配了target和action，但不一定是允许，也可以是拒绝
      */
-    public final TableField<PermissionAssignmentRecord, Boolean> INCLUSION = createField(DSL.name("inclusion"), org.jooq.impl.SQLDataType.BIT.nullable(false), this, "inclusion or exclusion，虽然为subject分配了target和action，但不一定是拥有，也可以是排除");
+    public final TableField<PermissionAssignmentRecord, Boolean> ALLOW = createField(DSL.name("allow"), org.jooq.impl.SQLDataType.BIT.nullable(false), this, "allow or deny，虽然为subject分配了target和action，但不一定是允许，也可以是拒绝");
 
     /**
      * The column <code>foundation_security.permission_assignment.create_time</code>.
      */
-    public final TableField<PermissionAssignmentRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<PermissionAssignmentRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_security.permission_assignment.create_user_id</code>.
@@ -106,7 +107,7 @@ public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> 
     /**
      * The column <code>foundation_security.permission_assignment.is_deleted</code>.
      */
-    public final TableField<PermissionAssignmentRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<PermissionAssignmentRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_security.permission_assignment</code> table reference

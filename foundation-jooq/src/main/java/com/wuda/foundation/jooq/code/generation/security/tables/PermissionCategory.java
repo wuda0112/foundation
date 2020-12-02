@@ -8,6 +8,11 @@ import com.wuda.foundation.jooq.code.generation.security.FoundationSecurity;
 import com.wuda.foundation.jooq.code.generation.security.Indexes;
 import com.wuda.foundation.jooq.code.generation.security.Keys;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionCategoryRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Index;
@@ -23,10 +28,6 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 
 /**
  * permission分类
@@ -34,7 +35,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionCategory extends TableImpl<PermissionCategoryRecord> {
 
-    private static final long serialVersionUID = -1943697261;
+    private static final long serialVersionUID = -1579096336;
 
     /**
      * The reference instance of <code>foundation_security.permission_category</code>
@@ -57,7 +58,7 @@ public class PermissionCategory extends TableImpl<PermissionCategoryRecord> {
     /**
      * The column <code>foundation_security.permission_category.parent_id</code>. 父级
      */
-    public final TableField<PermissionCategoryRecord, ULong> PARENT_ID = createField(DSL.name("parent_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "父级");
+    public final TableField<PermissionCategoryRecord, ULong> PARENT_ID = createField(DSL.name("parent_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "父级");
 
     /**
      * The column <code>foundation_security.permission_category.name</code>. category name
@@ -72,7 +73,7 @@ public class PermissionCategory extends TableImpl<PermissionCategoryRecord> {
     /**
      * The column <code>foundation_security.permission_category.create_time</code>.
      */
-    public final TableField<PermissionCategoryRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<PermissionCategoryRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_security.permission_category.create_user_id</code>.
@@ -82,7 +83,7 @@ public class PermissionCategory extends TableImpl<PermissionCategoryRecord> {
     /**
      * The column <code>foundation_security.permission_category.last_modify_time</code>.
      */
-    public final TableField<PermissionCategoryRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<PermissionCategoryRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_security.permission_category.last_modify_user_id</code>.
@@ -92,7 +93,7 @@ public class PermissionCategory extends TableImpl<PermissionCategoryRecord> {
     /**
      * The column <code>foundation_security.permission_category.is_deleted</code>.
      */
-    public final TableField<PermissionCategoryRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<PermissionCategoryRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_security.permission_category</code> table reference

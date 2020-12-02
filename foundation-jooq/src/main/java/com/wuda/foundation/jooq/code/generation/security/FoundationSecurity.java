@@ -9,12 +9,13 @@ import com.wuda.foundation.jooq.code.generation.security.tables.PermissionAssign
 import com.wuda.foundation.jooq.code.generation.security.tables.PermissionCategory;
 import com.wuda.foundation.jooq.code.generation.security.tables.PermissionRole;
 import com.wuda.foundation.jooq.code.generation.security.tables.PermissionTarget;
-import org.jooq.Catalog;
-import org.jooq.Table;
-import org.jooq.impl.SchemaImpl;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.jooq.Catalog;
+import org.jooq.Table;
+import org.jooq.impl.SchemaImpl;
 
 
 /**
@@ -23,7 +24,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationSecurity extends SchemaImpl {
 
-    private static final long serialVersionUID = -875547324;
+    private static final long serialVersionUID = 1024977330;
 
     /**
      * The reference instance of <code>foundation_security</code>

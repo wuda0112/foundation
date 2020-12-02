@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.security.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.security.tables.PermissionAction;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record11;
@@ -12,8 +15,6 @@ import org.jooq.Row11;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
-
-import java.time.LocalDateTime;
 
 
 /**
@@ -23,7 +24,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionActionRecord extends UpdatableRecordImpl<PermissionActionRecord> implements Record11<ULong, ULong, String, String, UByte, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 556154375;
+    private static final long serialVersionUID = -1825535513;
 
     /**
      * Setter for <code>foundation_security.permission_action.permission_action_id</code>.

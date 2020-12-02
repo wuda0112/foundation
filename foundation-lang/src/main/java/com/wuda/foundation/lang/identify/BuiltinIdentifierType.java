@@ -24,7 +24,20 @@ public enum BuiltinIdentifierType implements IdentifierType {
     /**
      * 表示item_category表.
      */
-    ITEM_CATEGORY(3, "表示item_category表");
+    ITEM_CATEGORY(3, "表示item_category表"),
+
+    /**
+     * 表示permission_role表.
+     */
+    PERMISSION_ROLE(4, "表示permission_role表"),
+    /**
+     * 表示menu_item表.
+     */
+    MENU_ITEM(5, "表示menu_item表"),
+    /**
+     * 表示menu_item_category表.
+     */
+    MENU_ITEM_CATEGORY(6, "表示menu_item_category表");
 
     /**
      * unique code.

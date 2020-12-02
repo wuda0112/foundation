@@ -17,4 +17,12 @@ public interface MenuItemManager {
      * @return menu item的集合
      */
     List<DescribeMenuItem> getMenuItemsFromRole(List<Long> roleIds);
+
+    /**
+     * 根据ID获取.
+     *
+     * @param ids menu item id
+     * @return {@link DescribeMenuItem}
+     */
+    List<DescribeMenuItem> getMenuItemsById(List<Long> ids);
 }

@@ -2,11 +2,7 @@ package com.wuda.foundation.core.user.impl;
 
 import com.wuda.foundation.core.commons.DescribeMenuItem;
 import com.wuda.foundation.core.commons.MenuItemManager;
-import com.wuda.foundation.core.security.DescribePermission;
-import com.wuda.foundation.core.security.DescribePermissionRole;
-import com.wuda.foundation.core.security.PermissionGrantManager;
-import com.wuda.foundation.core.security.PermissionManager;
-import com.wuda.foundation.core.security.Subject;
+import com.wuda.foundation.core.security.*;
 import com.wuda.foundation.core.user.AbstractUserBelongsToGroupManager;
 import com.wuda.foundation.core.user.CreateUserBelongsToGroupCoreRequest;
 import com.wuda.foundation.core.user.CreateUserBelongsToGroupGeneralRequest;
@@ -198,7 +194,7 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
     }
 
     @Override
-    protected List<DescribePermission> getPermissionsFromRoleDbOp(Long userId, LongIdentifier group) {
+    protected List<DescribePermissionAssignment> getPermissionsFromRoleDbOp(Long userId, LongIdentifier group) {
         List<DescribePermissionRole> roles = getRoles(userId, group);
         List<Subject> subjects = DescribePermissionRole.toSubjects(roles);
         if (subjects == null || subjects.isEmpty()) {

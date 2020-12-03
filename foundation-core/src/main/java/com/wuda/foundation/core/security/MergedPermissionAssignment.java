@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.Collection;
+
 /**
- * 描述{@link Subject}所拥有的{@link Target}和{@link Action}.
+ * 以{@link Subject}和{@link Target}为核心,合并permission assignment.
  *
  * @author wuda
  * @since 1.0.0
@@ -13,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public class DescribePermission {
+public class MergedPermissionAssignment {
     /**
      * 该权限的主体.
      */
@@ -22,8 +24,8 @@ public class DescribePermission {
      * 为主体分配的对象.
      */
     private Target target;
-
-    private DescribePermissionOnTarget describeTarget;
-    private DescribePermissionOnAction describeAction;
-
+    /**
+     * 围绕同一个{@link Subject}和{@link Target}的权限分配.
+     */
+    private Collection<DescribePermissionAssignment> assignments;
 }

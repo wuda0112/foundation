@@ -18,7 +18,7 @@ public abstract class AbstractPermissionGrantManager implements PermissionGrantM
     public void createAssignment(Subject subject, Target target, Set<Action> actionSet, AllowOrDeny allowOrDeny, Long opUserId) {
         Objects.requireNonNull(actionSet);
         if (!actionSet.isEmpty()) {
-            if (subjectTargetAssigned(subject, target, allowOrDeny)) {
+            if (assignedTargetToSubject(subject, target, allowOrDeny)) {
                 return;
             }
             createAssignmentDbOp(subject, target, actionSet, allowOrDeny, opUserId);
@@ -42,32 +42,33 @@ public abstract class AbstractPermissionGrantManager implements PermissionGrantM
     protected abstract void clearAssignmentDbOp(Subject subject, Target target, Set<Action> actionSet, Long opUserId);
 
     @Override
-    public List<DescribePermissionAssignment> getPermissions(Subject subject) {
+    public List<MergedPermissionAssignment> getPermissions(Subject subject) {
         return getPermissionsDbOp(subject, null);
     }
 
-    protected abstract List<DescribePermissionAssignment> getPermissionsDbOp(Subject subject, IdentifierType targetType);
+    protected abstract List<MergedPermissionAssignment> getPermissionsDbOp(Subject subject, IdentifierType targetType);
 
     @Override
-    public List<DescribePermissionAssignment> getPermissions(Subject subject, IdentifierType targetType) {
+    public List<MergedPermissionAssignment> getPermissions(Subject subject, IdentifierType targetType) {
         return getPermissionsDbOp(subject, targetType);
     }
 
     @Override
-    public List<DescribePermissionAssignment> getPermissions(List<Subject> subjects) {
+    public List<MergedPermissionAssignment> getPermissions(List<Subject> subjects) {
         return getPermissionsDbOp(subjects,null);
     }
 
-    protected abstract List<DescribePermissionAssignment> getPermissionsDbOp(List<Subject> subjects, IdentifierType targetType);
+    protected abstract List<MergedPermissionAssignment> getPermissionsDbOp(List<Subject> subjects, IdentifierType targetType);
 
     @Override
-    public List<DescribePermissionAssignment> getPermissions(List<Subject> subjects, IdentifierType targetType){
+    public List<MergedPermissionAssignment> getPermissions(List<Subject> subjects, IdentifierType targetType){
         return getPermissionsDbOp(subjects, targetType);
     }
 
-    public boolean subjectTargetAssigned(Subject subject, Target target, AllowOrDeny allowOrDeny) {
-        return subjectTargetAssignedDbOp(subject, target, allowOrDeny);
+    @Override
+    public boolean assignedTargetToSubject(Subject subject, Target target, AllowOrDeny allowOrDeny) {
+        return assignedTargetToSubjectDbOp(subject, target, allowOrDeny);
     }
 
-    protected abstract boolean subjectTargetAssignedDbOp(Subject subject, Target target, AllowOrDeny allowOrDeny);
+    protected abstract boolean assignedTargetToSubjectDbOp(Subject subject, Target target, AllowOrDeny allowOrDeny);
 }

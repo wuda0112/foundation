@@ -28,4 +28,19 @@ public abstract class AbstractRoleAndMenuItemAssignmentManager implements RoleAn
     }
 
     protected abstract void clearAssignmentBetweenMenuItemAndRoleDbOp(Long permissionRoleId, Long menuItemId, Long opUserId);
+
+    @Override
+    public DescribePermissionAssignment getMenuItemCategoryPermission(Long permissionRoleId, Long menuItemCategoryId) {
+        return null;
+    }
+
+    @Override
+    public DescribePermissionAssignment getMenuItemPermission(Long permissionRoleId, Long menuItemId) {
+        return null;
+    }
+
+    @Override
+    public DescribePermissionAssignment getMenuPermission(Long permissionRoleId) {
+        return null;
+    }
 }

@@ -19,7 +19,7 @@ public interface PermissionAssignmentManager {
      * @param subject subject
      * @return 该 {@link Subject} 的permission
      */
-    List<DescribePermission> calculatePermission(Subject subject);
+    List<MergedPermissionAssignment> calculatePermission(Subject subject);
 
     /**
      * 描述一个{@link Subject}得到最终{@link DescribePermissionAssignment}的过程.可以用于测试.

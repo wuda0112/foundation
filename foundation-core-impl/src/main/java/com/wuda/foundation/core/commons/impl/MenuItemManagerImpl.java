@@ -34,11 +34,11 @@ public class MenuItemManagerImpl extends AbstractMenuItemManager implements Jooq
             Subject role = new Subject(roleId, BuiltinIdentifierType.PERMISSION_ROLE);
             roles.add(role);
         }
-        List<DescribePermissionAssignment> permissions = permissionGrantManager.getPermissions(roles, BuiltinIdentifierType.MENU_ITEM);
+        List<MergedPermissionAssignment> permissions = permissionGrantManager.getPermissions(roles, BuiltinIdentifierType.MENU_ITEM);
         if (permissions == null || permissions.isEmpty()) {
             return null;
         }
-        List<Long> menuItemIds = permissions.stream().map(DescribePermissionAssignment::getTarget).map(Target::getValue).collect(Collectors.toList());
+        List<Long> menuItemIds = permissions.stream().map(MergedPermissionAssignment::getTarget).map(Target::getValue).collect(Collectors.toList());
         return getMenuItemsById(menuItemIds);
     }
 

@@ -194,7 +194,7 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
     }
 
     @Override
-    protected List<DescribePermissionAssignment> getPermissionsFromRoleDbOp(Long userId, LongIdentifier group) {
+    protected List<MergedPermissionAssignment> getPermissionsFromRoleDbOp(Long userId, LongIdentifier group) {
         List<DescribePermissionRole> roles = getRoles(userId, group);
         List<Subject> subjects = DescribePermissionRole.toSubjects(roles);
         if (subjects == null || subjects.isEmpty()) {

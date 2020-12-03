@@ -1,6 +1,12 @@
 package com.wuda.foundation.core.security.impl;
 
-import com.wuda.foundation.core.security.*;
+import com.wuda.foundation.core.security.AbstractPermissionGrantManager;
+import com.wuda.foundation.core.security.Action;
+import com.wuda.foundation.core.security.AllowOrDeny;
+import com.wuda.foundation.core.security.DescribePermissionAssignment;
+import com.wuda.foundation.core.security.MergedPermissionAssignment;
+import com.wuda.foundation.core.security.Subject;
+import com.wuda.foundation.core.security.Target;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionAssignmentRecord;
@@ -32,7 +38,7 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
     }
 
     protected void createAssignmentDbOp(Subject subject, Target target, AllowOrDeny allowOrDeny, Long opUserId) {
-        if (subjectTargetAssigned(subject, target, allowOrDeny)) {
+        if (assignedTargetToSubject(subject, target, allowOrDeny)) {
             return;
         }
         List<PermissionAssignmentRecord> records = queryPermissionAssignmentRecords(subject, target);
@@ -40,7 +46,7 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
             // 之前已经建立过关联
             deletePermissionAssignment(subject, target, null);
         }
-        PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, target, Action.fake(), allowOrDeny, opUserId);
+        PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, target, Action.virtual(), allowOrDeny, opUserId);
         insert(JooqContext.getDataSource(), PERMISSION_ASSIGNMENT, record);
     }
 
@@ -58,7 +64,7 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
                 ULong.valueOf(target.getValue()),
                 UShort.valueOf(action.getType().getCode()),
                 ULong.valueOf(action.getValue()),
-                AllowOrDeny.inclusion(allowOrDeny),
+                AllowOrDeny.allow(allowOrDeny),
                 now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
@@ -153,19 +159,20 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
     }
 
     @Override
-    protected List<DescribePermissionAssignment> getPermissionsDbOp(Subject subject, IdentifierType targetType) {
+    protected List<MergedPermissionAssignment> getPermissionsDbOp(Subject subject, IdentifierType targetType) {
         List<PermissionAssignmentRecord> permissionAssignmentRecords = queryPermissionAssignmentRecords2(subject, targetType);
-        return EntityConverter.fromAssignmentRecords(permissionAssignmentRecords);
+        List<DescribePermissionAssignment> assignments = EntityConverter.fromAssignmentRecords(permissionAssignmentRecords);
+        return DescribePermissionAssignment.sameSubjectMerge(assignments);
     }
 
     @Override
-    protected List<DescribePermissionAssignment> getPermissionsDbOp(List<Subject> subjects, IdentifierType targetType) {
+    protected List<MergedPermissionAssignment> getPermissionsDbOp(List<Subject> subjects, IdentifierType targetType) {
         if (subjects == null || subjects.isEmpty()) {
             return null;
         }
-        List<DescribePermissionAssignment> list = new ArrayList<>();
+        List<MergedPermissionAssignment> list = new ArrayList<>();
         for (Subject subject : subjects) {
-            List<DescribePermissionAssignment> permissions = getPermissionsDbOp(subject, targetType);
+            List<MergedPermissionAssignment> permissions = getPermissionsDbOp(subject, targetType);
             if (permissions != null && !permissions.isEmpty()) {
                 list.addAll(permissions);
             }
@@ -174,12 +181,17 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
     }
 
     @Override
-    protected boolean subjectTargetAssignedDbOp(Subject subject, Target target, AllowOrDeny allowOrDeny) {
+    protected boolean assignedTargetToSubjectDbOp(Subject subject, Target target, AllowOrDeny allowOrDeny) {
         List<PermissionAssignmentRecord> records = queryPermissionAssignmentRecords(subject, target);
-        if (records.size() == 1) {
-            PermissionAssignmentRecord record = records.get(0);
-            return EntityConverter.getAction(record).equals(Action.fake())
-                    && AllowOrDeny.equals(allowOrDeny, record.getAllow());
+        if (records == null) {
+            return false;
+        }
+        for (PermissionAssignmentRecord record : records) {
+            DescribePermissionAssignment describePermissionAssignment = EntityConverter.fromAssignmentRecord(record);
+            boolean assigned = DescribePermissionAssignment.assignWholeTarget(describePermissionAssignment);
+            if (assigned) {
+                return true;
+            }
         }
         return false;
     }

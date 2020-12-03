@@ -1,15 +1,15 @@
 package com.wuda.foundation.core.security;
 
 /**
- * inclusion or exclusion.
+ * allow or deny.
  *
  * @author wuda
  * @since 1.0.3
  */
 public enum AllowOrDeny {
 
-    INCLUSION("inclusion"),
-    EXCLUSION("exclusion");
+    ALLOW("allow"),
+    DENY("deny");
 
     public String getValueString() {
         return value;
@@ -29,30 +29,40 @@ public enum AllowOrDeny {
      */
     public static AllowOrDeny parse(Boolean b) {
         if (b.equals(Boolean.TRUE)) {
-            return AllowOrDeny.INCLUSION;
+            return AllowOrDeny.ALLOW;
         }
-        return AllowOrDeny.EXCLUSION;
+        return AllowOrDeny.DENY;
+    }
+
+    /**
+     * 是否allow.
+     *
+     * @param allowOrDeny allow or deny
+     * @return <code>true</code> if {@link #ALLOW}
+     */
+    public static Boolean allow(AllowOrDeny allowOrDeny) {
+        return allowOrDeny.equals(ALLOW);
     }
 
     /**
      * 是否包含.
      *
-     * @param allowOrDeny inclusion or exclusion
-     * @return <code>true</code> if {@link #INCLUSION}
+     * @param allowOrDeny allow or deny
+     * @return <code>true</code> if {@link #DENY}
      */
-    public static Boolean inclusion(AllowOrDeny allowOrDeny) {
-        return allowOrDeny.equals(INCLUSION);
+    public static Boolean deny(AllowOrDeny allowOrDeny) {
+        return allowOrDeny.equals(DENY);
     }
 
     /**
      * is equals.
      *
-     * @param allowOrDeny inclusion or exclusion
-     * @param inclusion            是否包含
-     * @return <code>true</code>和{@link AllowOrDeny#INCLUSION}对应,<code>false</code>和{@link AllowOrDeny#EXCLUSION}对应
+     * @param allowOrDeny allow or deny
+     * @param allow       allow
+     * @return <code>true</code>和{@link AllowOrDeny#ALLOW}对应,<code>false</code>和{@link AllowOrDeny#DENY}对应
      */
-    public static boolean equals(AllowOrDeny allowOrDeny, boolean inclusion) {
-        AllowOrDeny _allowOrDeny = parse(inclusion);
+    public static boolean equals(AllowOrDeny allowOrDeny, boolean allow) {
+        AllowOrDeny _allowOrDeny = parse(allow);
         return allowOrDeny.equals(_allowOrDeny);
     }
 }

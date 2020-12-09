@@ -74,7 +74,7 @@ public interface PermissionGrantManager {
      * @param subject subject
      * @return 该 {@link Subject} 的permission
      */
-    List<MergedPermissionAssignment> getPermissions(Subject subject);
+    List<DescribePermissionAssignment> getPermissions(Subject subject);
 
     /**
      * 获取分配给{@link Subject}的所有permission.
@@ -83,7 +83,7 @@ public interface PermissionGrantManager {
      * @param targetType target type
      * @return 该 {@link Subject} 的permission
      */
-    List<MergedPermissionAssignment> getPermissions(Subject subject, IdentifierType targetType);
+    List<DescribePermissionAssignment> getPermissions(Subject subject, IdentifierType targetType);
 
     /**
      * 获取分配给{@link Subject}的所有permission.
@@ -91,7 +91,7 @@ public interface PermissionGrantManager {
      * @param subjects list of subject
      * @return 这些 {@link Subject} 的permission
      */
-    List<MergedPermissionAssignment> getPermissions(List<Subject> subjects);
+    List<DescribePermissionAssignment> getPermissions(List<Subject> subjects);
 
     /**
      * 获取分配给{@link Subject}的所有permission.
@@ -100,7 +100,7 @@ public interface PermissionGrantManager {
      * @param targetType target type
      * @return 这些 {@link Subject} 的permission
      */
-    List<MergedPermissionAssignment> getPermissions(List<Subject> subjects, IdentifierType targetType);
+    List<DescribePermissionAssignment> getPermissions(List<Subject> subjects, IdentifierType targetType);
 
     /**
      * 检查是否已经为{@link Subject}分配了{@link Target}.

@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 以{@link Subject}和{@link Target}为核心,合并permission assignment.
+ * 表示合并后的permission assignment.
  *
  * @author wuda
  * @since 1.0.0
@@ -25,7 +26,37 @@ public class MergedPermissionAssignment {
      */
     private Target target;
     /**
-     * 围绕同一个{@link Subject}和{@link Target}的权限分配.
+     * action
      */
-    private Collection<DescribePermissionAssignment> assignments;
+    private Action action;
+
+    /**
+     * 从{@link DescribePermissionAssignment}复制.
+     *
+     * @param permissionAssignment {@link DescribePermissionAssignment}
+     * @return {@link MergedPermissionAssignment}
+     */
+    public static MergedPermissionAssignment copyFrom(DescribePermissionAssignment permissionAssignment) {
+        return new MergedPermissionAssignment(permissionAssignment.getSubject(),
+                permissionAssignment.getTarget(), permissionAssignment.getAction());
+    }
+
+    /**
+     * 从{@link DescribePermissionAssignment}复制.
+     *
+     * @param permissionAssignments {@link DescribePermissionAssignment}
+     * @return {@link MergedPermissionAssignment}
+     */
+    public static List<MergedPermissionAssignment> copyFrom(List<DescribePermissionAssignment> permissionAssignments) {
+        if (permissionAssignments == null || permissionAssignments.isEmpty()) {
+            return null;
+        }
+        List<MergedPermissionAssignment> list = new ArrayList<>(permissionAssignments.size());
+        for (DescribePermissionAssignment permissionAssignment : permissionAssignments) {
+            MergedPermissionAssignment mergedPermissionAssignment = copyFrom(permissionAssignment);
+            list.add(mergedPermissionAssignment);
+        }
+        return list;
+    }
+
 }

@@ -2,8 +2,8 @@ package com.wuda.foundation.core.user;
 
 import com.wuda.foundation.core.commons.DescribeMenuItem;
 import com.wuda.foundation.core.security.BuiltinRole;
+import com.wuda.foundation.core.security.DescribePermissionAssignment;
 import com.wuda.foundation.core.security.DescribePermissionRole;
-import com.wuda.foundation.core.security.MergedPermissionAssignment;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.identify.LongIdentifier;
@@ -156,7 +156,7 @@ public interface UserBelongsToGroupManager {
      * @param group  组
      * @return 权限的集合
      */
-    List<MergedPermissionAssignment> getPermissionsFromRole(Long userId, LongIdentifier group);
+    List<DescribePermissionAssignment> getPermissionsFromRole(Long userId, LongIdentifier group);
 
     /**
      * 获取用户在给定组中的所有角色.

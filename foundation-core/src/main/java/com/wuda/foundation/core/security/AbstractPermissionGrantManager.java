@@ -42,26 +42,26 @@ public abstract class AbstractPermissionGrantManager implements PermissionGrantM
     protected abstract void clearAssignmentDbOp(Subject subject, Target target, Set<Action> actionSet, Long opUserId);
 
     @Override
-    public List<MergedPermissionAssignment> getPermissions(Subject subject) {
+    public List<DescribePermissionAssignment> getPermissions(Subject subject) {
         return getPermissionsDbOp(subject, null);
     }
 
-    protected abstract List<MergedPermissionAssignment> getPermissionsDbOp(Subject subject, IdentifierType targetType);
+    protected abstract List<DescribePermissionAssignment> getPermissionsDbOp(Subject subject, IdentifierType targetType);
 
     @Override
-    public List<MergedPermissionAssignment> getPermissions(Subject subject, IdentifierType targetType) {
+    public List<DescribePermissionAssignment> getPermissions(Subject subject, IdentifierType targetType) {
         return getPermissionsDbOp(subject, targetType);
     }
 
     @Override
-    public List<MergedPermissionAssignment> getPermissions(List<Subject> subjects) {
-        return getPermissionsDbOp(subjects,null);
+    public List<DescribePermissionAssignment> getPermissions(List<Subject> subjects) {
+        return getPermissionsDbOp(subjects, null);
     }
 
-    protected abstract List<MergedPermissionAssignment> getPermissionsDbOp(List<Subject> subjects, IdentifierType targetType);
+    protected abstract List<DescribePermissionAssignment> getPermissionsDbOp(List<Subject> subjects, IdentifierType targetType);
 
     @Override
-    public List<MergedPermissionAssignment> getPermissions(List<Subject> subjects, IdentifierType targetType){
+    public List<DescribePermissionAssignment> getPermissions(List<Subject> subjects, IdentifierType targetType) {
         return getPermissionsDbOp(subjects, targetType);
     }
 

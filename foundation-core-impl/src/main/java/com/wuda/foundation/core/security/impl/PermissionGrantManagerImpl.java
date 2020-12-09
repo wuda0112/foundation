@@ -1,12 +1,6 @@
 package com.wuda.foundation.core.security.impl;
 
-import com.wuda.foundation.core.security.AbstractPermissionGrantManager;
-import com.wuda.foundation.core.security.Action;
-import com.wuda.foundation.core.security.AllowOrDeny;
-import com.wuda.foundation.core.security.DescribePermissionAssignment;
-import com.wuda.foundation.core.security.MergedPermissionAssignment;
-import com.wuda.foundation.core.security.Subject;
-import com.wuda.foundation.core.security.Target;
+import com.wuda.foundation.core.security.*;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionAssignmentRecord;
@@ -159,20 +153,19 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
     }
 
     @Override
-    protected List<MergedPermissionAssignment> getPermissionsDbOp(Subject subject, IdentifierType targetType) {
+    protected List<DescribePermissionAssignment> getPermissionsDbOp(Subject subject, IdentifierType targetType) {
         List<PermissionAssignmentRecord> permissionAssignmentRecords = queryPermissionAssignmentRecords2(subject, targetType);
-        List<DescribePermissionAssignment> assignments = EntityConverter.fromAssignmentRecords(permissionAssignmentRecords);
-        return DescribePermissionAssignment.sameSubjectMerge(assignments);
+        return EntityConverter.fromAssignmentRecords(permissionAssignmentRecords);
     }
 
     @Override
-    protected List<MergedPermissionAssignment> getPermissionsDbOp(List<Subject> subjects, IdentifierType targetType) {
+    protected List<DescribePermissionAssignment> getPermissionsDbOp(List<Subject> subjects, IdentifierType targetType) {
         if (subjects == null || subjects.isEmpty()) {
             return null;
         }
-        List<MergedPermissionAssignment> list = new ArrayList<>();
+        List<DescribePermissionAssignment> list = new ArrayList<>();
         for (Subject subject : subjects) {
-            List<MergedPermissionAssignment> permissions = getPermissionsDbOp(subject, targetType);
+            List<DescribePermissionAssignment> permissions = getPermissionsDbOp(subject, targetType);
             if (permissions != null && !permissions.isEmpty()) {
                 list.addAll(permissions);
             }

@@ -34,6 +34,11 @@ public class LongIdentifier implements Identifier<Long> {
         return type;
     }
 
+    @Override
+    public String toString() {
+        return getType().getCode() + ":" + getValue();
+    }
+
     /**
      * 一个不存在的，假的identifier.
      *

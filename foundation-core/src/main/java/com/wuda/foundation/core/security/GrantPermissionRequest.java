@@ -2,16 +2,10 @@ package com.wuda.foundation.core.security;
 
 import lombok.ToString;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
- * 为目标对象分配/取消{@link MergedPermissionAssignment}时使用的参数.
+ * 为目标对象分配/取消权限时使用的参数.
  *
  * @author wuda
  * @since 1.0.0

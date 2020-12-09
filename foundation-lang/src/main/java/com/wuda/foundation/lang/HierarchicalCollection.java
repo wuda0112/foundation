@@ -1,7 +1,5 @@
 package com.wuda.foundation.lang;
 
-import com.wuda.foundation.lang.identify.Identifier;
-
 import java.io.File;
 import java.util.List;
 
@@ -19,7 +17,7 @@ import java.util.List;
  * @author wuda
  * @since 1.0.3
  */
-public interface HierarchicalCollection<A extends HierarchicalCollection<A, B, C, D>, B extends HierarchicalCollection.Element<C,D>, C, D> {
+public interface HierarchicalCollection<A extends HierarchicalCollection<A, B, C, D>, B extends HierarchicalCollection.Element<C, D>, C, D> {
 
     /**
      * 这个集合的唯一标记,比如对于文件夹,路径就是它的唯一标记,
@@ -27,7 +25,7 @@ public interface HierarchicalCollection<A extends HierarchicalCollection<A, B, C
      *
      * @return 集合的唯一标记符
      */
-    Identifier<C> identifier();
+    C identifier();
 
     /**
      * 列出该集合下的所有子集合(不包含更下级的集合).
@@ -59,7 +57,7 @@ public interface HierarchicalCollection<A extends HierarchicalCollection<A, B, C
          *
          * @return 元素的唯一标记符
          */
-        Identifier<D> identifier();
+        D identifier();
 
         /**
          * 包含当前元素的集合的唯一标记.比如假设当前元素是文件,
@@ -67,6 +65,6 @@ public interface HierarchicalCollection<A extends HierarchicalCollection<A, B, C
          *
          * @return 集合的唯一标记符
          */
-        Identifier<C> getCollectionIdentifier();
+        C getCollectionIdentifier();
     }
 }

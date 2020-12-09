@@ -2,7 +2,10 @@ package com.wuda.foundation.core.commons.impl;
 
 import com.wuda.foundation.core.commons.AbstractMenuItemManager;
 import com.wuda.foundation.core.commons.DescribeMenuItem;
-import com.wuda.foundation.core.security.*;
+import com.wuda.foundation.core.security.DescribePermissionAssignment;
+import com.wuda.foundation.core.security.PermissionGrantManager;
+import com.wuda.foundation.core.security.Subject;
+import com.wuda.foundation.core.security.Target;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.jooq.code.generation.commons.tables.records.MenuItemRecord;
@@ -34,11 +37,11 @@ public class MenuItemManagerImpl extends AbstractMenuItemManager implements Jooq
             Subject role = new Subject(roleId, BuiltinIdentifierType.PERMISSION_ROLE);
             roles.add(role);
         }
-        List<MergedPermissionAssignment> permissions = permissionGrantManager.getPermissions(roles, BuiltinIdentifierType.MENU_ITEM);
+        List<DescribePermissionAssignment> permissions = permissionGrantManager.getPermissions(roles, BuiltinIdentifierType.MENU_ITEM);
         if (permissions == null || permissions.isEmpty()) {
             return null;
         }
-        List<Long> menuItemIds = permissions.stream().map(MergedPermissionAssignment::getTarget).map(Target::getValue).collect(Collectors.toList());
+        List<Long> menuItemIds = permissions.stream().map(DescribePermissionAssignment::getTarget).map(Target::getValue).collect(Collectors.toList());
         return getMenuItemsById(menuItemIds);
     }
 

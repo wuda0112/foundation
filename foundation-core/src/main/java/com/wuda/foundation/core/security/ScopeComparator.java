@@ -30,6 +30,15 @@ public interface ScopeComparator<T> {
     boolean support(IdentifierType type);
 
     /**
+     * 先检查两个实体之间是否具有可比性,如果不具有可比性,那么就不需要执行比较动作了.
+     *
+     * @param first  the first object to be compared.
+     * @param second the second object to be compared.
+     * @return <code>true</code>-如果两个实体之间有必要比较
+     */
+    boolean comparable(T first, T second);
+
+    /**
      * 检查第一个是否"包含"第二个.
      *
      * @param first  the first object to be compared.

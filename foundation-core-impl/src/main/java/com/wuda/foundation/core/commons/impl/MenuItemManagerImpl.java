@@ -10,6 +10,7 @@ import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.jooq.code.generation.commons.tables.records.MenuItemRecord;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
+import org.apache.commons.lang3.tuple.Triple;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 
@@ -53,6 +54,11 @@ public class MenuItemManagerImpl extends AbstractMenuItemManager implements Jooq
                 .and(MENU_ITEM.IS_DELETED.eq(notDeleted()))
                 .fetch();
         return copyFromMenuItemRecords(menuItemRecords);
+    }
+
+    @Override
+    protected List<Triple<Long, Long, Long>> getMenuAndCategoryDbOp(List<Long> menuItemIds) {
+        return null;
     }
 
     private DescribeMenuItem copyFromMenuItemRecord(MenuItemRecord record) {

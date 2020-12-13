@@ -34,14 +34,23 @@ public class PermissionAssignmentMerger {
         List<DescribePermissionAssignment> candidateList = new ArrayList<>(permissionAssignments);
         Set<Integer> removedIndexSet = new HashSet<>(candidateList.size());
 
+        int competitiveIndex = 0;
         while (candidateList.size() > 1) {
-            DescribePermissionAssignment competitive = candidateList.get(0);
+            DescribePermissionAssignment competitive = candidateList.get(competitiveIndex);
             checkCompareSupport(competitive, targetComparator, actionComparator);
             for (int index = 1; index < candidateList.size(); index++) {
                 DescribePermissionAssignment next = candidateList.get(index);
-                checkCompareSupport(competitive, targetComparator, actionComparator);
+                checkCompareSupport(next, targetComparator, actionComparator);
                 Target nextTarget = next.getTarget();
                 Action nextAction = next.getAction();
+                boolean targetComparable = targetComparator.comparable(competitive.getTarget(), nextTarget);
+                if (!targetComparable) {
+                    continue;
+                }
+                boolean actionComparable = actionComparator.comparable(competitive.getAction(), nextAction);
+                if (!actionComparable) {
+                    continue;
+                }
                 AllowOrDeny nextAllowOrDeny = next.getAllowOrDeny();
                 if (competitive.getAllowOrDeny().equals(nextAllowOrDeny)) {
                     if (targetComparator.impliesOrEquals(competitive.getTarget(), nextTarget) && actionComparator.impliesOrEquals(competitive.getAction(), nextAction)) {
@@ -49,6 +58,7 @@ public class PermissionAssignmentMerger {
                     } else if (targetComparator.impliesOrEquals(nextTarget, competitive.getTarget()) && actionComparator.impliesOrEquals(nextAction, competitive.getAction())) {
                         removedIndexSet.add(index - 1);
                         competitive = next;
+                        competitiveIndex = index;
                     }
                 } else {
                     if (targetComparator.equals(competitive.getTarget(), nextTarget) && actionComparator.equals(competitive.getAction(), nextAction)) {
@@ -59,11 +69,14 @@ public class PermissionAssignmentMerger {
                         } else {
                             removedIndexSet.add(index - 1);
                             competitive = next;
+                            competitiveIndex = index;
                         }
                     }
                 }
             }
             selectedList.add(competitive);
+            // 被选择了就要从候选中移除
+            removedIndexSet.add(competitiveIndex);
             candidateList = remove(candidateList, removedIndexSet);
         }
         return MergedPermissionAssignment.copyFrom(selectedList);

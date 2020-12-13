@@ -10,12 +10,6 @@ import java.util.Set;
 
 public class RoleAndMenuItemAssignmentManagerImpl extends AbstractRoleAndMenuItemAssignmentManager {
 
-    private PermissionGrantManager permissionGrantManager;
-
-    public void setPermissionGrantManager(PermissionGrantManager permissionGrantManager) {
-        this.permissionGrantManager = permissionGrantManager;
-    }
-
     @Override
     protected void assignMenuItemCategoryToRoleDbOp(Long permissionRoleId, Long menuItemCategoryId, AllowOrDeny allowOrDeny, Long opUserId) {
         Subject role = roleSubject(permissionRoleId);

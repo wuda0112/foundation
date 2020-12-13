@@ -1,5 +1,7 @@
 package com.wuda.foundation.core.commons;
 
+import org.apache.commons.lang3.tuple.Triple;
+
 import java.util.List;
 
 /**
@@ -25,4 +27,12 @@ public interface MenuItemManager {
      * @return {@link DescribeMenuItem}
      */
     List<DescribeMenuItem> getMenuItemsById(List<Long> ids);
+
+    /**
+     * 获取menu item所属的menu和category.
+     *
+     * @param menuItemIds menu item id集合
+     * @return left: menu item id; middle: menu id; right: menu category id
+     */
+    List<Triple<Long, Long, Long>> getMenuAndCategory(List<Long> menuItemIds);
 }

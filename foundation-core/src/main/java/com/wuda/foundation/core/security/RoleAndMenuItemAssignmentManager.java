@@ -2,6 +2,8 @@ package com.wuda.foundation.core.security;
 
 import com.wuda.foundation.core.commons.DescribeMenuItem;
 
+import java.util.List;
+
 /**
  * 一种具体的权限分配,为{@link DescribePermissionRole role}分配{@link DescribeMenuItem menu item},
  * 即{@link DescribePermissionRole role}作为{@link Subject},至于{@link DescribeMenuItem menu item}
@@ -74,6 +76,6 @@ public interface RoleAndMenuItemAssignmentManager {
      * @param permissionRoleId permission role id
      * @return permission assignment
      */
-    DescribePermissionAssignment getMenuPermission(Long permissionRoleId);
+    List<MergedPermissionAssignment> getMenuPermission(Long permissionRoleId);
 
 }

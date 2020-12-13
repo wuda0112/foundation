@@ -1,6 +1,24 @@
 package com.wuda.foundation.core.security;
 
+import com.wuda.foundation.core.security.menu.MenuItemAndCategoryComparator;
+import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
+
+import java.util.List;
+
 public abstract class AbstractRoleAndMenuItemAssignmentManager implements RoleAndMenuItemAssignmentManager {
+
+    protected PermissionGrantManager permissionGrantManager;
+
+    protected MenuItemAndCategoryComparator menuItemAndCategoryComparator;
+
+    public void setPermissionGrantManager(PermissionGrantManager permissionGrantManager) {
+        this.permissionGrantManager = permissionGrantManager;
+    }
+
+    public void setMenuItemAndCategoryComparator(MenuItemAndCategoryComparator menuItemAndCategoryComparator) {
+        this.menuItemAndCategoryComparator = menuItemAndCategoryComparator;
+    }
+
     @Override
     public void assignMenuItemCategoryToRole(Long permissionRoleId, Long menuItemCategoryId, AllowOrDeny allowOrDeny, Long opUserId) {
         assignMenuItemCategoryToRoleDbOp(permissionRoleId, menuItemCategoryId, allowOrDeny, opUserId);
@@ -17,7 +35,7 @@ public abstract class AbstractRoleAndMenuItemAssignmentManager implements RoleAn
 
     @Override
     public void assignMenuItemToRole(Long permissionRoleId, Long menuItemId, AllowOrDeny allowOrDeny, Long opUserId) {
-        assignMenuItemToRoleDbOp(permissionRoleId,menuItemId,allowOrDeny,opUserId);
+        assignMenuItemToRoleDbOp(permissionRoleId, menuItemId, allowOrDeny, opUserId);
     }
 
     protected abstract void assignMenuItemToRoleDbOp(Long permissionRoleId, Long menuItemId, AllowOrDeny allowOrDeny, Long opUserId);
@@ -40,7 +58,10 @@ public abstract class AbstractRoleAndMenuItemAssignmentManager implements RoleAn
     }
 
     @Override
-    public DescribePermissionAssignment getMenuPermission(Long permissionRoleId) {
-        return null;
+    public List<MergedPermissionAssignment> getMenuPermission(Long permissionRoleId) {
+        Subject subject = new Subject(permissionRoleId, BuiltinIdentifierType.PERMISSION_ROLE);
+        List<DescribePermissionAssignment> originalPermissionAssignments = permissionGrantManager.getPermissions(subject);
+        PermissionAssignmentMerger permissionAssignmentMerger = new PermissionAssignmentMerger();
+        return permissionAssignmentMerger.merge(originalPermissionAssignments, null, menuItemAndCategoryComparator);
     }
 }

@@ -1,20 +1,19 @@
-package com.wuda.foundation.core.item;
+package com.wuda.foundation.core.commons;
 
-import com.wuda.foundation.core.commons.CreateTreeNode;
 import lombok.Data;
 
 import java.util.Objects;
 
 @Data
-public class CreateItemCategory extends CreateTreeNode {
+public class CreateMenuItemCategory extends CreateTreeNode {
 
-    private Long storeId;
+    private Long menuId;
 
-    public static class Builder extends CreateTreeNodeBuilder<CreateItemCategory, Builder> {
-        private Long storeId;
+    public static class Builder extends CreateTreeNodeBuilder<CreateMenuItemCategory, Builder> {
+        private Long menuId;
 
-        public Builder setStoreId(Long storeId) {
-            this.storeId = storeId;
+        public Builder setMenuId(Long menuId) {
+            this.menuId = menuId;
             return this;
         }
 
@@ -40,11 +39,11 @@ public class CreateItemCategory extends CreateTreeNode {
         }
 
         @Override
-        public CreateItemCategory build() {
-            CreateItemCategory createItemCategory = new CreateItemCategory();
+        public CreateMenuItemCategory build() {
+            CreateMenuItemCategory createItemCategory = new CreateMenuItemCategory();
             createItemCategory.id = Objects.requireNonNull(this.id);
             createItemCategory.parentId = Objects.requireNonNull(parentId);
-            createItemCategory.storeId = Objects.requireNonNull(this.storeId);
+            createItemCategory.menuId = Objects.requireNonNull(this.menuId);
             createItemCategory.name = Objects.requireNonNull(this.name);
             createItemCategory.description = this.description;
             return createItemCategory;

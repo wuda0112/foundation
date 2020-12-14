@@ -281,4 +281,18 @@ public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implemen
         Map<T, Treeable<T, E>> id2Treeable = MyCollectionUtils.toMap(treeables, treeable -> treeable.getNode().getId());
         return id2Treeable.get(nodeId);
     }
+
+    @Override
+    public boolean isDescendant(T first, T second) {
+        LinkedList<E> descendants = getDescendant(first);
+        if (descendants == null || descendants.isEmpty()) {
+            return false;
+        }
+        for (E descendant : descendants) {
+            if (descendant.getId().compareTo(second) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -1,7 +1,7 @@
 package com.wuda.foundation.core.user.impl;
 
 import com.wuda.foundation.core.commons.DescribeMenuItem;
-import com.wuda.foundation.core.commons.MenuItemManager;
+import com.wuda.foundation.core.commons.MenuManager;
 import com.wuda.foundation.core.security.*;
 import com.wuda.foundation.core.user.AbstractUserBelongsToGroupManager;
 import com.wuda.foundation.core.user.CreateUserBelongsToGroupCoreRequest;
@@ -49,7 +49,7 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
 
     private PermissionManager permissionManager;
 
-    private MenuItemManager menuItemManager;
+    private MenuManager menuManager;
 
     public void setPermissionGrantManager(PermissionGrantManager permissionGrantManager) {
         this.permissionGrantManager = permissionGrantManager;
@@ -59,8 +59,8 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
         this.permissionManager = permissionManager;
     }
 
-    public void setMenuItemManager(MenuItemManager menuItemManager) {
-        this.menuItemManager = menuItemManager;
+    public void setMenuManager(MenuManager menuManager) {
+        this.menuManager = menuManager;
     }
 
     @Override
@@ -229,7 +229,7 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
             return null;
         }
         List<Long> roleIds = roles.stream().map(DescribePermissionRole::getId).collect(Collectors.toList());
-        return menuItemManager.getMenuItemsFromRole(roleIds);
+        return menuManager.getMenuItemsFromRole(roleIds);
     }
 
     private UserBelongsToGroupCoreRecord userBelongsToGroupCoreRecordForInsert(CreateUserBelongsToGroupCoreRequest request, Long opUserId) {

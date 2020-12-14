@@ -10,7 +10,7 @@ import java.util.List;
  * @author wuda
  * @since 1.0.3
  */
-public interface MenuItemManager {
+public interface MenuManager {
 
     /**
      * 获取通过角色获得的所有menu item.

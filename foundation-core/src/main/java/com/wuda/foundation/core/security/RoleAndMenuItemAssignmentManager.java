@@ -18,39 +18,43 @@ public interface RoleAndMenuItemAssignmentManager {
      * 分配menu item category给role.
      *
      * @param permissionRoleId   permission role id
+     * @param menuId             menu id
      * @param menuItemCategoryId menu item category id
      * @param allowOrDeny        该role对menu item category的权限是允许还是拒绝.
      * @param opUserId           操作人用户ID
      */
-    void assignMenuItemCategoryToRole(Long permissionRoleId, Long menuItemCategoryId, AllowOrDeny allowOrDeny, Long opUserId);
+    void assignMenuItemCategoryToRole(Long permissionRoleId, Long menuId, Long menuItemCategoryId, AllowOrDeny allowOrDeny, Long opUserId);
 
     /**
      * 清除分配给role的menu item category.清理后,两个实体之间就没有了任何联系.
      *
      * @param permissionRoleId   permission role id
+     * @param menuId             menu id
      * @param menuItemCategoryId menu item category id
      * @param opUserId           操作人用户ID
      */
-    void clearAssignmentBetweenMenuItemCategoryAndRole(Long permissionRoleId, Long menuItemCategoryId, Long opUserId);
+    void clearAssignmentBetweenMenuItemCategoryAndRole(Long permissionRoleId, Long menuId, Long menuItemCategoryId, Long opUserId);
 
     /**
      * 获取role对给定的menu item category的permission.
      *
      * @param permissionRoleId   permission role id
+     * @param menuId             menu id
      * @param menuItemCategoryId menu item category id
      * @return permission assignment
      */
-    DescribePermissionAssignment getMenuItemCategoryPermission(Long permissionRoleId, Long menuItemCategoryId);
+    DescribePermissionAssignment getMenuItemCategoryPermission(Long permissionRoleId, Long menuId, Long menuItemCategoryId);
 
     /**
      * 分配menu item给role.
      *
      * @param permissionRoleId permission role id
+     * @param menuId           menu id
      * @param menuItemId       menu item  id
      * @param allowOrDeny      该role对menu item的权限是允许还是拒绝.
      * @param opUserId         操作人用户ID
      */
-    void assignMenuItemToRole(Long permissionRoleId, Long menuItemId, AllowOrDeny allowOrDeny, Long opUserId);
+    void assignMenuItemToRole(Long permissionRoleId, Long menuId, Long menuItemId, AllowOrDeny allowOrDeny, Long opUserId);
 
     /**
      * 清除分配给role的menu item.清理后,两个实体之间就没有了任何联系.
@@ -59,23 +63,25 @@ public interface RoleAndMenuItemAssignmentManager {
      * @param menuItemId       menu item  id
      * @param opUserId         操作人用户ID
      */
-    void clearAssignmentBetweenMenuItemAndRole(Long permissionRoleId, Long menuItemId, Long opUserId);
+    void clearAssignmentBetweenMenuItemAndRole(Long permissionRoleId, Long menuId, Long menuItemId, Long opUserId);
 
     /**
      * 获取role对给定的menu item的permission.
      *
      * @param permissionRoleId permission role id
+     * @param menuId           menu id
      * @param menuItemId       menu item  id
      * @return permission assignment
      */
-    DescribePermissionAssignment getMenuItemPermission(Long permissionRoleId, Long menuItemId);
+    DescribePermissionAssignment getMenuItemPermission(Long permissionRoleId, Long menuId, Long menuItemId);
 
     /**
      * 获取role对整个menu的permission.
      *
      * @param permissionRoleId permission role id
+     * @param menuId           menu id
      * @return permission assignment
      */
-    List<MergedPermissionAssignment> getMenuPermission(Long permissionRoleId);
+    List<MergedPermissionAssignment> getMenuPermission(Long permissionRoleId, Long menuId);
 
 }

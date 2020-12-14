@@ -37,7 +37,11 @@ public enum BuiltinIdentifierType implements IdentifierType {
     /**
      * 表示menu_item_category表.
      */
-    MENU_ITEM_CATEGORY(6, "表示menu_item_category表");
+    MENU_ITEM_CATEGORY(6, "表示menu_item_category表"),
+    /**
+     * 表示menu.
+     */
+    MENU(7, "表示menu");
 
     /**
      * unique code.

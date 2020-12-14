@@ -87,4 +87,13 @@ public interface Tree<T extends Comparable<T>, E extends TreeNode<T>> {
      * @return {@link Treeable}.
      */
     Treeable<T, E> getTreeable(T nodeId);
+
+    /**
+     * 检查第二个是否第一个的"后裔".
+     *
+     * @param first  第一个节点的ID
+     * @param second 第二个节点的ID
+     * @return <code>true</code>-如果是
+     */
+    boolean isDescendant(T first, T second);
 }

@@ -1,6 +1,6 @@
 package com.wuda.foundation.core.commons.impl;
 
-import com.wuda.foundation.core.commons.AbstractMenuItemManager;
+import com.wuda.foundation.core.commons.AbstractMenuManager;
 import com.wuda.foundation.core.commons.DescribeMenuItem;
 import com.wuda.foundation.core.security.DescribePermissionAssignment;
 import com.wuda.foundation.core.security.PermissionGrantManager;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 import static com.wuda.foundation.jooq.code.generation.commons.tables.MenuItem.MENU_ITEM;
 
-public class MenuItemManagerImpl extends AbstractMenuItemManager implements JooqCommonDbOp {
+public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDbOp {
 
     private PermissionGrantManager permissionGrantManager;
 

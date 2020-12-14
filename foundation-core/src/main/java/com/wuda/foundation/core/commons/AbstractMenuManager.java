@@ -4,7 +4,7 @@ import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.List;
 
-public abstract class AbstractMenuItemManager implements MenuItemManager {
+public abstract class AbstractMenuManager implements MenuManager {
 
     @Override
     public List<DescribeMenuItem> getMenuItemsFromRole(List<Long> roleIds) {
@@ -29,4 +29,5 @@ public abstract class AbstractMenuItemManager implements MenuItemManager {
     }
 
     protected abstract List<Triple<Long, Long, Long>> getMenuAndCategoryDbOp(List<Long> menuItemIds);
+
 }

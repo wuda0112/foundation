@@ -4,6 +4,7 @@ import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.RelatedDataExists;
+import com.wuda.foundation.lang.tree.Tree;
 
 import java.util.List;
 
@@ -126,5 +127,13 @@ public interface TreeManager<C extends CreateTreeNode, U extends UpdateTreeNode,
      * @return <code>true</code>-如果存在
      */
     boolean checkNameExists(Long parentId, String childName);
+
+    /**
+     * 获取任意节点所在的树.
+     *
+     * @param nodeId 任意的节点ID
+     * @return 该节点所在的树
+     */
+    Tree<Long, D> getTree(Long nodeId);
 
 }

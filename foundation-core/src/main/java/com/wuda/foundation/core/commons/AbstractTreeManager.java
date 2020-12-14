@@ -1,11 +1,10 @@
 package com.wuda.foundation.core.commons;
 
-import com.wuda.foundation.lang.AlreadyExistsException;
-import com.wuda.foundation.lang.Constant;
-import com.wuda.foundation.lang.CreateMode;
-import com.wuda.foundation.lang.CreateResult;
-import com.wuda.foundation.lang.RelatedDataExists;
+import com.wuda.foundation.lang.*;
+import com.wuda.foundation.lang.tree.IdPidEntryTreeBuilder;
 import com.wuda.foundation.lang.tree.IdPidEntryUtils;
+import com.wuda.foundation.lang.tree.MappedTree;
+import com.wuda.foundation.lang.tree.Tree;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -155,5 +154,24 @@ public abstract class AbstractTreeManager<C extends CreateTreeNode, U extends Up
     @Override
     public boolean isRootTreeNode(DescribeTreeNode describeTreeNode) {
         return describeTreeNode.getParentId().equals(Constant.NOT_EXISTS_ID);
+    }
+
+    @Override
+    public Tree<Long, D> getTree(Long nodeId) {
+        D node = getTreeNode(nodeId);
+        D root = null;
+        Long rootNodeId = null;
+        if (isRootTreeNode(node)) {
+            rootNodeId = nodeId;
+            root = node;
+        } else {
+            rootNodeId = node.rootId;
+            root = getTreeNode(rootNodeId);
+        }
+        List<D> descendants = getDescendantOfRoot(rootNodeId);
+        IdPidEntryTreeBuilder<Long, D> builder = new IdPidEntryTreeBuilder<>();
+        Tree<Long, D> tree = new MappedTree<>(root);
+        builder.add(tree, descendants);
+        return tree;
     }
 }

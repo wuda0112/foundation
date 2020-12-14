@@ -16,6 +16,6 @@ public interface MenuItemCategoryManager extends TreeManager<CreateMenuItemCateg
      * @param menuId menu id
      * @return 分类树
      */
-    Tree<Long, DescribeMenuItemCategory> getTree(Long menuId);
+    Tree<Long, DescribeMenuItemCategory> getCategoryTree(Long menuId);
 
 }

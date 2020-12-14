@@ -1,5 +1,7 @@
 package com.wuda.foundation.core.security.impl.menu;
 
+import com.wuda.foundation.core.commons.DescribeMenuItemCategory;
+import com.wuda.foundation.core.commons.Menu;
 import com.wuda.foundation.core.commons.MenuItemCategoryManager;
 import com.wuda.foundation.core.commons.MenuManager;
 import com.wuda.foundation.core.security.Action;
@@ -7,18 +9,15 @@ import com.wuda.foundation.core.security.menu.MenuItemAndCategoryComparator;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierType;
 import com.wuda.foundation.lang.tree.Tree;
-import org.apache.commons.lang3.tuple.Triple;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MenuItemAndCategoryComparatorImpl implements MenuItemAndCategoryComparator {
     private MenuManager menuManager;
     private MenuItemCategoryManager menuItemCategoryManager;
 
-    private List<Tree> categoryTrees;
+    private List<Tree<Long, DescribeMenuItemCategory>> categoryTreeCache = new ArrayList<>();
 
     @Override
     public boolean support(IdentifierType type) {
@@ -39,14 +38,14 @@ public class MenuItemAndCategoryComparatorImpl implements MenuItemAndCategoryCom
             // todo 是否支持virtual
             return false;
         } else if (isMenuItemCategory(first)) {
-            Tree categoryTree = findCategoryTree(categoryTrees, firstValue);
+            Tree<Long, DescribeMenuItemCategory> categoryTree = findCategoryTree(firstValue);
             if (isMenuItem(second)) {
-                List<Triple<Long, Long, Long>> menuAndCategoryList = menuManager.getMenuAndCategory(Collections.singletonList(secondValue));
-                List<Long> categoryIds = getCategoryIds(menuAndCategoryList);
-                return hasDescendant(categoryTree, firstValue, categoryIds);
+                long menuId = categoryTree.get(firstValue).getMenuId();
+                Menu menu = menuManager.getMenu(menuId);
+                Long categoryId = menu.getMenuItemCategoryId(secondValue);
+                return categoryTree.isDescendant(firstValue, categoryId);
             } else if (isMenuItemCategory(second)) {
-                List<Long> categoryIds = Collections.singletonList(secondValue);
-                return hasDescendant(categoryTree, firstValue, categoryIds);
+                return categoryTree.isDescendant(firstValue, secondValue);
             } else {
                 throw new UnsupportedOperationException();
             }
@@ -73,22 +72,25 @@ public class MenuItemAndCategoryComparatorImpl implements MenuItemAndCategoryCom
         return action.getType().equals(BuiltinIdentifierType.MENU_ITEM_CATEGORY);
     }
 
-    private Tree findCategoryTree(List<Tree> categoryTrees, Long categoryId) {
+    private Tree<Long, DescribeMenuItemCategory> findCategoryTreeFromCache(Long categoryId) {
+        if (categoryTreeCache.isEmpty()) {
+            return null;
+        }
+        for (Tree<Long, DescribeMenuItemCategory> categoryTree : categoryTreeCache) {
+            DescribeMenuItemCategory menuItemCategory = categoryTree.get(categoryId);
+            if (menuItemCategory != null) {
+                return categoryTree;
+            }
+        }
         return null;
     }
 
-    private boolean isDescendant(Tree categoryTree, Long up, Long down) {
-        return false;
-    }
-
-    private boolean hasDescendant(Tree categoryTree, Long up, List<Long> downList) {
-        return false;
-    }
-
-    private List<Long> getCategoryIds(List<Triple<Long, Long, Long>> menuAndCategoryList) {
-        if (menuAndCategoryList == null || menuAndCategoryList.isEmpty()) {
-            return new ArrayList<>(1);
+    private Tree<Long, DescribeMenuItemCategory> findCategoryTree(Long categoryId) {
+        Tree<Long, DescribeMenuItemCategory> categoryTree = findCategoryTreeFromCache(categoryId);
+        if (categoryTree == null) {
+            categoryTree = menuItemCategoryManager.getTree(categoryId);
+            categoryTreeCache.add(categoryTree);
         }
-        return menuAndCategoryList.stream().map(Triple::getRight).collect(Collectors.toList());
+        return categoryTree;
     }
 }

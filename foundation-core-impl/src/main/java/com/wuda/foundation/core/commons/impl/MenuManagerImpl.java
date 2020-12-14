@@ -2,6 +2,7 @@ package com.wuda.foundation.core.commons.impl;
 
 import com.wuda.foundation.core.commons.AbstractMenuManager;
 import com.wuda.foundation.core.commons.DescribeMenuItem;
+import com.wuda.foundation.core.commons.Menu;
 import com.wuda.foundation.core.security.DescribePermissionAssignment;
 import com.wuda.foundation.core.security.PermissionGrantManager;
 import com.wuda.foundation.core.security.Subject;
@@ -10,7 +11,6 @@ import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.jooq.code.generation.commons.tables.records.MenuItemRecord;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
-import org.apache.commons.lang3.tuple.Triple;
 import org.jooq.DSLContext;
 import org.jooq.Result;
 
@@ -57,7 +57,7 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
     }
 
     @Override
-    protected List<Triple<Long, Long, Long>> getMenuAndCategoryDbOp(List<Long> menuItemIds) {
+    protected Menu getMenuDbOp(Long menuId) {
         return null;
     }
 

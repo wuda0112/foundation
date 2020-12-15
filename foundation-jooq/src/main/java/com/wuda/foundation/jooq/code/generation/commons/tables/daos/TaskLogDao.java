@@ -6,12 +6,13 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.daos;
 
 import com.wuda.foundation.jooq.code.generation.commons.tables.TaskLog;
 import com.wuda.foundation.jooq.code.generation.commons.tables.records.TaskLogRecord;
-import org.jooq.Configuration;
-import org.jooq.impl.DAOImpl;
-import org.jooq.types.ULong;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.jooq.Configuration;
+import org.jooq.impl.DAOImpl;
+import org.jooq.types.ULong;
 
 
 /**

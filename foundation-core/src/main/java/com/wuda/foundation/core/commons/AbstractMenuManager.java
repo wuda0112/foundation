@@ -28,4 +28,25 @@ public abstract class AbstractMenuManager implements MenuManager {
 
     protected abstract Menu getMenuDbOp(Long menuId);
 
+    @Override
+    public List<DescribeMenuItem> getMenuItemsByCategoryId(List<Long> menuItemCategoryIds) {
+        return getMenuItemsByCategoryIdDbOp(menuItemCategoryIds);
+    }
+
+    protected abstract List<DescribeMenuItem> getMenuItemsByCategoryIdDbOp(List<Long> menuItemCategoryIds);
+
+    @Override
+    public List<DescribeMenuItemCategory> getMenuItemCategory(Long menuId) {
+        return getMenuItemCategoryDbOp(menuId);
+    }
+
+    protected abstract List<DescribeMenuItemCategory> getMenuItemCategoryDbOp(Long menuId);
+
+    @Override
+    public Long getMenuId(Long menuItemCategoryId) {
+        return getMenuIdDbOp(menuItemCategoryId);
+    }
+
+    protected abstract Long getMenuIdDbOp(Long menuItemCategoryId);
+
 }

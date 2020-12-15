@@ -8,6 +8,8 @@ import com.wuda.foundation.jooq.code.generation.commons.tables.AdministrativeUni
 import com.wuda.foundation.jooq.code.generation.commons.tables.Email;
 import com.wuda.foundation.jooq.code.generation.commons.tables.FlowHistory;
 import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItem;
+import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItemBelongsToCategory;
+import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItemCategory;
 import com.wuda.foundation.jooq.code.generation.commons.tables.Phone;
 import com.wuda.foundation.jooq.code.generation.commons.tables.PropertyKey;
 import com.wuda.foundation.jooq.code.generation.commons.tables.PropertyKeyDefinition;
@@ -17,12 +19,13 @@ import com.wuda.foundation.jooq.code.generation.commons.tables.Task;
 import com.wuda.foundation.jooq.code.generation.commons.tables.TaskLog;
 import com.wuda.foundation.jooq.code.generation.commons.tables.TaskPhase;
 import com.wuda.foundation.jooq.code.generation.commons.tables.Variable;
-import org.jooq.Catalog;
-import org.jooq.Table;
-import org.jooq.impl.SchemaImpl;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.jooq.Catalog;
+import org.jooq.Table;
+import org.jooq.impl.SchemaImpl;
 
 
 /**
@@ -31,7 +34,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationCommons extends SchemaImpl {
 
-    private static final long serialVersionUID = -758787732;
+    private static final long serialVersionUID = 1861054143;
 
     /**
      * The reference instance of <code>foundation_commons</code>
@@ -57,6 +60,16 @@ public class FoundationCommons extends SchemaImpl {
      * 可以代表站点的功能菜单中的一个具体功能，导航栏菜单（Navigation menu）中的一个具体项等等，这些item可能是按钮，链接等。参考Android的Menu，MenuItem，https://developer.android.com/reference/android/view/MenuItem。
      */
     public final MenuItem MENU_ITEM = MenuItem.MENU_ITEM;
+
+    /**
+     * 表示menu item所属的分类
+     */
+    public final MenuItemBelongsToCategory MENU_ITEM_BELONGS_TO_CATEGORY = MenuItemBelongsToCategory.MENU_ITEM_BELONGS_TO_CATEGORY;
+
+    /**
+     * 物品分类
+     */
+    public final MenuItemCategory MENU_ITEM_CATEGORY = MenuItemCategory.MENU_ITEM_CATEGORY;
 
     /**
      * 电话信息。
@@ -123,6 +136,8 @@ public class FoundationCommons extends SchemaImpl {
             Email.EMAIL,
             FlowHistory.FLOW_HISTORY,
             MenuItem.MENU_ITEM,
+            MenuItemBelongsToCategory.MENU_ITEM_BELONGS_TO_CATEGORY,
+            MenuItemCategory.MENU_ITEM_CATEGORY,
             Phone.PHONE,
             PropertyKey.PROPERTY_KEY,
             PropertyKeyDefinition.PROPERTY_KEY_DEFINITION,

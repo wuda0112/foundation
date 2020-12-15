@@ -7,31 +7,32 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.pojos;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
 /**
- * 任务
+ * 表示menu item所属的分类
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class Task implements Serializable {
+public class MenuItemBelongsToCategory implements Serializable {
 
-    private static final long serialVersionUID = -896792424;
+    private static final long serialVersionUID = -609428263;
 
-    private ULong         taskId;
-    private UByte         type;
+    private ULong         id;
+    private ULong         menuItemId;
+    private ULong         menuItemCategoryId;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private LocalDateTime lastModifyTime;
     private ULong         lastModifyUserId;
     private ULong         isDeleted;
 
-    public Task() {}
+    public MenuItemBelongsToCategory() {}
 
-    public Task(Task value) {
-        this.taskId = value.taskId;
-        this.type = value.type;
+    public MenuItemBelongsToCategory(MenuItemBelongsToCategory value) {
+        this.id = value.id;
+        this.menuItemId = value.menuItemId;
+        this.menuItemCategoryId = value.menuItemCategoryId;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.lastModifyTime = value.lastModifyTime;
@@ -39,17 +40,19 @@ public class Task implements Serializable {
         this.isDeleted = value.isDeleted;
     }
 
-    public Task(
-        ULong         taskId,
-        UByte         type,
+    public MenuItemBelongsToCategory(
+        ULong         id,
+        ULong         menuItemId,
+        ULong         menuItemCategoryId,
         LocalDateTime createTime,
         ULong         createUserId,
         LocalDateTime lastModifyTime,
         ULong         lastModifyUserId,
         ULong         isDeleted
     ) {
-        this.taskId = taskId;
-        this.type = type;
+        this.id = id;
+        this.menuItemId = menuItemId;
+        this.menuItemCategoryId = menuItemCategoryId;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.lastModifyTime = lastModifyTime;
@@ -57,20 +60,28 @@ public class Task implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public ULong getTaskId() {
-        return this.taskId;
+    public ULong getId() {
+        return this.id;
     }
 
-    public void setTaskId(ULong taskId) {
-        this.taskId = taskId;
+    public void setId(ULong id) {
+        this.id = id;
     }
 
-    public UByte getType() {
-        return this.type;
+    public ULong getMenuItemId() {
+        return this.menuItemId;
     }
 
-    public void setType(UByte type) {
-        this.type = type;
+    public void setMenuItemId(ULong menuItemId) {
+        this.menuItemId = menuItemId;
+    }
+
+    public ULong getMenuItemCategoryId() {
+        return this.menuItemCategoryId;
+    }
+
+    public void setMenuItemCategoryId(ULong menuItemCategoryId) {
+        this.menuItemCategoryId = menuItemCategoryId;
     }
 
     public LocalDateTime getCreateTime() {
@@ -115,10 +126,11 @@ public class Task implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Task (");
+        StringBuilder sb = new StringBuilder("MenuItemBelongsToCategory (");
 
-        sb.append(taskId);
-        sb.append(", ").append(type);
+        sb.append(id);
+        sb.append(", ").append(menuItemId);
+        sb.append(", ").append(menuItemCategoryId);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(lastModifyTime);

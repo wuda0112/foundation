@@ -4,8 +4,11 @@
 package com.wuda.foundation.jooq.code.generation.commons;
 
 
+import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItemBelongsToCategory;
+import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItemCategory;
 import com.wuda.foundation.jooq.code.generation.commons.tables.PropertyKeyDefinition;
 import com.wuda.foundation.jooq.code.generation.commons.tables.PropertyMount;
+
 import org.jooq.Index;
 import org.jooq.OrderField;
 import org.jooq.impl.Internal;
@@ -22,6 +25,9 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
+    public static final Index MENU_ITEM_BELONGS_TO_CATEGORY_IDX_ITEM_ID = Indexes0.MENU_ITEM_BELONGS_TO_CATEGORY_IDX_ITEM_ID;
+    public static final Index MENU_ITEM_CATEGORY_IDX_PARENT = Indexes0.MENU_ITEM_CATEGORY_IDX_PARENT;
+    public static final Index MENU_ITEM_CATEGORY_IDX_ROOT = Indexes0.MENU_ITEM_CATEGORY_IDX_ROOT;
     public static final Index PROPERTY_KEY_DEFINITION_FK_ATTRIBUTE_KEY_ID = Indexes0.PROPERTY_KEY_DEFINITION_FK_ATTRIBUTE_KEY_ID;
     public static final Index PROPERTY_MOUNT_FK_ATTRIBUTE_KEY_ID = Indexes0.PROPERTY_MOUNT_FK_ATTRIBUTE_KEY_ID;
     public static final Index PROPERTY_MOUNT_IDX_MOUNT = Indexes0.PROPERTY_MOUNT_IDX_MOUNT;
@@ -31,6 +37,9 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
+        public static Index MENU_ITEM_BELONGS_TO_CATEGORY_IDX_ITEM_ID = Internal.createIndex("idx_item_id", MenuItemBelongsToCategory.MENU_ITEM_BELONGS_TO_CATEGORY, new OrderField[] { MenuItemBelongsToCategory.MENU_ITEM_BELONGS_TO_CATEGORY.MENU_ITEM_ID }, false);
+        public static Index MENU_ITEM_CATEGORY_IDX_PARENT = Internal.createIndex("idx_parent", MenuItemCategory.MENU_ITEM_CATEGORY, new OrderField[] { MenuItemCategory.MENU_ITEM_CATEGORY.PARENT_MENU_ITEM_CATEGORY_ID }, false);
+        public static Index MENU_ITEM_CATEGORY_IDX_ROOT = Internal.createIndex("idx_root", MenuItemCategory.MENU_ITEM_CATEGORY, new OrderField[] { MenuItemCategory.MENU_ITEM_CATEGORY.ROOT_MENU_ITEM_CATEGORY_ID }, false);
         public static Index PROPERTY_KEY_DEFINITION_FK_ATTRIBUTE_KEY_ID = Internal.createIndex("fk_attribute_key_id", PropertyKeyDefinition.PROPERTY_KEY_DEFINITION, new OrderField[] { PropertyKeyDefinition.PROPERTY_KEY_DEFINITION.PROPERTY_KEY_ID }, false);
         public static Index PROPERTY_MOUNT_FK_ATTRIBUTE_KEY_ID = Internal.createIndex("fk_attribute_key_id", PropertyMount.PROPERTY_MOUNT, new OrderField[] { PropertyMount.PROPERTY_MOUNT.PROPERTY_KEY_ID }, false);
         public static Index PROPERTY_MOUNT_IDX_MOUNT = Internal.createIndex("idx_mount", PropertyMount.PROPERTY_MOUNT, new OrderField[] { PropertyMount.PROPERTY_MOUNT.MOUNT_POINT_TYPE, PropertyMount.PROPERTY_MOUNT.MOUNT_POINT_IDENFIER }, false);

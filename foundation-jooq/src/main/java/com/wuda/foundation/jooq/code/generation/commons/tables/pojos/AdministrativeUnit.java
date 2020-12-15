@@ -4,12 +4,12 @@
 package com.wuda.foundation.jooq.code.generation.commons.tables.pojos;
 
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 import org.jooq.types.UShort;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 
 /**
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AdministrativeUnit implements Serializable {
 
-    private static final long serialVersionUID = 869224810;
+    private static final long serialVersionUID = 913720597;
 
     private UShort        administrativeUnitId;
     private UShort        parentId;

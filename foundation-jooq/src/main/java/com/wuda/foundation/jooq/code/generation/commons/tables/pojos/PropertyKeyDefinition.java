@@ -4,10 +4,10 @@
 package com.wuda.foundation.jooq.code.generation.commons.tables.pojos;
 
 
-import org.jooq.types.ULong;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import org.jooq.types.ULong;
 
 
 /**
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyKeyDefinition implements Serializable {
 
-    private static final long serialVersionUID = -1887011863;
+    private static final long serialVersionUID = 502520478;
 
     private ULong         propertyDefinitionId;
     private ULong         propertyKeyId;

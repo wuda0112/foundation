@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.commons.tables.Phone;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record9;
@@ -13,8 +16,6 @@ import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-
 
 /**
  * 电话信息。
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PhoneRecord extends UpdatableRecordImpl<PhoneRecord> implements Record9<ULong, String, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -1420240818;
+    private static final long serialVersionUID = 290811236;
 
     /**
      * Setter for <code>foundation_commons.phone.phone_id</code>.

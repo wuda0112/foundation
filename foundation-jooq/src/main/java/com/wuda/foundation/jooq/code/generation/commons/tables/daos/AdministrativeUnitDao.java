@@ -6,14 +6,15 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.daos;
 
 import com.wuda.foundation.jooq.code.generation.commons.tables.AdministrativeUnit;
 import com.wuda.foundation.jooq.code.generation.commons.tables.records.AdministrativeUnitRecord;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 import org.jooq.types.UShort;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 
 /**

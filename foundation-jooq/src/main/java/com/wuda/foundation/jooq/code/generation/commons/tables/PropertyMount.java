@@ -8,6 +8,11 @@ import com.wuda.foundation.jooq.code.generation.commons.FoundationCommons;
 import com.wuda.foundation.jooq.code.generation.commons.Indexes;
 import com.wuda.foundation.jooq.code.generation.commons.Keys;
 import com.wuda.foundation.jooq.code.generation.commons.tables.records.PropertyMountRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -25,10 +30,6 @@ import org.jooq.impl.TableImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 
 /**
  * 属性模板的挂载点，比如对于商品来说，相同分类下的商品属性很擂台，因此可以把属性模板挂载到商品分类上，在新建商品时就可以推荐相关的属性模板了
@@ -36,7 +37,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyMount extends TableImpl<PropertyMountRecord> {
 
-    private static final long serialVersionUID = 1354436214;
+    private static final long serialVersionUID = -1173180905;
 
     /**
      * The reference instance of <code>foundation_commons.property_mount</code>
@@ -74,7 +75,7 @@ public class PropertyMount extends TableImpl<PropertyMountRecord> {
     /**
      * The column <code>foundation_commons.property_mount.create_time</code>.
      */
-    public final TableField<PropertyMountRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<PropertyMountRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_commons.property_mount.create_user_id</code>.
@@ -84,7 +85,7 @@ public class PropertyMount extends TableImpl<PropertyMountRecord> {
     /**
      * The column <code>foundation_commons.property_mount.is_deleted</code>.
      */
-    public final TableField<PropertyMountRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<PropertyMountRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_commons.property_mount</code> table reference

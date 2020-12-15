@@ -1,10 +1,6 @@
 package com.wuda.foundation.commons;
 
-import com.wuda.foundation.lang.AlreadyExistsException;
-import com.wuda.foundation.lang.Constant;
-import com.wuda.foundation.lang.CreateMode;
-import com.wuda.foundation.lang.CreateResult;
-import com.wuda.foundation.lang.RelatedDataExists;
+import com.wuda.foundation.lang.*;
 import com.wuda.foundation.lang.tree.IdPidEntryUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -154,6 +150,6 @@ public abstract class AbstractTreeManager<C extends CreateTreeNode, U extends Up
 
     @Override
     public boolean isRootTreeNode(DescribeTreeNode describeTreeNode) {
-        return describeTreeNode.getParentId().equals(Constant.NOT_EXISTS_ID);
+        return FoundationContext.isRootTreeNode(describeTreeNode);
     }
 }

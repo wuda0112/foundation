@@ -5,14 +5,15 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItem;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record8;
 import org.jooq.Row8;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.ULong;
-
-import java.time.LocalDateTime;
 
 
 /**
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MenuItemRecord extends UpdatableRecordImpl<MenuItemRecord> implements Record8<ULong, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -926717690;
+    private static final long serialVersionUID = -2038365412;
 
     /**
      * Setter for <code>foundation_commons.menu_item.menu_item_id</code>.

@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.commons.tables.Email;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record8;
@@ -13,8 +16,6 @@ import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-
 
 /**
  * email信息
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class EmailRecord extends UpdatableRecordImpl<EmailRecord> implements Record8<ULong, String, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -1989034565;
+    private static final long serialVersionUID = -1372455579;
 
     /**
      * Setter for <code>foundation_commons.email.email_id</code>.

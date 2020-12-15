@@ -1,27 +1,28 @@
 package com.wuda.foundation.core.security.impl.menu;
 
-import com.wuda.foundation.core.commons.DescribeMenuItemCategory;
+import com.wuda.foundation.core.commons.DescribeMenuNode;
 import com.wuda.foundation.core.commons.Menu;
-import com.wuda.foundation.core.commons.MenuItemCategoryManager;
 import com.wuda.foundation.core.commons.MenuManager;
 import com.wuda.foundation.core.security.Action;
 import com.wuda.foundation.core.security.menu.MenuItemAndCategoryComparator;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierType;
-import com.wuda.foundation.lang.tree.Tree;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuItemAndCategoryComparatorImpl implements MenuItemAndCategoryComparator {
-    private MenuManager menuManager;
-    private MenuItemCategoryManager menuItemCategoryManager;
 
-    private List<Tree<Long, DescribeMenuItemCategory>> categoryTreeCache = new ArrayList<>();
+    @Resource
+    private MenuManager menuManager;
+
+    private List<Menu> menusCache = new ArrayList<>();
 
     @Override
     public boolean support(IdentifierType type) {
-        return false;
+        return type.equals(BuiltinIdentifierType.MENU_ITEM_CATEGORY)
+                || type.equals(BuiltinIdentifierType.MENU_ITEM);
     }
 
     @Override
@@ -31,6 +32,10 @@ public class MenuItemAndCategoryComparatorImpl implements MenuItemAndCategoryCom
 
     @Override
     public boolean implies(Action first, Action second) {
+        if (!isMenuItem(first) && !isMenuItemCategory(first)
+                && !isMenuItem(second) && !isMenuItemCategory(second)) {
+            throw new UnsupportedOperationException();
+        }
         Long firstValue = first.getValue();
         Long secondValue = second.getValue();
         if (isMenuItem(first)) {
@@ -38,20 +43,10 @@ public class MenuItemAndCategoryComparatorImpl implements MenuItemAndCategoryCom
             // todo 是否支持virtual
             return false;
         } else if (isMenuItemCategory(first)) {
-            Tree<Long, DescribeMenuItemCategory> categoryTree = findCategoryTree(firstValue);
-            if (isMenuItem(second)) {
-                long menuId = categoryTree.get(firstValue).getMenuId();
-                Menu menu = menuManager.getMenu(menuId);
-                Long categoryId = menu.getMenuItemCategoryId(secondValue);
-                return categoryTree.isDescendant(firstValue, categoryId);
-            } else if (isMenuItemCategory(second)) {
-                return categoryTree.isDescendant(firstValue, secondValue);
-            } else {
-                throw new UnsupportedOperationException();
-            }
-        } else {
-            throw new UnsupportedOperationException();
+            Menu menu = findMenuByCategory(firstValue);
+            return menu.isDescendant(firstValue, secondValue);
         }
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -72,25 +67,26 @@ public class MenuItemAndCategoryComparatorImpl implements MenuItemAndCategoryCom
         return action.getType().equals(BuiltinIdentifierType.MENU_ITEM_CATEGORY);
     }
 
-    private Tree<Long, DescribeMenuItemCategory> findCategoryTreeFromCache(Long categoryId) {
-        if (categoryTreeCache.isEmpty()) {
+    private Menu findMenuByCategoryFromCache(Long categoryId) {
+        if (menusCache.isEmpty()) {
             return null;
         }
-        for (Tree<Long, DescribeMenuItemCategory> categoryTree : categoryTreeCache) {
-            DescribeMenuItemCategory menuItemCategory = categoryTree.get(categoryId);
-            if (menuItemCategory != null) {
-                return categoryTree;
+        for (Menu menu : menusCache) {
+            DescribeMenuNode describeMenuNode = menu.get(categoryId);
+            if (describeMenuNode != null) {
+                return menu;
             }
         }
         return null;
     }
 
-    private Tree<Long, DescribeMenuItemCategory> findCategoryTree(Long categoryId) {
-        Tree<Long, DescribeMenuItemCategory> categoryTree = findCategoryTreeFromCache(categoryId);
-        if (categoryTree == null) {
-            categoryTree = menuItemCategoryManager.getTree(categoryId);
-            categoryTreeCache.add(categoryTree);
+    private Menu findMenuByCategory(Long categoryId) {
+        Menu menu = findMenuByCategoryFromCache(categoryId);
+        if (menu == null) {
+            long menuId = menuManager.getMenuId(categoryId);
+            menu = menuManager.getMenu(menuId);
+            menusCache.add(menu);
         }
-        return categoryTree;
+        return menu;
     }
 }

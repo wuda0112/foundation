@@ -7,6 +7,11 @@ package com.wuda.foundation.jooq.code.generation.commons.tables;
 import com.wuda.foundation.jooq.code.generation.commons.FoundationCommons;
 import com.wuda.foundation.jooq.code.generation.commons.Keys;
 import com.wuda.foundation.jooq.code.generation.commons.tables.records.FlowHistoryRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
@@ -22,10 +27,6 @@ import org.jooq.impl.TableImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 
 /**
  * 流程处理历史记录
@@ -33,7 +34,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FlowHistory extends TableImpl<FlowHistoryRecord> {
 
-    private static final long serialVersionUID = 710575456;
+    private static final long serialVersionUID = -1123722336;
 
     /**
      * The reference instance of <code>foundation_commons.flow_history</code>
@@ -81,7 +82,7 @@ public class FlowHistory extends TableImpl<FlowHistoryRecord> {
     /**
      * The column <code>foundation_commons.flow_history.create_time</code>.
      */
-    public final TableField<FlowHistoryRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<FlowHistoryRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_commons.flow_history.create_user_id</code>.
@@ -91,7 +92,7 @@ public class FlowHistory extends TableImpl<FlowHistoryRecord> {
     /**
      * The column <code>foundation_commons.flow_history.last_modify_time</code>.
      */
-    public final TableField<FlowHistoryRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<FlowHistoryRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_commons.flow_history.last_modify_user_id</code>.
@@ -101,7 +102,7 @@ public class FlowHistory extends TableImpl<FlowHistoryRecord> {
     /**
      * The column <code>foundation_commons.flow_history.is_deleted</code>.
      */
-    public final TableField<FlowHistoryRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<FlowHistoryRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_commons.flow_history</code> table reference

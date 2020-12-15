@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.commons.tables.Task;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record7;
@@ -13,8 +16,6 @@ import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-
 
 /**
  * 任务
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TaskRecord extends UpdatableRecordImpl<TaskRecord> implements Record7<ULong, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -1241646851;
+    private static final long serialVersionUID = -1300680557;
 
     /**
      * Setter for <code>foundation_commons.task.task_id</code>.

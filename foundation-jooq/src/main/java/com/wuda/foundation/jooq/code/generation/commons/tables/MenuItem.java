@@ -7,6 +7,11 @@ package com.wuda.foundation.jooq.code.generation.commons.tables;
 import com.wuda.foundation.jooq.code.generation.commons.FoundationCommons;
 import com.wuda.foundation.jooq.code.generation.commons.Keys;
 import com.wuda.foundation.jooq.code.generation.commons.tables.records.MenuItemRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -22,10 +27,6 @@ import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 
 /**
  * 可以代表站点的功能菜单中的一个具体功能，导航栏菜单（Navigation menu）中的一个具体项等等，这些item可能是按钮，链接等。参考Android的Menu，MenuItem，https://developer.android.com/reference/android/view/MenuItem。
@@ -33,7 +34,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MenuItem extends TableImpl<MenuItemRecord> {
 
-    private static final long serialVersionUID = -1276746775;
+    private static final long serialVersionUID = 1424958889;
 
     /**
      * The reference instance of <code>foundation_commons.menu_item</code>
@@ -66,7 +67,7 @@ public class MenuItem extends TableImpl<MenuItemRecord> {
     /**
      * The column <code>foundation_commons.menu_item.create_time</code>.
      */
-    public final TableField<MenuItemRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<MenuItemRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_commons.menu_item.create_user_id</code>.
@@ -76,7 +77,7 @@ public class MenuItem extends TableImpl<MenuItemRecord> {
     /**
      * The column <code>foundation_commons.menu_item.last_modify_time</code>.
      */
-    public final TableField<MenuItemRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<MenuItemRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_commons.menu_item.last_modify_user_id</code>.
@@ -86,7 +87,7 @@ public class MenuItem extends TableImpl<MenuItemRecord> {
     /**
      * The column <code>foundation_commons.menu_item.is_deleted</code>.
      */
-    public final TableField<MenuItemRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<MenuItemRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_commons.menu_item</code> table reference

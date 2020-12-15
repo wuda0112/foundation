@@ -53,15 +53,18 @@ public class PermissionAssignmentMerger {
                 }
                 AllowOrDeny nextAllowOrDeny = next.getAllowOrDeny();
                 if (competitive.getAllowOrDeny().equals(nextAllowOrDeny)) {
-                    if (targetComparator.impliesOrEquals(competitive.getTarget(), nextTarget) && actionComparator.impliesOrEquals(competitive.getAction(), nextAction)) {
+                    if (targetComparator.impliesOrEquals(competitive.getTarget(), nextTarget)
+                            && actionComparator.impliesOrEquals(competitive.getAction(), nextAction)) {
                         removedIndexSet.add(index);
-                    } else if (targetComparator.impliesOrEquals(nextTarget, competitive.getTarget()) && actionComparator.impliesOrEquals(nextAction, competitive.getAction())) {
+                    } else if (targetComparator.impliesOrEquals(nextTarget, competitive.getTarget())
+                            && actionComparator.impliesOrEquals(nextAction, competitive.getAction())) {
                         removedIndexSet.add(index - 1);
                         competitive = next;
                         competitiveIndex = index;
                     }
                 } else {
-                    if (targetComparator.equals(competitive.getTarget(), nextTarget) && actionComparator.equals(competitive.getAction(), nextAction)) {
+                    if (targetComparator.equals(competitive.getTarget(), nextTarget)
+                            && actionComparator.equals(competitive.getAction(), nextAction)) {
                         // 对同一个target的同一个action既允许又禁止,则以禁止作为最终结果,
                         // 就好像用户对于文件就允许删除,又禁止删除,则最终用户对该文件的权限是禁止删除
                         if (competitive.getAllowOrDeny().equals(AllowOrDeny.DENY)) {

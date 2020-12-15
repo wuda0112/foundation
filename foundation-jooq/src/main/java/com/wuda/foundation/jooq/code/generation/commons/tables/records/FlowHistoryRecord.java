@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.commons.tables.FlowHistory;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record11;
@@ -13,8 +16,6 @@ import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-
 
 /**
  * 流程处理历史记录
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FlowHistoryRecord extends UpdatableRecordImpl<FlowHistoryRecord> implements Record11<ULong, UByte, UByte, UByte, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1884488171;
+    private static final long serialVersionUID = 1912067221;
 
     /**
      * Setter for <code>foundation_commons.flow_history.flow_history_id</code>.

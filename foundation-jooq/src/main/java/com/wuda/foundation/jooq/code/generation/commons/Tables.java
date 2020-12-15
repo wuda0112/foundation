@@ -8,6 +8,8 @@ import com.wuda.foundation.jooq.code.generation.commons.tables.AdministrativeUni
 import com.wuda.foundation.jooq.code.generation.commons.tables.Email;
 import com.wuda.foundation.jooq.code.generation.commons.tables.FlowHistory;
 import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItem;
+import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItemBelongsToCategory;
+import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItemCategory;
 import com.wuda.foundation.jooq.code.generation.commons.tables.Phone;
 import com.wuda.foundation.jooq.code.generation.commons.tables.PropertyKey;
 import com.wuda.foundation.jooq.code.generation.commons.tables.PropertyKeyDefinition;
@@ -44,6 +46,16 @@ public class Tables {
      * 可以代表站点的功能菜单中的一个具体功能，导航栏菜单（Navigation menu）中的一个具体项等等，这些item可能是按钮，链接等。参考Android的Menu，MenuItem，https://developer.android.com/reference/android/view/MenuItem。
      */
     public static final MenuItem MENU_ITEM = MenuItem.MENU_ITEM;
+
+    /**
+     * 表示menu item所属的分类
+     */
+    public static final MenuItemBelongsToCategory MENU_ITEM_BELONGS_TO_CATEGORY = MenuItemBelongsToCategory.MENU_ITEM_BELONGS_TO_CATEGORY;
+
+    /**
+     * 物品分类
+     */
+    public static final MenuItemCategory MENU_ITEM_CATEGORY = MenuItemCategory.MENU_ITEM_CATEGORY;
 
     /**
      * 电话信息。

@@ -4,10 +4,10 @@
 package com.wuda.foundation.jooq.code.generation.commons.tables.pojos;
 
 
-import org.jooq.types.ULong;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import org.jooq.types.ULong;
 
 
 /**
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TaskLog implements Serializable {
 
-    private static final long serialVersionUID = -1941892372;
+    private static final long serialVersionUID = 306312481;
 
     private ULong         taskLogId;
     private ULong         taskId;

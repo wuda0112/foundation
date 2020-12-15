@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.commons.tables.PropertyMount;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record7;
@@ -13,8 +16,6 @@ import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-
 
 /**
  * 属性模板的挂载点，比如对于商品来说，相同分类下的商品属性很擂台，因此可以把属性模板挂载到商品分类上，在新建商品时就可以推荐相关的属性模板了
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyMountRecord extends UpdatableRecordImpl<PropertyMountRecord> implements Record7<ULong, ULong, UByte, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1528900013;
+    private static final long serialVersionUID = -1355469097;
 
     /**
      * Setter for <code>foundation_commons.property_mount.id</code>.

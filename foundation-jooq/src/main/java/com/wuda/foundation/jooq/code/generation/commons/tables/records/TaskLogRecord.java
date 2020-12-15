@@ -5,14 +5,15 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.commons.tables.TaskLog;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record9;
 import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.ULong;
-
-import java.time.LocalDateTime;
 
 
 /**
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TaskLogRecord extends UpdatableRecordImpl<TaskLogRecord> implements Record9<ULong, ULong, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1653740307;
+    private static final long serialVersionUID = -1846244183;
 
     /**
      * Setter for <code>foundation_commons.task_log.task_log_id</code>.

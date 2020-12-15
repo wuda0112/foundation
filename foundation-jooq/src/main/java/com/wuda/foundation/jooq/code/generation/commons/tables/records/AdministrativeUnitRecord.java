@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.commons.tables.AdministrativeUnit;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record12;
@@ -14,8 +17,6 @@ import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 import org.jooq.types.UShort;
 
-import java.time.LocalDateTime;
-
 
 /**
  * 行政单元，行政区域划分。也就是省市区等数据，不按省市区建表，因为不一定是按那样划分，比如北京，深圳，但是他们有一个共同特点，那就是有上下级关系，因此用ID/PID的方式组织。
@@ -23,7 +24,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AdministrativeUnitRecord extends UpdatableRecordImpl<AdministrativeUnitRecord> implements Record12<UShort, UShort, String, String, String, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -1253413490;
+    private static final long serialVersionUID = 2145799332;
 
     /**
      * Setter for <code>foundation_commons.administrative_unit.administrative_unit_id</code>. 必须显示指定，如果用自增，会导致parent_id找不到正确的父级

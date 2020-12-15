@@ -7,6 +7,11 @@ package com.wuda.foundation.jooq.code.generation.commons.tables;
 import com.wuda.foundation.jooq.code.generation.commons.FoundationCommons;
 import com.wuda.foundation.jooq.code.generation.commons.Keys;
 import com.wuda.foundation.jooq.code.generation.commons.tables.records.PhoneRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -23,10 +28,6 @@ import org.jooq.impl.TableImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 
 /**
  * 电话信息。
@@ -34,7 +35,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Phone extends TableImpl<PhoneRecord> {
 
-    private static final long serialVersionUID = -1332734945;
+    private static final long serialVersionUID = 1170389599;
 
     /**
      * The reference instance of <code>foundation_commons.phone</code>
@@ -72,7 +73,7 @@ public class Phone extends TableImpl<PhoneRecord> {
     /**
      * The column <code>foundation_commons.phone.create_time</code>.
      */
-    public final TableField<PhoneRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<PhoneRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_commons.phone.create_user_id</code>.
@@ -82,7 +83,7 @@ public class Phone extends TableImpl<PhoneRecord> {
     /**
      * The column <code>foundation_commons.phone.last_modify_time</code>.
      */
-    public final TableField<PhoneRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<PhoneRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_commons.phone.last_modify_user_id</code>.
@@ -92,7 +93,7 @@ public class Phone extends TableImpl<PhoneRecord> {
     /**
      * The column <code>foundation_commons.phone.is_deleted</code>.
      */
-    public final TableField<PhoneRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<PhoneRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_commons.phone</code> table reference

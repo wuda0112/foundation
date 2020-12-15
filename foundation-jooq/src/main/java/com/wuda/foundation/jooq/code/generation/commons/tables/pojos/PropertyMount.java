@@ -4,11 +4,11 @@
 package com.wuda.foundation.jooq.code.generation.commons.tables.pojos;
 
 
-import org.jooq.types.UByte;
-import org.jooq.types.ULong;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import org.jooq.types.UByte;
+import org.jooq.types.ULong;
 
 
 /**
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyMount implements Serializable {
 
-    private static final long serialVersionUID = -1377004522;
+    private static final long serialVersionUID = 1252877057;
 
     private ULong         id;
     private ULong         propertyKeyId;

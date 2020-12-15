@@ -4,11 +4,11 @@
 package com.wuda.foundation.jooq.code.generation.commons.tables.pojos;
 
 
-import org.jooq.types.UByte;
-import org.jooq.types.ULong;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import org.jooq.types.UByte;
+import org.jooq.types.ULong;
 
 
 /**
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TaskPhase implements Serializable {
 
-    private static final long serialVersionUID = -354319076;
+    private static final long serialVersionUID = 445329543;
 
     private ULong         taskPhaseId;
     private ULong         taskId;

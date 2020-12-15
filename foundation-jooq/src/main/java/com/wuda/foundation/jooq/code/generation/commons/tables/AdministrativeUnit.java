@@ -7,6 +7,11 @@ package com.wuda.foundation.jooq.code.generation.commons.tables;
 import com.wuda.foundation.jooq.code.generation.commons.FoundationCommons;
 import com.wuda.foundation.jooq.code.generation.commons.Keys;
 import com.wuda.foundation.jooq.code.generation.commons.tables.records.AdministrativeUnitRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Name;
@@ -23,10 +28,6 @@ import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 import org.jooq.types.UShort;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 
 /**
  * 行政单元，行政区域划分。也就是省市区等数据，不按省市区建表，因为不一定是按那样划分，比如北京，深圳，但是他们有一个共同特点，那就是有上下级关系，因此用ID/PID的方式组织。
@@ -34,7 +35,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AdministrativeUnit extends TableImpl<AdministrativeUnitRecord> {
 
-    private static final long serialVersionUID = -187550454;
+    private static final long serialVersionUID = -43037878;
 
     /**
      * The reference instance of <code>foundation_commons.administrative_unit</code>
@@ -72,7 +73,7 @@ public class AdministrativeUnit extends TableImpl<AdministrativeUnitRecord> {
     /**
      * The column <code>foundation_commons.administrative_unit.alias</code>. 比如：湖南的alias是湘，广州的alias是羊城
      */
-    public final TableField<AdministrativeUnitRecord, String> ALIAS = createField(DSL.name("alias"), org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "比如：湖南的alias是湘，广州的alias是羊城");
+    public final TableField<AdministrativeUnitRecord, String> ALIAS = createField(DSL.name("alias"), org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "比如：湖南的alias是湘，广州的alias是羊城");
 
     /**
      * The column <code>foundation_commons.administrative_unit.level</code>. 级别，比如湖南省处于第一级，北京市也是第一级
@@ -82,12 +83,12 @@ public class AdministrativeUnit extends TableImpl<AdministrativeUnitRecord> {
     /**
      * The column <code>foundation_commons.administrative_unit.level_name</code>. 比如湖南省，level_name=省，北京市的level_name=市
      */
-    public final TableField<AdministrativeUnitRecord, String> LEVEL_NAME = createField(DSL.name("level_name"), org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "比如湖南省，level_name=省，北京市的level_name=市");
+    public final TableField<AdministrativeUnitRecord, String> LEVEL_NAME = createField(DSL.name("level_name"), org.jooq.impl.SQLDataType.VARCHAR(5).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "比如湖南省，level_name=省，北京市的level_name=市");
 
     /**
      * The column <code>foundation_commons.administrative_unit.create_time</code>.
      */
-    public final TableField<AdministrativeUnitRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<AdministrativeUnitRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_commons.administrative_unit.create_user_id</code>.
@@ -97,7 +98,7 @@ public class AdministrativeUnit extends TableImpl<AdministrativeUnitRecord> {
     /**
      * The column <code>foundation_commons.administrative_unit.last_modify_time</code>.
      */
-    public final TableField<AdministrativeUnitRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<AdministrativeUnitRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_commons.administrative_unit.last_modify_user_id</code>.
@@ -107,7 +108,7 @@ public class AdministrativeUnit extends TableImpl<AdministrativeUnitRecord> {
     /**
      * The column <code>foundation_commons.administrative_unit.is_deleted</code>.
      */
-    public final TableField<AdministrativeUnitRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<AdministrativeUnitRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_commons.administrative_unit</code> table reference

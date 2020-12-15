@@ -33,4 +33,28 @@ public interface MenuManager {
      * @return 菜单
      */
     Menu getMenu(Long menuId);
+
+    /**
+     * 获取分类下的menu item.
+     *
+     * @param menuItemCategoryIds 分类ID
+     * @return menu item
+     */
+    List<DescribeMenuItem> getMenuItemsByCategoryId(List<Long> menuItemCategoryIds);
+
+    /**
+     * 获取菜单下的分类.
+     *
+     * @param menuId menu id
+     * @return 分类
+     */
+    List<DescribeMenuItemCategory> getMenuItemCategory(Long menuId);
+
+    /**
+     * 获取分类所属的菜单
+     *
+     * @param menuItemCategoryId menu item category id
+     * @return 所属菜单
+     */
+    Long getMenuId(Long menuItemCategoryId);
 }

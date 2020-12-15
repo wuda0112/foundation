@@ -5,14 +5,15 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.commons.tables.PropertyKeyDefinition;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record9;
 import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.ULong;
-
-import java.time.LocalDateTime;
 
 
 /**
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PropertyKeyDefinitionRecord extends UpdatableRecordImpl<PropertyKeyDefinitionRecord> implements Record9<ULong, ULong, String, Boolean, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -563343302;
+    private static final long serialVersionUID = 2045276644;
 
     /**
      * Setter for <code>foundation_commons.property_key_definition.property_definition_id</code>.

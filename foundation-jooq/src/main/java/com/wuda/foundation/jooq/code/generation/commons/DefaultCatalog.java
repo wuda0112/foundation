@@ -4,11 +4,11 @@
 package com.wuda.foundation.jooq.code.generation.commons;
 
 
-import org.jooq.Schema;
-import org.jooq.impl.CatalogImpl;
-
 import java.util.Arrays;
 import java.util.List;
+
+import org.jooq.Schema;
+import org.jooq.impl.CatalogImpl;
 
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DefaultCatalog extends CatalogImpl {
 
-    private static final long serialVersionUID = -1410343346;
+    private static final long serialVersionUID = 569380089;
 
     /**
      * The reference instance of <code>DEFAULT_CATALOG</code>

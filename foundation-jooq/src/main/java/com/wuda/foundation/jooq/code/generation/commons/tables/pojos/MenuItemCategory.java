@@ -7,18 +7,23 @@ package com.wuda.foundation.jooq.code.generation.commons.tables.pojos;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
 
 /**
- * 可以代表站点的功能菜单中的一个具体功能，导航栏菜单（Navigation menu）中的一个具体项等等，这些item可能是按钮，链接等。参考Android的Menu，MenuItem，https://developer.android.com/reference/android/view/MenuItem。
+ * 物品分类
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class MenuItem implements Serializable {
+public class MenuItemCategory implements Serializable {
 
-    private static final long serialVersionUID = -1133153356;
+    private static final long serialVersionUID = 922885956;
 
-    private ULong         menuItemId;
+    private ULong         menuItemCategoryId;
+    private ULong         menuId;
+    private ULong         parentMenuItemCategoryId;
+    private ULong         rootMenuItemCategoryId;
+    private UByte         depth;
     private String        name;
     private String        description;
     private LocalDateTime createTime;
@@ -27,10 +32,14 @@ public class MenuItem implements Serializable {
     private ULong         lastModifyUserId;
     private ULong         isDeleted;
 
-    public MenuItem() {}
+    public MenuItemCategory() {}
 
-    public MenuItem(MenuItem value) {
-        this.menuItemId = value.menuItemId;
+    public MenuItemCategory(MenuItemCategory value) {
+        this.menuItemCategoryId = value.menuItemCategoryId;
+        this.menuId = value.menuId;
+        this.parentMenuItemCategoryId = value.parentMenuItemCategoryId;
+        this.rootMenuItemCategoryId = value.rootMenuItemCategoryId;
+        this.depth = value.depth;
         this.name = value.name;
         this.description = value.description;
         this.createTime = value.createTime;
@@ -40,8 +49,12 @@ public class MenuItem implements Serializable {
         this.isDeleted = value.isDeleted;
     }
 
-    public MenuItem(
-        ULong         menuItemId,
+    public MenuItemCategory(
+        ULong         menuItemCategoryId,
+        ULong         menuId,
+        ULong         parentMenuItemCategoryId,
+        ULong         rootMenuItemCategoryId,
+        UByte         depth,
         String        name,
         String        description,
         LocalDateTime createTime,
@@ -50,7 +63,11 @@ public class MenuItem implements Serializable {
         ULong         lastModifyUserId,
         ULong         isDeleted
     ) {
-        this.menuItemId = menuItemId;
+        this.menuItemCategoryId = menuItemCategoryId;
+        this.menuId = menuId;
+        this.parentMenuItemCategoryId = parentMenuItemCategoryId;
+        this.rootMenuItemCategoryId = rootMenuItemCategoryId;
+        this.depth = depth;
         this.name = name;
         this.description = description;
         this.createTime = createTime;
@@ -60,12 +77,44 @@ public class MenuItem implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public ULong getMenuItemId() {
-        return this.menuItemId;
+    public ULong getMenuItemCategoryId() {
+        return this.menuItemCategoryId;
     }
 
-    public void setMenuItemId(ULong menuItemId) {
-        this.menuItemId = menuItemId;
+    public void setMenuItemCategoryId(ULong menuItemCategoryId) {
+        this.menuItemCategoryId = menuItemCategoryId;
+    }
+
+    public ULong getMenuId() {
+        return this.menuId;
+    }
+
+    public void setMenuId(ULong menuId) {
+        this.menuId = menuId;
+    }
+
+    public ULong getParentMenuItemCategoryId() {
+        return this.parentMenuItemCategoryId;
+    }
+
+    public void setParentMenuItemCategoryId(ULong parentMenuItemCategoryId) {
+        this.parentMenuItemCategoryId = parentMenuItemCategoryId;
+    }
+
+    public ULong getRootMenuItemCategoryId() {
+        return this.rootMenuItemCategoryId;
+    }
+
+    public void setRootMenuItemCategoryId(ULong rootMenuItemCategoryId) {
+        this.rootMenuItemCategoryId = rootMenuItemCategoryId;
+    }
+
+    public UByte getDepth() {
+        return this.depth;
+    }
+
+    public void setDepth(UByte depth) {
+        this.depth = depth;
     }
 
     public String getName() {
@@ -126,9 +175,13 @@ public class MenuItem implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("MenuItem (");
+        StringBuilder sb = new StringBuilder("MenuItemCategory (");
 
-        sb.append(menuItemId);
+        sb.append(menuItemCategoryId);
+        sb.append(", ").append(menuId);
+        sb.append(", ").append(parentMenuItemCategoryId);
+        sb.append(", ").append(rootMenuItemCategoryId);
+        sb.append(", ").append(depth);
         sb.append(", ").append(name);
         sb.append(", ").append(description);
         sb.append(", ").append(createTime);

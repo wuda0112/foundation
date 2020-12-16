@@ -2,6 +2,7 @@ package com.wuda.foundation.lang.tree;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * 工具类.
@@ -35,6 +36,25 @@ public class TreeUtils {
         }
         for (T childId : childrenIdSet) {
             print(tree, childId);
+        }
+    }
+
+    /**
+     * 从给定的节点开始,深度优先遍历.
+     *
+     * @param tree tree
+     * @param id   node id
+     * @param <T>  节点的ID的类型
+     * @param <N>  实际的节点的类型
+     */
+    public static <T extends Comparable<T>, N extends TreeNode<T>> void depthFirstTraverse(Tree<T, N> tree, T id, Consumer<N> consumer) {
+        Set<N> children = tree.getDirectChildren(id);
+        if (children == null || children.size() == 0) {
+            return;
+        }
+        for (N treeNode : children) {
+            consumer.accept(treeNode);
+            depthFirstTraverse(tree, treeNode.getId(), consumer);
         }
     }
 }

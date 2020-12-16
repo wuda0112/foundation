@@ -1,6 +1,11 @@
-package com.wuda.foundation.core.security;
+package com.wuda.foundation.core.security.menu;
 
+import com.wuda.foundation.core.commons.Menu;
+import com.wuda.foundation.core.commons.MenuManager;
+import com.wuda.foundation.core.security.*;
 import com.wuda.foundation.core.security.menu.MenuItemAndCategoryComparator;
+import com.wuda.foundation.core.security.menu.MenuPermissionUtils;
+import com.wuda.foundation.core.security.menu.RoleAndMenuItemAssignmentManager;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 
 import java.util.List;
@@ -11,12 +16,18 @@ public abstract class AbstractRoleAndMenuItemAssignmentManager implements RoleAn
 
     protected MenuItemAndCategoryComparator menuItemAndCategoryComparator;
 
+    protected MenuManager menuManager;
+
     public void setPermissionGrantManager(PermissionGrantManager permissionGrantManager) {
         this.permissionGrantManager = permissionGrantManager;
     }
 
     public void setMenuItemAndCategoryComparator(MenuItemAndCategoryComparator menuItemAndCategoryComparator) {
         this.menuItemAndCategoryComparator = menuItemAndCategoryComparator;
+    }
+
+    public void setMenuManager(MenuManager menuManager) {
+        this.menuManager = menuManager;
     }
 
     @Override
@@ -58,10 +69,18 @@ public abstract class AbstractRoleAndMenuItemAssignmentManager implements RoleAn
     }
 
     @Override
-    public List<MergedPermissionAssignment> getMenuPermission(Long permissionRoleId, Long menuId) {
+    public List<MergedPermissionAssignment> getMenuPermissionAssignments(Long permissionRoleId, Long menuId) {
         Subject subject = new Subject(permissionRoleId, BuiltinIdentifierType.PERMISSION_ROLE);
         List<DescribePermissionAssignment> originalPermissionAssignments = permissionGrantManager.getPermissions(subject);
         PermissionAssignmentMerger permissionAssignmentMerger = new PermissionAssignmentMerger();
         return permissionAssignmentMerger.merge(originalPermissionAssignments, null, menuItemAndCategoryComparator);
+    }
+
+    @Override
+    public Menu getPermittedMenu(Long permissionRoleId, Long menuId) {
+        List<MergedPermissionAssignment> permissionAssignments = getMenuPermissionAssignments(permissionRoleId, menuId);
+        Menu menu = menuManager.getMenu(menuId);
+        MenuPermissionUtils.applyPermission(menu, permissionAssignments);
+        return menu;
     }
 }

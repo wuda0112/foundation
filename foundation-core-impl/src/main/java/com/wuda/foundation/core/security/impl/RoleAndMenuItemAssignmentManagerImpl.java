@@ -1,6 +1,6 @@
 package com.wuda.foundation.core.security.impl;
 
-import com.wuda.foundation.core.security.AbstractRoleAndMenuItemAssignmentManager;
+import com.wuda.foundation.core.security.menu.AbstractRoleAndMenuItemAssignmentManager;
 import com.wuda.foundation.core.security.Action;
 import com.wuda.foundation.core.security.AllowOrDeny;
 import com.wuda.foundation.core.security.Subject;

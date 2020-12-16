@@ -1,5 +1,7 @@
 package com.wuda.foundation.core.commons;
 
+import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
+import com.wuda.foundation.lang.identify.IdentifierType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,24 +14,12 @@ public class DescribeMenuNode extends DescribeTreeNode {
     /**
      * 该节点的类型,是menu item还是menu item category.
      */
-    private Type type;
+    private IdentifierType type;
 
     /**
-     * 节点的类型.
-     *
-     * @author wuda
-     * @since 1.0.3
+     * 是否可见.
      */
-    public enum Type {
-        /**
-         * menu item.
-         */
-        MENU_ITEM,
-        /**
-         * menu item category.
-         */
-        MENU_ITEM_CATEGORY;
-    }
+    private boolean visibility = true;
 
     /**
      * 新建menu item节点.
@@ -40,7 +30,7 @@ public class DescribeMenuNode extends DescribeTreeNode {
      */
     public static DescribeMenuNode newMenuItemNode(DescribeMenuItemCategory describeMenuItemCategory, DescribeMenuItem describeMenuItem) {
         DescribeMenuNode describeMenuNode = new DescribeMenuNode();
-        describeMenuNode.setType(Type.MENU_ITEM);
+        describeMenuNode.setType(BuiltinIdentifierType.MENU_ITEM);
         describeMenuNode.setId(describeMenuItem.getId());
         describeMenuNode.setParentId(describeMenuItemCategory.getId());
         describeMenuNode.setRootId(describeMenuItemCategory.getRootId());
@@ -58,7 +48,7 @@ public class DescribeMenuNode extends DescribeTreeNode {
      */
     public static DescribeMenuNode newMenuItemCategoryNode(DescribeMenuItemCategory describeMenuItemCategory) {
         DescribeMenuNode describeMenuNode = new DescribeMenuNode();
-        describeMenuNode.setType(Type.MENU_ITEM_CATEGORY);
+        describeMenuNode.setType(BuiltinIdentifierType.MENU_ITEM_CATEGORY);
         describeMenuNode.setId(describeMenuItemCategory.id);
         describeMenuNode.setParentId(describeMenuItemCategory.parentId);
         describeMenuNode.setRootId(describeMenuItemCategory.rootId);

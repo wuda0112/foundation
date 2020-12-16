@@ -29,6 +29,10 @@ public class MergedPermissionAssignment {
      * action
      */
     private Action action;
+    /**
+     * allow or deny.
+     */
+    private AllowOrDeny allowOrDeny;
 
     /**
      * 从{@link DescribePermissionAssignment}复制.
@@ -38,7 +42,7 @@ public class MergedPermissionAssignment {
      */
     public static MergedPermissionAssignment copyFrom(DescribePermissionAssignment permissionAssignment) {
         return new MergedPermissionAssignment(permissionAssignment.getSubject(),
-                permissionAssignment.getTarget(), permissionAssignment.getAction());
+                permissionAssignment.getTarget(), permissionAssignment.getAction(), permissionAssignment.getAllowOrDeny());
     }
 
     /**

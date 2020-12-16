@@ -1,6 +1,8 @@
-package com.wuda.foundation.core.security;
+package com.wuda.foundation.core.security.menu;
 
 import com.wuda.foundation.core.commons.DescribeMenuItem;
+import com.wuda.foundation.core.commons.Menu;
+import com.wuda.foundation.core.security.*;
 
 import java.util.List;
 
@@ -76,12 +78,21 @@ public interface RoleAndMenuItemAssignmentManager {
     DescribePermissionAssignment getMenuItemPermission(Long permissionRoleId, Long menuId, Long menuItemId);
 
     /**
-     * 获取role对整个menu的permission.
+     * 获取为role分配的菜单的permission.
      *
      * @param permissionRoleId permission role id
      * @param menuId           menu id
      * @return permission assignment
      */
-    List<MergedPermissionAssignment> getMenuPermission(Long permissionRoleId, Long menuId);
+    List<MergedPermissionAssignment> getMenuPermissionAssignments(Long permissionRoleId, Long menuId);
+
+    /**
+     * 获取菜单,但是不一定是完整的,只返回许可的菜单项.
+     *
+     * @param permissionRoleId permission role id
+     * @param menuId           menu id
+     * @return 有权限访问的菜单项
+     */
+    Menu getPermittedMenu(Long permissionRoleId, Long menuId);
 
 }

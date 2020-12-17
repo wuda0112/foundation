@@ -1,6 +1,6 @@
 package com.wuda.foundation.core.user;
 
-import com.wuda.foundation.core.commons.DescribeMenuItem;
+import com.wuda.foundation.core.commons.DescribeMenuItemCore;
 import com.wuda.foundation.core.security.BuiltinRole;
 import com.wuda.foundation.core.security.DescribePermissionAssignment;
 import com.wuda.foundation.core.security.DescribePermissionRole;
@@ -174,5 +174,5 @@ public interface UserBelongsToGroupManager {
      * @param group  group
      * @return 操作的集合
      */
-    List<DescribeMenuItem> getMenuItemsFromRole(Long userId, LongIdentifier group);
+    List<DescribeMenuItemCore> getMenuItemsFromRole(Long userId, LongIdentifier group);
 }

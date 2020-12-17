@@ -1,6 +1,6 @@
 package com.wuda.foundation.core.user.impl;
 
-import com.wuda.foundation.core.commons.DescribeMenuItem;
+import com.wuda.foundation.core.commons.DescribeMenuItemCore;
 import com.wuda.foundation.core.commons.MenuManager;
 import com.wuda.foundation.core.security.*;
 import com.wuda.foundation.core.user.AbstractUserBelongsToGroupManager;
@@ -223,7 +223,7 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
     }
 
     @Override
-    protected List<DescribeMenuItem> getMenuItemsFromRoleDbOp(Long userId, LongIdentifier group) {
+    protected List<DescribeMenuItemCore> getMenuItemsFromRoleDbOp(Long userId, LongIdentifier group) {
         List<DescribePermissionRole> roles = getRolesDbOp(userId, group);
         if (roles == null || roles.isEmpty()) {
             return null;

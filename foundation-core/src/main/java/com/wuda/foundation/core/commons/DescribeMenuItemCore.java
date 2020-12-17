@@ -9,9 +9,10 @@ import lombok.Data;
  * @since 1.0.3
  */
 @Data
-public class DescribeMenuItem {
+public class DescribeMenuItemCore {
 
     private Long id;
+    private Long menuItemId;
     private String name;
     private String description;
 }

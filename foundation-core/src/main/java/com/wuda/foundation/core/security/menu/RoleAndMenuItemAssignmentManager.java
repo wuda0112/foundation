@@ -1,14 +1,14 @@
 package com.wuda.foundation.core.security.menu;
 
-import com.wuda.foundation.core.commons.DescribeMenuItem;
+import com.wuda.foundation.core.commons.DescribeMenuItemCore;
 import com.wuda.foundation.core.commons.Menu;
 import com.wuda.foundation.core.security.*;
 
 import java.util.List;
 
 /**
- * 一种具体的权限分配,为{@link DescribePermissionRole role}分配{@link DescribeMenuItem menu item},
- * 即{@link DescribePermissionRole role}作为{@link Subject},至于{@link DescribeMenuItem menu item}
+ * 一种具体的权限分配,为{@link DescribePermissionRole role}分配{@link DescribeMenuItemCore menu item},
+ * 即{@link DescribePermissionRole role}作为{@link Subject},至于{@link DescribeMenuItemCore menu item}
  * 是作为{@link Target}还是{@link Action},则由具体实现类决定.
  *
  * @author wuda

@@ -7,9 +7,10 @@ package com.wuda.foundation.jooq.code.generation.commons;
 import com.wuda.foundation.jooq.code.generation.commons.tables.AdministrativeUnit;
 import com.wuda.foundation.jooq.code.generation.commons.tables.Email;
 import com.wuda.foundation.jooq.code.generation.commons.tables.FlowHistory;
-import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItem;
+import com.wuda.foundation.jooq.code.generation.commons.tables.MenuCore;
 import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItemBelongsToCategory;
 import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItemCategory;
+import com.wuda.foundation.jooq.code.generation.commons.tables.MenuItemCore;
 import com.wuda.foundation.jooq.code.generation.commons.tables.Phone;
 import com.wuda.foundation.jooq.code.generation.commons.tables.PropertyKey;
 import com.wuda.foundation.jooq.code.generation.commons.tables.PropertyKeyDefinition;
@@ -34,7 +35,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationCommons extends SchemaImpl {
 
-    private static final long serialVersionUID = 1861054143;
+    private static final long serialVersionUID = 1462328473;
 
     /**
      * The reference instance of <code>foundation_commons</code>
@@ -57,9 +58,9 @@ public class FoundationCommons extends SchemaImpl {
     public final FlowHistory FLOW_HISTORY = FlowHistory.FLOW_HISTORY;
 
     /**
-     * 可以代表站点的功能菜单中的一个具体功能，导航栏菜单（Navigation menu）中的一个具体项等等，这些item可能是按钮，链接等。参考Android的Menu，MenuItem，https://developer.android.com/reference/android/view/MenuItem。
+     * 菜单核心信息。一个站点，可以制作多个菜单，比如为A场景制作一份菜单，为B场景制作一份菜单。每个菜单有它自己【独立的分类】，因为每个菜单的内容都不一样；但是最底层的菜单项是共享的，因为站点所能提供的功能是一致的，只是每个菜单组合了不同的功能而已。
      */
-    public final MenuItem MENU_ITEM = MenuItem.MENU_ITEM;
+    public final MenuCore MENU_CORE = MenuCore.MENU_CORE;
 
     /**
      * 表示menu item所属的分类
@@ -70,6 +71,11 @@ public class FoundationCommons extends SchemaImpl {
      * 物品分类
      */
     public final MenuItemCategory MENU_ITEM_CATEGORY = MenuItemCategory.MENU_ITEM_CATEGORY;
+
+    /**
+     * 可以代表站点的功能菜单中的一个具体功能，导航栏菜单（Navigation menu）中的一个具体项等等，这些item可能是按钮，链接等。参考Android的Menu，MenuItem，https://developer.android.com/reference/android/view/MenuItem。
+     */
+    public final MenuItemCore MENU_ITEM_CORE = MenuItemCore.MENU_ITEM_CORE;
 
     /**
      * 电话信息。
@@ -135,9 +141,10 @@ public class FoundationCommons extends SchemaImpl {
             AdministrativeUnit.ADMINISTRATIVE_UNIT,
             Email.EMAIL,
             FlowHistory.FLOW_HISTORY,
-            MenuItem.MENU_ITEM,
+            MenuCore.MENU_CORE,
             MenuItemBelongsToCategory.MENU_ITEM_BELONGS_TO_CATEGORY,
             MenuItemCategory.MENU_ITEM_CATEGORY,
+            MenuItemCore.MENU_ITEM_CORE,
             Phone.PHONE,
             PropertyKey.PROPERTY_KEY,
             PropertyKeyDefinition.PROPERTY_KEY_DEFINITION,

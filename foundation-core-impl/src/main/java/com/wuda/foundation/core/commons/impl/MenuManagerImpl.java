@@ -7,25 +7,30 @@ import com.wuda.foundation.core.security.Subject;
 import com.wuda.foundation.core.security.Target;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
+import com.wuda.foundation.jooq.code.generation.commons.tables.records.MenuCoreRecord;
+import com.wuda.foundation.jooq.code.generation.commons.tables.records.MenuItemBelongsToCategoryRecord;
 import com.wuda.foundation.jooq.code.generation.commons.tables.records.MenuItemCategoryRecord;
-import com.wuda.foundation.jooq.code.generation.commons.tables.records.MenuItemRecord;
+import com.wuda.foundation.jooq.code.generation.commons.tables.records.MenuItemCoreRecord;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.FoundationContext;
+import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.tree.IdPidEntryTreeBuilder;
-import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Record1;
-import org.jooq.Result;
+import org.jooq.*;
+import org.jooq.impl.DSL;
 import org.jooq.types.ULong;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.wuda.foundation.jooq.code.generation.commons.tables.MenuItem.MENU_ITEM;
+import static com.wuda.foundation.jooq.code.generation.commons.tables.MenuCore.MENU_CORE;
 import static com.wuda.foundation.jooq.code.generation.commons.tables.MenuItemBelongsToCategory.MENU_ITEM_BELONGS_TO_CATEGORY;
 import static com.wuda.foundation.jooq.code.generation.commons.tables.MenuItemCategory.MENU_ITEM_CATEGORY;
+import static com.wuda.foundation.jooq.code.generation.commons.tables.MenuItemCore.MENU_ITEM_CORE;
 
 public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDbOp {
 
@@ -36,7 +41,42 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
     }
 
     @Override
-    protected List<DescribeMenuItem> getMenuItemsFromRoleDbOp(List<Long> roleIds) {
+    protected CreateResult createMenuItemCoreDbOp(CreateMenuItemCore createMenuItemCore, CreateMode createMode) {
+        MenuItemCoreRecord record = menuItemCoreRecordForInsert(createMenuItemCore);
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = menuItemCoreUniqueCondition(createMenuItemCore.getMenuItemId(), createMenuItemCore.getName());
+        return insertDispatcher(JooqContext.getDataSource(), createMode, MENU_ITEM_CORE, record, existsRecordSelector);
+    }
+
+    @Override
+    protected void updateMenuItemCoreDbOp(UpdateMenuItemCore updateMenuItemCore) {
+        MenuItemCoreRecord record = menuItemCoreRecordForUpdate(updateMenuItemCore);
+        updateSelectiveByPrimaryKey(JooqContext.getDataSource(), record);
+    }
+
+    @Override
+    protected void addItemToCategoryDbOp(Long menuItemId, Long menuItemCategoryId, Long opUserId) {
+        MenuItemBelongsToCategoryRecord record = menuItemBelongsToCategoryRecordForInsert(menuItemId, menuItemCategoryId, opUserId);
+        insert(JooqContext.getDataSource(), MENU_ITEM_BELONGS_TO_CATEGORY, record);
+    }
+
+    @Override
+    protected void removeItemFromCategoryDbOp(Long menuItemId, Long menuItemCategoryId, Long opUserId) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext();
+        dslContext.update(MENU_ITEM_BELONGS_TO_CATEGORY)
+                .set(MENU_ITEM_BELONGS_TO_CATEGORY.IS_DELETED, MENU_ITEM_BELONGS_TO_CATEGORY.ID)
+                .where(MENU_ITEM_BELONGS_TO_CATEGORY.MENU_ITEM_CATEGORY_ID.eq(ULong.valueOf(menuItemCategoryId)))
+                .and(MENU_ITEM_BELONGS_TO_CATEGORY.MENU_ITEM_ID.eq(ULong.valueOf(menuItemCategoryId)))
+                .execute();
+    }
+
+    @Override
+    protected CreateResult createMenuCoreDbOp(CreateMenuCore createMenuCore, CreateMode createMode) {
+        MenuCoreRecord record = menuCoreRecordForInsert(createMenuCore);
+        return insert(JooqContext.getDataSource(), MENU_CORE, record);
+    }
+
+    @Override
+    protected List<DescribeMenuItemCore> getMenuItemsFromRoleDbOp(List<Long> roleIds) {
         if (roleIds == null || roleIds.isEmpty()) {
             return null;
         }
@@ -54,13 +94,13 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
     }
 
     @Override
-    protected List<DescribeMenuItem> getMenuItemsByIdDbOp(List<Long> ids) {
+    protected List<DescribeMenuItemCore> getMenuItemsByIdDbOp(List<Long> menuItemIds) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext();
-        Result<MenuItemRecord> menuItemRecords = dslContext.selectFrom(MENU_ITEM)
-                .where(MENU_ITEM.MENU_ITEM_ID.in(ids))
-                .and(MENU_ITEM.IS_DELETED.eq(notDeleted()))
+        Result<MenuItemCoreRecord> menuItemCoreRecords = dslContext.selectFrom(MENU_ITEM_CORE)
+                .where(MENU_ITEM_CORE.MENU_ITEM_ID.in(menuItemIds))
+                .and(MENU_ITEM_CORE.IS_DELETED.eq(notDeleted()))
                 .fetch();
-        return copyFromMenuItemRecords(menuItemRecords);
+        return copyFromMenuItemRecords(menuItemCoreRecords);
     }
 
     @Override
@@ -77,10 +117,10 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
                 root = describeMenuItemCategoryNode;
             }
             nodes.add(describeMenuItemCategoryNode);
-            List<DescribeMenuItem> describeMenuItems = getMenuItemsByCategoryId(Collections.singletonList(describeMenuItemCategory.getId()));
-            if (describeMenuItems != null && !describeMenuItems.isEmpty()) {
-                for (DescribeMenuItem describeMenuItem : describeMenuItems) {
-                    DescribeMenuNode describeMenuItemNode = DescribeMenuNode.newMenuItemNode(describeMenuItemCategory, describeMenuItem);
+            List<DescribeMenuItemCore> describeMenuItemCores = getMenuItemsByCategoryId(Collections.singletonList(describeMenuItemCategory.getId()));
+            if (describeMenuItemCores != null && !describeMenuItemCores.isEmpty()) {
+                for (DescribeMenuItemCore describeMenuItemCore : describeMenuItemCores) {
+                    DescribeMenuNode describeMenuItemNode = DescribeMenuNode.newMenuItemNode(describeMenuItemCategory, describeMenuItemCore);
                     nodes.add(describeMenuItemNode);
                 }
             }
@@ -92,23 +132,23 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
     }
 
     @Override
-    protected List<DescribeMenuItem> getMenuItemsByCategoryIdDbOp(List<Long> menuItemCategoryIds) {
+    protected List<DescribeMenuItemCore> getMenuItemsByCategoryIdDbOp(List<Long> menuItemCategoryIds) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext();
-        Result<Record> result = dslContext.select(MENU_ITEM.fields())
+        Result<Record> result = dslContext.select(MENU_ITEM_CORE.fields())
                 .from(MENU_ITEM_BELONGS_TO_CATEGORY)
-                .leftJoin(MENU_ITEM).on(MENU_ITEM.MENU_ITEM_ID.eq(MENU_ITEM_BELONGS_TO_CATEGORY.MENU_ITEM_ID))
+                .leftJoin(MENU_ITEM_CORE).on(MENU_ITEM_CORE.MENU_ITEM_ID.eq(MENU_ITEM_BELONGS_TO_CATEGORY.MENU_ITEM_ID))
                 .where(MENU_ITEM_BELONGS_TO_CATEGORY.MENU_ITEM_CATEGORY_ID.in(menuItemCategoryIds))
-                .and(MENU_ITEM.IS_DELETED.eq(notDeleted()))
+                .and(MENU_ITEM_CORE.IS_DELETED.eq(notDeleted()))
                 .and(MENU_ITEM_BELONGS_TO_CATEGORY.IS_DELETED.eq(notDeleted()))
                 .fetch();
         if (result == null || result.isEmpty()) {
             return null;
         }
-        List<DescribeMenuItem> list = new ArrayList<>(result.size());
+        List<DescribeMenuItemCore> list = new ArrayList<>(result.size());
         for (Record record : result) {
-            MenuItemRecord menuItemRecord = record.into(MenuItemRecord.class);
-            DescribeMenuItem describeMenuItem = copyFromMenuItemRecord(menuItemRecord);
-            list.add(describeMenuItem);
+            MenuItemCoreRecord menuItemRecord = record.into(MenuItemCoreRecord.class);
+            DescribeMenuItemCore describeMenuItemCore = copyFromMenuItemRecord(menuItemRecord);
+            list.add(describeMenuItemCore);
         }
         return list;
     }
@@ -136,22 +176,23 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
         return record1.component1().longValue();
     }
 
-    private DescribeMenuItem copyFromMenuItemRecord(MenuItemRecord record) {
-        DescribeMenuItem describeMenuItem = new DescribeMenuItem();
-        describeMenuItem.setId(record.getMenuItemId().longValue());
-        describeMenuItem.setName(record.getName());
-        describeMenuItem.setDescription(record.getDescription());
-        return describeMenuItem;
+    private DescribeMenuItemCore copyFromMenuItemRecord(MenuItemCoreRecord record) {
+        DescribeMenuItemCore describeMenuItemCore = new DescribeMenuItemCore();
+        describeMenuItemCore.setId(record.getMenuItemCoreId().longValue());
+        describeMenuItemCore.setMenuItemId(record.getMenuItemId().longValue());
+        describeMenuItemCore.setName(record.getName());
+        describeMenuItemCore.setDescription(record.getDescription());
+        return describeMenuItemCore;
     }
 
-    private List<DescribeMenuItem> copyFromMenuItemRecords(List<MenuItemRecord> records) {
+    private List<DescribeMenuItemCore> copyFromMenuItemRecords(List<MenuItemCoreRecord> records) {
         if (records == null || records.isEmpty()) {
             return null;
         }
-        List<DescribeMenuItem> list = new ArrayList<>();
-        for (MenuItemRecord record : records) {
-            DescribeMenuItem describeMenuItem = copyFromMenuItemRecord(record);
-            list.add(describeMenuItem);
+        List<DescribeMenuItemCore> list = new ArrayList<>();
+        for (MenuItemCoreRecord record : records) {
+            DescribeMenuItemCore describeMenuItemCore = copyFromMenuItemRecord(record);
+            list.add(describeMenuItemCore);
         }
         return list;
     }
@@ -179,4 +220,53 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
         }
         return list;
     }
+
+    private MenuItemCoreRecord menuItemCoreRecordForInsert(CreateMenuItemCore createMenuItemCore) {
+        LocalDateTime now = LocalDateTime.now();
+        Long opUserId = createMenuItemCore.getOpUserId();
+        return new MenuItemCoreRecord(ULong.valueOf(createMenuItemCore.getId()),
+                ULong.valueOf(createMenuItemCore.getMenuItemId()),
+                createMenuItemCore.getName(),
+                createMenuItemCore.getDescription(),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private MenuItemCoreRecord menuItemCoreRecordForUpdate(UpdateMenuItemCore updateMenuItemCore) {
+        MenuItemCoreRecord record = new MenuItemCoreRecord();
+        record.setMenuItemCoreId(ULong.valueOf(updateMenuItemCore.getId()));
+        record.setName(updateMenuItemCore.getName());
+        record.setDescription(updateMenuItemCore.getDescription());
+        record.setLastModifyTime(LocalDateTime.now());
+        record.setLastModifyUserId(ULong.valueOf(updateMenuItemCore.getOpUserId()));
+        return record;
+    }
+
+
+    private MenuCoreRecord menuCoreRecordForInsert(CreateMenuCore createMenuCore) {
+        LocalDateTime now = LocalDateTime.now();
+        Long opUserId = createMenuCore.getOpUserId();
+        return new MenuCoreRecord(ULong.valueOf(createMenuCore.getId()),
+                ULong.valueOf(createMenuCore.getMenuId()),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private MenuItemBelongsToCategoryRecord menuItemBelongsToCategoryRecordForInsert(Long menuItemId, Long menuItemCategoryId, Long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new MenuItemBelongsToCategoryRecord(ULong.valueOf(FoundationContext.getLongKeyGenerator().next()),
+                ULong.valueOf(menuItemId),
+                ULong.valueOf(menuItemCategoryId),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
+    }
+
+    private SelectConditionStep<Record1<ULong>> menuItemCoreUniqueCondition(Long menuItemId, String name) {
+        Configuration configuration = JooqContext.getConfiguration();
+        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+                .select(MENU_ITEM_CORE.MENU_ITEM_CORE_ID)
+                .from(MENU_ITEM_CORE)
+                .where(MENU_ITEM_CORE.MENU_ITEM_ID.eq(ULong.valueOf(menuItemId)))
+                .and(MENU_ITEM_CORE.NAME.eq(name))
+                .and(MENU_ITEM_CORE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
+        return existsRecordSelector;
+    }
+
 }

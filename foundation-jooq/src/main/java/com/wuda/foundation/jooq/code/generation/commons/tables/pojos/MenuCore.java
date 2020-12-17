@@ -11,28 +11,26 @@ import org.jooq.types.ULong;
 
 
 /**
- * 可以代表站点的功能菜单中的一个具体功能，导航栏菜单（Navigation menu）中的一个具体项等等，这些item可能是按钮，链接等。参考Android的Menu，MenuItem，https://developer.android.com/reference/android/view/MenuItem。
+ * 菜单核心信息。一个站点，可以制作多个菜单，比如为A场景制作一份菜单，为B场景制作一份菜单。每个菜单有它自己【独立的分类】，因为每个菜单的内容都不一样；但是最底层的菜单项是共享的，因为站点所能提供的功能是一致的，只是每个菜单组合了不同的功能而已。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class MenuItem implements Serializable {
+public class MenuCore implements Serializable {
 
-    private static final long serialVersionUID = -1133153356;
+    private static final long serialVersionUID = -752417604;
 
-    private ULong         menuItemId;
-    private String        name;
-    private String        description;
+    private ULong         menuCoreId;
+    private ULong         menuId;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private LocalDateTime lastModifyTime;
     private ULong         lastModifyUserId;
     private ULong         isDeleted;
 
-    public MenuItem() {}
+    public MenuCore() {}
 
-    public MenuItem(MenuItem value) {
-        this.menuItemId = value.menuItemId;
-        this.name = value.name;
-        this.description = value.description;
+    public MenuCore(MenuCore value) {
+        this.menuCoreId = value.menuCoreId;
+        this.menuId = value.menuId;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.lastModifyTime = value.lastModifyTime;
@@ -40,19 +38,17 @@ public class MenuItem implements Serializable {
         this.isDeleted = value.isDeleted;
     }
 
-    public MenuItem(
-        ULong         menuItemId,
-        String        name,
-        String        description,
+    public MenuCore(
+        ULong         menuCoreId,
+        ULong         menuId,
         LocalDateTime createTime,
         ULong         createUserId,
         LocalDateTime lastModifyTime,
         ULong         lastModifyUserId,
         ULong         isDeleted
     ) {
-        this.menuItemId = menuItemId;
-        this.name = name;
-        this.description = description;
+        this.menuCoreId = menuCoreId;
+        this.menuId = menuId;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.lastModifyTime = lastModifyTime;
@@ -60,28 +56,20 @@ public class MenuItem implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public ULong getMenuItemId() {
-        return this.menuItemId;
+    public ULong getMenuCoreId() {
+        return this.menuCoreId;
     }
 
-    public void setMenuItemId(ULong menuItemId) {
-        this.menuItemId = menuItemId;
+    public void setMenuCoreId(ULong menuCoreId) {
+        this.menuCoreId = menuCoreId;
     }
 
-    public String getName() {
-        return this.name;
+    public ULong getMenuId() {
+        return this.menuId;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMenuId(ULong menuId) {
+        this.menuId = menuId;
     }
 
     public LocalDateTime getCreateTime() {
@@ -126,11 +114,10 @@ public class MenuItem implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("MenuItem (");
+        StringBuilder sb = new StringBuilder("MenuCore (");
 
-        sb.append(menuItemId);
-        sb.append(", ").append(name);
-        sb.append(", ").append(description);
+        sb.append(menuCoreId);
+        sb.append(", ").append(menuId);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(lastModifyTime);

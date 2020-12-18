@@ -13,7 +13,7 @@
 # 系统设计文档
 - [系统文档源文件 System-Design.mm](https://github.com/wuda0112/foundation/blob/master/System-Design.mm)
 
-- 使用**FreeMind**或者**XMind**打开
+- 使用**FreeMind**打开
 
 包含数据库设计文档，系统约束说明，专有名词说明等等，持续更新中......
 

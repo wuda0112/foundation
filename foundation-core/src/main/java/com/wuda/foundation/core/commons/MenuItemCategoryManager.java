@@ -1,7 +1,5 @@
 package com.wuda.foundation.core.commons;
 
-import com.wuda.foundation.lang.tree.Tree;
-
 /**
  * menu item category manager.
  *
@@ -11,11 +9,11 @@ import com.wuda.foundation.lang.tree.Tree;
 public interface MenuItemCategoryManager extends TreeManager<CreateMenuItemCategory, UpdateMenuItemCategory, DescribeMenuItemCategory> {
 
     /**
-     * 获取给定菜单的所有分类,以树形结构返回.
+     * 统计分类下的item数量.
      *
-     * @param menuId menu id
-     * @return 分类树
+     * @param categoryId category id
+     * @return count
      */
-    Tree<Long, DescribeMenuItemCategory> getCategoryTree(Long menuId);
+    int itemCountInCategory(Long categoryId);
 
 }

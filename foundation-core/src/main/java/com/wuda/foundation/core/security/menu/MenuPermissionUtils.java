@@ -44,16 +44,21 @@ public class MenuPermissionUtils {
         TreeUtils.depthFirstTraverse(menu, rootId, (menuNode -> {
             Action action = new Action(menuNode.getId(), menuNode.getType());
             MergedPermissionAssignment permissionAssignment = byActionMap.get(action);
-            boolean visibility;
+            Boolean visibility = null;
             if (permissionAssignment != null) {
                 // 如果为这个节点设置了权限,则使用这个节点自己的
                 visibility = AllowOrDeny.allow(permissionAssignment.getAllowOrDeny());
             } else {
                 // 如果没有为这个节点设置权限,则继承父级的
                 DescribeMenuNode parent = menu.getParent(menuNode.getId());
-                visibility = parent.isVisibility();
+                if (parent != null) {
+                    // root节点就没有parent,因此需要非空判断
+                    visibility = parent.isVisibility();
+                }
             }
-            menuNode.setVisibility(visibility);
+            if (visibility != null) {
+                menuNode.setVisibility(visibility);
+            }
         }));
     }
 }

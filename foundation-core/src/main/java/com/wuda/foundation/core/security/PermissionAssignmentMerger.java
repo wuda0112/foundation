@@ -82,6 +82,9 @@ public class PermissionAssignmentMerger {
             removedIndexSet.add(competitiveIndex);
             candidateList = remove(candidateList, removedIndexSet);
         }
+        if (candidateList.size() == 1) {
+            selectedList.addAll(candidateList);
+        }
         return MergedPermissionAssignment.copyFrom(selectedList);
     }
 

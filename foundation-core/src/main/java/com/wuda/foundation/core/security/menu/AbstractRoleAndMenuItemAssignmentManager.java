@@ -16,6 +16,8 @@ public abstract class AbstractRoleAndMenuItemAssignmentManager implements RoleAn
 
     protected MenuItemAndCategoryComparator menuItemAndCategoryComparator;
 
+    protected MenuComparator menuComparator;
+
     protected MenuManager menuManager;
 
     public void setPermissionGrantManager(PermissionGrantManager permissionGrantManager) {
@@ -24,6 +26,10 @@ public abstract class AbstractRoleAndMenuItemAssignmentManager implements RoleAn
 
     public void setMenuItemAndCategoryComparator(MenuItemAndCategoryComparator menuItemAndCategoryComparator) {
         this.menuItemAndCategoryComparator = menuItemAndCategoryComparator;
+    }
+
+    public void setMenuComparator(MenuComparator menuComparator){
+        this.menuComparator = menuComparator;
     }
 
     public void setMenuManager(MenuManager menuManager) {
@@ -73,7 +79,7 @@ public abstract class AbstractRoleAndMenuItemAssignmentManager implements RoleAn
         Subject subject = new Subject(permissionRoleId, BuiltinIdentifierType.PERMISSION_ROLE);
         List<DescribePermissionAssignment> originalPermissionAssignments = permissionGrantManager.getPermissions(subject);
         PermissionAssignmentMerger permissionAssignmentMerger = new PermissionAssignmentMerger();
-        return permissionAssignmentMerger.merge(originalPermissionAssignments, null, menuItemAndCategoryComparator);
+        return permissionAssignmentMerger.merge(originalPermissionAssignments, menuComparator, menuItemAndCategoryComparator);
     }
 
     @Override

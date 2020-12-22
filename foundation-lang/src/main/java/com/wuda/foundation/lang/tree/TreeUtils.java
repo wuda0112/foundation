@@ -42,19 +42,23 @@ public class TreeUtils {
     /**
      * 从给定的节点开始,深度优先遍历.
      *
-     * @param tree tree
-     * @param id   node id
-     * @param <T>  节点的ID的类型
-     * @param <N>  实际的节点的类型
+     * @param tree                 tree
+     * @param startNodeIdInclusive 起点的节点ID,inclusive
+     * @param <T>                  节点的ID的类型
+     * @param <N>                  实际的节点的类型
      */
-    public static <T extends Comparable<T>, N extends TreeNode<T>> void depthFirstTraverse(Tree<T, N> tree, T id, Consumer<N> consumer) {
-        Set<N> children = tree.getDirectChildren(id);
+    public static <T extends Comparable<T>, N extends TreeNode<T>> void depthFirstTraverse(Tree<T, N> tree, T startNodeIdInclusive, Consumer<N> consumer) {
+        N node = tree.get(startNodeIdInclusive);
+        if (node == null) {
+            return;
+        }
+        consumer.accept(node);
+        Set<N> children = tree.getDirectChildren(startNodeIdInclusive);
         if (children == null || children.size() == 0) {
             return;
         }
-        for (N treeNode : children) {
-            consumer.accept(treeNode);
-            depthFirstTraverse(tree, treeNode.getId(), consumer);
+        for (N child : children) {
+            depthFirstTraverse(tree, child.getId(), consumer);
         }
     }
 }

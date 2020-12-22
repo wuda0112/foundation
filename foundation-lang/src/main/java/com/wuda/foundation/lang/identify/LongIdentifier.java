@@ -2,6 +2,8 @@ package com.wuda.foundation.lang.identify;
 
 import com.wuda.foundation.lang.Constant;
 
+import java.util.Arrays;
+
 /**
  * 唯一标记符的数据类型是{@link Long}.
  *
@@ -37,6 +39,12 @@ public class LongIdentifier implements Identifier<Long> {
     @Override
     public String toString() {
         return getType().getCode() + ":" + getValue();
+    }
+
+    @Override
+    public int hashCode() {
+        long[] array = new long[]{value, type.getCode()};
+        return Arrays.hashCode(array);
     }
 
     /**

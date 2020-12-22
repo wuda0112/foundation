@@ -8,14 +8,16 @@ import com.wuda.foundation.core.security.menu.MenuItemAndCategoryComparator;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierType;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuItemAndCategoryComparatorImpl implements MenuItemAndCategoryComparator {
 
-    @Resource
     private MenuManager menuManager;
+
+    public void setMenuManager(MenuManager menuManager) {
+        this.menuManager = menuManager;
+    }
 
     private List<Menu> menusCache = new ArrayList<>();
 

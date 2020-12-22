@@ -25,13 +25,13 @@ public class DescribeMenuNode extends DescribeTreeNode {
      * 新建menu item节点.
      *
      * @param describeMenuItemCategory menu item category
-     * @param describeMenuItemCore         menu item
+     * @param describeMenuItemCore     menu item
      * @return item节点
      */
     public static DescribeMenuNode newMenuItemNode(DescribeMenuItemCategory describeMenuItemCategory, DescribeMenuItemCore describeMenuItemCore) {
         DescribeMenuNode describeMenuNode = new DescribeMenuNode();
         describeMenuNode.setType(BuiltinIdentifierType.MENU_ITEM);
-        describeMenuNode.setId(describeMenuItemCore.getId());
+        describeMenuNode.setId(describeMenuItemCore.getMenuItemId());
         describeMenuNode.setParentId(describeMenuItemCategory.getId());
         describeMenuNode.setRootId(describeMenuItemCategory.getRootId());
         describeMenuNode.setDepth(describeMenuItemCategory.getDepth() + 1);

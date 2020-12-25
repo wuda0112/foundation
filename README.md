@@ -26,9 +26,11 @@
 - foundation-core: 所有的数据库管理都在这个模块中，根据数据库的Scheme分类，对应相应的程序Package，包括
 - - [commons](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/commons)： 用于维护与业务无关，通用的数据库表，比如维护email,phone,通用的实体属性等
 - - [property](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/commons/property): 通用的属性，比如电商系统中，商品的属性
+- - [DataType](https://github.com/wuda0112/foundation/tree/master/foundation-lang/src/main/java/com/wuda/foundation/lang/datatype): 自定义数据类型，和Property结合，可以定义Property的数据类型
 - - [item](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/item): 维护Item模块，Item可以表示很多概念，比如最常见的商品
 - - [notification](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/notification): 通知体系
 - - [security](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/security)： 维护权限控制体系
+- - [menu](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/security/menu): 角色的菜单权限，可以实现类似 Windows 的文件系统的权限分配效果
 - - [store](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/store): 维护店铺模块
 - - [user](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/user)： 维护用户体系，最主要的就是维护数据库表的完整性
 - - 持续更新中......

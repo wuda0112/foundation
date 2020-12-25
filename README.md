@@ -22,14 +22,14 @@
 
 # 模块简介
 - foundation-lang： 定义了很多工具类，常用的与业务无关的基础类，比如，[树形结构](https://github.com/wuda0112/foundation/tree/master/foundation-lang/src/main/java/com/wuda/foundation/lang/tree/)，[Snowflake唯一ID生成器](https://github.com/wuda0112/foundation/blob/master/foundation-lang/src/main/java/com/wuda/foundation/lang/keygen/KeyGeneratorSnowflake.java)等等。没有数据库相关的维护。
-- foundation-jooq: 使用[jooq](https://www.jooq.org/)作为ORM框架，因此，在这个模块中封装了很多逻辑，并且代码生成也在这个模块中\
-- foundation-core: 所有的数据库管理都在这个模块中，根据数据库的scheme分类，对应相应的程序package，包括
-- - store: 维护店铺模块
-- - item: 维护Item模块，Item可以表示很多概念，比如最常见的商品
-- - commons： 用于维护与业务无关，通用的数据库表，比如维护email,phone,通用的实体属性等
-- - user： 维护用户体系，最主要的就是维护数据库表的完整性
-- - security： 维护权限控制体系
-- - notification: 通知体系
+- foundation-jooq: 使用[jooq](https://www.jooq.org/)作为ORM框架，因此，在这个模块中封装了很多逻辑，并且代码生成也在这个模块中
+- foundation-core: 所有的数据库管理都在这个模块中，根据数据库的Scheme分类，对应相应的程序Package，包括
+- - [commons](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/commons)： 用于维护与业务无关，通用的数据库表，比如维护email,phone,通用的实体属性等
+- - [item](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/item): 维护Item模块，Item可以表示很多概念，比如最常见的商品
+- - [notification](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/notification): 通知体系
+- - [security](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/security)： 维护权限控制体系
+- - [store](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/store): 维护店铺模块
+- - [user](https://github.com/wuda0112/foundation/tree/master/foundation-core/src/main/java/com/wuda/foundation/core/user)： 维护用户体系，最主要的就是维护数据库表的完整性
 - - 持续更新中......
 
 # 推荐的优势

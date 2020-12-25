@@ -5,19 +5,7 @@
     <description>基于数据库设计,维护数据库定义的模型</description>
     <modules>
         <module>foundation-lang</module>
-        <module>foundation-user</module>
-        <module>foundation-security</module>
-        <module>foundation-user-impl</module>
-        <module>foundation-commons</module>
-        <module>foundation-commons-impl</module>
         <module>foundation-jooq</module>
-        <module>foundation-store</module>
-        <module>foundation-store-impl</module>
-        <module>foundation-item</module>
-        <module>foundation-item-impl</module>
-        <module>foundation-security-impl</module>
-        <module>foundation-notification</module>
-        <module>foundation-notification-impl</module>
         <module>foundation-core</module>
         <module>foundation-core-impl</module>
     </modules>

@@ -4,6 +4,8 @@
 
 # 数据库设计
 - 目前已经有54个表
+
+- [数据库设计文档](https://github.com/wuda0112/foundation/wiki/DB-index)
 - [数据库源文件 DB-Design.mwb ](https://github.com/wuda0112/foundation/blob/master/DB-Design.mwb)
 
 - 使用 **MySQL Workbench** 打开

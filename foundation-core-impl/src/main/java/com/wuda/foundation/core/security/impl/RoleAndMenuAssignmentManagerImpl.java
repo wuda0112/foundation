@@ -1,10 +1,10 @@
 package com.wuda.foundation.core.security.impl;
 
-import com.wuda.foundation.core.security.menu.AbstractRoleAndMenuItemAssignmentManager;
 import com.wuda.foundation.core.security.Action;
 import com.wuda.foundation.core.security.AllowOrDeny;
 import com.wuda.foundation.core.security.Subject;
 import com.wuda.foundation.core.security.Target;
+import com.wuda.foundation.core.security.menu.AbstractRoleAndMenuAssignmentManager;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 
 import java.util.Collection;
@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class RoleAndMenuItemAssignmentManagerImpl extends AbstractRoleAndMenuItemAssignmentManager {
+public class RoleAndMenuAssignmentManagerImpl extends AbstractRoleAndMenuAssignmentManager {
 
     @Override
     protected void assignMenuItemCategoryToRoleDbOp(Long permissionRoleId, Long menuId, Long menuItemCategoryId, AllowOrDeny allowOrDeny, Long opUserId) {

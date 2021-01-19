@@ -3,14 +3,11 @@ package com.wuda.foundation.core.security.menu;
 import com.wuda.foundation.core.commons.Menu;
 import com.wuda.foundation.core.commons.MenuManager;
 import com.wuda.foundation.core.security.*;
-import com.wuda.foundation.core.security.menu.MenuItemAndCategoryComparator;
-import com.wuda.foundation.core.security.menu.MenuPermissionUtils;
-import com.wuda.foundation.core.security.menu.RoleAndMenuItemAssignmentManager;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 
 import java.util.List;
 
-public abstract class AbstractRoleAndMenuItemAssignmentManager implements RoleAndMenuItemAssignmentManager {
+public abstract class AbstractRoleAndMenuAssignmentManager implements RoleAndMenuAssignmentManager {
 
     protected PermissionGrantManager permissionGrantManager;
 
@@ -28,7 +25,7 @@ public abstract class AbstractRoleAndMenuItemAssignmentManager implements RoleAn
         this.menuItemAndCategoryComparator = menuItemAndCategoryComparator;
     }
 
-    public void setMenuComparator(MenuComparator menuComparator){
+    public void setMenuComparator(MenuComparator menuComparator) {
         this.menuComparator = menuComparator;
     }
 

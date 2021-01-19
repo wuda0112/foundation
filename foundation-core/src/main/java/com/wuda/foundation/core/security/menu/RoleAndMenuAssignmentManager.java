@@ -14,7 +14,7 @@ import java.util.List;
  * @author wuda
  * @since 1.0.3
  */
-public interface RoleAndMenuItemAssignmentManager {
+public interface RoleAndMenuAssignmentManager {
 
     /**
      * 分配menu item category给role.

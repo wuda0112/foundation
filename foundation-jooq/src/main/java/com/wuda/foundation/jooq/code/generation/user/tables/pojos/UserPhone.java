@@ -4,11 +4,11 @@
 package com.wuda.foundation.jooq.code.generation.user.tables.pojos;
 
 
-import org.jooq.types.UByte;
-import org.jooq.types.ULong;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import org.jooq.types.UByte;
+import org.jooq.types.ULong;
 
 
 /**
@@ -17,12 +17,12 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserPhone implements Serializable {
 
-    private static final long serialVersionUID = 509897225;
+    private static final long serialVersionUID = 1268458379;
 
     private ULong         id;
     private ULong         userId;
     private ULong         phoneId;
-    private UByte         use;
+    private UByte         usedFor;
     private UByte         state;
     private String        description;
     private LocalDateTime createTime;
@@ -37,7 +37,7 @@ public class UserPhone implements Serializable {
         this.id = value.id;
         this.userId = value.userId;
         this.phoneId = value.phoneId;
-        this.use = value.use;
+        this.usedFor = value.usedFor;
         this.state = value.state;
         this.description = value.description;
         this.createTime = value.createTime;
@@ -51,7 +51,7 @@ public class UserPhone implements Serializable {
         ULong         id,
         ULong         userId,
         ULong         phoneId,
-        UByte         use,
+        UByte         usedFor,
         UByte         state,
         String        description,
         LocalDateTime createTime,
@@ -63,7 +63,7 @@ public class UserPhone implements Serializable {
         this.id = id;
         this.userId = userId;
         this.phoneId = phoneId;
-        this.use = use;
+        this.usedFor = usedFor;
         this.state = state;
         this.description = description;
         this.createTime = createTime;
@@ -97,12 +97,12 @@ public class UserPhone implements Serializable {
         this.phoneId = phoneId;
     }
 
-    public UByte getUse() {
-        return this.use;
+    public UByte getUsedFor() {
+        return this.usedFor;
     }
 
-    public void setUse(UByte use) {
-        this.use = use;
+    public void setUsedFor(UByte usedFor) {
+        this.usedFor = usedFor;
     }
 
     public UByte getState() {
@@ -168,7 +168,7 @@ public class UserPhone implements Serializable {
         sb.append(id);
         sb.append(", ").append(userId);
         sb.append(", ").append(phoneId);
-        sb.append(", ").append(use);
+        sb.append(", ").append(usedFor);
         sb.append(", ").append(state);
         sb.append(", ").append(description);
         sb.append(", ").append(createTime);

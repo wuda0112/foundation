@@ -1,5 +1,6 @@
 package com.wuda.foundation.core.user;
 
+import com.wuda.foundation.lang.identify.LongIdentifier;
 import lombok.Data;
 
 /**
@@ -12,6 +13,7 @@ import lombok.Data;
 public class DescribeUserBelongsToGroupRole {
 
     private Long id;
-    private Long userBelongsToGroupId;
+    private Long userId;
+    private LongIdentifier group;
     private Long permissionRoleId;
 }

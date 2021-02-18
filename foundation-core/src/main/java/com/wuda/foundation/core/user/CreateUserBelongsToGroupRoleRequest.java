@@ -1,5 +1,6 @@
 package com.wuda.foundation.core.user;
 
+import com.wuda.foundation.lang.identify.LongIdentifier;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -14,7 +15,8 @@ import java.util.Objects;
 public class CreateUserBelongsToGroupRoleRequest {
 
     private Long id;
-    private Long userBelongsToGroupId;
+    private Long userId;
+    private LongIdentifier group;
     private Long permissionRoleId;
 
     /**
@@ -33,7 +35,8 @@ public class CreateUserBelongsToGroupRoleRequest {
     public static class Builder implements com.wuda.foundation.lang.Builder<CreateUserBelongsToGroupRoleRequest> {
 
         private Long id;
-        private Long userBelongsToGroupId;
+        private Long userId;
+        private LongIdentifier group;
         private Long permissionRoleId;
 
         public Builder setId(Long id) {
@@ -41,8 +44,13 @@ public class CreateUserBelongsToGroupRoleRequest {
             return this;
         }
 
-        public Builder setUserBelongsToGroupId(Long userBelongsToGroupId) {
-            this.userBelongsToGroupId = userBelongsToGroupId;
+        public Builder setUserId(Long userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public Builder setGroup(LongIdentifier group) {
+            this.group = group;
             return this;
         }
 
@@ -55,7 +63,8 @@ public class CreateUserBelongsToGroupRoleRequest {
         public CreateUserBelongsToGroupRoleRequest build() {
             CreateUserBelongsToGroupRoleRequest request = new CreateUserBelongsToGroupRoleRequest();
             request.id = Objects.requireNonNull(this.id);
-            request.userBelongsToGroupId = Objects.requireNonNull(this.userBelongsToGroupId);
+            request.userId = Objects.requireNonNull(this.userId);
+            request.group = Objects.requireNonNull(this.group);
             request.permissionRoleId = Objects.requireNonNull(this.permissionRoleId);
             return request;
         }

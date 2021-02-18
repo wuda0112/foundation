@@ -6,18 +6,18 @@ package com.wuda.foundation.jooq.code.generation.user;
 
 import com.wuda.foundation.jooq.code.generation.user.tables.IndividualUserGeneral;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserAccount;
-import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupCore;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupGeneral;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupRole;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserCore;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserEmail;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserPhone;
-import org.jooq.Catalog;
-import org.jooq.Table;
-import org.jooq.impl.SchemaImpl;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.jooq.Catalog;
+import org.jooq.Table;
+import org.jooq.impl.SchemaImpl;
 
 
 /**
@@ -26,7 +26,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationUser extends SchemaImpl {
 
-    private static final long serialVersionUID = 1385925190;
+    private static final long serialVersionUID = 577477150;
 
     /**
      * The reference instance of <code>foundation_user</code>
@@ -44,12 +44,7 @@ public class FoundationUser extends SchemaImpl {
     public final UserAccount USER_ACCOUNT = UserAccount.USER_ACCOUNT;
 
     /**
-     * 用户所属的组
-     */
-    public final UserBelongsToGroupCore USER_BELONGS_TO_GROUP_CORE = UserBelongsToGroupCore.USER_BELONGS_TO_GROUP_CORE;
-
-    /**
-     * 用户在所属的组中的基本信息
+     * 用户在组中的基本信息
      */
     public final UserBelongsToGroupGeneral USER_BELONGS_TO_GROUP_GENERAL = UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL;
 
@@ -91,7 +86,6 @@ public class FoundationUser extends SchemaImpl {
         return Arrays.<Table<?>>asList(
             IndividualUserGeneral.INDIVIDUAL_USER_GENERAL,
             UserAccount.USER_ACCOUNT,
-            UserBelongsToGroupCore.USER_BELONGS_TO_GROUP_CORE,
             UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL,
             UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE,
             UserCore.USER_CORE,

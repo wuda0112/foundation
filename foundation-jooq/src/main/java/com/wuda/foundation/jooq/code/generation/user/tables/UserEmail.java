@@ -8,6 +8,11 @@ import com.wuda.foundation.jooq.code.generation.user.FoundationUser;
 import com.wuda.foundation.jooq.code.generation.user.Indexes;
 import com.wuda.foundation.jooq.code.generation.user.Keys;
 import com.wuda.foundation.jooq.code.generation.user.tables.records.UserEmailRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -25,10 +30,6 @@ import org.jooq.impl.TableImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 
 /**
  * 用户的email
@@ -36,7 +37,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserEmail extends TableImpl<UserEmailRecord> {
 
-    private static final long serialVersionUID = 341685145;
+    private static final long serialVersionUID = 606985530;
 
     /**
      * The reference instance of <code>foundation_user.user_email</code>
@@ -67,9 +68,9 @@ public class UserEmail extends TableImpl<UserEmailRecord> {
     public final TableField<UserEmailRecord, ULong> EMAIL_ID = createField(DSL.name("email_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
 
     /**
-     * The column <code>foundation_user.user_email.use</code>. 用途。比如用于登录
+     * The column <code>foundation_user.user_email.used_for</code>. 用途。比如用于登录
      */
-    public final TableField<UserEmailRecord, UByte> USE = createField(DSL.name("use"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "用途。比如用于登录");
+    public final TableField<UserEmailRecord, UByte> USED_FOR = createField(DSL.name("used_for"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "用途。比如用于登录");
 
     /**
      * The column <code>foundation_user.user_email.state</code>. 状态，每种用途的email状态可能不同，比如如果用于登录的email，状态可以是禁止登录状态
@@ -84,7 +85,7 @@ public class UserEmail extends TableImpl<UserEmailRecord> {
     /**
      * The column <code>foundation_user.user_email.create_time</code>.
      */
-    public final TableField<UserEmailRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<UserEmailRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_user.user_email.create_user_id</code>.
@@ -94,7 +95,7 @@ public class UserEmail extends TableImpl<UserEmailRecord> {
     /**
      * The column <code>foundation_user.user_email.last_modify_time</code>.
      */
-    public final TableField<UserEmailRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<UserEmailRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_user.user_email.last_modify_user_id</code>.
@@ -104,7 +105,7 @@ public class UserEmail extends TableImpl<UserEmailRecord> {
     /**
      * The column <code>foundation_user.user_email.is_deleted</code>.
      */
-    public final TableField<UserEmailRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<UserEmailRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_user.user_email</code> table reference

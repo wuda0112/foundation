@@ -4,10 +4,11 @@
 package com.wuda.foundation.jooq.code.generation.user.tables.pojos;
 
 
-import org.jooq.types.ULong;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
 
 /**
@@ -16,10 +17,12 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserBelongsToGroupRole implements Serializable {
 
-    private static final long serialVersionUID = -35788613;
+    private static final long serialVersionUID = 311255835;
 
-    private ULong         userBelongsToGroupRoleId;
-    private ULong         userBelongsToGroupId;
+    private ULong         id;
+    private ULong         userId;
+    private UShort        groupType;
+    private ULong         groupIdentifier;
     private ULong         permissionRoleId;
     private LocalDateTime createTime;
     private ULong         createUserId;
@@ -30,8 +33,10 @@ public class UserBelongsToGroupRole implements Serializable {
     public UserBelongsToGroupRole() {}
 
     public UserBelongsToGroupRole(UserBelongsToGroupRole value) {
-        this.userBelongsToGroupRoleId = value.userBelongsToGroupRoleId;
-        this.userBelongsToGroupId = value.userBelongsToGroupId;
+        this.id = value.id;
+        this.userId = value.userId;
+        this.groupType = value.groupType;
+        this.groupIdentifier = value.groupIdentifier;
         this.permissionRoleId = value.permissionRoleId;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
@@ -41,8 +46,10 @@ public class UserBelongsToGroupRole implements Serializable {
     }
 
     public UserBelongsToGroupRole(
-        ULong         userBelongsToGroupRoleId,
-        ULong         userBelongsToGroupId,
+        ULong         id,
+        ULong         userId,
+        UShort        groupType,
+        ULong         groupIdentifier,
         ULong         permissionRoleId,
         LocalDateTime createTime,
         ULong         createUserId,
@@ -50,8 +57,10 @@ public class UserBelongsToGroupRole implements Serializable {
         ULong         lastModifyUserId,
         ULong         isDeleted
     ) {
-        this.userBelongsToGroupRoleId = userBelongsToGroupRoleId;
-        this.userBelongsToGroupId = userBelongsToGroupId;
+        this.id = id;
+        this.userId = userId;
+        this.groupType = groupType;
+        this.groupIdentifier = groupIdentifier;
         this.permissionRoleId = permissionRoleId;
         this.createTime = createTime;
         this.createUserId = createUserId;
@@ -60,20 +69,36 @@ public class UserBelongsToGroupRole implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public ULong getUserBelongsToGroupRoleId() {
-        return this.userBelongsToGroupRoleId;
+    public ULong getId() {
+        return this.id;
     }
 
-    public void setUserBelongsToGroupRoleId(ULong userBelongsToGroupRoleId) {
-        this.userBelongsToGroupRoleId = userBelongsToGroupRoleId;
+    public void setId(ULong id) {
+        this.id = id;
     }
 
-    public ULong getUserBelongsToGroupId() {
-        return this.userBelongsToGroupId;
+    public ULong getUserId() {
+        return this.userId;
     }
 
-    public void setUserBelongsToGroupId(ULong userBelongsToGroupId) {
-        this.userBelongsToGroupId = userBelongsToGroupId;
+    public void setUserId(ULong userId) {
+        this.userId = userId;
+    }
+
+    public UShort getGroupType() {
+        return this.groupType;
+    }
+
+    public void setGroupType(UShort groupType) {
+        this.groupType = groupType;
+    }
+
+    public ULong getGroupIdentifier() {
+        return this.groupIdentifier;
+    }
+
+    public void setGroupIdentifier(ULong groupIdentifier) {
+        this.groupIdentifier = groupIdentifier;
     }
 
     public ULong getPermissionRoleId() {
@@ -128,8 +153,10 @@ public class UserBelongsToGroupRole implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("UserBelongsToGroupRole (");
 
-        sb.append(userBelongsToGroupRoleId);
-        sb.append(", ").append(userBelongsToGroupId);
+        sb.append(id);
+        sb.append(", ").append(userId);
+        sb.append(", ").append(groupType);
+        sb.append(", ").append(groupIdentifier);
         sb.append(", ").append(permissionRoleId);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);

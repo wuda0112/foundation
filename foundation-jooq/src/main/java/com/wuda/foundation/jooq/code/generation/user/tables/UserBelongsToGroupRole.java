@@ -5,16 +5,19 @@ package com.wuda.foundation.jooq.code.generation.user.tables;
 
 
 import com.wuda.foundation.jooq.code.generation.user.FoundationUser;
-import com.wuda.foundation.jooq.code.generation.user.Indexes;
 import com.wuda.foundation.jooq.code.generation.user.Keys;
 import com.wuda.foundation.jooq.code.generation.user.tables.records.UserBelongsToGroupRoleRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
-import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row8;
+import org.jooq.Row10;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -23,10 +26,7 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
 import org.jooq.types.ULong;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import org.jooq.types.UShort;
 
 
 /**
@@ -35,7 +35,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserBelongsToGroupRole extends TableImpl<UserBelongsToGroupRoleRecord> {
 
-    private static final long serialVersionUID = -1629090339;
+    private static final long serialVersionUID = -433073885;
 
     /**
      * The reference instance of <code>foundation_user.user_belongs_to_group_role</code>
@@ -51,14 +51,24 @@ public class UserBelongsToGroupRole extends TableImpl<UserBelongsToGroupRoleReco
     }
 
     /**
-     * The column <code>foundation_user.user_belongs_to_group_role.user_belongs_to_group_role_id</code>.
+     * The column <code>foundation_user.user_belongs_to_group_role.id</code>.
      */
-    public final TableField<UserBelongsToGroupRoleRecord, ULong> USER_BELONGS_TO_GROUP_ROLE_ID = createField(DSL.name("user_belongs_to_group_role_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
+    public final TableField<UserBelongsToGroupRoleRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>foundation_user.user_belongs_to_group_role.user_belongs_to_group_id</code>.
+     * The column <code>foundation_user.user_belongs_to_group_role.user_id</code>. 用户ID
      */
-    public final TableField<UserBelongsToGroupRoleRecord, ULong> USER_BELONGS_TO_GROUP_ID = createField(DSL.name("user_belongs_to_group_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<UserBelongsToGroupRoleRecord, ULong> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "用户ID");
+
+    /**
+     * The column <code>foundation_user.user_belongs_to_group_role.group_type</code>. 组的类型，比如部门是一种组，其他组织机构也是一种组
+     */
+    public final TableField<UserBelongsToGroupRoleRecord, UShort> GROUP_TYPE = createField(DSL.name("group_type"), org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "组的类型，比如部门是一种组，其他组织机构也是一种组");
+
+    /**
+     * The column <code>foundation_user.user_belongs_to_group_role.group_identifier</code>. 组的唯一标记，如果组的类型是部门，则该值应该是部门表的ID
+     */
+    public final TableField<UserBelongsToGroupRoleRecord, ULong> GROUP_IDENTIFIER = createField(DSL.name("group_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "组的唯一标记，如果组的类型是部门，则该值应该是部门表的ID");
 
     /**
      * The column <code>foundation_user.user_belongs_to_group_role.permission_role_id</code>. 角色ID
@@ -68,7 +78,7 @@ public class UserBelongsToGroupRole extends TableImpl<UserBelongsToGroupRoleReco
     /**
      * The column <code>foundation_user.user_belongs_to_group_role.create_time</code>.
      */
-    public final TableField<UserBelongsToGroupRoleRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<UserBelongsToGroupRoleRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_user.user_belongs_to_group_role.create_user_id</code>.
@@ -78,7 +88,7 @@ public class UserBelongsToGroupRole extends TableImpl<UserBelongsToGroupRoleReco
     /**
      * The column <code>foundation_user.user_belongs_to_group_role.last_modify_time</code>.
      */
-    public final TableField<UserBelongsToGroupRoleRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<UserBelongsToGroupRoleRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_user.user_belongs_to_group_role.last_modify_user_id</code>.
@@ -88,7 +98,7 @@ public class UserBelongsToGroupRole extends TableImpl<UserBelongsToGroupRoleReco
     /**
      * The column <code>foundation_user.user_belongs_to_group_role.is_deleted</code>.
      */
-    public final TableField<UserBelongsToGroupRoleRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<UserBelongsToGroupRoleRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_user.user_belongs_to_group_role</code> table reference
@@ -126,11 +136,6 @@ public class UserBelongsToGroupRole extends TableImpl<UserBelongsToGroupRoleReco
     @Override
     public Schema getSchema() {
         return FoundationUser.FOUNDATION_USER;
-    }
-
-    @Override
-    public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.USER_BELONGS_TO_GROUP_ROLE_IDX_USER_BELONGS_TO_GROUP_ID);
     }
 
     @Override
@@ -175,11 +180,11 @@ public class UserBelongsToGroupRole extends TableImpl<UserBelongsToGroupRoleReco
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row10 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<ULong, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row10<ULong, ULong, UShort, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 }

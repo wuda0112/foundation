@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.user.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.user.tables.UserAccount;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record10;
@@ -13,8 +16,6 @@ import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-
 
 /**
  * 用户账号信息，适用各种类型的用户
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> implements Record10<ULong, ULong, String, String, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -727928838;
+    private static final long serialVersionUID = -1021186918;
 
     /**
      * Setter for <code>foundation_user.user_account.user_account_id</code>.

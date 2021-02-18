@@ -16,7 +16,7 @@ public class BindUserEmail {
     private Long id;
     private Long userId;
     private Long emailId;
-    private Byte use;
+    private Byte usedFor;
     private Byte state;
     private String description;
 
@@ -38,7 +38,7 @@ public class BindUserEmail {
         private Long id;
         private Long userId;
         private Long emailId;
-        private Byte use;
+        private Byte usedFor;
         private Byte state;
         private String description;
 
@@ -62,8 +62,8 @@ public class BindUserEmail {
             return this;
         }
 
-        public Builder setUse(Byte use) {
-            this.use = use;
+        public Builder setUsedFor(Byte usedFor) {
+            this.usedFor = usedFor;
             return this;
         }
         public Builder setDescription(String description) {
@@ -78,7 +78,7 @@ public class BindUserEmail {
             bindUserEmail.id = Objects.requireNonNull(this.id);
             bindUserEmail.userId = Objects.requireNonNull(this.userId);
             bindUserEmail.emailId = Objects.requireNonNull(this.emailId);
-            bindUserEmail.use = Objects.requireNonNull(this.use);
+            bindUserEmail.usedFor = Objects.requireNonNull(this.usedFor);
             bindUserEmail.state = Objects.requireNonNull(this.state);
             bindUserEmail.description = this.description;
             return bindUserEmail;

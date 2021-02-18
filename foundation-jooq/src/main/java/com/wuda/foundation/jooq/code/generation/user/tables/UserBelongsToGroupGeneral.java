@@ -8,13 +8,18 @@ import com.wuda.foundation.jooq.code.generation.user.FoundationUser;
 import com.wuda.foundation.jooq.code.generation.user.Indexes;
 import com.wuda.foundation.jooq.code.generation.user.Keys;
 import com.wuda.foundation.jooq.code.generation.user.tables.records.UserBelongsToGroupGeneralRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row8;
+import org.jooq.Row10;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -23,19 +28,16 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
 import org.jooq.types.ULong;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import org.jooq.types.UShort;
 
 
 /**
- * 用户在所属的组中的基本信息
+ * 用户在组中的基本信息
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserBelongsToGroupGeneral extends TableImpl<UserBelongsToGroupGeneralRecord> {
 
-    private static final long serialVersionUID = -436420351;
+    private static final long serialVersionUID = 2045331474;
 
     /**
      * The reference instance of <code>foundation_user.user_belongs_to_group_general</code>
@@ -51,24 +53,34 @@ public class UserBelongsToGroupGeneral extends TableImpl<UserBelongsToGroupGener
     }
 
     /**
-     * The column <code>foundation_user.user_belongs_to_group_general.user_belongs_to_group_general_id</code>.
+     * The column <code>foundation_user.user_belongs_to_group_general.id</code>.
      */
-    public final TableField<UserBelongsToGroupGeneralRecord, ULong> USER_BELONGS_TO_GROUP_GENERAL_ID = createField(DSL.name("user_belongs_to_group_general_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
+    public final TableField<UserBelongsToGroupGeneralRecord, ULong> ID = createField(DSL.name("id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>foundation_user.user_belongs_to_group_general.user_belongs_to_group_id</code>.
+     * The column <code>foundation_user.user_belongs_to_group_general.user_id</code>. 用户ID
      */
-    public final TableField<UserBelongsToGroupGeneralRecord, ULong> USER_BELONGS_TO_GROUP_ID = createField(DSL.name("user_belongs_to_group_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "");
+    public final TableField<UserBelongsToGroupGeneralRecord, ULong> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "用户ID");
+
+    /**
+     * The column <code>foundation_user.user_belongs_to_group_general.group_type</code>. 组的类型，比如部门是一种组，其他组织机构也是一种组
+     */
+    public final TableField<UserBelongsToGroupGeneralRecord, UShort> GROUP_TYPE = createField(DSL.name("group_type"), org.jooq.impl.SQLDataType.SMALLINTUNSIGNED.nullable(false), this, "组的类型，比如部门是一种组，其他组织机构也是一种组");
+
+    /**
+     * The column <code>foundation_user.user_belongs_to_group_general.group_identifier</code>. 组的唯一标记，如果组的类型是部门，则该值应该是部门表的ID
+     */
+    public final TableField<UserBelongsToGroupGeneralRecord, ULong> GROUP_IDENTIFIER = createField(DSL.name("group_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "组的唯一标记，如果组的类型是部门，则该值应该是部门表的ID");
 
     /**
      * The column <code>foundation_user.user_belongs_to_group_general.nickname</code>. 用户在组里面的昵称
      */
-    public final TableField<UserBelongsToGroupGeneralRecord, String> NICKNAME = createField(DSL.name("nickname"), org.jooq.impl.SQLDataType.VARCHAR(45), this, "用户在组里面的昵称");
+    public final TableField<UserBelongsToGroupGeneralRecord, String> NICKNAME = createField(DSL.name("nickname"), org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "用户在组里面的昵称");
 
     /**
      * The column <code>foundation_user.user_belongs_to_group_general.create_time</code>.
      */
-    public final TableField<UserBelongsToGroupGeneralRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<UserBelongsToGroupGeneralRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_user.user_belongs_to_group_general.create_user_id</code>.
@@ -78,7 +90,7 @@ public class UserBelongsToGroupGeneral extends TableImpl<UserBelongsToGroupGener
     /**
      * The column <code>foundation_user.user_belongs_to_group_general.last_modify_time</code>.
      */
-    public final TableField<UserBelongsToGroupGeneralRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<UserBelongsToGroupGeneralRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_user.user_belongs_to_group_general.last_modify_user_id</code>.
@@ -88,7 +100,7 @@ public class UserBelongsToGroupGeneral extends TableImpl<UserBelongsToGroupGener
     /**
      * The column <code>foundation_user.user_belongs_to_group_general.is_deleted</code>.
      */
-    public final TableField<UserBelongsToGroupGeneralRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<UserBelongsToGroupGeneralRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_user.user_belongs_to_group_general</code> table reference
@@ -116,7 +128,7 @@ public class UserBelongsToGroupGeneral extends TableImpl<UserBelongsToGroupGener
     }
 
     private UserBelongsToGroupGeneral(Name alias, Table<UserBelongsToGroupGeneralRecord> aliased, Field<?>[] parameters) {
-        super(alias, null, aliased, parameters, DSL.comment("用户在所属的组中的基本信息"), TableOptions.table());
+        super(alias, null, aliased, parameters, DSL.comment("用户在组中的基本信息"), TableOptions.table());
     }
 
     public <O extends Record> UserBelongsToGroupGeneral(Table<O> child, ForeignKey<O, UserBelongsToGroupGeneralRecord> key) {
@@ -130,7 +142,7 @@ public class UserBelongsToGroupGeneral extends TableImpl<UserBelongsToGroupGener
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.USER_BELONGS_TO_GROUP_GENERAL_IDX_USER_BELONGS_TO_GROUP_ID);
+        return Arrays.<Index>asList(Indexes.USER_BELONGS_TO_GROUP_GENERAL_IDX_GROUP_IDENTIFIER, Indexes.USER_BELONGS_TO_GROUP_GENERAL_IDX_USER_ID);
     }
 
     @Override
@@ -175,11 +187,11 @@ public class UserBelongsToGroupGeneral extends TableImpl<UserBelongsToGroupGener
     }
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row10 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<ULong, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row10<ULong, ULong, UShort, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 }

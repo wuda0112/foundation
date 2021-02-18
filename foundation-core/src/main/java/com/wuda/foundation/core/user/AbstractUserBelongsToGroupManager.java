@@ -10,12 +10,6 @@ import com.wuda.foundation.lang.identify.LongIdentifier;
 import java.util.List;
 
 public abstract class AbstractUserBelongsToGroupManager implements UserBelongsToGroupManager {
-    @Override
-    public CreateResult createUserBelongsToGroupCore(CreateUserBelongsToGroupCoreRequest request, CreateMode createMode, Long opUserId) {
-        return createUserBelongsToGroupCoreDbOp(request, createMode, opUserId);
-    }
-
-    protected abstract CreateResult createUserBelongsToGroupCoreDbOp(CreateUserBelongsToGroupCoreRequest request, CreateMode createMode, Long opUserId);
 
     @Override
     public void removeUserFromGroup(RemoveUserFromGroupRequest request, Long opUserId) {
@@ -24,19 +18,6 @@ public abstract class AbstractUserBelongsToGroupManager implements UserBelongsTo
 
     protected abstract void removeUserFromGroupDbOp(RemoveUserFromGroupRequest request, Long opUserId);
 
-    @Override
-    public DescribeUserBelongsToGroupCore getUserBelongsToGroupCore(Long id) {
-        return getUserBelongsToGroupCoreDbOp(id);
-    }
-
-    protected abstract DescribeUserBelongsToGroupCore getUserBelongsToGroupCoreDbOp(Long id);
-
-    @Override
-    public Long getUserBelongsToGroupId(Long userId, LongIdentifier group) {
-        return getUserBelongsToGroupIdDbOp(userId, group);
-    }
-
-    protected abstract Long getUserBelongsToGroupIdDbOp(Long userId, LongIdentifier group);
 
     @Override
     public CreateResult createUserBelongsToGroupGeneral(CreateUserBelongsToGroupGeneralRequest request, CreateMode createMode, Long opUserId) {
@@ -53,11 +34,11 @@ public abstract class AbstractUserBelongsToGroupManager implements UserBelongsTo
     protected abstract void updateUserBelongsToGroupGeneralDbOp(UpdateUserBelongsToGroupGeneralRequest request, Long opUserId);
 
     @Override
-    public DescribeUserBelongsToGroupGeneral getUserBelongsToGroupGeneral(Long id) {
-        return getUserBelongsToGroupGeneralDbOp(id);
+    public DescribeUserBelongsToGroupGeneral getUserBelongsToGroupGeneral(Long userId, LongIdentifier group) {
+        return getUserBelongsToGroupGeneralDbOp(userId, group);
     }
 
-    protected abstract DescribeUserBelongsToGroupGeneral getUserBelongsToGroupGeneralDbOp(Long id);
+    protected abstract DescribeUserBelongsToGroupGeneral getUserBelongsToGroupGeneralDbOp(Long userId, LongIdentifier group);
 
     @Override
     public CreateResult createUserBelongsToGroupRole(CreateUserBelongsToGroupRoleRequest request, CreateMode createMode, Long opUserId) {
@@ -74,11 +55,11 @@ public abstract class AbstractUserBelongsToGroupManager implements UserBelongsTo
     protected abstract void removeUsersRoleFromGroupDbOp(RemoveUsersRoleFromGroupRequest request, Long opUserId);
 
     @Override
-    public DescribeUserBelongsToGroupRole getUserBelongsToGroupRole(Long id) {
-        return getUserBelongsToGroupRoleDbOp(id);
+    public DescribeUserBelongsToGroupRole getUserBelongsToGroupRole(Long userId, LongIdentifier group) {
+        return getUserBelongsToGroupRoleDbOp(userId, group);
     }
 
-    protected abstract DescribeUserBelongsToGroupRole getUserBelongsToGroupRoleDbOp(Long id);
+    protected abstract DescribeUserBelongsToGroupRole getUserBelongsToGroupRoleDbOp(Long userId, LongIdentifier group);
 
     @Override
     public List<LongIdentifier> getGroups(Long userId) {

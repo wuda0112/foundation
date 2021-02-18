@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.user.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.user.tables.UserCore;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record9;
@@ -12,8 +15,6 @@ import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
-
-import java.time.LocalDateTime;
 
 
 /**
@@ -23,7 +24,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserCoreRecord extends UpdatableRecordImpl<UserCoreRecord> implements Record9<ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -2086781448;
+    private static final long serialVersionUID = 1089785176;
 
     /**
      * Setter for <code>foundation_user.user_core.user_core_id</code>.

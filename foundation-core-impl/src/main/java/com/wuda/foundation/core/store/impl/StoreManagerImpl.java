@@ -1,22 +1,20 @@
 package com.wuda.foundation.core.store.impl;
 
-import com.wuda.foundation.jooq.JooqCommonDbOp;
-import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.lang.CreateMode;
-import com.wuda.foundation.lang.FoundationContext;
-import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
-import com.wuda.foundation.lang.identify.LongIdentifier;
 import com.wuda.foundation.core.security.BuiltinRole;
 import com.wuda.foundation.core.store.AbstractStoreManager;
 import com.wuda.foundation.core.store.CreateStoreCore;
 import com.wuda.foundation.core.store.CreateStoreGeneral;
 import com.wuda.foundation.core.store.UpdateStoreGeneral;
-import com.wuda.foundation.jooq.code.generation.store.tables.records.StoreCoreRecord;
-import com.wuda.foundation.jooq.code.generation.store.tables.records.StoreGeneralRecord;
-import com.wuda.foundation.core.user.CreateUserBelongsToGroupCoreRequest;
 import com.wuda.foundation.core.user.CreateUserBelongsToGroupRoleRequest;
 import com.wuda.foundation.core.user.UserBelongsToGroupManager;
+import com.wuda.foundation.jooq.JooqCommonDbOp;
+import com.wuda.foundation.jooq.JooqContext;
+import com.wuda.foundation.jooq.code.generation.store.tables.records.StoreCoreRecord;
+import com.wuda.foundation.jooq.code.generation.store.tables.records.StoreGeneralRecord;
+import com.wuda.foundation.lang.CreateMode;
+import com.wuda.foundation.lang.IsDeleted;
+import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
+import com.wuda.foundation.lang.identify.LongIdentifier;
 import org.jooq.Configuration;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
@@ -55,18 +53,10 @@ public class StoreManagerImpl extends AbstractStoreManager implements JooqCommon
     public long createStoreCoreDbOp(Long ownerUserId, CreateStoreCore createStoreCore, Long opUserId) {
         long storeCoreId = insert(JooqContext.getDataSource(), STORE_CORE, storeRecordForInsert(createStoreCore, opUserId)).getRecordId();
 
-        long userBelongsToGroupId = FoundationContext.getLongKeyGenerator().next();
-        CreateUserBelongsToGroupCoreRequest createUserBelongsToGroupCoreRequest = new CreateUserBelongsToGroupCoreRequest.Builder()
-                .setId(FoundationContext.getLongKeyGenerator().next())
-                .setUserId(ownerUserId)
-                .setUserBelongsToGroupId(userBelongsToGroupId)
-                .setGroup(new LongIdentifier(createStoreCore.getStoreId(), BuiltinIdentifierType.TABLE_STORE))
-                .build();
-        userBelongsToGroupManager.createUserBelongsToGroupCore(createUserBelongsToGroupCoreRequest, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);
-
         CreateUserBelongsToGroupRoleRequest createUserBelongsToGroupRoleRequest = new CreateUserBelongsToGroupRoleRequest.Builder()
                 .setId(ownerUserId)
-                .setUserBelongsToGroupId(userBelongsToGroupId)
+                .setUserId(ownerUserId)
+                .setGroup(new LongIdentifier(createStoreCore.getStoreId(), BuiltinIdentifierType.TABLE_STORE))
                 .setPermissionRoleId(BuiltinRole.USER_BELONGS_TO_GROUP_STORE_OWNER.getCode())
                 .build();
         userBelongsToGroupManager.createUserBelongsToGroupRole(createUserBelongsToGroupRoleRequest, CreateMode.CREATE_AFTER_SELECT_CHECK, opUserId);

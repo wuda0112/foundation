@@ -6,7 +6,6 @@ package com.wuda.foundation.jooq.code.generation.user;
 
 import com.wuda.foundation.jooq.code.generation.user.tables.IndividualUserGeneral;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserAccount;
-import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupCore;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupGeneral;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupRole;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserCore;
@@ -31,12 +30,7 @@ public class Tables {
     public static final UserAccount USER_ACCOUNT = UserAccount.USER_ACCOUNT;
 
     /**
-     * 用户所属的组
-     */
-    public static final UserBelongsToGroupCore USER_BELONGS_TO_GROUP_CORE = UserBelongsToGroupCore.USER_BELONGS_TO_GROUP_CORE;
-
-    /**
-     * 用户在所属的组中的基本信息
+     * 用户在组中的基本信息
      */
     public static final UserBelongsToGroupGeneral USER_BELONGS_TO_GROUP_GENERAL = UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL;
 

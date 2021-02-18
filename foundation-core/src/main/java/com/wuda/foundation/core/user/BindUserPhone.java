@@ -16,7 +16,7 @@ public class BindUserPhone {
     private Long id;
     private Long userId;
     private Long phoneId;
-    private Byte use;
+    private Byte usedFor;
     private Byte state;
     private String description;
 
@@ -38,7 +38,7 @@ public class BindUserPhone {
         private Long id;
         private Long userId;
         private Long phoneId;
-        private Byte use;
+        private Byte usedFor;
         private Byte state;
         private String description;
 
@@ -62,8 +62,8 @@ public class BindUserPhone {
             return this;
         }
 
-        public Builder setUse(Byte use) {
-            this.use = use;
+        public Builder setUsedFor(Byte usedFor) {
+            this.usedFor = usedFor;
             return this;
         }
 
@@ -79,7 +79,7 @@ public class BindUserPhone {
             bindUserPhone.id = Objects.requireNonNull(this.id);
             bindUserPhone.userId = Objects.requireNonNull(this.userId);
             bindUserPhone.phoneId = Objects.requireNonNull(this.phoneId);
-            bindUserPhone.use = Objects.requireNonNull(this.use);
+            bindUserPhone.usedFor = Objects.requireNonNull(this.usedFor);
             bindUserPhone.state = Objects.requireNonNull(this.state);
             bindUserPhone.description = description;
             return bindUserPhone;

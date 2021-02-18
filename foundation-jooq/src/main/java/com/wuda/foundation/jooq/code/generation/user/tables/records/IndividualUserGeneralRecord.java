@@ -5,14 +5,15 @@ package com.wuda.foundation.jooq.code.generation.user.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.user.tables.IndividualUserGeneral;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record10;
 import org.jooq.Row10;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.ULong;
-
-import java.time.LocalDateTime;
 
 
 /**
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IndividualUserGeneralRecord extends UpdatableRecordImpl<IndividualUserGeneralRecord> implements Record10<ULong, ULong, String, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1765394266;
+    private static final long serialVersionUID = -1850323270;
 
     /**
      * Setter for <code>foundation_user.individual_user_general.individual_user_general_id</code>.

@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.user.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.user.tables.UserPhone;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record11;
@@ -13,8 +16,6 @@ import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-
 
 /**
  * 用户的电话
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implements Record11<ULong, ULong, ULong, UByte, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 531217047;
+    private static final long serialVersionUID = 156045808;
 
     /**
      * Setter for <code>foundation_user.user_phone.id</code>.
@@ -67,16 +68,16 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
     }
 
     /**
-     * Setter for <code>foundation_user.user_phone.use</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
+     * Setter for <code>foundation_user.user_phone.used_for</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
      */
-    public void setUse(UByte value) {
+    public void setUsedFor(UByte value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_phone.use</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
+     * Getter for <code>foundation_user.user_phone.used_for</code>. 电话的用途。比如用于400电话。也就是电话使用的业务场景。
      */
-    public UByte getUse() {
+    public UByte getUsedFor() {
         return (UByte) get(3);
     }
 
@@ -218,7 +219,7 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
 
     @Override
     public Field<UByte> field4() {
-        return UserPhone.USER_PHONE.USE;
+        return UserPhone.USER_PHONE.USED_FOR;
     }
 
     @Override
@@ -273,7 +274,7 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
 
     @Override
     public UByte component4() {
-        return getUse();
+        return getUsedFor();
     }
 
     @Override
@@ -328,7 +329,7 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
 
     @Override
     public UByte value4() {
-        return getUse();
+        return getUsedFor();
     }
 
     @Override
@@ -386,7 +387,7 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
 
     @Override
     public UserPhoneRecord value4(UByte value) {
-        setUse(value);
+        setUsedFor(value);
         return this;
     }
 
@@ -462,13 +463,13 @@ public class UserPhoneRecord extends UpdatableRecordImpl<UserPhoneRecord> implem
     /**
      * Create a detached, initialised UserPhoneRecord
      */
-    public UserPhoneRecord(ULong id, ULong userId, ULong phoneId, UByte use, UByte state, String description, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public UserPhoneRecord(ULong id, ULong userId, ULong phoneId, UByte usedFor, UByte state, String description, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(UserPhone.USER_PHONE);
 
         set(0, id);
         set(1, userId);
         set(2, phoneId);
-        set(3, use);
+        set(3, usedFor);
         set(4, state);
         set(5, description);
         set(6, createTime);

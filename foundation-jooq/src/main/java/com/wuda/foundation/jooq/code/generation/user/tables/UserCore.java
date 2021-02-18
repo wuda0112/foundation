@@ -8,6 +8,11 @@ import com.wuda.foundation.jooq.code.generation.user.FoundationUser;
 import com.wuda.foundation.jooq.code.generation.user.Indexes;
 import com.wuda.foundation.jooq.code.generation.user.Keys;
 import com.wuda.foundation.jooq.code.generation.user.tables.records.UserCoreRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -25,10 +30,6 @@ import org.jooq.impl.TableImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 
 /**
  * 用户核心信息。用户有很多类型，比如一种分类方法是把用户分成个人用户和企业用户，而不同类型的用户需要的字段不一样，但是他们都是用户，即 is-a 
@@ -37,7 +38,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserCore extends TableImpl<UserCoreRecord> {
 
-    private static final long serialVersionUID = -1169695943;
+    private static final long serialVersionUID = 1618163340;
 
     /**
      * The reference instance of <code>foundation_user.user_core</code>
@@ -65,7 +66,7 @@ public class UserCore extends TableImpl<UserCoreRecord> {
     /**
      * The column <code>foundation_user.user_core.type</code>. 用户类型
      */
-    public final TableField<UserCoreRecord, UByte> TYPE = createField(DSL.name("type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.TINYINTUNSIGNED)), this, "用户类型");
+    public final TableField<UserCoreRecord, UByte> TYPE = createField(DSL.name("type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINTUNSIGNED)), this, "用户类型");
 
     /**
      * The column <code>foundation_user.user_core.state</code>. 用户状态
@@ -75,7 +76,7 @@ public class UserCore extends TableImpl<UserCoreRecord> {
     /**
      * The column <code>foundation_user.user_core.create_time</code>.
      */
-    public final TableField<UserCoreRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<UserCoreRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_user.user_core.create_user_id</code>.
@@ -85,7 +86,7 @@ public class UserCore extends TableImpl<UserCoreRecord> {
     /**
      * The column <code>foundation_user.user_core.last_modify_time</code>.
      */
-    public final TableField<UserCoreRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<UserCoreRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_user.user_core.last_modify_user_id</code>.
@@ -95,7 +96,7 @@ public class UserCore extends TableImpl<UserCoreRecord> {
     /**
      * The column <code>foundation_user.user_core.is_deleted</code>.
      */
-    public final TableField<UserCoreRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<UserCoreRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_user.user_core</code> table reference

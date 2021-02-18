@@ -4,22 +4,25 @@
 package com.wuda.foundation.jooq.code.generation.user.tables.pojos;
 
 
-import org.jooq.types.ULong;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import org.jooq.types.ULong;
+import org.jooq.types.UShort;
+
 
 /**
- * 用户在所属的组中的基本信息
+ * 用户在组中的基本信息
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserBelongsToGroupGeneral implements Serializable {
 
-    private static final long serialVersionUID = -1233215239;
+    private static final long serialVersionUID = -725462625;
 
-    private ULong         userBelongsToGroupGeneralId;
-    private ULong         userBelongsToGroupId;
+    private ULong         id;
+    private ULong         userId;
+    private UShort        groupType;
+    private ULong         groupIdentifier;
     private String        nickname;
     private LocalDateTime createTime;
     private ULong         createUserId;
@@ -30,8 +33,10 @@ public class UserBelongsToGroupGeneral implements Serializable {
     public UserBelongsToGroupGeneral() {}
 
     public UserBelongsToGroupGeneral(UserBelongsToGroupGeneral value) {
-        this.userBelongsToGroupGeneralId = value.userBelongsToGroupGeneralId;
-        this.userBelongsToGroupId = value.userBelongsToGroupId;
+        this.id = value.id;
+        this.userId = value.userId;
+        this.groupType = value.groupType;
+        this.groupIdentifier = value.groupIdentifier;
         this.nickname = value.nickname;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
@@ -41,8 +46,10 @@ public class UserBelongsToGroupGeneral implements Serializable {
     }
 
     public UserBelongsToGroupGeneral(
-        ULong         userBelongsToGroupGeneralId,
-        ULong         userBelongsToGroupId,
+        ULong         id,
+        ULong         userId,
+        UShort        groupType,
+        ULong         groupIdentifier,
         String        nickname,
         LocalDateTime createTime,
         ULong         createUserId,
@@ -50,8 +57,10 @@ public class UserBelongsToGroupGeneral implements Serializable {
         ULong         lastModifyUserId,
         ULong         isDeleted
     ) {
-        this.userBelongsToGroupGeneralId = userBelongsToGroupGeneralId;
-        this.userBelongsToGroupId = userBelongsToGroupId;
+        this.id = id;
+        this.userId = userId;
+        this.groupType = groupType;
+        this.groupIdentifier = groupIdentifier;
         this.nickname = nickname;
         this.createTime = createTime;
         this.createUserId = createUserId;
@@ -60,20 +69,36 @@ public class UserBelongsToGroupGeneral implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public ULong getUserBelongsToGroupGeneralId() {
-        return this.userBelongsToGroupGeneralId;
+    public ULong getId() {
+        return this.id;
     }
 
-    public void setUserBelongsToGroupGeneralId(ULong userBelongsToGroupGeneralId) {
-        this.userBelongsToGroupGeneralId = userBelongsToGroupGeneralId;
+    public void setId(ULong id) {
+        this.id = id;
     }
 
-    public ULong getUserBelongsToGroupId() {
-        return this.userBelongsToGroupId;
+    public ULong getUserId() {
+        return this.userId;
     }
 
-    public void setUserBelongsToGroupId(ULong userBelongsToGroupId) {
-        this.userBelongsToGroupId = userBelongsToGroupId;
+    public void setUserId(ULong userId) {
+        this.userId = userId;
+    }
+
+    public UShort getGroupType() {
+        return this.groupType;
+    }
+
+    public void setGroupType(UShort groupType) {
+        this.groupType = groupType;
+    }
+
+    public ULong getGroupIdentifier() {
+        return this.groupIdentifier;
+    }
+
+    public void setGroupIdentifier(ULong groupIdentifier) {
+        this.groupIdentifier = groupIdentifier;
     }
 
     public String getNickname() {
@@ -128,8 +153,10 @@ public class UserBelongsToGroupGeneral implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("UserBelongsToGroupGeneral (");
 
-        sb.append(userBelongsToGroupGeneralId);
-        sb.append(", ").append(userBelongsToGroupId);
+        sb.append(id);
+        sb.append(", ").append(userId);
+        sb.append(", ").append(groupType);
+        sb.append(", ").append(groupIdentifier);
         sb.append(", ").append(nickname);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);

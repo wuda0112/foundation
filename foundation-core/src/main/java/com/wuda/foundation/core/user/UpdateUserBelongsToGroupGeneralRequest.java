@@ -1,5 +1,6 @@
 package com.wuda.foundation.core.user;
 
+import com.wuda.foundation.lang.identify.LongIdentifier;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -13,7 +14,8 @@ import java.util.Objects;
 @Getter
 public class UpdateUserBelongsToGroupGeneralRequest {
 
-    private Long id;
+    private Long userId;
+    private LongIdentifier group;
     private String nickname;
 
     /**
@@ -31,11 +33,17 @@ public class UpdateUserBelongsToGroupGeneralRequest {
      */
     public static class Builder implements com.wuda.foundation.lang.Builder<UpdateUserBelongsToGroupGeneralRequest> {
 
-        private Long id;
+        private Long userId;
+        private LongIdentifier group;
         private String nickname;
 
-        public Builder setId(Long id) {
-            this.id = id;
+        public Builder setUserId(Long userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public Builder setGroup(LongIdentifier group) {
+            this.group = group;
             return this;
         }
 
@@ -47,7 +55,8 @@ public class UpdateUserBelongsToGroupGeneralRequest {
         @Override
         public UpdateUserBelongsToGroupGeneralRequest build() {
             UpdateUserBelongsToGroupGeneralRequest request = new UpdateUserBelongsToGroupGeneralRequest();
-            request.id = Objects.requireNonNull(this.id);
+            request.userId = Objects.requireNonNull(this.userId);
+            request.group = Objects.requireNonNull(this.group);
             request.nickname = Objects.requireNonNull(this.nickname);
             return request;
         }

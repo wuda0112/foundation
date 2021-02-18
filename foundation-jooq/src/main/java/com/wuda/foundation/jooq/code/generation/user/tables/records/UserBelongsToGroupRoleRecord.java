@@ -5,134 +5,164 @@ package com.wuda.foundation.jooq.code.generation.user.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupRole;
-import org.jooq.Field;
-import org.jooq.Record1;
-import org.jooq.Record8;
-import org.jooq.Row8;
-import org.jooq.impl.UpdatableRecordImpl;
-import org.jooq.types.ULong;
 
 import java.time.LocalDateTime;
+
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.Record10;
+import org.jooq.Row10;
+import org.jooq.impl.UpdatableRecordImpl;
+import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
 
 /**
  * 用户在所属的组中的角色
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserBelongsToGroupRoleRecord extends UpdatableRecordImpl<UserBelongsToGroupRoleRecord> implements Record8<ULong, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class UserBelongsToGroupRoleRecord extends UpdatableRecordImpl<UserBelongsToGroupRoleRecord> implements Record10<ULong, ULong, UShort, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -136186286;
+    private static final long serialVersionUID = 647914560;
 
     /**
-     * Setter for <code>foundation_user.user_belongs_to_group_role.user_belongs_to_group_role_id</code>.
+     * Setter for <code>foundation_user.user_belongs_to_group_role.id</code>.
      */
-    public void setUserBelongsToGroupRoleId(ULong value) {
+    public void setId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_belongs_to_group_role.user_belongs_to_group_role_id</code>.
+     * Getter for <code>foundation_user.user_belongs_to_group_role.id</code>.
      */
-    public ULong getUserBelongsToGroupRoleId() {
+    public ULong getId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>foundation_user.user_belongs_to_group_role.user_belongs_to_group_id</code>.
+     * Setter for <code>foundation_user.user_belongs_to_group_role.user_id</code>. 用户ID
      */
-    public void setUserBelongsToGroupId(ULong value) {
+    public void setUserId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_belongs_to_group_role.user_belongs_to_group_id</code>.
+     * Getter for <code>foundation_user.user_belongs_to_group_role.user_id</code>. 用户ID
      */
-    public ULong getUserBelongsToGroupId() {
+    public ULong getUserId() {
         return (ULong) get(1);
+    }
+
+    /**
+     * Setter for <code>foundation_user.user_belongs_to_group_role.group_type</code>. 组的类型，比如部门是一种组，其他组织机构也是一种组
+     */
+    public void setGroupType(UShort value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>foundation_user.user_belongs_to_group_role.group_type</code>. 组的类型，比如部门是一种组，其他组织机构也是一种组
+     */
+    public UShort getGroupType() {
+        return (UShort) get(2);
+    }
+
+    /**
+     * Setter for <code>foundation_user.user_belongs_to_group_role.group_identifier</code>. 组的唯一标记，如果组的类型是部门，则该值应该是部门表的ID
+     */
+    public void setGroupIdentifier(ULong value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>foundation_user.user_belongs_to_group_role.group_identifier</code>. 组的唯一标记，如果组的类型是部门，则该值应该是部门表的ID
+     */
+    public ULong getGroupIdentifier() {
+        return (ULong) get(3);
     }
 
     /**
      * Setter for <code>foundation_user.user_belongs_to_group_role.permission_role_id</code>. 角色ID
      */
     public void setPermissionRoleId(ULong value) {
-        set(2, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_belongs_to_group_role.permission_role_id</code>. 角色ID
      */
     public ULong getPermissionRoleId() {
-        return (ULong) get(2);
+        return (ULong) get(4);
     }
 
     /**
      * Setter for <code>foundation_user.user_belongs_to_group_role.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
-        set(3, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_belongs_to_group_role.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
-        return (LocalDateTime) get(3);
+        return (LocalDateTime) get(5);
     }
 
     /**
      * Setter for <code>foundation_user.user_belongs_to_group_role.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
-        set(4, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_belongs_to_group_role.create_user_id</code>.
      */
     public ULong getCreateUserId() {
-        return (ULong) get(4);
+        return (ULong) get(6);
     }
 
     /**
      * Setter for <code>foundation_user.user_belongs_to_group_role.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
-        set(5, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_belongs_to_group_role.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
-        return (LocalDateTime) get(5);
+        return (LocalDateTime) get(7);
     }
 
     /**
      * Setter for <code>foundation_user.user_belongs_to_group_role.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
-        set(6, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_belongs_to_group_role.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
-        return (ULong) get(6);
+        return (ULong) get(8);
     }
 
     /**
      * Setter for <code>foundation_user.user_belongs_to_group_role.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
-        set(7, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_belongs_to_group_role.is_deleted</code>.
      */
     public ULong getIsDeleted() {
-        return (ULong) get(7);
+        return (ULong) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -145,189 +175,231 @@ public class UserBelongsToGroupRoleRecord extends UpdatableRecordImpl<UserBelong
     }
 
     // -------------------------------------------------------------------------
-    // Record8 type implementation
+    // Record10 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<ULong, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row10<ULong, ULong, UShort, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 
     @Override
-    public Row8<ULong, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
-        return (Row8) super.valuesRow();
+    public Row10<ULong, ULong, UShort, ULong, ULong, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+        return (Row10) super.valuesRow();
     }
 
     @Override
     public Field<ULong> field1() {
-        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.USER_BELONGS_TO_GROUP_ROLE_ID;
+        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.ID;
     }
 
     @Override
     public Field<ULong> field2() {
-        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.USER_BELONGS_TO_GROUP_ID;
+        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.USER_ID;
     }
 
     @Override
-    public Field<ULong> field3() {
-        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.PERMISSION_ROLE_ID;
+    public Field<UShort> field3() {
+        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.GROUP_TYPE;
     }
 
     @Override
-    public Field<LocalDateTime> field4() {
-        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.CREATE_TIME;
+    public Field<ULong> field4() {
+        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.GROUP_IDENTIFIER;
     }
 
     @Override
     public Field<ULong> field5() {
-        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.CREATE_USER_ID;
+        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.PERMISSION_ROLE_ID;
     }
 
     @Override
     public Field<LocalDateTime> field6() {
-        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.LAST_MODIFY_TIME;
+        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.CREATE_TIME;
     }
 
     @Override
     public Field<ULong> field7() {
+        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.CREATE_USER_ID;
+    }
+
+    @Override
+    public Field<LocalDateTime> field8() {
+        return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.LAST_MODIFY_TIME;
+    }
+
+    @Override
+    public Field<ULong> field9() {
         return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.LAST_MODIFY_USER_ID;
     }
 
     @Override
-    public Field<ULong> field8() {
+    public Field<ULong> field10() {
         return UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.IS_DELETED;
     }
 
     @Override
     public ULong component1() {
-        return getUserBelongsToGroupRoleId();
+        return getId();
     }
 
     @Override
     public ULong component2() {
-        return getUserBelongsToGroupId();
+        return getUserId();
     }
 
     @Override
-    public ULong component3() {
-        return getPermissionRoleId();
+    public UShort component3() {
+        return getGroupType();
     }
 
     @Override
-    public LocalDateTime component4() {
-        return getCreateTime();
+    public ULong component4() {
+        return getGroupIdentifier();
     }
 
     @Override
     public ULong component5() {
-        return getCreateUserId();
+        return getPermissionRoleId();
     }
 
     @Override
     public LocalDateTime component6() {
-        return getLastModifyTime();
+        return getCreateTime();
     }
 
     @Override
     public ULong component7() {
+        return getCreateUserId();
+    }
+
+    @Override
+    public LocalDateTime component8() {
+        return getLastModifyTime();
+    }
+
+    @Override
+    public ULong component9() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong component8() {
+    public ULong component10() {
         return getIsDeleted();
     }
 
     @Override
     public ULong value1() {
-        return getUserBelongsToGroupRoleId();
+        return getId();
     }
 
     @Override
     public ULong value2() {
-        return getUserBelongsToGroupId();
+        return getUserId();
     }
 
     @Override
-    public ULong value3() {
-        return getPermissionRoleId();
+    public UShort value3() {
+        return getGroupType();
     }
 
     @Override
-    public LocalDateTime value4() {
-        return getCreateTime();
+    public ULong value4() {
+        return getGroupIdentifier();
     }
 
     @Override
     public ULong value5() {
-        return getCreateUserId();
+        return getPermissionRoleId();
     }
 
     @Override
     public LocalDateTime value6() {
-        return getLastModifyTime();
+        return getCreateTime();
     }
 
     @Override
     public ULong value7() {
+        return getCreateUserId();
+    }
+
+    @Override
+    public LocalDateTime value8() {
+        return getLastModifyTime();
+    }
+
+    @Override
+    public ULong value9() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong value8() {
+    public ULong value10() {
         return getIsDeleted();
     }
 
     @Override
     public UserBelongsToGroupRoleRecord value1(ULong value) {
-        setUserBelongsToGroupRoleId(value);
+        setId(value);
         return this;
     }
 
     @Override
     public UserBelongsToGroupRoleRecord value2(ULong value) {
-        setUserBelongsToGroupId(value);
+        setUserId(value);
         return this;
     }
 
     @Override
-    public UserBelongsToGroupRoleRecord value3(ULong value) {
-        setPermissionRoleId(value);
+    public UserBelongsToGroupRoleRecord value3(UShort value) {
+        setGroupType(value);
         return this;
     }
 
     @Override
-    public UserBelongsToGroupRoleRecord value4(LocalDateTime value) {
-        setCreateTime(value);
+    public UserBelongsToGroupRoleRecord value4(ULong value) {
+        setGroupIdentifier(value);
         return this;
     }
 
     @Override
     public UserBelongsToGroupRoleRecord value5(ULong value) {
-        setCreateUserId(value);
+        setPermissionRoleId(value);
         return this;
     }
 
     @Override
     public UserBelongsToGroupRoleRecord value6(LocalDateTime value) {
-        setLastModifyTime(value);
+        setCreateTime(value);
         return this;
     }
 
     @Override
     public UserBelongsToGroupRoleRecord value7(ULong value) {
+        setCreateUserId(value);
+        return this;
+    }
+
+    @Override
+    public UserBelongsToGroupRoleRecord value8(LocalDateTime value) {
+        setLastModifyTime(value);
+        return this;
+    }
+
+    @Override
+    public UserBelongsToGroupRoleRecord value9(ULong value) {
         setLastModifyUserId(value);
         return this;
     }
 
     @Override
-    public UserBelongsToGroupRoleRecord value8(ULong value) {
+    public UserBelongsToGroupRoleRecord value10(ULong value) {
         setIsDeleted(value);
         return this;
     }
 
     @Override
-    public UserBelongsToGroupRoleRecord values(ULong value1, ULong value2, ULong value3, LocalDateTime value4, ULong value5, LocalDateTime value6, ULong value7, ULong value8) {
+    public UserBelongsToGroupRoleRecord values(ULong value1, ULong value2, UShort value3, ULong value4, ULong value5, LocalDateTime value6, ULong value7, LocalDateTime value8, ULong value9, ULong value10) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -336,6 +408,8 @@ public class UserBelongsToGroupRoleRecord extends UpdatableRecordImpl<UserBelong
         value6(value6);
         value7(value7);
         value8(value8);
+        value9(value9);
+        value10(value10);
         return this;
     }
 
@@ -353,16 +427,18 @@ public class UserBelongsToGroupRoleRecord extends UpdatableRecordImpl<UserBelong
     /**
      * Create a detached, initialised UserBelongsToGroupRoleRecord
      */
-    public UserBelongsToGroupRoleRecord(ULong userBelongsToGroupRoleId, ULong userBelongsToGroupId, ULong permissionRoleId, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public UserBelongsToGroupRoleRecord(ULong id, ULong userId, UShort groupType, ULong groupIdentifier, ULong permissionRoleId, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE);
 
-        set(0, userBelongsToGroupRoleId);
-        set(1, userBelongsToGroupId);
-        set(2, permissionRoleId);
-        set(3, createTime);
-        set(4, createUserId);
-        set(5, lastModifyTime);
-        set(6, lastModifyUserId);
-        set(7, isDeleted);
+        set(0, id);
+        set(1, userId);
+        set(2, groupType);
+        set(3, groupIdentifier);
+        set(4, permissionRoleId);
+        set(5, createTime);
+        set(6, createUserId);
+        set(7, lastModifyTime);
+        set(8, lastModifyUserId);
+        set(9, isDeleted);
     }
 }

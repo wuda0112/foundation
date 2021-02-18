@@ -4,11 +4,11 @@
 package com.wuda.foundation.jooq.code.generation.user.tables.pojos;
 
 
-import org.jooq.types.UByte;
-import org.jooq.types.ULong;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import org.jooq.types.UByte;
+import org.jooq.types.ULong;
 
 
 /**
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserCore implements Serializable {
 
-    private static final long serialVersionUID = -1917122525;
+    private static final long serialVersionUID = -1070168464;
 
     private ULong         userCoreId;
     private ULong         userId;

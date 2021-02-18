@@ -6,13 +6,14 @@ package com.wuda.foundation.jooq.code.generation.user.tables.daos;
 
 import com.wuda.foundation.jooq.code.generation.user.tables.UserEmail;
 import com.wuda.foundation.jooq.code.generation.user.tables.records.UserEmailRecord;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.jooq.Configuration;
 import org.jooq.impl.DAOImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 
 /**
@@ -90,17 +91,17 @@ public class UserEmailDao extends DAOImpl<UserEmailRecord, com.wuda.foundation.j
     }
 
     /**
-     * Fetch records that have <code>use BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>used_for BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserEmail> fetchRangeOfUse(UByte lowerInclusive, UByte upperInclusive) {
-        return fetchRange(UserEmail.USER_EMAIL.USE, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserEmail> fetchRangeOfUsedFor(UByte lowerInclusive, UByte upperInclusive) {
+        return fetchRange(UserEmail.USER_EMAIL.USED_FOR, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>use IN (values)</code>
+     * Fetch records that have <code>used_for IN (values)</code>
      */
-    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserEmail> fetchByUse(UByte... values) {
-        return fetch(UserEmail.USER_EMAIL.USE, values);
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserEmail> fetchByUsedFor(UByte... values) {
+        return fetch(UserEmail.USER_EMAIL.USED_FOR, values);
     }
 
     /**

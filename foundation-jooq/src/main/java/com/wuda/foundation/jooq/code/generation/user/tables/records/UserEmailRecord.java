@@ -5,6 +5,9 @@ package com.wuda.foundation.jooq.code.generation.user.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.user.tables.UserEmail;
+
+import java.time.LocalDateTime;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record11;
@@ -13,8 +16,6 @@ import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-
 
 /**
  * 用户的email
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implements Record11<ULong, ULong, ULong, UByte, UByte, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -311940069;
+    private static final long serialVersionUID = -1122604556;
 
     /**
      * Setter for <code>foundation_user.user_email.id</code>.
@@ -67,16 +68,16 @@ public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implem
     }
 
     /**
-     * Setter for <code>foundation_user.user_email.use</code>. 用途。比如用于登录
+     * Setter for <code>foundation_user.user_email.used_for</code>. 用途。比如用于登录
      */
-    public void setUse(UByte value) {
+    public void setUsedFor(UByte value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_email.use</code>. 用途。比如用于登录
+     * Getter for <code>foundation_user.user_email.used_for</code>. 用途。比如用于登录
      */
-    public UByte getUse() {
+    public UByte getUsedFor() {
         return (UByte) get(3);
     }
 
@@ -218,7 +219,7 @@ public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implem
 
     @Override
     public Field<UByte> field4() {
-        return UserEmail.USER_EMAIL.USE;
+        return UserEmail.USER_EMAIL.USED_FOR;
     }
 
     @Override
@@ -273,7 +274,7 @@ public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implem
 
     @Override
     public UByte component4() {
-        return getUse();
+        return getUsedFor();
     }
 
     @Override
@@ -328,7 +329,7 @@ public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implem
 
     @Override
     public UByte value4() {
-        return getUse();
+        return getUsedFor();
     }
 
     @Override
@@ -386,7 +387,7 @@ public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implem
 
     @Override
     public UserEmailRecord value4(UByte value) {
-        setUse(value);
+        setUsedFor(value);
         return this;
     }
 
@@ -462,13 +463,13 @@ public class UserEmailRecord extends UpdatableRecordImpl<UserEmailRecord> implem
     /**
      * Create a detached, initialised UserEmailRecord
      */
-    public UserEmailRecord(ULong id, ULong userId, ULong emailId, UByte use, UByte state, String description, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public UserEmailRecord(ULong id, ULong userId, ULong emailId, UByte usedFor, UByte state, String description, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(UserEmail.USER_EMAIL);
 
         set(0, id);
         set(1, userId);
         set(2, emailId);
-        set(3, use);
+        set(3, usedFor);
         set(4, state);
         set(5, description);
         set(6, createTime);

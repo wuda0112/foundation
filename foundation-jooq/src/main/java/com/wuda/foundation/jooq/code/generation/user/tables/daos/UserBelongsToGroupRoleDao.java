@@ -6,12 +6,14 @@ package com.wuda.foundation.jooq.code.generation.user.tables.daos;
 
 import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupRole;
 import com.wuda.foundation.jooq.code.generation.user.tables.records.UserBelongsToGroupRoleRecord;
-import org.jooq.Configuration;
-import org.jooq.impl.DAOImpl;
-import org.jooq.types.ULong;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import org.jooq.Configuration;
+import org.jooq.impl.DAOImpl;
+import org.jooq.types.ULong;
+import org.jooq.types.UShort;
 
 
 /**
@@ -36,42 +38,70 @@ public class UserBelongsToGroupRoleDao extends DAOImpl<UserBelongsToGroupRoleRec
 
     @Override
     public ULong getId(com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole object) {
-        return object.getUserBelongsToGroupRoleId();
+        return object.getId();
     }
 
     /**
-     * Fetch records that have <code>user_belongs_to_group_role_id BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>id BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole> fetchRangeOfUserBelongsToGroupRoleId(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.USER_BELONGS_TO_GROUP_ROLE_ID, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole> fetchRangeOfId(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.ID, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>user_belongs_to_group_role_id IN (values)</code>
+     * Fetch records that have <code>id IN (values)</code>
      */
-    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole> fetchByUserBelongsToGroupRoleId(ULong... values) {
-        return fetch(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.USER_BELONGS_TO_GROUP_ROLE_ID, values);
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole> fetchById(ULong... values) {
+        return fetch(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.ID, values);
     }
 
     /**
-     * Fetch a unique record that has <code>user_belongs_to_group_role_id = value</code>
+     * Fetch a unique record that has <code>id = value</code>
      */
-    public com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole fetchOneByUserBelongsToGroupRoleId(ULong value) {
-        return fetchOne(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.USER_BELONGS_TO_GROUP_ROLE_ID, value);
+    public com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole fetchOneById(ULong value) {
+        return fetchOne(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.ID, value);
     }
 
     /**
-     * Fetch records that have <code>user_belongs_to_group_id BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>user_id BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole> fetchRangeOfUserBelongsToGroupId(ULong lowerInclusive, ULong upperInclusive) {
-        return fetchRange(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.USER_BELONGS_TO_GROUP_ID, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole> fetchRangeOfUserId(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.USER_ID, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>user_belongs_to_group_id IN (values)</code>
+     * Fetch records that have <code>user_id IN (values)</code>
      */
-    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole> fetchByUserBelongsToGroupId(ULong... values) {
-        return fetch(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.USER_BELONGS_TO_GROUP_ID, values);
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole> fetchByUserId(ULong... values) {
+        return fetch(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.USER_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>group_type BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole> fetchRangeOfGroupType(UShort lowerInclusive, UShort upperInclusive) {
+        return fetchRange(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.GROUP_TYPE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>group_type IN (values)</code>
+     */
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole> fetchByGroupType(UShort... values) {
+        return fetch(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.GROUP_TYPE, values);
+    }
+
+    /**
+     * Fetch records that have <code>group_identifier BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole> fetchRangeOfGroupIdentifier(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.GROUP_IDENTIFIER, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>group_identifier IN (values)</code>
+     */
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserBelongsToGroupRole> fetchByGroupIdentifier(ULong... values) {
+        return fetch(UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE.GROUP_IDENTIFIER, values);
     }
 
     /**

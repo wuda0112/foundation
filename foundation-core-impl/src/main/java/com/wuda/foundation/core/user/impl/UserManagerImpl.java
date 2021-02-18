@@ -157,7 +157,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
         return new UserEmailRecord(ULong.valueOf(bindUserEmail.getId()),
                 ULong.valueOf(bindUserEmail.getUserId()),
                 ULong.valueOf(bindUserEmail.getEmailId()),
-                UByte.valueOf(bindUserEmail.getUse()),
+                UByte.valueOf(bindUserEmail.getUsedFor()),
                 UByte.valueOf(bindUserEmail.getState()),
                 bindUserEmail.getDescription(),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
@@ -176,7 +176,7 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
         return new UserPhoneRecord(ULong.valueOf(bindUserPhone.getId()),
                 ULong.valueOf(bindUserPhone.getUserId()),
                 ULong.valueOf(bindUserPhone.getPhoneId()),
-                UByte.valueOf(bindUserPhone.getUse()),
+                UByte.valueOf(bindUserPhone.getUsedFor()),
                 UByte.valueOf(bindUserPhone.getState()),
                 bindUserPhone.getDescription(),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));

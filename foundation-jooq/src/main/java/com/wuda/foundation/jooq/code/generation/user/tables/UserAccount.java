@@ -8,6 +8,11 @@ import com.wuda.foundation.jooq.code.generation.user.FoundationUser;
 import com.wuda.foundation.jooq.code.generation.user.Indexes;
 import com.wuda.foundation.jooq.code.generation.user.Keys;
 import com.wuda.foundation.jooq.code.generation.user.tables.records.UserAccountRecord;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -25,10 +30,6 @@ import org.jooq.impl.TableImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
 
 /**
  * 用户账号信息，适用各种类型的用户
@@ -36,7 +37,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserAccount extends TableImpl<UserAccountRecord> {
 
-    private static final long serialVersionUID = -164969442;
+    private static final long serialVersionUID = -767094037;
 
     /**
      * The reference instance of <code>foundation_user.user_account</code>
@@ -79,7 +80,7 @@ public class UserAccount extends TableImpl<UserAccountRecord> {
     /**
      * The column <code>foundation_user.user_account.create_time</code>.
      */
-    public final TableField<UserAccountRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<UserAccountRecord, LocalDateTime> CREATE_TIME = createField(DSL.name("create_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_user.user_account.create_user_id</code>.
@@ -89,7 +90,7 @@ public class UserAccount extends TableImpl<UserAccountRecord> {
     /**
      * The column <code>foundation_user.user_account.last_modify_time</code>.
      */
-    public final TableField<UserAccountRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<UserAccountRecord, LocalDateTime> LAST_MODIFY_TIME = createField(DSL.name("last_modify_time"), org.jooq.impl.SQLDataType.LOCALDATETIME.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.LOCALDATETIME)), this, "");
 
     /**
      * The column <code>foundation_user.user_account.last_modify_user_id</code>.
@@ -99,7 +100,7 @@ public class UserAccount extends TableImpl<UserAccountRecord> {
     /**
      * The column <code>foundation_user.user_account.is_deleted</code>.
      */
-    public final TableField<UserAccountRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
+    public final TableField<UserAccountRecord, ULong> IS_DELETED = createField(DSL.name("is_deleted"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BIGINTUNSIGNED)), this, "");
 
     /**
      * Create a <code>foundation_user.user_account</code> table reference

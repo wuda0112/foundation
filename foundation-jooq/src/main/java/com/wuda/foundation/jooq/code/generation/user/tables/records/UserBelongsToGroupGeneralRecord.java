@@ -5,134 +5,164 @@ package com.wuda.foundation.jooq.code.generation.user.tables.records;
 
 
 import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupGeneral;
-import org.jooq.Field;
-import org.jooq.Record1;
-import org.jooq.Record8;
-import org.jooq.Row8;
-import org.jooq.impl.UpdatableRecordImpl;
-import org.jooq.types.ULong;
 
 import java.time.LocalDateTime;
 
+import org.jooq.Field;
+import org.jooq.Record1;
+import org.jooq.Record10;
+import org.jooq.Row10;
+import org.jooq.impl.UpdatableRecordImpl;
+import org.jooq.types.ULong;
+import org.jooq.types.UShort;
+
 
 /**
- * 用户在所属的组中的基本信息
+ * 用户在组中的基本信息
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserBelongsToGroupGeneralRecord extends UpdatableRecordImpl<UserBelongsToGroupGeneralRecord> implements Record8<ULong, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class UserBelongsToGroupGeneralRecord extends UpdatableRecordImpl<UserBelongsToGroupGeneralRecord> implements Record10<ULong, ULong, UShort, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1746805442;
+    private static final long serialVersionUID = 814443042;
 
     /**
-     * Setter for <code>foundation_user.user_belongs_to_group_general.user_belongs_to_group_general_id</code>.
+     * Setter for <code>foundation_user.user_belongs_to_group_general.id</code>.
      */
-    public void setUserBelongsToGroupGeneralId(ULong value) {
+    public void setId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_belongs_to_group_general.user_belongs_to_group_general_id</code>.
+     * Getter for <code>foundation_user.user_belongs_to_group_general.id</code>.
      */
-    public ULong getUserBelongsToGroupGeneralId() {
+    public ULong getId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>foundation_user.user_belongs_to_group_general.user_belongs_to_group_id</code>.
+     * Setter for <code>foundation_user.user_belongs_to_group_general.user_id</code>. 用户ID
      */
-    public void setUserBelongsToGroupId(ULong value) {
+    public void setUserId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_belongs_to_group_general.user_belongs_to_group_id</code>.
+     * Getter for <code>foundation_user.user_belongs_to_group_general.user_id</code>. 用户ID
      */
-    public ULong getUserBelongsToGroupId() {
+    public ULong getUserId() {
         return (ULong) get(1);
+    }
+
+    /**
+     * Setter for <code>foundation_user.user_belongs_to_group_general.group_type</code>. 组的类型，比如部门是一种组，其他组织机构也是一种组
+     */
+    public void setGroupType(UShort value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>foundation_user.user_belongs_to_group_general.group_type</code>. 组的类型，比如部门是一种组，其他组织机构也是一种组
+     */
+    public UShort getGroupType() {
+        return (UShort) get(2);
+    }
+
+    /**
+     * Setter for <code>foundation_user.user_belongs_to_group_general.group_identifier</code>. 组的唯一标记，如果组的类型是部门，则该值应该是部门表的ID
+     */
+    public void setGroupIdentifier(ULong value) {
+        set(3, value);
+    }
+
+    /**
+     * Getter for <code>foundation_user.user_belongs_to_group_general.group_identifier</code>. 组的唯一标记，如果组的类型是部门，则该值应该是部门表的ID
+     */
+    public ULong getGroupIdentifier() {
+        return (ULong) get(3);
     }
 
     /**
      * Setter for <code>foundation_user.user_belongs_to_group_general.nickname</code>. 用户在组里面的昵称
      */
     public void setNickname(String value) {
-        set(2, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_belongs_to_group_general.nickname</code>. 用户在组里面的昵称
      */
     public String getNickname() {
-        return (String) get(2);
+        return (String) get(4);
     }
 
     /**
      * Setter for <code>foundation_user.user_belongs_to_group_general.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
-        set(3, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_belongs_to_group_general.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
-        return (LocalDateTime) get(3);
+        return (LocalDateTime) get(5);
     }
 
     /**
      * Setter for <code>foundation_user.user_belongs_to_group_general.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
-        set(4, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_belongs_to_group_general.create_user_id</code>.
      */
     public ULong getCreateUserId() {
-        return (ULong) get(4);
+        return (ULong) get(6);
     }
 
     /**
      * Setter for <code>foundation_user.user_belongs_to_group_general.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
-        set(5, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_belongs_to_group_general.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
-        return (LocalDateTime) get(5);
+        return (LocalDateTime) get(7);
     }
 
     /**
      * Setter for <code>foundation_user.user_belongs_to_group_general.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
-        set(6, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_belongs_to_group_general.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
-        return (ULong) get(6);
+        return (ULong) get(8);
     }
 
     /**
      * Setter for <code>foundation_user.user_belongs_to_group_general.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
-        set(7, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_belongs_to_group_general.is_deleted</code>.
      */
     public ULong getIsDeleted() {
-        return (ULong) get(7);
+        return (ULong) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -145,189 +175,231 @@ public class UserBelongsToGroupGeneralRecord extends UpdatableRecordImpl<UserBel
     }
 
     // -------------------------------------------------------------------------
-    // Record8 type implementation
+    // Record10 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row8<ULong, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row8) super.fieldsRow();
+    public Row10<ULong, ULong, UShort, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row10) super.fieldsRow();
     }
 
     @Override
-    public Row8<ULong, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
-        return (Row8) super.valuesRow();
+    public Row10<ULong, ULong, UShort, ULong, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+        return (Row10) super.valuesRow();
     }
 
     @Override
     public Field<ULong> field1() {
-        return UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.USER_BELONGS_TO_GROUP_GENERAL_ID;
+        return UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.ID;
     }
 
     @Override
     public Field<ULong> field2() {
-        return UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.USER_BELONGS_TO_GROUP_ID;
+        return UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.USER_ID;
     }
 
     @Override
-    public Field<String> field3() {
+    public Field<UShort> field3() {
+        return UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.GROUP_TYPE;
+    }
+
+    @Override
+    public Field<ULong> field4() {
+        return UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.GROUP_IDENTIFIER;
+    }
+
+    @Override
+    public Field<String> field5() {
         return UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.NICKNAME;
     }
 
     @Override
-    public Field<LocalDateTime> field4() {
+    public Field<LocalDateTime> field6() {
         return UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.CREATE_TIME;
     }
 
     @Override
-    public Field<ULong> field5() {
+    public Field<ULong> field7() {
         return UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.CREATE_USER_ID;
     }
 
     @Override
-    public Field<LocalDateTime> field6() {
+    public Field<LocalDateTime> field8() {
         return UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.LAST_MODIFY_TIME;
     }
 
     @Override
-    public Field<ULong> field7() {
+    public Field<ULong> field9() {
         return UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.LAST_MODIFY_USER_ID;
     }
 
     @Override
-    public Field<ULong> field8() {
+    public Field<ULong> field10() {
         return UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.IS_DELETED;
     }
 
     @Override
     public ULong component1() {
-        return getUserBelongsToGroupGeneralId();
+        return getId();
     }
 
     @Override
     public ULong component2() {
-        return getUserBelongsToGroupId();
+        return getUserId();
     }
 
     @Override
-    public String component3() {
+    public UShort component3() {
+        return getGroupType();
+    }
+
+    @Override
+    public ULong component4() {
+        return getGroupIdentifier();
+    }
+
+    @Override
+    public String component5() {
         return getNickname();
     }
 
     @Override
-    public LocalDateTime component4() {
+    public LocalDateTime component6() {
         return getCreateTime();
     }
 
     @Override
-    public ULong component5() {
+    public ULong component7() {
         return getCreateUserId();
     }
 
     @Override
-    public LocalDateTime component6() {
+    public LocalDateTime component8() {
         return getLastModifyTime();
     }
 
     @Override
-    public ULong component7() {
+    public ULong component9() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong component8() {
+    public ULong component10() {
         return getIsDeleted();
     }
 
     @Override
     public ULong value1() {
-        return getUserBelongsToGroupGeneralId();
+        return getId();
     }
 
     @Override
     public ULong value2() {
-        return getUserBelongsToGroupId();
+        return getUserId();
     }
 
     @Override
-    public String value3() {
+    public UShort value3() {
+        return getGroupType();
+    }
+
+    @Override
+    public ULong value4() {
+        return getGroupIdentifier();
+    }
+
+    @Override
+    public String value5() {
         return getNickname();
     }
 
     @Override
-    public LocalDateTime value4() {
+    public LocalDateTime value6() {
         return getCreateTime();
     }
 
     @Override
-    public ULong value5() {
+    public ULong value7() {
         return getCreateUserId();
     }
 
     @Override
-    public LocalDateTime value6() {
+    public LocalDateTime value8() {
         return getLastModifyTime();
     }
 
     @Override
-    public ULong value7() {
+    public ULong value9() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong value8() {
+    public ULong value10() {
         return getIsDeleted();
     }
 
     @Override
     public UserBelongsToGroupGeneralRecord value1(ULong value) {
-        setUserBelongsToGroupGeneralId(value);
+        setId(value);
         return this;
     }
 
     @Override
     public UserBelongsToGroupGeneralRecord value2(ULong value) {
-        setUserBelongsToGroupId(value);
+        setUserId(value);
         return this;
     }
 
     @Override
-    public UserBelongsToGroupGeneralRecord value3(String value) {
+    public UserBelongsToGroupGeneralRecord value3(UShort value) {
+        setGroupType(value);
+        return this;
+    }
+
+    @Override
+    public UserBelongsToGroupGeneralRecord value4(ULong value) {
+        setGroupIdentifier(value);
+        return this;
+    }
+
+    @Override
+    public UserBelongsToGroupGeneralRecord value5(String value) {
         setNickname(value);
         return this;
     }
 
     @Override
-    public UserBelongsToGroupGeneralRecord value4(LocalDateTime value) {
+    public UserBelongsToGroupGeneralRecord value6(LocalDateTime value) {
         setCreateTime(value);
         return this;
     }
 
     @Override
-    public UserBelongsToGroupGeneralRecord value5(ULong value) {
+    public UserBelongsToGroupGeneralRecord value7(ULong value) {
         setCreateUserId(value);
         return this;
     }
 
     @Override
-    public UserBelongsToGroupGeneralRecord value6(LocalDateTime value) {
+    public UserBelongsToGroupGeneralRecord value8(LocalDateTime value) {
         setLastModifyTime(value);
         return this;
     }
 
     @Override
-    public UserBelongsToGroupGeneralRecord value7(ULong value) {
+    public UserBelongsToGroupGeneralRecord value9(ULong value) {
         setLastModifyUserId(value);
         return this;
     }
 
     @Override
-    public UserBelongsToGroupGeneralRecord value8(ULong value) {
+    public UserBelongsToGroupGeneralRecord value10(ULong value) {
         setIsDeleted(value);
         return this;
     }
 
     @Override
-    public UserBelongsToGroupGeneralRecord values(ULong value1, ULong value2, String value3, LocalDateTime value4, ULong value5, LocalDateTime value6, ULong value7, ULong value8) {
+    public UserBelongsToGroupGeneralRecord values(ULong value1, ULong value2, UShort value3, ULong value4, String value5, LocalDateTime value6, ULong value7, LocalDateTime value8, ULong value9, ULong value10) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -336,6 +408,8 @@ public class UserBelongsToGroupGeneralRecord extends UpdatableRecordImpl<UserBel
         value6(value6);
         value7(value7);
         value8(value8);
+        value9(value9);
+        value10(value10);
         return this;
     }
 
@@ -353,16 +427,18 @@ public class UserBelongsToGroupGeneralRecord extends UpdatableRecordImpl<UserBel
     /**
      * Create a detached, initialised UserBelongsToGroupGeneralRecord
      */
-    public UserBelongsToGroupGeneralRecord(ULong userBelongsToGroupGeneralId, ULong userBelongsToGroupId, String nickname, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public UserBelongsToGroupGeneralRecord(ULong id, ULong userId, UShort groupType, ULong groupIdentifier, String nickname, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL);
 
-        set(0, userBelongsToGroupGeneralId);
-        set(1, userBelongsToGroupId);
-        set(2, nickname);
-        set(3, createTime);
-        set(4, createUserId);
-        set(5, lastModifyTime);
-        set(6, lastModifyUserId);
-        set(7, isDeleted);
+        set(0, id);
+        set(1, userId);
+        set(2, groupType);
+        set(3, groupIdentifier);
+        set(4, nickname);
+        set(5, createTime);
+        set(6, createUserId);
+        set(7, lastModifyTime);
+        set(8, lastModifyUserId);
+        set(9, isDeleted);
     }
 }

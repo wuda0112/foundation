@@ -32,7 +32,7 @@ public class ItemCategoryManagerImpl extends AbstractItemCategoryManager impleme
         DSLContext dslContext = JooqContext.getOrCreateDSLContext(JooqContext.getDataSource());
         return dslContext.fetchCount(ITEM_BELONGS_TO_GROUP,
                 ITEM_BELONGS_TO_GROUP.GROUP_IDENTIFIER.eq(ULong.valueOf(categoryId))
-                        .and(ITEM_BELONGS_TO_GROUP.GROUP_TYPE.eq(UShort.valueOf(BuiltinIdentifierType.ITEM_CATEGORY.getCode())))
+                        .and(ITEM_BELONGS_TO_GROUP.GROUP_TYPE.eq(UShort.valueOf(BuiltinIdentifierType.TABLE_ITEM_CATEGORY.getCode())))
                         .and(ITEM_BELONGS_TO_GROUP.IS_DELETED.eq(notDeleted())));
     }
 

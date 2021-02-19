@@ -73,7 +73,7 @@ public abstract class AbstractRoleAndMenuAssignmentManager implements RoleAndMen
 
     @Override
     public List<MergedPermissionAssignment> getMenuPermissionAssignments(Long permissionRoleId, Long menuId) {
-        Subject subject = new Subject(permissionRoleId, BuiltinIdentifierType.PERMISSION_ROLE);
+        Subject subject = new Subject(permissionRoleId, BuiltinIdentifierType.TABLE_PERMISSION_ROLE);
         List<DescribePermissionAssignment> originalPermissionAssignments = permissionGrantManager.getPermissions(subject);
         PermissionAssignmentMerger permissionAssignmentMerger = new PermissionAssignmentMerger();
         return permissionAssignmentMerger.merge(originalPermissionAssignments, menuComparator, menuItemAndCategoryComparator);

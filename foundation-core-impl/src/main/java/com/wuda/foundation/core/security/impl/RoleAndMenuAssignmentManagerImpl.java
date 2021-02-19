@@ -47,7 +47,7 @@ public class RoleAndMenuAssignmentManagerImpl extends AbstractRoleAndMenuAssignm
     }
 
     private Subject roleSubject(Long permissionRoleId) {
-        return new Subject(permissionRoleId, BuiltinIdentifierType.PERMISSION_ROLE);
+        return new Subject(permissionRoleId, BuiltinIdentifierType.TABLE_PERMISSION_ROLE);
     }
 
     private Target menuTarget(Long menuId) {
@@ -55,7 +55,7 @@ public class RoleAndMenuAssignmentManagerImpl extends AbstractRoleAndMenuAssignm
     }
 
     private Action menuItemCategoryAction(Long menuItemCategoryId) {
-        return new Action(menuItemCategoryId, BuiltinIdentifierType.MENU_ITEM_CATEGORY);
+        return new Action(menuItemCategoryId, BuiltinIdentifierType.TABLE_MENU_ITEM_CATEGORY);
     }
 
     private Set<Action> menuItemCategoryActions(Collection<Long> menuItemCategoryIds) {
@@ -68,7 +68,7 @@ public class RoleAndMenuAssignmentManagerImpl extends AbstractRoleAndMenuAssignm
     }
 
     private Action menuItemAction(Long menuItemId) {
-        return new Action(menuItemId, BuiltinIdentifierType.MENU_ITEM);
+        return new Action(menuItemId, BuiltinIdentifierType.TABLE_MENU_ITEM);
     }
 
     private Set<Action> menuItemActions(Collection<Long> menuItemIds) {

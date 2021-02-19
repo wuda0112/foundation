@@ -7,21 +7,19 @@ import com.wuda.foundation.core.security.CreatePermissionTarget;
 import com.wuda.foundation.core.security.DescribePermissionAction;
 import com.wuda.foundation.core.security.DescribePermissionRole;
 import com.wuda.foundation.core.security.DescribePermissionTarget;
-import com.wuda.foundation.core.security.PermissionRoleType;
 import com.wuda.foundation.core.security.UpdatePermissionAction;
 import com.wuda.foundation.core.security.UpdatePermissionRoleRequest;
 import com.wuda.foundation.core.security.UpdatePermissionTarget;
+import com.wuda.foundation.jooq.JooqCommonDbOp;
+import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAction;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionActionRecord;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionRoleRecord;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionTargetRecord;
-import com.wuda.foundation.jooq.JooqCommonDbOp;
-import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
@@ -277,7 +275,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
     private PermissionRoleRecord permissionRoleRecordForInsert(CreatePermissionRoleRequest request, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new PermissionRoleRecord(ULong.valueOf(request.getId()),
-                UByte.valueOf(request.getType().getCode()),
+                UByte.valueOf(request.getType()),
                 request.getName(),
                 request.getDescription(),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
@@ -294,8 +292,7 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
     private DescribePermissionRole copyRoleFrom(PermissionRoleRecord record) {
         DescribePermissionRole describe = new DescribePermissionRole();
         describe.setId(record.getPermissionRoleId().longValue());
-        PermissionRoleType type = IdentifierTypeRegistry.defaultRegistry.lookup(record.getType().intValue());
-        describe.setType(type);
+        describe.setType(record.getType().byteValue());
         describe.setName(record.getName());
         describe.setDescription(record.getDescription());
         return describe;
@@ -313,15 +310,14 @@ public class PermissionManagerImpl extends AbstractPermissionManager implements 
         return list;
     }
 
-    private SelectConditionStep<Record1<ULong>> permissionRoleUniqueCondition(PermissionRoleType type, String name) {
+    private SelectConditionStep<Record1<ULong>> permissionRoleUniqueCondition(Byte type, String name) {
         Configuration configuration = JooqContext.getConfiguration();
-        SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
+        return DSL.using(configuration)
                 .select(PERMISSION_ROLE.PERMISSION_ROLE_ID)
                 .from(PERMISSION_ROLE)
-                .where(PERMISSION_ROLE.TYPE.eq(UByte.valueOf(type.getCode())))
+                .where(PERMISSION_ROLE.TYPE.eq(UByte.valueOf(type)))
                 .and(PERMISSION_ROLE.NAME.eq(name))
                 .and(PERMISSION_ROLE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        return existsRecordSelector;
     }
 
 }

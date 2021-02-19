@@ -5,13 +5,13 @@ import com.wuda.foundation.core.item.CreateItemCore;
 import com.wuda.foundation.core.item.CreateItemDescription;
 import com.wuda.foundation.core.item.CreateItemGeneral;
 import com.wuda.foundation.core.item.CreateItemVariation;
+import com.wuda.foundation.jooq.JooqCommonDbOp;
+import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemBelongsToGroupRecord;
 import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemCoreRecord;
 import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemDescriptionRecord;
 import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemGeneralRecord;
 import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemVariationRecord;
-import com.wuda.foundation.jooq.JooqCommonDbOp;
-import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.FoundationContext;
 import com.wuda.foundation.lang.IsDeleted;
@@ -51,7 +51,7 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     }
 
     private void createItemCategoryRelation(Long categoryId, Long itemId, Long opUserId) {
-        ItemBelongsToGroupRecord itemBelongsToGroupRecord = itemBelongsToGroupRecordForInsert(BuiltinIdentifierType.ITEM_CATEGORY, categoryId, itemId, opUserId);
+        ItemBelongsToGroupRecord itemBelongsToGroupRecord = itemBelongsToGroupRecordForInsert(BuiltinIdentifierType.TABLE_ITEM_CATEGORY, categoryId, itemId, opUserId);
         attach(JooqContext.getDataSource(), itemBelongsToGroupRecord);
         itemBelongsToGroupRecord.insert();
     }
@@ -141,8 +141,8 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
         LocalDateTime now = LocalDateTime.now();
         return new ItemCoreRecord(ULong.valueOf(createItemCore.getId()),
                 ULong.valueOf(createItemCore.getItemId()),
-                UByte.valueOf(createItemCore.getItemType().getCode()),
-                UByte.valueOf(createItemCore.getItemState().getCode()),
+                UByte.valueOf(createItemCore.getItemType()),
+                UByte.valueOf(createItemCore.getItemState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
@@ -184,7 +184,7 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
         return new ItemVariationRecord(ULong.valueOf(createItemVariation.getId()),
                 ULong.valueOf(createItemVariation.getItemId()),
                 createItemVariation.getName(),
-                UByte.valueOf(createItemVariation.getState().getCode()),
+                UByte.valueOf(createItemVariation.getState()),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 

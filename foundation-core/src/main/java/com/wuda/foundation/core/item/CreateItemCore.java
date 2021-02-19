@@ -17,8 +17,8 @@ public class CreateItemCore {
     private Long itemId;
     private Long storeId;
     private Long categoryId;
-    private ItemType itemType;
-    private ItemState itemState;
+    private Byte itemType;
+    private Byte itemState;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -39,8 +39,8 @@ public class CreateItemCore {
         private Long itemId;
         private Long storeId;
         private Long categoryId;
-        private ItemType itemType;
-        private ItemState itemState;
+        private Byte itemType;
+        private Byte itemState;
 
         public Builder setId(Long id) {
             this.id = id;
@@ -52,12 +52,12 @@ public class CreateItemCore {
             return this;
         }
 
-        public Builder setItemType(ItemType itemType) {
+        public Builder setItemType(Byte itemType) {
             this.itemType = itemType;
             return this;
         }
 
-        public Builder setItemState(ItemState itemState) {
+        public Builder setItemState(Byte itemState) {
             this.itemState = itemState;
             return this;
         }

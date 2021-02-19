@@ -14,7 +14,7 @@ import java.util.Objects;
 public class CreatePermissionRoleRequest {
 
     private Long id;
-    private PermissionRoleType type;
+    private Byte type;
     private String name;
     private String description;
 
@@ -34,7 +34,7 @@ public class CreatePermissionRoleRequest {
     public static class Builder implements com.wuda.foundation.lang.Builder<CreatePermissionRoleRequest> {
 
         private Long id;
-        private PermissionRoleType type;
+        private Byte type;
         private String name;
         private String description;
 
@@ -44,7 +44,7 @@ public class CreatePermissionRoleRequest {
         }
 
 
-        public Builder setPermissionRoleType(PermissionRoleType type) {
+        public Builder setPermissionRoleType(Byte type) {
             this.type = type;
             return this;
         }

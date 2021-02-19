@@ -41,8 +41,8 @@ public class MenuPermissionUtils {
             return;
         }
         Map<Action, MergedPermissionAssignment> byActionMap = MyCollectionUtils.toMap(permissionAssignments, MergedPermissionAssignment::getAction);
-        TreeUtils.depthFirstTraverse(menu, rootId, (menuNode -> {
-            Action action = new Action(menuNode.getId(), menuNode.getType());
+        TreeUtils.depthFirstTraverse(menu, rootId, menuNode -> {
+            Action action = new Action(menuNode.getId(), menuNode.getIdentifierType());
             MergedPermissionAssignment permissionAssignment = byActionMap.get(action);
             Boolean visibility = null;
             if (permissionAssignment != null) {
@@ -59,6 +59,6 @@ public class MenuPermissionUtils {
             if (visibility != null) {
                 menuNode.setVisibility(visibility);
             }
-        }));
+        });
     }
 }

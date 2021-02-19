@@ -82,10 +82,10 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
         }
         List<Subject> roles = new ArrayList<>(roleIds.size());
         for (Long roleId : roleIds) {
-            Subject role = new Subject(roleId, BuiltinIdentifierType.PERMISSION_ROLE);
+            Subject role = new Subject(roleId, BuiltinIdentifierType.TABLE_PERMISSION_ROLE);
             roles.add(role);
         }
-        List<DescribePermissionAssignment> permissions = permissionGrantManager.getPermissions(roles, BuiltinIdentifierType.MENU_ITEM);
+        List<DescribePermissionAssignment> permissions = permissionGrantManager.getPermissions(roles, BuiltinIdentifierType.TABLE_MENU_ITEM);
         if (permissions == null || permissions.isEmpty()) {
             return null;
         }

@@ -14,7 +14,7 @@ public class DescribeMenuNode extends DescribeTreeNode {
     /**
      * 该节点的类型,是menu item还是menu item category.
      */
-    private IdentifierType type;
+    private IdentifierType identifierType;
 
     /**
      * 是否可见.
@@ -30,7 +30,7 @@ public class DescribeMenuNode extends DescribeTreeNode {
      */
     public static DescribeMenuNode newMenuItemNode(DescribeMenuItemCategory describeMenuItemCategory, DescribeMenuItemCore describeMenuItemCore) {
         DescribeMenuNode describeMenuNode = new DescribeMenuNode();
-        describeMenuNode.setType(BuiltinIdentifierType.MENU_ITEM);
+        describeMenuNode.setIdentifierType(BuiltinIdentifierType.TABLE_MENU_ITEM);
         describeMenuNode.setId(describeMenuItemCore.getMenuItemId());
         describeMenuNode.setParentId(describeMenuItemCategory.getId());
         describeMenuNode.setRootId(describeMenuItemCategory.getRootId());
@@ -48,7 +48,7 @@ public class DescribeMenuNode extends DescribeTreeNode {
      */
     public static DescribeMenuNode newMenuItemCategoryNode(DescribeMenuItemCategory describeMenuItemCategory) {
         DescribeMenuNode describeMenuNode = new DescribeMenuNode();
-        describeMenuNode.setType(BuiltinIdentifierType.MENU_ITEM_CATEGORY);
+        describeMenuNode.setIdentifierType(BuiltinIdentifierType.TABLE_MENU_ITEM_CATEGORY);
         describeMenuNode.setId(describeMenuItemCategory.id);
         describeMenuNode.setParentId(describeMenuItemCategory.parentId);
         describeMenuNode.setRootId(describeMenuItemCategory.rootId);

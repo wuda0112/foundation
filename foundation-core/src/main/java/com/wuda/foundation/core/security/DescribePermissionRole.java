@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class DescribePermissionRole {
 
     private Long id;
-    private PermissionRoleType type;
+    private Byte type;
     private String name;
     private String description;
 

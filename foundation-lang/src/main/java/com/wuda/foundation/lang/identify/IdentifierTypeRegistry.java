@@ -1,7 +1,6 @@
 package com.wuda.foundation.lang.identify;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -39,26 +38,21 @@ public class IdentifierTypeRegistry {
     /**
      * 查询指定的code值对应的{@link IdentifierType},前提是
      * {@link IdentifierType}必须首先调用{@link IdentifierTypeRegistry#register(IdentifierType)}
-     * 将自己注册进来.如果没有找到会抛出{@link IllegalStateException}异常.
+     * 方法将自己注册进来.如果没有找到会抛出{@link IllegalStateException}异常.
+     * 在系统启动时,所有的{@link IdentifierType}实例必须先注册到{@link IdentifierTypeRegistry}.
      *
      * @param typeCode identifier type code
      * @return 该code对应的identifier type
+     * @throws IllegalStateException 如果没有找到指定的code. 抛出异常而不是返回<code>null</code>的原因是显性的指出问题,方便问题查找.
      */
-    public <U extends IdentifierType> U lookup(Integer typeCode) {
+    public IdentifierType lookup(Integer typeCode) {
         if (typeCode == null) {
             return null;
         }
-        U result = null;
-        Set<Map.Entry<Integer, IdentifierType>> entrySet = byCodeMap.entrySet();
-        for (Map.Entry<Integer, IdentifierType> entry : entrySet) {
-            IdentifierType identifierType = entry.getValue();
-            if (identifierType.getCode() == typeCode) {
-                result = (U) identifierType;
-            }
+        IdentifierType identifierType = byCodeMap.get(typeCode);
+        if (identifierType == null) {
+            throw new IllegalStateException("identifier type code = " + typeCode + ",没有找到,可能是没有注册");
         }
-        if (result == null) {
-            throw new IllegalStateException("identifier type code= " + typeCode + ",没有找到,可能是没有注册");
-        }
-        return result;
+        return identifierType;
     }
 }

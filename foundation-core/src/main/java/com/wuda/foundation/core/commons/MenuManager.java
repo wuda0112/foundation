@@ -81,6 +81,14 @@ public interface MenuManager {
     Menu getMenu(Long menuId);
 
     /**
+     * 获取菜单核心信息.
+     *
+     * @param menuId menu id
+     * @return menu core
+     */
+    DescribeMenuCore getMenuCore(Long menuId);
+
+    /**
      * 获取分类下的menu item.
      *
      * @param menuItemCategoryIds 分类ID

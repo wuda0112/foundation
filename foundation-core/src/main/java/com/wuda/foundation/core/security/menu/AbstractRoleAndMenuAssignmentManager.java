@@ -1,10 +1,17 @@
 package com.wuda.foundation.core.security.menu;
 
-import com.wuda.foundation.core.commons.Menu;
+import com.wuda.foundation.core.commons.DescribeMenuCore;
+import com.wuda.foundation.core.commons.DescribeMenuNode;
 import com.wuda.foundation.core.commons.MenuManager;
-import com.wuda.foundation.core.security.*;
+import com.wuda.foundation.core.security.DescribePermissionAssignment;
+import com.wuda.foundation.core.security.PermissionEffect;
+import com.wuda.foundation.core.security.PermissionGrantManager;
+import com.wuda.foundation.core.security.Subject;
+import com.wuda.foundation.core.security.v2.*;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
+import com.wuda.foundation.lang.tree.Tree;
 
+import java.util.Collections;
 import java.util.List;
 
 public abstract class AbstractRoleAndMenuAssignmentManager implements RoleAndMenuAssignmentManager {
@@ -34,11 +41,11 @@ public abstract class AbstractRoleAndMenuAssignmentManager implements RoleAndMen
     }
 
     @Override
-    public void assignMenuItemCategoryToRole(Long permissionRoleId, Long menuId, Long menuItemCategoryId, AllowOrDeny allowOrDeny, Long opUserId) {
-        assignMenuItemCategoryToRoleDbOp(permissionRoleId, menuId, menuItemCategoryId, allowOrDeny, opUserId);
+    public void assignMenuItemCategoryToRole(Long permissionRoleId, Long menuId, Long menuItemCategoryId, PermissionEffect permissionEffect, Long version,Long opUserId) {
+        assignMenuItemCategoryToRoleDbOp(permissionRoleId, menuId, menuItemCategoryId, permissionEffect,version, opUserId);
     }
 
-    protected abstract void assignMenuItemCategoryToRoleDbOp(Long permissionRoleId, Long menuId, Long menuItemCategoryId, AllowOrDeny allowOrDeny, Long opUserId);
+    protected abstract void assignMenuItemCategoryToRoleDbOp(Long permissionRoleId, Long menuId, Long menuItemCategoryId, PermissionEffect permissionEffect,Long version, Long opUserId);
 
     @Override
     public void clearAssignmentBetweenMenuItemCategoryAndRole(Long permissionRoleId, Long menuId, Long menuItemCategoryId, Long opUserId) {
@@ -48,11 +55,11 @@ public abstract class AbstractRoleAndMenuAssignmentManager implements RoleAndMen
     protected abstract void clearAssignmentBetweenMenuItemCategoryAndRoleDbOp(Long permissionRoleId, Long menuId, Long menuItemCategoryId, Long opUserId);
 
     @Override
-    public void assignMenuItemToRole(Long permissionRoleId, Long menuId, Long menuItemId, AllowOrDeny allowOrDeny, Long opUserId) {
-        assignMenuItemToRoleDbOp(permissionRoleId, menuId, menuItemId, allowOrDeny, opUserId);
+    public void assignMenuItemToRole(Long permissionRoleId, Long menuId, Long menuItemId, PermissionEffect permissionEffect, Long version,Long opUserId) {
+        assignMenuItemToRoleDbOp(permissionRoleId, menuId, menuItemId, permissionEffect, version,opUserId);
     }
 
-    protected abstract void assignMenuItemToRoleDbOp(Long permissionRoleId, Long menuId, Long menuItemId, AllowOrDeny allowOrDeny, Long opUserId);
+    protected abstract void assignMenuItemToRoleDbOp(Long permissionRoleId, Long menuId, Long menuItemId, PermissionEffect permissionEffect,Long version, Long opUserId);
 
     @Override
     public void clearAssignmentBetweenMenuItemAndRole(Long permissionRoleId, Long menuId, Long menuItemId, Long opUserId) {
@@ -72,18 +79,27 @@ public abstract class AbstractRoleAndMenuAssignmentManager implements RoleAndMen
     }
 
     @Override
-    public List<MergedPermissionAssignment> getMenuPermissionAssignments(Long permissionRoleId, Long menuId) {
-        Subject subject = new Subject(permissionRoleId, BuiltinIdentifierType.TABLE_PERMISSION_ROLE);
-        List<DescribePermissionAssignment> originalPermissionAssignments = permissionGrantManager.getPermissions(subject);
-        PermissionAssignmentMerger permissionAssignmentMerger = new PermissionAssignmentMerger();
-        return permissionAssignmentMerger.merge(originalPermissionAssignments, menuComparator, menuItemAndCategoryComparator);
+    public PermissionAssignmentCollection getMenuPermissionAssignments(Long permissionRoleId, Long menuId) {
+        Subject subject = new Subject(permissionRoleId, BuiltinIdentifierType.PERMISSION_ROLE);
+        List<DescribePermissionAssignment> permissionAssignments = permissionGrantManager.getPermissions(subject);
+        return new PermissionAssignmentCollection(permissionAssignments);
     }
 
     @Override
-    public Menu getPermittedMenu(Long permissionRoleId, Long menuId) {
-        List<MergedPermissionAssignment> permissionAssignments = getMenuPermissionAssignments(permissionRoleId, menuId);
-        Menu menu = menuManager.getMenu(menuId);
-        MenuPermissionUtils.applyPermission(menu, permissionAssignments);
-        return menu;
+    public FlatPermission<DescribeMenuCore> getMenuPermission(Long permissionRoleId, Long menuId) {
+        PermissionAssignmentCollection permissionAssignmentCollection = getMenuPermissionAssignments(permissionRoleId, menuId);
+        DescribeMenuCore describeMenuCore = menuManager.getMenuCore(menuId);
+        PermissionDecisionMaker permissionDecisionMaker = new DefaultPermissionDecisionMaker();
+        List<DescribeMenuCore> describeMenuCores = Collections.singletonList(describeMenuCore);
+        List<FlatPermission<DescribeMenuCore>> menuPermissions = permissionDecisionMaker.decide(describeMenuCores,
+                describeMenuCore1 -> new FlatPermission<>(describeMenuCore1.getMenuId(),
+                        "菜单名称",
+                        describeMenuCore1),
+                permissionAssignmentCollection
+        );
+        if(menuPermissions == null || menuPermissions.isEmpty()){
+            return null;
+        }
+        return menuPermissions.get(0);
     }
 }

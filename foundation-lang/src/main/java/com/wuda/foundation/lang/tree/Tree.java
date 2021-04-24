@@ -1,8 +1,8 @@
 package com.wuda.foundation.lang.tree;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 /**
  * 树形结构.树中的每一个节点{@link TreeNode}都必须拥有一个唯一标记,这个才能在树中找到对应的节点.
@@ -52,7 +52,7 @@ public interface Tree<T extends Comparable<T>, E extends TreeNode<T>> {
      * @param id 节点id
      * @return 这个节点id下的所有子节点, 如果没有, 则返回<code>null</code>
      */
-    Set<E> getDirectChildren(T id);
+    List<E> getDirectChildren(T id);
 
     /**
      * 为两个节点建立父子关系.
@@ -67,9 +67,9 @@ public interface Tree<T extends Comparable<T>, E extends TreeNode<T>> {
      *
      * @param id    node id
      * @param count 查找祖先的个数
-     * @return {@link LinkedList}下标0处的节点是直接父亲, 下标1处的节点是父亲的父亲, 依次类推.
+     * @return {@link List}下标0处的节点是直接父亲, 下标1处的节点是父亲的父亲, 依次类推.
      */
-    LinkedList<E> getAncestor(T id, int count);
+    List<E> getAncestor(T id, int count);
 
     /**
      * 获取给定节点的后裔.
@@ -77,7 +77,7 @@ public interface Tree<T extends Comparable<T>, E extends TreeNode<T>> {
      * @param id node id
      * @return 所有后裔
      */
-    LinkedList<E> getDescendant(T id);
+    List<E> getDescendant(T id);
 
 
     /**

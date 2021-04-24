@@ -25,14 +25,14 @@ import static com.wuda.foundation.jooq.code.generation.security.tables.Permissio
 public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager implements JooqCommonDbOp {
 
     @Override
-    protected void createAssignmentDbOp(Subject subject, Set<Target> targetSet, AllowOrDeny allowOrDeny, Long opUserId) {
+    protected void createAssignmentDbOp(Subject subject, Set<Target> targetSet, PermissionEffect permissionEffect, Long version, Long opUserId) {
         for (Target target : targetSet) {
-            createAssignmentDbOp(subject, target, allowOrDeny, opUserId);
+            createAssignmentDbOp(subject, target, permissionEffect, version, opUserId);
         }
     }
 
-    protected void createAssignmentDbOp(Subject subject, Target target, AllowOrDeny allowOrDeny, Long opUserId) {
-        if (assignedTargetToSubject(subject, target, allowOrDeny)) {
+    protected void createAssignmentDbOp(Subject subject, Target target, PermissionEffect permissionEffect, Long version, Long opUserId) {
+        if (assignedTargetToSubject(subject, target, permissionEffect)) {
             return;
         }
         List<PermissionAssignmentRecord> records = queryPermissionAssignmentRecords(subject, target);
@@ -40,14 +40,15 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
             // 之前已经建立过关联
             deletePermissionAssignment(subject, target, null);
         }
-        PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, target, Action.virtual(), allowOrDeny, opUserId);
+        PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, target, Action.virtual(), permissionEffect, version, opUserId);
         insert(JooqContext.getDataSource(), PERMISSION_ASSIGNMENT, record);
     }
 
     private PermissionAssignmentRecord permissionAssignmentRecordForInsert(Subject subject,
                                                                            Target target,
                                                                            Action action,
-                                                                           AllowOrDeny allowOrDeny,
+                                                                           PermissionEffect permissionEffect,
+                                                                           Long version,
                                                                            Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new PermissionAssignmentRecord(
@@ -58,7 +59,8 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
                 ULong.valueOf(target.getValue()),
                 UShort.valueOf(action.getType().getCode()),
                 ULong.valueOf(action.getValue()),
-                AllowOrDeny.allow(allowOrDeny),
+                PermissionEffect.allow(permissionEffect),
+                ULong.valueOf(version),
                 now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
@@ -89,24 +91,24 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
     }
 
     @Override
-    protected void createAssignmentDbOp(Subject subject, Target target, Set<Action> actionSet, AllowOrDeny allowOrDeny, Long opUserId) {
+    protected void createAssignmentDbOp(Subject subject, Target target, Set<Action> actionSet, PermissionEffect permissionEffect, Long version, Long opUserId) {
         for (Action action : actionSet) {
             Objects.requireNonNull(action);
-            createAssignmentDbOp(subject, target, action, allowOrDeny, opUserId);
+            createAssignmentDbOp(subject, target, action, permissionEffect, version, opUserId);
         }
     }
 
-    protected void createAssignmentDbOp(Subject subject, Target target, Action action, AllowOrDeny allowOrDeny, Long opUserId) {
+    protected void createAssignmentDbOp(Subject subject, Target target, Action action, PermissionEffect permissionEffect, Long version, Long opUserId) {
         PermissionAssignmentRecord permissionAssignmentRecord = queryPermissionAssignmentRecord(subject, target, action);
         if (permissionAssignmentRecord != null
-                && AllowOrDeny.equals(allowOrDeny, permissionAssignmentRecord.getAllow())) {
+                && PermissionEffect.equals(permissionEffect, permissionAssignmentRecord.getEffect())) {
             // 已经分配过
             return;
         }
         if (permissionAssignmentRecord != null) {
             deletePermissionAssignment(subject, target, action);
         }
-        PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, target, action, allowOrDeny, opUserId);
+        PermissionAssignmentRecord record = permissionAssignmentRecordForInsert(subject, target, action, permissionEffect, version, opUserId);
         insert(JooqContext.getDataSource(), PERMISSION_ASSIGNMENT, record);
     }
 
@@ -174,7 +176,7 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
     }
 
     @Override
-    protected boolean assignedTargetToSubjectDbOp(Subject subject, Target target, AllowOrDeny allowOrDeny) {
+    protected boolean assignedTargetToSubjectDbOp(Subject subject, Target target, PermissionEffect permissionEffect) {
         List<PermissionAssignmentRecord> records = queryPermissionAssignmentRecords(subject, target);
         if (records == null) {
             return false;

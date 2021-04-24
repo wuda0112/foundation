@@ -149,17 +149,31 @@ public class PermissionAssignmentDao extends DAOImpl<PermissionAssignmentRecord,
     }
 
     /**
-     * Fetch records that have <code>allow BETWEEN lowerInclusive AND upperInclusive</code>
+     * Fetch records that have <code>effect BETWEEN lowerInclusive AND upperInclusive</code>
      */
-    public List<com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAssignment> fetchRangeOfAllow(Boolean lowerInclusive, Boolean upperInclusive) {
-        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.ALLOW, lowerInclusive, upperInclusive);
+    public List<com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAssignment> fetchRangeOfEffect(Boolean lowerInclusive, Boolean upperInclusive) {
+        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.EFFECT, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>allow IN (values)</code>
+     * Fetch records that have <code>effect IN (values)</code>
      */
-    public List<com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAssignment> fetchByAllow(Boolean... values) {
-        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.ALLOW, values);
+    public List<com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAssignment> fetchByEffect(Boolean... values) {
+        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.EFFECT, values);
+    }
+
+    /**
+     * Fetch records that have <code>version BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAssignment> fetchRangeOfVersion(ULong lowerInclusive, ULong upperInclusive) {
+        return fetchRange(PermissionAssignment.PERMISSION_ASSIGNMENT.VERSION, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>version IN (values)</code>
+     */
+    public List<com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAssignment> fetchByVersion(ULong... values) {
+        return fetch(PermissionAssignment.PERMISSION_ASSIGNMENT.VERSION, values);
     }
 
     /**

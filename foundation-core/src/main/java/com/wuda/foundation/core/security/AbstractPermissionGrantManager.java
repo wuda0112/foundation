@@ -8,24 +8,24 @@ import java.util.Set;
 
 public abstract class AbstractPermissionGrantManager implements PermissionGrantManager {
     @Override
-    public void createAssignment(Subject subject, Set<Target> targetSet, AllowOrDeny allowOrDeny, Long opUserId) {
-        createAssignmentDbOp(subject, targetSet, allowOrDeny, opUserId);
+    public void createAssignment(Subject subject, Set<Target> targetSet, PermissionEffect permissionEffect, Long version, Long opUserId) {
+        createAssignmentDbOp(subject, targetSet, permissionEffect, version, opUserId);
     }
 
-    protected abstract void createAssignmentDbOp(Subject subject, Set<Target> targetSet, AllowOrDeny allowOrDeny, Long opUserId);
+    protected abstract void createAssignmentDbOp(Subject subject, Set<Target> targetSet, PermissionEffect permissionEffect, Long version, Long opUserId);
 
     @Override
-    public void createAssignment(Subject subject, Target target, Set<Action> actionSet, AllowOrDeny allowOrDeny, Long opUserId) {
+    public void createAssignment(Subject subject, Target target, Set<Action> actionSet, PermissionEffect permissionEffect, Long version, Long opUserId) {
         Objects.requireNonNull(actionSet);
         if (!actionSet.isEmpty()) {
-            if (assignedTargetToSubject(subject, target, allowOrDeny)) {
+            if (assignedTargetToSubject(subject, target, permissionEffect)) {
                 return;
             }
-            createAssignmentDbOp(subject, target, actionSet, allowOrDeny, opUserId);
+            createAssignmentDbOp(subject, target, actionSet, permissionEffect, version, opUserId);
         }
     }
 
-    protected abstract void createAssignmentDbOp(Subject subject, Target target, Set<Action> actionSet, AllowOrDeny allowOrDeny, Long opUserId);
+    protected abstract void createAssignmentDbOp(Subject subject, Target target, Set<Action> actionSet, PermissionEffect permissionEffect, Long version, Long opUserId);
 
     @Override
     public void clearAssigment(Subject subject, Set<Target> targetSet, Long opUserId) {
@@ -43,32 +43,36 @@ public abstract class AbstractPermissionGrantManager implements PermissionGrantM
 
     @Override
     public List<DescribePermissionAssignment> getPermissions(Subject subject) {
-        return getPermissionsDbOp(subject, null);
+        List<DescribePermissionAssignment> list = getPermissionsDbOp(subject, null);
+        return DescribePermissionAssignment.mergeUseGreaterVersion(list);
     }
 
     protected abstract List<DescribePermissionAssignment> getPermissionsDbOp(Subject subject, IdentifierType targetType);
 
     @Override
     public List<DescribePermissionAssignment> getPermissions(Subject subject, IdentifierType targetType) {
-        return getPermissionsDbOp(subject, targetType);
+        List<DescribePermissionAssignment> list = getPermissionsDbOp(subject, targetType);
+        return DescribePermissionAssignment.mergeUseGreaterVersion(list);
     }
 
     @Override
     public List<DescribePermissionAssignment> getPermissions(List<Subject> subjects) {
-        return getPermissionsDbOp(subjects, null);
+        List<DescribePermissionAssignment> list = getPermissionsDbOp(subjects, null);
+        return DescribePermissionAssignment.mergeUseGreaterVersion(list);
     }
 
     protected abstract List<DescribePermissionAssignment> getPermissionsDbOp(List<Subject> subjects, IdentifierType targetType);
 
     @Override
     public List<DescribePermissionAssignment> getPermissions(List<Subject> subjects, IdentifierType targetType) {
-        return getPermissionsDbOp(subjects, targetType);
+        List<DescribePermissionAssignment> list = getPermissionsDbOp(subjects, targetType);
+        return DescribePermissionAssignment.mergeUseGreaterVersion(list);
     }
 
     @Override
-    public boolean assignedTargetToSubject(Subject subject, Target target, AllowOrDeny allowOrDeny) {
-        return assignedTargetToSubjectDbOp(subject, target, allowOrDeny);
+    public boolean assignedTargetToSubject(Subject subject, Target target, PermissionEffect permissionEffect) {
+        return assignedTargetToSubjectDbOp(subject, target, permissionEffect);
     }
 
-    protected abstract boolean assignedTargetToSubjectDbOp(Subject subject, Target target, AllowOrDeny allowOrDeny);
+    protected abstract boolean assignedTargetToSubjectDbOp(Subject subject, Target target, PermissionEffect permissionEffect);
 }

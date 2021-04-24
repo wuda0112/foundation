@@ -9,7 +9,7 @@ public abstract class AbstractMenuManager implements MenuManager {
 
     @Override
     public CreateResult createMenuItemCore(CreateMenuItemCore createMenuItemCore, CreateMode createMode) {
-        return createMenuItemCoreDbOp(createMenuItemCore,createMode);
+        return createMenuItemCoreDbOp(createMenuItemCore, createMode);
     }
 
     protected abstract CreateResult createMenuItemCoreDbOp(CreateMenuItemCore createMenuItemCore, CreateMode createMode);
@@ -37,7 +37,7 @@ public abstract class AbstractMenuManager implements MenuManager {
 
     @Override
     public CreateResult createMenuCore(CreateMenuCore createMenuCore, CreateMode createMode) {
-        return createMenuCoreDbOp(createMenuCore,createMode);
+        return createMenuCoreDbOp(createMenuCore, createMode);
     }
 
     protected abstract CreateResult createMenuCoreDbOp(CreateMenuCore createMenuCore, CreateMode createMode);
@@ -65,6 +65,13 @@ public abstract class AbstractMenuManager implements MenuManager {
     }
 
     protected abstract Menu getMenuDbOp(Long menuId);
+
+    @Override
+    public DescribeMenuCore getMenuCore(Long menuId) {
+        return getMenuCoreDbOp(menuId);
+    }
+
+    protected abstract DescribeMenuCore getMenuCoreDbOp(Long menuId);
 
     @Override
     public List<DescribeMenuItemCore> getMenuItemsByCategoryId(List<Long> menuItemCategoryIds) {

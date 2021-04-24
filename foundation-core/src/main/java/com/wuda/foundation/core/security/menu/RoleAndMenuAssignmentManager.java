@@ -1,10 +1,10 @@
 package com.wuda.foundation.core.security.menu;
 
+import com.wuda.foundation.core.commons.DescribeMenuCore;
 import com.wuda.foundation.core.commons.DescribeMenuItemCore;
-import com.wuda.foundation.core.commons.Menu;
 import com.wuda.foundation.core.security.*;
-
-import java.util.List;
+import com.wuda.foundation.core.security.v2.FlatPermission;
+import com.wuda.foundation.core.security.v2.PermissionAssignmentCollection;
 
 /**
  * 一种具体的权限分配,为{@link DescribePermissionRole role}分配{@link DescribeMenuItemCore menu item},
@@ -22,10 +22,11 @@ public interface RoleAndMenuAssignmentManager {
      * @param permissionRoleId   permission role id
      * @param menuId             menu id
      * @param menuItemCategoryId menu item category id
-     * @param allowOrDeny        该role对menu item category的权限是允许还是拒绝.
+     * @param permissionEffect   该role对menu item category的权限是允许还是拒绝.
+     * @param version            权限分配的版本
      * @param opUserId           操作人用户ID
      */
-    void assignMenuItemCategoryToRole(Long permissionRoleId, Long menuId, Long menuItemCategoryId, AllowOrDeny allowOrDeny, Long opUserId);
+    void assignMenuItemCategoryToRole(Long permissionRoleId, Long menuId, Long menuItemCategoryId, PermissionEffect permissionEffect, Long version, Long opUserId);
 
     /**
      * 清除分配给role的menu item category.清理后,两个实体之间就没有了任何联系.
@@ -53,10 +54,11 @@ public interface RoleAndMenuAssignmentManager {
      * @param permissionRoleId permission role id
      * @param menuId           menu id
      * @param menuItemId       menu item  id
-     * @param allowOrDeny      该role对menu item的权限是允许还是拒绝.
+     * @param permissionEffect 该role对menu item的权限是允许还是拒绝.
+     * @param version          权限分配的版本
      * @param opUserId         操作人用户ID
      */
-    void assignMenuItemToRole(Long permissionRoleId, Long menuId, Long menuItemId, AllowOrDeny allowOrDeny, Long opUserId);
+    void assignMenuItemToRole(Long permissionRoleId, Long menuId, Long menuItemId, PermissionEffect permissionEffect, Long version, Long opUserId);
 
     /**
      * 清除分配给role的menu item.清理后,两个实体之间就没有了任何联系.
@@ -84,15 +86,15 @@ public interface RoleAndMenuAssignmentManager {
      * @param menuId           menu id
      * @return permission assignment
      */
-    List<MergedPermissionAssignment> getMenuPermissionAssignments(Long permissionRoleId, Long menuId);
+    PermissionAssignmentCollection getMenuPermissionAssignments(Long permissionRoleId, Long menuId);
 
     /**
-     * 获取菜单,但是不一定是完整的,只返回许可的菜单项.
+     * 获取角色的菜单权限.
      *
      * @param permissionRoleId permission role id
      * @param menuId           menu id
-     * @return 有权限访问的菜单项
+     * @return 菜单权限
      */
-    Menu getPermittedMenu(Long permissionRoleId, Long menuId);
+    FlatPermission<DescribeMenuCore> getMenuPermission(Long permissionRoleId, Long menuId);
 
 }

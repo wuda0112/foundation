@@ -19,7 +19,7 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAssignment implements Serializable {
 
-    private static final long serialVersionUID = 156959354;
+    private static final long serialVersionUID = 1313554342;
 
     private ULong         id;
     private UByte         subjectType;
@@ -28,7 +28,8 @@ public class PermissionAssignment implements Serializable {
     private ULong         targetIdentifier;
     private UShort        actionType;
     private ULong         actionIdentifier;
-    private Boolean       allow;
+    private Boolean       effect;
+    private ULong         version;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private ULong         isDeleted;
@@ -43,7 +44,8 @@ public class PermissionAssignment implements Serializable {
         this.targetIdentifier = value.targetIdentifier;
         this.actionType = value.actionType;
         this.actionIdentifier = value.actionIdentifier;
-        this.allow = value.allow;
+        this.effect = value.effect;
+        this.version = value.version;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.isDeleted = value.isDeleted;
@@ -57,7 +59,8 @@ public class PermissionAssignment implements Serializable {
         ULong         targetIdentifier,
         UShort        actionType,
         ULong         actionIdentifier,
-        Boolean       allow,
+        Boolean       effect,
+        ULong         version,
         LocalDateTime createTime,
         ULong         createUserId,
         ULong         isDeleted
@@ -69,7 +72,8 @@ public class PermissionAssignment implements Serializable {
         this.targetIdentifier = targetIdentifier;
         this.actionType = actionType;
         this.actionIdentifier = actionIdentifier;
-        this.allow = allow;
+        this.effect = effect;
+        this.version = version;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.isDeleted = isDeleted;
@@ -131,12 +135,20 @@ public class PermissionAssignment implements Serializable {
         this.actionIdentifier = actionIdentifier;
     }
 
-    public Boolean getAllow() {
-        return this.allow;
+    public Boolean getEffect() {
+        return this.effect;
     }
 
-    public void setAllow(Boolean allow) {
-        this.allow = allow;
+    public void setEffect(Boolean effect) {
+        this.effect = effect;
+    }
+
+    public ULong getVersion() {
+        return this.version;
+    }
+
+    public void setVersion(ULong version) {
+        this.version = version;
     }
 
     public LocalDateTime getCreateTime() {
@@ -174,7 +186,8 @@ public class PermissionAssignment implements Serializable {
         sb.append(", ").append(targetIdentifier);
         sb.append(", ").append(actionType);
         sb.append(", ").append(actionIdentifier);
-        sb.append(", ").append(allow);
+        sb.append(", ").append(effect);
+        sb.append(", ").append(version);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(isDeleted);

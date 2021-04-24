@@ -19,7 +19,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row11;
+import org.jooq.Row12;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -39,7 +39,7 @@ import org.jooq.types.UShort;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> {
 
-    private static final long serialVersionUID = 1537809054;
+    private static final long serialVersionUID = 580011883;
 
     /**
      * The reference instance of <code>foundation_security.permission_assignment</code>
@@ -90,9 +90,14 @@ public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> 
     public final TableField<PermissionAssignmentRecord, ULong> ACTION_IDENTIFIER = createField(DSL.name("action_identifier"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "action的唯一标记符");
 
     /**
-     * The column <code>foundation_security.permission_assignment.allow</code>. allow or deny，虽然为subject分配了target和action，但不一定是允许，也可以是拒绝
+     * The column <code>foundation_security.permission_assignment.effect</code>. allow or deny，虽然为subject分配了target和action，但不一定是允许，也可以是拒绝
      */
-    public final TableField<PermissionAssignmentRecord, Boolean> ALLOW = createField(DSL.name("allow"), org.jooq.impl.SQLDataType.BIT.nullable(false), this, "allow or deny，虽然为subject分配了target和action，但不一定是允许，也可以是拒绝");
+    public final TableField<PermissionAssignmentRecord, Boolean> EFFECT = createField(DSL.name("effect"), org.jooq.impl.SQLDataType.BIT.nullable(false), this, "allow or deny，虽然为subject分配了target和action，但不一定是允许，也可以是拒绝");
+
+    /**
+     * The column <code>foundation_security.permission_assignment.version</code>. 同一个subject,target,action可以分配多次，记录每次分配的版本号
+     */
+    public final TableField<PermissionAssignmentRecord, ULong> VERSION = createField(DSL.name("version"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "同一个subject,target,action可以分配多次，记录每次分配的版本号");
 
     /**
      * The column <code>foundation_security.permission_assignment.create_time</code>.
@@ -194,11 +199,11 @@ public class PermissionAssignment extends TableImpl<PermissionAssignmentRecord> 
     }
 
     // -------------------------------------------------------------------------
-    // Row11 type methods
+    // Row12 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<ULong, UByte, ULong, UShort, ULong, UShort, ULong, Boolean, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row11) super.fieldsRow();
+    public Row12<ULong, UByte, ULong, UShort, ULong, UShort, ULong, Boolean, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row12) super.fieldsRow();
     }
 }

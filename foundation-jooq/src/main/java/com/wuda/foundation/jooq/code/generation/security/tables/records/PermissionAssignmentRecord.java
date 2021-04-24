@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record11;
-import org.jooq.Row11;
+import org.jooq.Record12;
+import org.jooq.Row12;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
@@ -23,9 +23,9 @@ import org.jooq.types.UShort;
  * 【IS A】 target。action可以代表任何操作，比如read/write。subject , target , action这三个实体，不一定是某个具体的单个实体，也可以是一类实体，比如target如果是文件夹，那么可以代表subject对这个文件夹下的所有文件以及子文件夹（递归）都拥有权限；同样
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAssignmentRecord> implements Record11<ULong, UByte, ULong, UShort, ULong, UShort, ULong, Boolean, LocalDateTime, ULong, ULong> {
+public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAssignmentRecord> implements Record12<ULong, UByte, ULong, UShort, ULong, UShort, ULong, Boolean, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -2082100180;
+    private static final long serialVersionUID = 572102852;
 
     /**
      * Setter for <code>foundation_security.permission_assignment.id</code>.
@@ -126,59 +126,73 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
     }
 
     /**
-     * Setter for <code>foundation_security.permission_assignment.allow</code>. allow or deny，虽然为subject分配了target和action，但不一定是允许，也可以是拒绝
+     * Setter for <code>foundation_security.permission_assignment.effect</code>. allow or deny，虽然为subject分配了target和action，但不一定是允许，也可以是拒绝
      */
-    public void setAllow(Boolean value) {
+    public void setEffect(Boolean value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>foundation_security.permission_assignment.allow</code>. allow or deny，虽然为subject分配了target和action，但不一定是允许，也可以是拒绝
+     * Getter for <code>foundation_security.permission_assignment.effect</code>. allow or deny，虽然为subject分配了target和action，但不一定是允许，也可以是拒绝
      */
-    public Boolean getAllow() {
+    public Boolean getEffect() {
         return (Boolean) get(7);
+    }
+
+    /**
+     * Setter for <code>foundation_security.permission_assignment.version</code>. 同一个subject,target,action可以分配多次，记录每次分配的版本号
+     */
+    public void setVersion(ULong value) {
+        set(8, value);
+    }
+
+    /**
+     * Getter for <code>foundation_security.permission_assignment.version</code>. 同一个subject,target,action可以分配多次，记录每次分配的版本号
+     */
+    public ULong getVersion() {
+        return (ULong) get(8);
     }
 
     /**
      * Setter for <code>foundation_security.permission_assignment.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
-        set(8, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>foundation_security.permission_assignment.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
-        return (LocalDateTime) get(8);
+        return (LocalDateTime) get(9);
     }
 
     /**
      * Setter for <code>foundation_security.permission_assignment.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
-        set(9, value);
+        set(10, value);
     }
 
     /**
      * Getter for <code>foundation_security.permission_assignment.create_user_id</code>.
      */
     public ULong getCreateUserId() {
-        return (ULong) get(9);
+        return (ULong) get(10);
     }
 
     /**
      * Setter for <code>foundation_security.permission_assignment.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
-        set(10, value);
+        set(11, value);
     }
 
     /**
      * Getter for <code>foundation_security.permission_assignment.is_deleted</code>.
      */
     public ULong getIsDeleted() {
-        return (ULong) get(10);
+        return (ULong) get(11);
     }
 
     // -------------------------------------------------------------------------
@@ -191,17 +205,17 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
     }
 
     // -------------------------------------------------------------------------
-    // Record11 type implementation
+    // Record12 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row11<ULong, UByte, ULong, UShort, ULong, UShort, ULong, Boolean, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row11) super.fieldsRow();
+    public Row12<ULong, UByte, ULong, UShort, ULong, UShort, ULong, Boolean, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row12) super.fieldsRow();
     }
 
     @Override
-    public Row11<ULong, UByte, ULong, UShort, ULong, UShort, ULong, Boolean, LocalDateTime, ULong, ULong> valuesRow() {
-        return (Row11) super.valuesRow();
+    public Row12<ULong, UByte, ULong, UShort, ULong, UShort, ULong, Boolean, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+        return (Row12) super.valuesRow();
     }
 
     @Override
@@ -241,21 +255,26 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
 
     @Override
     public Field<Boolean> field8() {
-        return PermissionAssignment.PERMISSION_ASSIGNMENT.ALLOW;
+        return PermissionAssignment.PERMISSION_ASSIGNMENT.EFFECT;
     }
 
     @Override
-    public Field<LocalDateTime> field9() {
+    public Field<ULong> field9() {
+        return PermissionAssignment.PERMISSION_ASSIGNMENT.VERSION;
+    }
+
+    @Override
+    public Field<LocalDateTime> field10() {
         return PermissionAssignment.PERMISSION_ASSIGNMENT.CREATE_TIME;
     }
 
     @Override
-    public Field<ULong> field10() {
+    public Field<ULong> field11() {
         return PermissionAssignment.PERMISSION_ASSIGNMENT.CREATE_USER_ID;
     }
 
     @Override
-    public Field<ULong> field11() {
+    public Field<ULong> field12() {
         return PermissionAssignment.PERMISSION_ASSIGNMENT.IS_DELETED;
     }
 
@@ -296,21 +315,26 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
 
     @Override
     public Boolean component8() {
-        return getAllow();
+        return getEffect();
     }
 
     @Override
-    public LocalDateTime component9() {
+    public ULong component9() {
+        return getVersion();
+    }
+
+    @Override
+    public LocalDateTime component10() {
         return getCreateTime();
     }
 
     @Override
-    public ULong component10() {
+    public ULong component11() {
         return getCreateUserId();
     }
 
     @Override
-    public ULong component11() {
+    public ULong component12() {
         return getIsDeleted();
     }
 
@@ -351,21 +375,26 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
 
     @Override
     public Boolean value8() {
-        return getAllow();
+        return getEffect();
     }
 
     @Override
-    public LocalDateTime value9() {
+    public ULong value9() {
+        return getVersion();
+    }
+
+    @Override
+    public LocalDateTime value10() {
         return getCreateTime();
     }
 
     @Override
-    public ULong value10() {
+    public ULong value11() {
         return getCreateUserId();
     }
 
     @Override
-    public ULong value11() {
+    public ULong value12() {
         return getIsDeleted();
     }
 
@@ -413,30 +442,36 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
 
     @Override
     public PermissionAssignmentRecord value8(Boolean value) {
-        setAllow(value);
+        setEffect(value);
         return this;
     }
 
     @Override
-    public PermissionAssignmentRecord value9(LocalDateTime value) {
+    public PermissionAssignmentRecord value9(ULong value) {
+        setVersion(value);
+        return this;
+    }
+
+    @Override
+    public PermissionAssignmentRecord value10(LocalDateTime value) {
         setCreateTime(value);
         return this;
     }
 
     @Override
-    public PermissionAssignmentRecord value10(ULong value) {
+    public PermissionAssignmentRecord value11(ULong value) {
         setCreateUserId(value);
         return this;
     }
 
     @Override
-    public PermissionAssignmentRecord value11(ULong value) {
+    public PermissionAssignmentRecord value12(ULong value) {
         setIsDeleted(value);
         return this;
     }
 
     @Override
-    public PermissionAssignmentRecord values(ULong value1, UByte value2, ULong value3, UShort value4, ULong value5, UShort value6, ULong value7, Boolean value8, LocalDateTime value9, ULong value10, ULong value11) {
+    public PermissionAssignmentRecord values(ULong value1, UByte value2, ULong value3, UShort value4, ULong value5, UShort value6, ULong value7, Boolean value8, ULong value9, LocalDateTime value10, ULong value11, ULong value12) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -448,6 +483,7 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
         value9(value9);
         value10(value10);
         value11(value11);
+        value12(value12);
         return this;
     }
 
@@ -465,7 +501,7 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
     /**
      * Create a detached, initialised PermissionAssignmentRecord
      */
-    public PermissionAssignmentRecord(ULong id, UByte subjectType, ULong subjectIdentifier, UShort targetType, ULong targetIdentifier, UShort actionType, ULong actionIdentifier, Boolean allow, LocalDateTime createTime, ULong createUserId, ULong isDeleted) {
+    public PermissionAssignmentRecord(ULong id, UByte subjectType, ULong subjectIdentifier, UShort targetType, ULong targetIdentifier, UShort actionType, ULong actionIdentifier, Boolean effect, ULong version, LocalDateTime createTime, ULong createUserId, ULong isDeleted) {
         super(PermissionAssignment.PERMISSION_ASSIGNMENT);
 
         set(0, id);
@@ -475,9 +511,10 @@ public class PermissionAssignmentRecord extends UpdatableRecordImpl<PermissionAs
         set(4, targetIdentifier);
         set(5, actionType);
         set(6, actionIdentifier);
-        set(7, allow);
-        set(8, createTime);
-        set(9, createUserId);
-        set(10, isDeleted);
+        set(7, effect);
+        set(8, version);
+        set(9, createTime);
+        set(10, createUserId);
+        set(11, isDeleted);
     }
 }

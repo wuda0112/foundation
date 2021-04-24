@@ -1,7 +1,7 @@
 package com.wuda.foundation.core.security.impl;
 
 import com.wuda.foundation.core.security.Action;
-import com.wuda.foundation.core.security.AllowOrDeny;
+import com.wuda.foundation.core.security.PermissionEffect;
 import com.wuda.foundation.core.security.Subject;
 import com.wuda.foundation.core.security.Target;
 import com.wuda.foundation.core.security.menu.AbstractRoleAndMenuAssignmentManager;
@@ -15,11 +15,11 @@ import java.util.Set;
 public class RoleAndMenuAssignmentManagerImpl extends AbstractRoleAndMenuAssignmentManager {
 
     @Override
-    protected void assignMenuItemCategoryToRoleDbOp(Long permissionRoleId, Long menuId, Long menuItemCategoryId, AllowOrDeny allowOrDeny, Long opUserId) {
+    protected void assignMenuItemCategoryToRoleDbOp(Long permissionRoleId, Long menuId, Long menuItemCategoryId, PermissionEffect permissionEffect,Long version, Long opUserId) {
         Subject role = roleSubject(permissionRoleId);
         Target menu = menuTarget(menuId);
         Set<Action> menuItemCategories = menuItemCategoryActions(Collections.singletonList(menuItemCategoryId));
-        permissionGrantManager.createAssignment(role, menu, menuItemCategories, allowOrDeny, opUserId);
+        permissionGrantManager.createAssignment(role, menu, menuItemCategories, permissionEffect,version, opUserId);
     }
 
     @Override
@@ -31,11 +31,11 @@ public class RoleAndMenuAssignmentManagerImpl extends AbstractRoleAndMenuAssignm
     }
 
     @Override
-    protected void assignMenuItemToRoleDbOp(Long permissionRoleId, Long menuId, Long menuItemId, AllowOrDeny allowOrDeny, Long opUserId) {
+    protected void assignMenuItemToRoleDbOp(Long permissionRoleId, Long menuId, Long menuItemId, PermissionEffect permissionEffect,Long version, Long opUserId) {
         Subject role = roleSubject(permissionRoleId);
         Target menu = menuTarget(menuId);
         Set<Action> menuItems = menuItemActions(Collections.singletonList(menuItemId));
-        permissionGrantManager.createAssignment(role, menu, menuItems, allowOrDeny, opUserId);
+        permissionGrantManager.createAssignment(role, menu, menuItems, permissionEffect, version,opUserId);
     }
 
     @Override

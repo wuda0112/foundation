@@ -2,12 +2,7 @@ package com.wuda.foundation.lang.tree;
 
 import com.wuda.foundation.lang.utils.MyCollectionUtils;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 使用{@link java.util.Map}实现树形结构.
@@ -139,15 +134,15 @@ public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implemen
     }
 
     @Override
-    public Set<E> getDirectChildren(T id) {
+    public List<E> getDirectChildren(T id) {
         Set<T> childIdSet = pid2ChildrenMap.get(id);
         if (childIdSet != null && !childIdSet.isEmpty()) {
-            Set<E> childSet = new HashSet<>(childIdSet.size());
+            List<E> childList = new ArrayList<>(childIdSet.size());
             for (T childId : childIdSet) {
                 E child = get(childId);
-                childSet.add(child);
+                childList.add(child);
             }
-            return childSet;
+            return childList;
         }
         return null;
     }
@@ -169,7 +164,7 @@ public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implemen
     }
 
     @Override
-    public LinkedList<E> getAncestor(T id, int count) {
+    public List<E> getAncestor(T id, int count) {
         LinkedList<E> ancestors = new LinkedList<>();
         int index = 0;
         while (index < count) {
@@ -187,7 +182,7 @@ public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implemen
     }
 
     @Override
-    public LinkedList<E> getDescendant(T id) {
+    public List<E> getDescendant(T id) {
         LinkedList<E> descendant = new LinkedList<>();
         IdPidEntryUtils.getDescendant(id, id2NodeMap.values(), descendant);
         return descendant;
@@ -284,7 +279,7 @@ public class MappedTree<T extends Comparable<T>, E extends TreeNode<T>> implemen
 
     @Override
     public boolean isDescendant(T first, T second) {
-        LinkedList<E> descendants = getDescendant(first);
+        List<E> descendants = getDescendant(first);
         if (descendants == null || descendants.isEmpty()) {
             return false;
         }

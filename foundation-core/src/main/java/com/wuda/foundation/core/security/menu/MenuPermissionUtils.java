@@ -3,7 +3,7 @@ package com.wuda.foundation.core.security.menu;
 import com.wuda.foundation.core.commons.DescribeMenuNode;
 import com.wuda.foundation.core.commons.Menu;
 import com.wuda.foundation.core.security.Action;
-import com.wuda.foundation.core.security.AllowOrDeny;
+import com.wuda.foundation.core.security.PermissionEffect;
 import com.wuda.foundation.core.security.MergedPermissionAssignment;
 import com.wuda.foundation.lang.tree.TreeUtils;
 import com.wuda.foundation.lang.utils.MyCollectionUtils;
@@ -47,7 +47,7 @@ public class MenuPermissionUtils {
             Boolean visibility = null;
             if (permissionAssignment != null) {
                 // 如果为这个节点设置了权限,则使用这个节点自己的
-                visibility = AllowOrDeny.allow(permissionAssignment.getAllowOrDeny());
+                visibility = PermissionEffect.allow(permissionAssignment.getPermissionEffect());
             } else {
                 // 如果没有为这个节点设置权限,则继承父级的
                 DescribeMenuNode parent = menu.getParent(menuNode.getId());

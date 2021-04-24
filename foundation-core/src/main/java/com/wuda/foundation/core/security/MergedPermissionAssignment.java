@@ -32,7 +32,7 @@ public class MergedPermissionAssignment {
     /**
      * allow or deny.
      */
-    private AllowOrDeny allowOrDeny;
+    private PermissionEffect permissionEffect;
 
     /**
      * 从{@link DescribePermissionAssignment}复制.
@@ -42,7 +42,7 @@ public class MergedPermissionAssignment {
      */
     public static MergedPermissionAssignment copyFrom(DescribePermissionAssignment permissionAssignment) {
         return new MergedPermissionAssignment(permissionAssignment.getSubject(),
-                permissionAssignment.getTarget(), permissionAssignment.getAction(), permissionAssignment.getAllowOrDeny());
+                permissionAssignment.getTarget(), permissionAssignment.getAction(), permissionAssignment.getEffect());
     }
 
     /**

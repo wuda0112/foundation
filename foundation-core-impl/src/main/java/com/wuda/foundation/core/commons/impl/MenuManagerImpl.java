@@ -132,6 +132,16 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
     }
 
     @Override
+    protected DescribeMenuCore getMenuCoreDbOp(Long menuId) {
+        DSLContext dslContext = JooqContext.getOrCreateDSLContext();
+        MenuCoreRecord record = dslContext.selectFrom(MENU_CORE)
+                .where(MENU_CORE.MENU_ID.eq(ULong.valueOf(menuId)))
+                .and(MENU_CORE.IS_DELETED.eq(notDeleted()))
+                .fetchOne();
+        return copyFromMenuCoreRecord(record);
+    }
+
+    @Override
     protected List<DescribeMenuItemCore> getMenuItemsByCategoryIdDbOp(List<Long> menuItemCategoryIds) {
         DSLContext dslContext = JooqContext.getOrCreateDSLContext();
         Result<Record> result = dslContext.select(MENU_ITEM_CORE.fields())
@@ -267,6 +277,13 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
                 .and(MENU_ITEM_CORE.NAME.eq(name))
                 .and(MENU_ITEM_CORE.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
         return existsRecordSelector;
+    }
+
+    private DescribeMenuCore copyFromMenuCoreRecord(MenuCoreRecord record) {
+        DescribeMenuCore describeMenuCore = new DescribeMenuCore();
+        describeMenuCore.setId(record.getMenuCoreId().longValue());
+        describeMenuCore.setMenuId(record.getMenuId().longValue());
+        return describeMenuCore;
     }
 
 }

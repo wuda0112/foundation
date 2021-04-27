@@ -1,8 +1,8 @@
 package com.wuda.foundation.core.commons.property;
 
+import com.wuda.foundation.lang.FoundationConfiguration;
 import com.wuda.foundation.lang.identify.Identifier;
 import com.wuda.foundation.lang.identify.IdentifierType;
-import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
 
 import java.util.ArrayList;
@@ -27,13 +27,14 @@ public class PropertyUtils {
      * @param propertyKeyNaming 需要查找的property key
      * @return <code>null</code>-如果没有找到
      */
-    public static DescribeProperty getProperty(List<DescribeProperty> properties, PropertyKeyNaming propertyKeyNaming) {
+    public static DescribeProperty getProperty(List<DescribeProperty> properties,
+                                               PropertyKeyNaming propertyKeyNaming) {
         if (properties == null || properties.isEmpty()) {
             return null;
         }
         for (DescribeProperty describeProperty : properties) {
             DescribePropertyKey describePropertyKey = describeProperty.getPropertyKey();
-            IdentifierType identifierType = IdentifierTypeRegistry.defaultRegistry.lookup(describePropertyKey.getOwner().getType().getCode());
+            IdentifierType identifierType = FoundationConfiguration.getGlobalSingletonInstance().getIdentifierTypeRegistry().lookup(describePropertyKey.getOwner().getType().getCode());
             if (identifierType.getCode() == propertyKeyNaming.getIdentifierType().getCode()
                     && describePropertyKey.getKey().equals(propertyKeyNaming.getKey())) {
                 return describeProperty;
@@ -52,7 +53,9 @@ public class PropertyUtils {
      * @param templates  模板集
      * @return 新的属性集
      */
-    public static List<DescribeProperty> padding(LongIdentifier owner, List<DescribeProperty> properties, List<? extends PropertyTemplate> templates) {
+    public static List<DescribeProperty> padding(LongIdentifier owner,
+                                                 List<DescribeProperty> properties,
+                                                 List<? extends PropertyTemplate> templates) {
         if (templates == null || templates.isEmpty()) {
             return properties;
         }

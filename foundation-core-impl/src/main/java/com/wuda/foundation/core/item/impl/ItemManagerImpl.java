@@ -1,19 +1,11 @@
 package com.wuda.foundation.core.item.impl;
 
-import com.wuda.foundation.core.item.AbstractItemManager;
-import com.wuda.foundation.core.item.CreateItemCore;
-import com.wuda.foundation.core.item.CreateItemDescription;
-import com.wuda.foundation.core.item.CreateItemGeneral;
-import com.wuda.foundation.core.item.CreateItemVariation;
+import com.wuda.foundation.core.item.*;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
-import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemBelongsToGroupRecord;
-import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemCoreRecord;
-import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemDescriptionRecord;
-import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemGeneralRecord;
-import com.wuda.foundation.jooq.code.generation.item.tables.records.ItemVariationRecord;
+import com.wuda.foundation.jooq.code.generation.item.tables.records.*;
 import com.wuda.foundation.lang.CreateMode;
-import com.wuda.foundation.lang.FoundationContext;
+import com.wuda.foundation.lang.FoundationConfiguration;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.identify.IdentifierType;
@@ -57,13 +49,13 @@ public class ItemManagerImpl extends AbstractItemManager implements JooqCommonDb
     }
 
     private void createItemStoreRelation(Long storeId, Long itemId, Long opUserId) {
-        ItemBelongsToGroupRecord itemBelongsToGroupRecord = itemBelongsToGroupRecordForInsert(BuiltinIdentifierType.TABLE_STORE, storeId, itemId, opUserId);
+        ItemBelongsToGroupRecord itemBelongsToGroupRecord = itemBelongsToGroupRecordForInsert(BuiltinIdentifierType.FOUNDATION_STORE, storeId, itemId, opUserId);
         attach(JooqContext.getDataSource(), itemBelongsToGroupRecord);
         itemBelongsToGroupRecord.insert();
     }
 
     private ItemBelongsToGroupRecord itemBelongsToGroupRecordForInsert(IdentifierType groupType, Long groupId, Long itemId, Long opUserId) {
-        long id = FoundationContext.getLongKeyGenerator().next();
+        long id = FoundationConfiguration.getGlobalSingletonInstance().getLongKeyGenerator().next();
         LocalDateTime now = LocalDateTime.now();
         return new ItemBelongsToGroupRecord(ULong.valueOf(id),
                 ULong.valueOf(itemId),

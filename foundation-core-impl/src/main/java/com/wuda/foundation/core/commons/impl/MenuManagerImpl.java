@@ -13,7 +13,7 @@ import com.wuda.foundation.jooq.code.generation.commons.tables.records.MenuItemC
 import com.wuda.foundation.jooq.code.generation.commons.tables.records.MenuItemCoreRecord;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
-import com.wuda.foundation.lang.FoundationContext;
+import com.wuda.foundation.lang.FoundationConfiguration;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.identify.BuiltinIdentifierType;
 import com.wuda.foundation.lang.tree.IdPidEntryTreeBuilder;
@@ -85,7 +85,7 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
             Subject role = new Subject(roleId, BuiltinIdentifierType.TABLE_PERMISSION_ROLE);
             roles.add(role);
         }
-        List<DescribePermissionAssignment> permissions = permissionGrantManager.getPermissions(roles, BuiltinIdentifierType.TABLE_MENU_ITEM);
+        List<DescribePermissionAssignment> permissions = permissionGrantManager.getPermissions(roles, BuiltinIdentifierType.FOUNDATION_MENU_ITEM);
         if (permissions == null || permissions.isEmpty()) {
             return null;
         }
@@ -113,7 +113,7 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
         DescribeMenuNode root = null;
         for (DescribeMenuItemCategory describeMenuItemCategory : describeMenuItemCategories) {
             DescribeMenuNode describeMenuItemCategoryNode = DescribeMenuNode.newMenuItemCategoryNode(describeMenuItemCategory);
-            if (FoundationContext.isRootTreeNode(describeMenuItemCategoryNode)) {
+            if (FoundationConfiguration.getGlobalSingletonInstance().getRootTreeNodeSelectCondition().isRoot(describeMenuItemCategoryNode)) {
                 root = describeMenuItemCategoryNode;
             }
             nodes.add(describeMenuItemCategoryNode);
@@ -262,7 +262,7 @@ public class MenuManagerImpl extends AbstractMenuManager implements JooqCommonDb
 
     private MenuItemBelongsToCategoryRecord menuItemBelongsToCategoryRecordForInsert(Long menuItemId, Long menuItemCategoryId, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
-        return new MenuItemBelongsToCategoryRecord(ULong.valueOf(FoundationContext.getLongKeyGenerator().next()),
+        return new MenuItemBelongsToCategoryRecord(ULong.valueOf(FoundationConfiguration.getGlobalSingletonInstance().getLongKeyGenerator().next()),
                 ULong.valueOf(menuItemId),
                 ULong.valueOf(menuItemCategoryId),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));

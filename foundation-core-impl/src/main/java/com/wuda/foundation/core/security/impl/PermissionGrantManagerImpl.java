@@ -4,7 +4,7 @@ import com.wuda.foundation.core.security.*;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionAssignmentRecord;
-import com.wuda.foundation.lang.FoundationContext;
+import com.wuda.foundation.lang.FoundationConfiguration;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.identify.IdentifierType;
 import org.jooq.DSLContext;
@@ -52,7 +52,7 @@ public class PermissionGrantManagerImpl extends AbstractPermissionGrantManager i
                                                                            Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
         return new PermissionAssignmentRecord(
-                ULong.valueOf(FoundationContext.getLongKeyGenerator().next()),
+                ULong.valueOf(FoundationConfiguration.getGlobalSingletonInstance().getLongKeyGenerator().next()),
                 UByte.valueOf(subject.getType().getCode()),
                 ULong.valueOf(subject.getValue()),
                 UShort.valueOf(target.getType().getCode()),

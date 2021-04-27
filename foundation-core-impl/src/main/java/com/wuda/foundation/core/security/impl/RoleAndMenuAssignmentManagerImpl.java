@@ -68,7 +68,7 @@ public class RoleAndMenuAssignmentManagerImpl extends AbstractRoleAndMenuAssignm
     }
 
     private Action menuItemAction(Long menuItemId) {
-        return new Action(menuItemId, BuiltinIdentifierType.TABLE_MENU_ITEM);
+        return new Action(menuItemId, BuiltinIdentifierType.FOUNDATION_MENU_ITEM);
     }
 
     private Set<Action> menuItemActions(Collection<Long> menuItemIds) {

@@ -1,13 +1,12 @@
 package com.wuda.foundation.core.security.impl;
 
 import com.wuda.foundation.core.security.*;
-import com.wuda.foundation.core.security.PermissionEffect;
 import com.wuda.foundation.jooq.code.generation.security.tables.pojos.PermissionAction;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionActionRecord;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionAssignmentRecord;
 import com.wuda.foundation.jooq.code.generation.security.tables.records.PermissionTargetRecord;
+import com.wuda.foundation.lang.FoundationConfiguration;
 import com.wuda.foundation.lang.identify.IdentifierType;
-import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ class EntityConverter {
         describePermissionTarget.setCategoryId(target.getPermissionCategoryId().longValue());
         describePermissionTarget.setName(target.getName());
         describePermissionTarget.setType(target.getType().byteValue());
-        IdentifierType identifierType = IdentifierTypeRegistry.defaultRegistry.lookup(target.getReferencedType().intValue());
+        IdentifierType identifierType = FoundationConfiguration.getGlobalSingletonInstance().getIdentifierTypeRegistry().lookup(target.getReferencedType().intValue());
         LongIdentifier referencedIdentifier = new LongIdentifier(target.getReferencedIdentifier().longValue(), identifierType);
         describePermissionTarget.setReferencedIdentifier(referencedIdentifier);
         describePermissionTarget.setDescription(target.getDescription());
@@ -47,7 +46,7 @@ class EntityConverter {
         describePermissionAction.setId(action.getPermissionActionId().longValue());
         describePermissionAction.setPermissionTargetId(action.getPermissionTargetId().longValue());
         describePermissionAction.setName(action.getName());
-        IdentifierType identifierType = IdentifierTypeRegistry.defaultRegistry.lookup(action.getReferencedType().intValue());
+        IdentifierType identifierType = FoundationConfiguration.getGlobalSingletonInstance().getIdentifierTypeRegistry().lookup(action.getReferencedType().intValue());
         LongIdentifier identifier = new LongIdentifier(action.getReferencedIdentifier().longValue(), identifierType);
         describePermissionAction.setDescription(action.getDescription());
         describePermissionAction.setReferencedIdentifier(identifier);
@@ -69,10 +68,10 @@ class EntityConverter {
     static DescribePermissionAssignment fromAssignmentRecord(PermissionAssignmentRecord record) {
         DescribePermissionAssignment descriptor = new DescribePermissionAssignment();
         descriptor.setId(record.getId().longValue());
-        IdentifierType subjectType = IdentifierTypeRegistry.defaultRegistry.lookup(record.getSubjectType().intValue());
+        IdentifierType subjectType = FoundationConfiguration.getGlobalSingletonInstance().getIdentifierTypeRegistry().lookup(record.getSubjectType().intValue());
         Subject subject = new Subject(record.getSubjectIdentifier().longValue(), subjectType);
         descriptor.setSubject(subject);
-        IdentifierType targetType = IdentifierTypeRegistry.defaultRegistry.lookup(record.getTargetType().intValue());
+        IdentifierType targetType = FoundationConfiguration.getGlobalSingletonInstance().getIdentifierTypeRegistry().lookup(record.getTargetType().intValue());
         Target target = new Target(record.getTargetIdentifier().longValue(), targetType);
         descriptor.setTarget(target);
         Action action = getAction(record);
@@ -94,7 +93,7 @@ class EntityConverter {
     }
 
     static Action getAction(PermissionAssignmentRecord record) {
-        IdentifierType actionType = IdentifierTypeRegistry.defaultRegistry.lookup(record.getActionType().intValue());
+        IdentifierType actionType = FoundationConfiguration.getGlobalSingletonInstance().getIdentifierTypeRegistry().lookup(record.getActionType().intValue());
         return new Action(record.getActionIdentifier().longValue(), actionType);
     }
 }

@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * {@link DataType}的注册中心.默认使用{@link #defaultRegistry}即可.
+ * {@link DataType}的注册中心.
  *
  * @author wuda
  * @since 1.0.0
@@ -16,17 +16,10 @@ public class DataTypeRegistry {
 
     private Map<DataTypeSchema, List<DataType>> bySchemaMap = new ConcurrentHashMap<>();
 
-    public final static DataTypeRegistry defaultRegistry;
-
-    static {
-        defaultRegistry = new DataTypeRegistry();
-        MySQLDataTypeRegister.register();
-    }
-
     /**
-     * 使用{@link #defaultRegistry}作为全局注册中心.
+     * 构造实例.
      */
-    private DataTypeRegistry() {
+    public DataTypeRegistry() {
 
     }
 
@@ -77,17 +70,17 @@ public class DataTypeRegistry {
     /**
      * 在注册中心中查找.如果没有找到则抛出{@link IllegalStateException}异常.
      *
-     * @param dataTypeFullName {@link DataType#getFullName()} ()}
+     * @param fullyQualifiedName {@link DataType#getFullyQualifiedName()}
      * @return 保证不会为<code>null</code>
      */
-    public DataType lookup(String dataTypeFullName) {
+    public DataType lookup(String fullyQualifiedName) {
         Set<Map.Entry<DataTypeSchema, List<DataType>>> entrySet = bySchemaMap.entrySet();
         DataType dataType = null;
         if (!entrySet.isEmpty()) {
             for (Map.Entry<DataTypeSchema, List<DataType>> entry : entrySet) {
                 List<DataType> dataTypeList = entry.getValue();
                 for (DataType dt : dataTypeList) {
-                    if (dt.getFullName().equals(dataTypeFullName)) {
+                    if (dt.getFullyQualifiedName().equals(fullyQualifiedName)) {
                         dataType = dt;
                         break;
                     }
@@ -95,7 +88,7 @@ public class DataTypeRegistry {
             }
         }
         if (dataType == null) {
-            throw new IllegalStateException("data type full name = " + dataTypeFullName + ",没有找到,很可能是没有注册!");
+            throw new IllegalStateException("data type = " + fullyQualifiedName + ",没有找到,很可能是没有注册!");
         }
         return dataType;
     }

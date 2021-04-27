@@ -36,9 +36,9 @@ public interface DataType {
      * 因此一个data type的完整名称的格式是：scheme:data type name
      * 比如：MySQLDataTypeSchema:VARCHAR
      *
-     * @return full name
+     * @return fully qualified name
      */
-    String getFullName();
+    String getFullyQualifiedName();
 
     /**
      * 处理该数据类型的Handler.

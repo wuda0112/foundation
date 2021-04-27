@@ -1,7 +1,7 @@
 package com.wuda.foundation.core.commons.property;
 
+import com.wuda.foundation.lang.FoundationConfiguration;
 import com.wuda.foundation.lang.datatype.DataType;
-import com.wuda.foundation.lang.datatype.DataTypeRegistry;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -47,7 +47,7 @@ public class CreatePropertyKeyDefinition {
             createPropertyKeyDefinition.id = Objects.requireNonNull(this.id);
             createPropertyKeyDefinition.propertyKeyId = Objects.requireNonNull(this.propertyKeyId);
             // 先检查是否能找到
-            dataType = DataTypeRegistry.defaultRegistry.lookup(this.dataType.getFullName());
+            dataType = FoundationConfiguration.getGlobalSingletonInstance().getDataTypeRegistry().lookup(this.dataType.getFullyQualifiedName());
             createPropertyKeyDefinition.dataType = Objects.requireNonNull(this.dataType);
             createPropertyKeyDefinition.multiValued = this.multiValued;
             return createPropertyKeyDefinition;

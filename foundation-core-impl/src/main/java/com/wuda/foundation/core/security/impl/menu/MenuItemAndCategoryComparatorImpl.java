@@ -24,7 +24,7 @@ public class MenuItemAndCategoryComparatorImpl implements MenuItemAndCategoryCom
     @Override
     public boolean support(IdentifierType type) {
         return type.equals(BuiltinIdentifierType.TABLE_MENU_ITEM_CATEGORY)
-                || type.equals(BuiltinIdentifierType.TABLE_MENU_ITEM);
+                || type.equals(BuiltinIdentifierType.FOUNDATION_MENU_ITEM);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class MenuItemAndCategoryComparatorImpl implements MenuItemAndCategoryCom
     }
 
     private boolean isMenuItem(Action action) {
-        return action.getType().equals(BuiltinIdentifierType.TABLE_MENU_ITEM);
+        return action.getType().equals(BuiltinIdentifierType.FOUNDATION_MENU_ITEM);
     }
 
     private boolean isMenuItemCategory(Action action) {

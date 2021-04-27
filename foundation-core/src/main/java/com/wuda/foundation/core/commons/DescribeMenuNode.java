@@ -30,7 +30,7 @@ public class DescribeMenuNode extends DescribeTreeNode {
      */
     public static DescribeMenuNode newMenuItemNode(DescribeMenuItemCategory describeMenuItemCategory, DescribeMenuItemCore describeMenuItemCore) {
         DescribeMenuNode describeMenuNode = new DescribeMenuNode();
-        describeMenuNode.setIdentifierType(BuiltinIdentifierType.TABLE_MENU_ITEM);
+        describeMenuNode.setIdentifierType(BuiltinIdentifierType.FOUNDATION_MENU_ITEM);
         describeMenuNode.setId(describeMenuItemCore.getMenuItemId());
         describeMenuNode.setParentId(describeMenuItemCategory.getId());
         describeMenuNode.setRootId(describeMenuItemCategory.getRootId());

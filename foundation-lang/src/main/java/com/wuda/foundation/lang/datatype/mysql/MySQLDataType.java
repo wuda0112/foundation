@@ -36,7 +36,7 @@ public enum MySQLDataType implements DataType {
     }
 
     @Override
-    public String getFullName() {
+    public String getFullyQualifiedName() {
         return schema.getSchema() + ":" + name;
     }
 

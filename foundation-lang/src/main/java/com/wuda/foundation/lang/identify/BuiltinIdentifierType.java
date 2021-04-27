@@ -13,13 +13,13 @@ public enum BuiltinIdentifierType implements IdentifierType {
      */
     VIRTUAL(0, "表示不存在的,通常用于虚拟数据"),
     /**
-     * 表示item表.
+     * 表示item.
      */
-    TABLE_ITEM(1, "表示item表"),
+    FOUNDATION_ITEM(1, "表示item"),
     /**
-     * 表示store表.
+     * 表示store.
      */
-    TABLE_STORE(2, "表示store表"),
+    FOUNDATION_STORE(2, "表示store"),
 
     /**
      * 表示item_category表.
@@ -31,9 +31,9 @@ public enum BuiltinIdentifierType implements IdentifierType {
      */
     TABLE_PERMISSION_ROLE(4, "表示permission_role表"),
     /**
-     * 表示menu_item表.
+     * 表示menu item.
      */
-    TABLE_MENU_ITEM(5, "表示menu_item表"),
+    FOUNDATION_MENU_ITEM(5, "表示menu_item"),
     /**
      * 表示menu_item_category表.
      */
@@ -53,7 +53,7 @@ public enum BuiltinIdentifierType implements IdentifierType {
     protected String description;
 
     /**
-     * 构造实例,并且将自己注册到{@link IdentifierTypeRegistry}中.
+     * 构造实例.
      *
      * @param code        the unique code
      * @param description description
@@ -61,7 +61,6 @@ public enum BuiltinIdentifierType implements IdentifierType {
     BuiltinIdentifierType(int code, String description) {
         this.code = code;
         this.description = description;
-        IdentifierTypeRegistry.defaultRegistry.register(this);
     }
 
     @Override

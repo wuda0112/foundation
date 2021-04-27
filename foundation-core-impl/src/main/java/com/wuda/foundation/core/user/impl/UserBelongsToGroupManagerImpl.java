@@ -10,9 +10,9 @@ import com.wuda.foundation.jooq.code.generation.user.tables.records.UserBelongsT
 import com.wuda.foundation.jooq.code.generation.user.tables.records.UserBelongsToGroupRoleRecord;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
+import com.wuda.foundation.lang.FoundationConfiguration;
 import com.wuda.foundation.lang.IsDeleted;
 import com.wuda.foundation.lang.identify.IdentifierType;
-import com.wuda.foundation.lang.identify.IdentifierTypeRegistry;
 import com.wuda.foundation.lang.identify.LongIdentifier;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -35,17 +35,14 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
 
     private MenuManager menuManager;
 
-    public void setPermissionGrantManager(PermissionGrantManager permissionGrantManager) {
+    public UserBelongsToGroupManagerImpl(PermissionGrantManager permissionGrantManager,
+                                         PermissionManager permissionManager,
+                                         MenuManager menuManager) {
         this.permissionGrantManager = permissionGrantManager;
-    }
-
-    public void setPermissionManager(PermissionManager permissionManager) {
         this.permissionManager = permissionManager;
-    }
-
-    public void setMenuManager(MenuManager menuManager) {
         this.menuManager = menuManager;
     }
+
 
     @Override
     protected void removeUserFromGroupDbOp(RemoveUserFromGroupRequest request, Long opUserId) {
@@ -117,7 +114,7 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
         results.forEach((result -> {
             long groupId = result.get(USER_BELONGS_TO_GROUP_GENERAL.GROUP_IDENTIFIER).longValue();
             int _groupType = result.get(USER_BELONGS_TO_GROUP_GENERAL.GROUP_TYPE).intValue();
-            IdentifierType groupType = IdentifierTypeRegistry.defaultRegistry.lookup(_groupType);
+            IdentifierType groupType = FoundationConfiguration.getGlobalSingletonInstance().getIdentifierTypeRegistry().lookup(_groupType);
             LongIdentifier group = new LongIdentifier(groupId, groupType);
             groups.add(group);
         }));
@@ -241,7 +238,7 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
         DescribeUserBelongsToGroupGeneral describe = new DescribeUserBelongsToGroupGeneral();
         describe.setId(record.getId().longValue());
         describe.setUserId(record.getUserId().longValue());
-        IdentifierType groupType = IdentifierTypeRegistry.defaultRegistry.lookup(record.getGroupType().intValue());
+        IdentifierType groupType = FoundationConfiguration.getGlobalSingletonInstance().getIdentifierTypeRegistry().lookup(record.getGroupType().intValue());
         LongIdentifier group = new LongIdentifier(record.getGroupIdentifier().longValue(), groupType);
         describe.setGroup(group);
         describe.setNickname(record.getNickname());
@@ -251,7 +248,7 @@ public class UserBelongsToGroupManagerImpl extends AbstractUserBelongsToGroupMan
     private DescribeUserBelongsToGroupRole copyFrom(UserBelongsToGroupRoleRecord record) {
         DescribeUserBelongsToGroupRole describe = new DescribeUserBelongsToGroupRole();
         describe.setId(record.getId().longValue());
-        IdentifierType groupType = IdentifierTypeRegistry.defaultRegistry.lookup(record.getGroupType().intValue());
+        IdentifierType groupType = FoundationConfiguration.getGlobalSingletonInstance().getIdentifierTypeRegistry().lookup(record.getGroupType().intValue());
         LongIdentifier group = new LongIdentifier(record.getGroupIdentifier().longValue(), groupType);
         describe.setGroup(group);
         describe.setPermissionRoleId(record.getPermissionRoleId().longValue());

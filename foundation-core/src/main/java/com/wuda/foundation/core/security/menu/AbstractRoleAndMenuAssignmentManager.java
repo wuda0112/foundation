@@ -80,7 +80,7 @@ public abstract class AbstractRoleAndMenuAssignmentManager implements RoleAndMen
 
     @Override
     public PermissionAssignmentCollection getMenuPermissionAssignments(Long permissionRoleId, Long menuId) {
-        Subject subject = new Subject(permissionRoleId, BuiltinIdentifierType.PERMISSION_ROLE);
+        Subject subject = new Subject(permissionRoleId, BuiltinIdentifierType.TABLE_PERMISSION_ROLE);
         List<DescribePermissionAssignment> permissionAssignments = permissionGrantManager.getPermissions(subject);
         return new PermissionAssignmentCollection(permissionAssignments);
     }

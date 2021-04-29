@@ -5,11 +5,12 @@ package com.wuda.foundation.jooq.code.generation.user;
 
 
 import com.wuda.foundation.jooq.code.generation.user.tables.IndividualUserGeneral;
-import com.wuda.foundation.jooq.code.generation.user.tables.UserAccount;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupGeneral;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserCore;
+import com.wuda.foundation.jooq.code.generation.user.tables.UserCredential;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserEmail;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserPhone;
+import com.wuda.foundation.jooq.code.generation.user.tables.UserPrincipal;
 
 import org.jooq.Index;
 import org.jooq.OrderField;
@@ -28,12 +29,13 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     public static final Index INDIVIDUAL_USER_GENERAL_IDX_USER_ID = Indexes0.INDIVIDUAL_USER_GENERAL_IDX_USER_ID;
-    public static final Index USER_ACCOUNT_IDX_USER_ID = Indexes0.USER_ACCOUNT_IDX_USER_ID;
     public static final Index USER_BELONGS_TO_GROUP_GENERAL_IDX_GROUP_IDENTIFIER = Indexes0.USER_BELONGS_TO_GROUP_GENERAL_IDX_GROUP_IDENTIFIER;
     public static final Index USER_BELONGS_TO_GROUP_GENERAL_IDX_USER_ID = Indexes0.USER_BELONGS_TO_GROUP_GENERAL_IDX_USER_ID;
     public static final Index USER_CORE_IDX_USER_ID = Indexes0.USER_CORE_IDX_USER_ID;
+    public static final Index USER_CREDENTIAL_USER_ID_IDX = Indexes0.USER_CREDENTIAL_USER_ID_IDX;
     public static final Index USER_EMAIL_IDX_USER_ID = Indexes0.USER_EMAIL_IDX_USER_ID;
     public static final Index USER_PHONE_IDX_USER_ID = Indexes0.USER_PHONE_IDX_USER_ID;
+    public static final Index USER_PRINCIPAL_USER_ID_IDX = Indexes0.USER_PRINCIPAL_USER_ID_IDX;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -41,11 +43,12 @@ public class Indexes {
 
     private static class Indexes0 {
         public static Index INDIVIDUAL_USER_GENERAL_IDX_USER_ID = Internal.createIndex("idx_user_id", IndividualUserGeneral.INDIVIDUAL_USER_GENERAL, new OrderField[] { IndividualUserGeneral.INDIVIDUAL_USER_GENERAL.USER_ID }, false);
-        public static Index USER_ACCOUNT_IDX_USER_ID = Internal.createIndex("idx_user_id", UserAccount.USER_ACCOUNT, new OrderField[] { UserAccount.USER_ACCOUNT.USER_ID }, false);
         public static Index USER_BELONGS_TO_GROUP_GENERAL_IDX_GROUP_IDENTIFIER = Internal.createIndex("idx_group_identifier", UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL, new OrderField[] { UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.GROUP_IDENTIFIER }, false);
         public static Index USER_BELONGS_TO_GROUP_GENERAL_IDX_USER_ID = Internal.createIndex("idx_user_id", UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL, new OrderField[] { UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL.USER_ID }, false);
         public static Index USER_CORE_IDX_USER_ID = Internal.createIndex("idx_user_id", UserCore.USER_CORE, new OrderField[] { UserCore.USER_CORE.USER_ID }, false);
+        public static Index USER_CREDENTIAL_USER_ID_IDX = Internal.createIndex("user_id_idx", UserCredential.USER_CREDENTIAL, new OrderField[] { UserCredential.USER_CREDENTIAL.USER_ID }, false);
         public static Index USER_EMAIL_IDX_USER_ID = Internal.createIndex("idx_user_id", UserEmail.USER_EMAIL, new OrderField[] { UserEmail.USER_EMAIL.USER_ID }, false);
         public static Index USER_PHONE_IDX_USER_ID = Internal.createIndex("idx_user_id", UserPhone.USER_PHONE, new OrderField[] { UserPhone.USER_PHONE.USER_ID }, false);
+        public static Index USER_PRINCIPAL_USER_ID_IDX = Internal.createIndex("user_id_idx", UserPrincipal.USER_PRINCIPAL, new OrderField[] { UserPrincipal.USER_PRINCIPAL.USER_ID }, false);
     }
 }

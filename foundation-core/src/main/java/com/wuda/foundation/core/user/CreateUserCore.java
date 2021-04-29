@@ -15,8 +15,10 @@ public class CreateUserCore {
 
     private Long id;
     private Long userId;
+    private Byte represent;
     private Byte userType;
     private Byte userState;
+    private Boolean canSignIn;
 
     /**
      * 禁止实例化,使用{@link Builder}实例化.
@@ -35,15 +37,23 @@ public class CreateUserCore {
 
         private Long id;
         private Long userId;
+        private Byte represent;
         private Byte userType;
         private Byte userState;
+        private Boolean canSignIn;
 
         public Builder setId(Long id) {
             this.id = id;
             return this;
         }
+
         public Builder setUserId(Long userId) {
             this.userId = userId;
+            return this;
+        }
+
+        public Builder setRepresent(Byte represent) {
+            this.represent = represent;
             return this;
         }
 
@@ -57,13 +67,20 @@ public class CreateUserCore {
             return this;
         }
 
+        public Builder setCanSignIn(Boolean canSignIn) {
+            this.canSignIn = canSignIn;
+            return this;
+        }
+
         @Override
         public CreateUserCore build() {
             CreateUserCore createUserCore = new CreateUserCore();
             createUserCore.id = Objects.requireNonNull(this.id);
             createUserCore.userId = Objects.requireNonNull(this.userId);
+            createUserCore.represent = Objects.requireNonNull(this.represent);
             createUserCore.userType = Objects.requireNonNull(this.userType);
             createUserCore.userState = Objects.requireNonNull(this.userState);
+            createUserCore.canSignIn = Objects.requireNonNull(this.canSignIn);
             return createUserCore;
         }
     }

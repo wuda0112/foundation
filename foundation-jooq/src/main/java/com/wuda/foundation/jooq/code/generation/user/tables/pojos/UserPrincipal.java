@@ -12,35 +12,32 @@ import org.jooq.types.ULong;
 
 
 /**
- * 用户核心信息。用户有很多类型，比如一种分类方法是把用户分成个人用户和企业用户，而不同类型的用户需要的字段不一样，但是他们都是用户，即 is-a 
- * user。这个表属于所有用户的基本信息，其他不同类型的用户有自己专属的表，然后用用户ID关联回这个表。这样做还有一个好处，那就是其他表中的用户ID都统一关联回这个表，这样用户ID就不会有歧义了。
+ * 用户的身份标记，比如用户名就是一种principal
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserCore implements Serializable {
+public class UserPrincipal implements Serializable {
 
-    private static final long serialVersionUID = -1192360260;
+    private static final long serialVersionUID = -848592763;
 
-    private ULong         userCoreId;
+    private ULong         userPricinpalId;
     private ULong         userId;
-    private UByte         represent;
     private UByte         type;
-    private UByte         state;
-    private Boolean       canSignIn;
+    private String        name;
+    private String        description;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private LocalDateTime lastModifyTime;
     private ULong         lastModifyUserId;
     private ULong         isDeleted;
 
-    public UserCore() {}
+    public UserPrincipal() {}
 
-    public UserCore(UserCore value) {
-        this.userCoreId = value.userCoreId;
+    public UserPrincipal(UserPrincipal value) {
+        this.userPricinpalId = value.userPricinpalId;
         this.userId = value.userId;
-        this.represent = value.represent;
         this.type = value.type;
-        this.state = value.state;
-        this.canSignIn = value.canSignIn;
+        this.name = value.name;
+        this.description = value.description;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.lastModifyTime = value.lastModifyTime;
@@ -48,25 +45,23 @@ public class UserCore implements Serializable {
         this.isDeleted = value.isDeleted;
     }
 
-    public UserCore(
-        ULong         userCoreId,
+    public UserPrincipal(
+        ULong         userPricinpalId,
         ULong         userId,
-        UByte         represent,
         UByte         type,
-        UByte         state,
-        Boolean       canSignIn,
+        String        name,
+        String        description,
         LocalDateTime createTime,
         ULong         createUserId,
         LocalDateTime lastModifyTime,
         ULong         lastModifyUserId,
         ULong         isDeleted
     ) {
-        this.userCoreId = userCoreId;
+        this.userPricinpalId = userPricinpalId;
         this.userId = userId;
-        this.represent = represent;
         this.type = type;
-        this.state = state;
-        this.canSignIn = canSignIn;
+        this.name = name;
+        this.description = description;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.lastModifyTime = lastModifyTime;
@@ -74,12 +69,12 @@ public class UserCore implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public ULong getUserCoreId() {
-        return this.userCoreId;
+    public ULong getUserPricinpalId() {
+        return this.userPricinpalId;
     }
 
-    public void setUserCoreId(ULong userCoreId) {
-        this.userCoreId = userCoreId;
+    public void setUserPricinpalId(ULong userPricinpalId) {
+        this.userPricinpalId = userPricinpalId;
     }
 
     public ULong getUserId() {
@@ -90,14 +85,6 @@ public class UserCore implements Serializable {
         this.userId = userId;
     }
 
-    public UByte getRepresent() {
-        return this.represent;
-    }
-
-    public void setRepresent(UByte represent) {
-        this.represent = represent;
-    }
-
     public UByte getType() {
         return this.type;
     }
@@ -106,20 +93,20 @@ public class UserCore implements Serializable {
         this.type = type;
     }
 
-    public UByte getState() {
-        return this.state;
+    public String getName() {
+        return this.name;
     }
 
-    public void setState(UByte state) {
-        this.state = state;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Boolean getCanSignIn() {
-        return this.canSignIn;
+    public String getDescription() {
+        return this.description;
     }
 
-    public void setCanSignIn(Boolean canSignIn) {
-        this.canSignIn = canSignIn;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDateTime getCreateTime() {
@@ -164,14 +151,13 @@ public class UserCore implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("UserCore (");
+        StringBuilder sb = new StringBuilder("UserPrincipal (");
 
-        sb.append(userCoreId);
+        sb.append(userPricinpalId);
         sb.append(", ").append(userId);
-        sb.append(", ").append(represent);
         sb.append(", ").append(type);
-        sb.append(", ").append(state);
-        sb.append(", ").append(canSignIn);
+        sb.append(", ").append(name);
+        sb.append(", ").append(description);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(lastModifyTime);

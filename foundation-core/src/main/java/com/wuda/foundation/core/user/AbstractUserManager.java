@@ -30,18 +30,25 @@ public abstract class AbstractUserManager implements UserManager {
     protected abstract void directBatchInsertUserCoreDbOp(List<CreateUserCore> userList, Long opUserId);
 
     @Override
-    public void createUserAccount(CreateUserAccount createUserAccount, Long opUserId) throws AlreadyExistsException {
-        createUserAccountDbOp(createUserAccount, opUserId);
+    public void createUserPrincipal(CreateUserPrincipal createUserPrincipal, Long opUserId) throws AlreadyExistsException {
+        createUserPrincipalDbOp(createUserPrincipal, opUserId);
     }
 
-    protected abstract void createUserAccountDbOp(CreateUserAccount createUserAccount, Long opUserId) throws AlreadyExistsException;
+    protected abstract void createUserPrincipalDbOp(CreateUserPrincipal createUserPrincipal, Long opUserId) throws AlreadyExistsException;
 
     @Override
-    public void directBatchInsertUserAccount(List<CreateUserAccount> userAccounts, Long opUserId) {
-        directBatchInsertUserAccountDbOp(userAccounts, opUserId);
+    public void createUserCredential(CreateUserCredential createUserCredential, Long opUserId) {
+        createUserCredentialDbOp(createUserCredential, opUserId);
     }
 
-    protected abstract void directBatchInsertUserAccountDbOp(List<CreateUserAccount> userAccounts, Long opUserId);
+    protected abstract void createUserCredentialDbOp(CreateUserCredential createUserCredential, Long opUserId);
+
+    @Override
+    public void directBatchInsertUserPrincipal(List<CreateUserPrincipal> userPrincipals, Long opUserId) {
+        directBatchInsertUserPrincipalDbOp(userPrincipals, opUserId);
+    }
+
+    protected abstract void directBatchInsertUserPrincipalDbOp(List<CreateUserPrincipal> userPrincipals, Long opUserId);
 
     @Override
     public Long bindUserEmail(BindUserEmail bindUserEmail, CreateMode createMode, Long opUserId) {
@@ -72,29 +79,7 @@ public abstract class AbstractUserManager implements UserManager {
     protected abstract void directBatchBindUserPhoneDbOp(List<BindUserPhone> bindUserPhones, Long opUserId);
 
     @Override
-    public boolean exists(Identifier<String> identifier) {
-        Objects.requireNonNull(identifier);
-        Objects.requireNonNull(identifier.getType());
-        Objects.requireNonNull(identifier.getValue());
-        return existsDbOp(identifier);
-    }
-
-    protected abstract boolean existsDbOp(Identifier<String> identifier);
-
-    @Override
-    public void createUserWithAccount(CreateUserWithAccount createUser, Long opUserId) throws AlreadyExistsException {
-        createUserWithAccountDbOp(createUser, opUserId);
-    }
-
-    protected abstract void createUserWithAccountDbOp(CreateUserWithAccount createUser, Long opUserId) throws AlreadyExistsException;
-
-    @Override
     public void updatePassword(Long userId, String newPassword) {
-
-    }
-
-    @Override
-    public void changeUserAccountState(Long userId, Byte newState) {
 
     }
 
@@ -108,8 +93,4 @@ public abstract class AbstractUserManager implements UserManager {
         return null;
     }
 
-    @Override
-    public DescribeUserAccount getUserAccount(Long userId) {
-        return null;
-    }
 }

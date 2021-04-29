@@ -1,22 +1,13 @@
 package com.wuda.foundation.core.user.impl;
 
-import com.wuda.foundation.core.user.AbstractUserManager;
-import com.wuda.foundation.core.user.BindUserEmail;
-import com.wuda.foundation.core.user.BindUserPhone;
-import com.wuda.foundation.core.user.CreateUserAccount;
-import com.wuda.foundation.core.user.CreateUserCore;
-import com.wuda.foundation.core.user.CreateUserWithAccount;
-import com.wuda.foundation.jooq.code.generation.user.tables.records.UserAccountRecord;
-import com.wuda.foundation.jooq.code.generation.user.tables.records.UserCoreRecord;
-import com.wuda.foundation.jooq.code.generation.user.tables.records.UserEmailRecord;
-import com.wuda.foundation.jooq.code.generation.user.tables.records.UserPhoneRecord;
+import com.wuda.foundation.core.user.*;
 import com.wuda.foundation.jooq.JooqCommonDbOp;
 import com.wuda.foundation.jooq.JooqContext;
+import com.wuda.foundation.jooq.code.generation.user.tables.records.*;
 import com.wuda.foundation.lang.AlreadyExistsException;
 import com.wuda.foundation.lang.CreateMode;
 import com.wuda.foundation.lang.CreateResult;
 import com.wuda.foundation.lang.IsDeleted;
-import com.wuda.foundation.lang.identify.Identifier;
 import org.jooq.Configuration;
 import org.jooq.Record1;
 import org.jooq.SelectConditionStep;
@@ -29,10 +20,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.wuda.foundation.jooq.code.generation.user.tables.UserAccount.USER_ACCOUNT;
+import static com.wuda.foundation.jooq.code.generation.user.Tables.USER_CREDENTIAL;
 import static com.wuda.foundation.jooq.code.generation.user.tables.UserCore.USER_CORE;
 import static com.wuda.foundation.jooq.code.generation.user.tables.UserEmail.USER_EMAIL;
 import static com.wuda.foundation.jooq.code.generation.user.tables.UserPhone.USER_PHONE;
+import static com.wuda.foundation.jooq.code.generation.user.tables.UserPrincipal.USER_PRINCIPAL;
 
 public class UserManagerImpl extends AbstractUserManager implements JooqCommonDbOp {
 
@@ -54,22 +46,27 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
     }
 
     @Override
-    protected void createUserAccountDbOp(CreateUserAccount createUserAccount, Long opUserId) throws AlreadyExistsException {
+    protected void createUserPrincipalDbOp(CreateUserPrincipal createUserPrincipal, Long opUserId) throws AlreadyExistsException {
         Configuration configuration = JooqContext.getConfiguration(dataSource);
         SelectConditionStep<Record1<ULong>> existsRecordSelector = DSL.using(configuration)
-                .select(USER_ACCOUNT.USER_ACCOUNT_ID)
-                .from(USER_ACCOUNT)
-                .where(USER_ACCOUNT.USERNAME.eq(createUserAccount.getUsername()))
-                .and(USER_ACCOUNT.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
-        CreateResult result = insertAfterSelectCheck(dataSource, USER_ACCOUNT, userAccountRecordForInsert(createUserAccount, opUserId), existsRecordSelector);
+                .select(USER_PRINCIPAL.USER_PRICINPAL_ID)
+                .from(USER_PRINCIPAL)
+                .where(USER_PRINCIPAL.NAME.eq(createUserPrincipal.getName()))
+                .and(USER_PRINCIPAL.IS_DELETED.eq(ULong.valueOf(IsDeleted.NO.getValue())));
+        CreateResult result = insertAfterSelectCheck(dataSource, USER_PRINCIPAL, userPrincipalRecordForInsert(createUserPrincipal, opUserId), existsRecordSelector);
         if (result.getExistsRecordId() != null) {
-            throw new AlreadyExistsException("username = " + createUserAccount.getUsername() + ",已经存在");
+            throw new AlreadyExistsException("principal = " + createUserPrincipal.getName() + ",已经存在");
         }
     }
 
     @Override
-    protected void directBatchInsertUserAccountDbOp(List<CreateUserAccount> userAccounts, Long opUserId) {
-        batchInsert(dataSource, USER_ACCOUNT, userAccountRecordsForInsert(userAccounts, opUserId));
+    protected void createUserCredentialDbOp(CreateUserCredential createUserCredential, Long opUserId) {
+        insert(dataSource, USER_CREDENTIAL, userCredentialRecordForInsert(createUserCredential, opUserId));
+    }
+
+    @Override
+    protected void directBatchInsertUserPrincipalDbOp(List<CreateUserPrincipal> userPrincipals, Long opUserId) {
+        batchInsert(dataSource, USER_PRINCIPAL, userPrincipalRecordsForInsert(userPrincipals, opUserId));
     }
 
     @Override
@@ -106,17 +103,6 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
         batchInsert(dataSource, USER_PHONE, userPhoneRecordsForInsert(bindUserPhones, opUserId));
     }
 
-    @Override
-    public boolean existsDbOp(Identifier<String> identifier) {
-        return false;
-    }
-
-    @Override
-    public void createUserWithAccountDbOp(CreateUserWithAccount createUserWithAccount, Long opUserId) throws AlreadyExistsException {
-        createUserAccountDbOp(createUserWithAccount.getUserAccount(), opUserId);
-        createUserCoreDbOp(createUserWithAccount.getUserCore(), opUserId);
-    }
-
     private List<UserCoreRecord> userCoreRecordsForInsert(List<CreateUserCore> createUserCores, Long opUserId) {
         List<UserCoreRecord> list = new ArrayList<>(createUserCores.size());
         for (CreateUserCore createUserCore : createUserCores) {
@@ -129,27 +115,39 @@ public class UserManagerImpl extends AbstractUserManager implements JooqCommonDb
         LocalDateTime now = LocalDateTime.now();
         return new UserCoreRecord(ULong.valueOf(createUserCore.getId()),
                 ULong.valueOf(createUserCore.getUserId()),
+                UByte.valueOf(createUserCore.getRepresent()),
                 UByte.valueOf(createUserCore.getUserType()),
                 UByte.valueOf(createUserCore.getUserState()),
+                createUserCore.getCanSignIn(),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
-    private UserAccountRecord userAccountRecordForInsert(CreateUserAccount createUserAccount, Long opUserId) {
+    private UserPrincipalRecord userPrincipalRecordForInsert(CreateUserPrincipal createUserPrincipal, Long opUserId) {
         LocalDateTime now = LocalDateTime.now();
-        return new UserAccountRecord(ULong.valueOf(createUserAccount.getId()),
-                ULong.valueOf(createUserAccount.getUserId()),
-                createUserAccount.getUsername(),
-                createUserAccount.getPassword(),
-                UByte.valueOf(createUserAccount.getState()),
+        return new UserPrincipalRecord(ULong.valueOf(createUserPrincipal.getId()),
+                ULong.valueOf(createUserPrincipal.getUserId()),
+                UByte.valueOf(createUserPrincipal.getType()),
+                createUserPrincipal.getName(),
+                createUserPrincipal.getDescription(),
                 now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
-    private List<UserAccountRecord> userAccountRecordsForInsert(List<CreateUserAccount> createUserAccounts, Long opUserId) {
-        List<UserAccountRecord> list = new ArrayList<>(createUserAccounts.size());
-        for (CreateUserAccount createUserAccount : createUserAccounts) {
-            list.add(userAccountRecordForInsert(createUserAccount, opUserId));
+    private List<UserPrincipalRecord> userPrincipalRecordsForInsert(List<CreateUserPrincipal> createUserPrincipals, Long opUserId) {
+        List<UserPrincipalRecord> list = new ArrayList<>(createUserPrincipals.size());
+        for (CreateUserPrincipal createUserPrincipal : createUserPrincipals) {
+            list.add(userPrincipalRecordForInsert(createUserPrincipal, opUserId));
         }
         return list;
+    }
+
+    private UserCredentialRecord userCredentialRecordForInsert(CreateUserCredential createUserCredential, Long opUserId) {
+        LocalDateTime now = LocalDateTime.now();
+        return new UserCredentialRecord(ULong.valueOf(createUserCredential.getId()),
+                ULong.valueOf(createUserCredential.getUserId()),
+                UByte.valueOf(createUserCredential.getType()),
+                createUserCredential.getValue(),
+                createUserCredential.getDescription(),
+                now, ULong.valueOf(opUserId), now, ULong.valueOf(opUserId), ULong.valueOf(IsDeleted.NO.getValue()));
     }
 
     private UserEmailRecord userEmailRecordForInsert(BindUserEmail bindUserEmail, Long opUserId) {

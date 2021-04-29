@@ -5,12 +5,13 @@ package com.wuda.foundation.jooq.code.generation.user;
 
 
 import com.wuda.foundation.jooq.code.generation.user.tables.IndividualUserGeneral;
-import com.wuda.foundation.jooq.code.generation.user.tables.UserAccount;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupGeneral;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupRole;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserCore;
+import com.wuda.foundation.jooq.code.generation.user.tables.UserCredential;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserEmail;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserPhone;
+import com.wuda.foundation.jooq.code.generation.user.tables.UserPrincipal;
 
 
 /**
@@ -23,11 +24,6 @@ public class Tables {
      * 个人用户－基本信息
      */
     public static final IndividualUserGeneral INDIVIDUAL_USER_GENERAL = IndividualUserGeneral.INDIVIDUAL_USER_GENERAL;
-
-    /**
-     * 用户账号信息，适用各种类型的用户
-     */
-    public static final UserAccount USER_ACCOUNT = UserAccount.USER_ACCOUNT;
 
     /**
      * 用户在组中的基本信息
@@ -45,6 +41,11 @@ public class Tables {
     public static final UserCore USER_CORE = UserCore.USER_CORE;
 
     /**
+     * 比如password，public key等都是credential
+     */
+    public static final UserCredential USER_CREDENTIAL = UserCredential.USER_CREDENTIAL;
+
+    /**
      * 用户的email
      */
     public static final UserEmail USER_EMAIL = UserEmail.USER_EMAIL;
@@ -53,4 +54,9 @@ public class Tables {
      * 用户的电话
      */
     public static final UserPhone USER_PHONE = UserPhone.USER_PHONE;
+
+    /**
+     * 用户的身份标记，比如用户名就是一种principal
+     */
+    public static final UserPrincipal USER_PRINCIPAL = UserPrincipal.USER_PRINCIPAL;
 }

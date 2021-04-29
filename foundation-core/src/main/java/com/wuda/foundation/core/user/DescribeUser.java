@@ -23,8 +23,4 @@ public class DescribeUser extends BasicAttribute {
      * user status.
      */
     private Byte userState;
-    /**
-     * user account.
-     */
-    private DescribeUserAccount userAccount;
 }

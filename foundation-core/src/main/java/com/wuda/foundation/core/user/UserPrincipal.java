@@ -14,12 +14,12 @@ public interface UserPrincipal {
      *
      * @return 类型
      */
-    UserPrincipalType getType();
+    Byte getType();
 
     /**
      * 用户的唯一标记,比如username,email address.
      *
      * @return identifier
      */
-    String getIdentifier();
+    String getName();
 }

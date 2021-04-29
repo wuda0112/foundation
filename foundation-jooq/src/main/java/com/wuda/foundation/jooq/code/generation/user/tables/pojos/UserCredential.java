@@ -12,32 +12,32 @@ import org.jooq.types.ULong;
 
 
 /**
- * 用户账号信息，适用各种类型的用户
+ * 比如password，public key等都是credential
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserAccount implements Serializable {
+public class UserCredential implements Serializable {
 
-    private static final long serialVersionUID = 408050270;
+    private static final long serialVersionUID = 1835405646;
 
-    private ULong         userAccountId;
+    private ULong         userCredentialId;
     private ULong         userId;
-    private String        username;
-    private String        password;
-    private UByte         state;
+    private UByte         type;
+    private String        value;
+    private String        description;
     private LocalDateTime createTime;
     private ULong         createUserId;
     private LocalDateTime lastModifyTime;
     private ULong         lastModifyUserId;
     private ULong         isDeleted;
 
-    public UserAccount() {}
+    public UserCredential() {}
 
-    public UserAccount(UserAccount value) {
-        this.userAccountId = value.userAccountId;
+    public UserCredential(UserCredential value) {
+        this.userCredentialId = value.userCredentialId;
         this.userId = value.userId;
-        this.username = value.username;
-        this.password = value.password;
-        this.state = value.state;
+        this.type = value.type;
+        this.value = value.value;
+        this.description = value.description;
         this.createTime = value.createTime;
         this.createUserId = value.createUserId;
         this.lastModifyTime = value.lastModifyTime;
@@ -45,23 +45,23 @@ public class UserAccount implements Serializable {
         this.isDeleted = value.isDeleted;
     }
 
-    public UserAccount(
-        ULong         userAccountId,
+    public UserCredential(
+        ULong         userCredentialId,
         ULong         userId,
-        String        username,
-        String        password,
-        UByte         state,
+        UByte         type,
+        String        value,
+        String        description,
         LocalDateTime createTime,
         ULong         createUserId,
         LocalDateTime lastModifyTime,
         ULong         lastModifyUserId,
         ULong         isDeleted
     ) {
-        this.userAccountId = userAccountId;
+        this.userCredentialId = userCredentialId;
         this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.state = state;
+        this.type = type;
+        this.value = value;
+        this.description = description;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.lastModifyTime = lastModifyTime;
@@ -69,12 +69,12 @@ public class UserAccount implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public ULong getUserAccountId() {
-        return this.userAccountId;
+    public ULong getUserCredentialId() {
+        return this.userCredentialId;
     }
 
-    public void setUserAccountId(ULong userAccountId) {
-        this.userAccountId = userAccountId;
+    public void setUserCredentialId(ULong userCredentialId) {
+        this.userCredentialId = userCredentialId;
     }
 
     public ULong getUserId() {
@@ -85,28 +85,28 @@ public class UserAccount implements Serializable {
         this.userId = userId;
     }
 
-    public String getUsername() {
-        return this.username;
+    public UByte getType() {
+        return this.type;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setType(UByte type) {
+        this.type = type;
     }
 
-    public String getPassword() {
-        return this.password;
+    public String getValue() {
+        return this.value;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    public UByte getState() {
-        return this.state;
+    public String getDescription() {
+        return this.description;
     }
 
-    public void setState(UByte state) {
-        this.state = state;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDateTime getCreateTime() {
@@ -151,13 +151,13 @@ public class UserAccount implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("UserAccount (");
+        StringBuilder sb = new StringBuilder("UserCredential (");
 
-        sb.append(userAccountId);
+        sb.append(userCredentialId);
         sb.append(", ").append(userId);
-        sb.append(", ").append(username);
-        sb.append(", ").append(password);
-        sb.append(", ").append(state);
+        sb.append(", ").append(type);
+        sb.append(", ").append(value);
+        sb.append(", ").append(description);
         sb.append(", ").append(createTime);
         sb.append(", ").append(createUserId);
         sb.append(", ").append(lastModifyTime);

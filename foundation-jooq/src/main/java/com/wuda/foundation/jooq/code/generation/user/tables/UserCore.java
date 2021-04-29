@@ -19,7 +19,7 @@ import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
-import org.jooq.Row9;
+import org.jooq.Row11;
 import org.jooq.Schema;
 import org.jooq.Table;
 import org.jooq.TableField;
@@ -38,7 +38,7 @@ import org.jooq.types.ULong;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserCore extends TableImpl<UserCoreRecord> {
 
-    private static final long serialVersionUID = 1618163340;
+    private static final long serialVersionUID = -651616776;
 
     /**
      * The reference instance of <code>foundation_user.user_core</code>
@@ -64,6 +64,11 @@ public class UserCore extends TableImpl<UserCoreRecord> {
     public final TableField<UserCoreRecord, ULong> USER_ID = createField(DSL.name("user_id"), org.jooq.impl.SQLDataType.BIGINTUNSIGNED.nullable(false), this, "user id");
 
     /**
+     * The column <code>foundation_user.user_core.represent</code>. 比如User可以表示常规的用户，也可以用于表示账号
+     */
+    public final TableField<UserCoreRecord, UByte> REPRESENT = createField(DSL.name("represent"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "比如User可以表示常规的用户，也可以用于表示账号");
+
+    /**
      * The column <code>foundation_user.user_core.type</code>. 用户类型
      */
     public final TableField<UserCoreRecord, UByte> TYPE = createField(DSL.name("type"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINTUNSIGNED)), this, "用户类型");
@@ -72,6 +77,11 @@ public class UserCore extends TableImpl<UserCoreRecord> {
      * The column <code>foundation_user.user_core.state</code>. 用户状态
      */
     public final TableField<UserCoreRecord, UByte> STATE = createField(DSL.name("state"), org.jooq.impl.SQLDataType.TINYINTUNSIGNED.nullable(false), this, "用户状态");
+
+    /**
+     * The column <code>foundation_user.user_core.can_sign_in</code>. 是否可以登录
+     */
+    public final TableField<UserCoreRecord, Boolean> CAN_SIGN_IN = createField(DSL.name("can_sign_in"), org.jooq.impl.SQLDataType.BIT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("b'0'", org.jooq.impl.SQLDataType.BIT)), this, "是否可以登录");
 
     /**
      * The column <code>foundation_user.user_core.create_time</code>.
@@ -183,11 +193,11 @@ public class UserCore extends TableImpl<UserCoreRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row9 type methods
+    // Row11 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row11<ULong, ULong, UByte, UByte, UByte, Boolean, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row11) super.fieldsRow();
     }
 }

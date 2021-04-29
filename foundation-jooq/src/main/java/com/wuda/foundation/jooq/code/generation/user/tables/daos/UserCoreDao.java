@@ -78,6 +78,20 @@ public class UserCoreDao extends DAOImpl<UserCoreRecord, com.wuda.foundation.joo
     }
 
     /**
+     * Fetch records that have <code>represent BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserCore> fetchRangeOfRepresent(UByte lowerInclusive, UByte upperInclusive) {
+        return fetchRange(UserCore.USER_CORE.REPRESENT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>represent IN (values)</code>
+     */
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserCore> fetchByRepresent(UByte... values) {
+        return fetch(UserCore.USER_CORE.REPRESENT, values);
+    }
+
+    /**
      * Fetch records that have <code>type BETWEEN lowerInclusive AND upperInclusive</code>
      */
     public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserCore> fetchRangeOfType(UByte lowerInclusive, UByte upperInclusive) {
@@ -103,6 +117,20 @@ public class UserCoreDao extends DAOImpl<UserCoreRecord, com.wuda.foundation.joo
      */
     public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserCore> fetchByState(UByte... values) {
         return fetch(UserCore.USER_CORE.STATE, values);
+    }
+
+    /**
+     * Fetch records that have <code>can_sign_in BETWEEN lowerInclusive AND upperInclusive</code>
+     */
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserCore> fetchRangeOfCanSignIn(Boolean lowerInclusive, Boolean upperInclusive) {
+        return fetchRange(UserCore.USER_CORE.CAN_SIGN_IN, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>can_sign_in IN (values)</code>
+     */
+    public List<com.wuda.foundation.jooq.code.generation.user.tables.pojos.UserCore> fetchByCanSignIn(Boolean... values) {
+        return fetch(UserCore.USER_CORE.CAN_SIGN_IN, values);
     }
 
     /**

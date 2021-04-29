@@ -4,7 +4,7 @@
 package com.wuda.foundation.jooq.code.generation.user.tables.records;
 
 
-import com.wuda.foundation.jooq.code.generation.user.tables.UserAccount;
+import com.wuda.foundation.jooq.code.generation.user.tables.UserCredential;
 
 import java.time.LocalDateTime;
 
@@ -18,148 +18,148 @@ import org.jooq.types.ULong;
 
 
 /**
- * 用户账号信息，适用各种类型的用户
+ * 比如password，public key等都是credential
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> implements Record10<ULong, ULong, String, String, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class UserCredentialRecord extends UpdatableRecordImpl<UserCredentialRecord> implements Record10<ULong, ULong, UByte, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = -1021186918;
+    private static final long serialVersionUID = -454225563;
 
     /**
-     * Setter for <code>foundation_user.user_account.user_account_id</code>.
+     * Setter for <code>foundation_user.user_credential.user_credential_id</code>.
      */
-    public void setUserAccountId(ULong value) {
+    public void setUserCredentialId(ULong value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_account.user_account_id</code>.
+     * Getter for <code>foundation_user.user_credential.user_credential_id</code>.
      */
-    public ULong getUserAccountId() {
+    public ULong getUserCredentialId() {
         return (ULong) get(0);
     }
 
     /**
-     * Setter for <code>foundation_user.user_account.user_id</code>. 用户ID
+     * Setter for <code>foundation_user.user_credential.user_id</code>. 用户ID
      */
     public void setUserId(ULong value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_account.user_id</code>. 用户ID
+     * Getter for <code>foundation_user.user_credential.user_id</code>. 用户ID
      */
     public ULong getUserId() {
         return (ULong) get(1);
     }
 
     /**
-     * Setter for <code>foundation_user.user_account.username</code>. 只能是英文模式下的字母，数字，下划线，中划线，必须明确检查保证不是邮箱。设置以后不能修改(github可以修改)，可用作用户主页URL的一部分，参考github。注意和昵称的区别
+     * Setter for <code>foundation_user.user_credential.type</code>. credential type，比如password、public key
      */
-    public void setUsername(String value) {
+    public void setType(UByte value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_account.username</code>. 只能是英文模式下的字母，数字，下划线，中划线，必须明确检查保证不是邮箱。设置以后不能修改(github可以修改)，可用作用户主页URL的一部分，参考github。注意和昵称的区别
+     * Getter for <code>foundation_user.user_credential.type</code>. credential type，比如password、public key
      */
-    public String getUsername() {
-        return (String) get(2);
+    public UByte getType() {
+        return (UByte) get(2);
     }
 
     /**
-     * Setter for <code>foundation_user.user_account.password</code>. 只能是ASCII表中的可打印字符
+     * Setter for <code>foundation_user.user_credential.value</code>.
      */
-    public void setPassword(String value) {
+    public void setValue(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_account.password</code>. 只能是ASCII表中的可打印字符
+     * Getter for <code>foundation_user.user_credential.value</code>.
      */
-    public String getPassword() {
+    public String getValue() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>foundation_user.user_account.state</code>. 账号的状态
+     * Setter for <code>foundation_user.user_credential.description</code>.
      */
-    public void setState(UByte value) {
+    public void setDescription(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_account.state</code>. 账号的状态
+     * Getter for <code>foundation_user.user_credential.description</code>.
      */
-    public UByte getState() {
-        return (UByte) get(4);
+    public String getDescription() {
+        return (String) get(4);
     }
 
     /**
-     * Setter for <code>foundation_user.user_account.create_time</code>.
+     * Setter for <code>foundation_user.user_credential.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_account.create_time</code>.
+     * Getter for <code>foundation_user.user_credential.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
         return (LocalDateTime) get(5);
     }
 
     /**
-     * Setter for <code>foundation_user.user_account.create_user_id</code>.
+     * Setter for <code>foundation_user.user_credential.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_account.create_user_id</code>.
+     * Getter for <code>foundation_user.user_credential.create_user_id</code>.
      */
     public ULong getCreateUserId() {
         return (ULong) get(6);
     }
 
     /**
-     * Setter for <code>foundation_user.user_account.last_modify_time</code>.
+     * Setter for <code>foundation_user.user_credential.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_account.last_modify_time</code>.
+     * Getter for <code>foundation_user.user_credential.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
         return (LocalDateTime) get(7);
     }
 
     /**
-     * Setter for <code>foundation_user.user_account.last_modify_user_id</code>.
+     * Setter for <code>foundation_user.user_credential.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_account.last_modify_user_id</code>.
+     * Getter for <code>foundation_user.user_credential.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
         return (ULong) get(8);
     }
 
     /**
-     * Setter for <code>foundation_user.user_account.is_deleted</code>.
+     * Setter for <code>foundation_user.user_credential.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>foundation_user.user_account.is_deleted</code>.
+     * Getter for <code>foundation_user.user_credential.is_deleted</code>.
      */
     public ULong getIsDeleted() {
         return (ULong) get(9);
@@ -179,68 +179,68 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     // -------------------------------------------------------------------------
 
     @Override
-    public Row10<ULong, ULong, String, String, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+    public Row10<ULong, ULong, UByte, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
         return (Row10) super.fieldsRow();
     }
 
     @Override
-    public Row10<ULong, ULong, String, String, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+    public Row10<ULong, ULong, UByte, String, String, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
         return (Row10) super.valuesRow();
     }
 
     @Override
     public Field<ULong> field1() {
-        return UserAccount.USER_ACCOUNT.USER_ACCOUNT_ID;
+        return UserCredential.USER_CREDENTIAL.USER_CREDENTIAL_ID;
     }
 
     @Override
     public Field<ULong> field2() {
-        return UserAccount.USER_ACCOUNT.USER_ID;
+        return UserCredential.USER_CREDENTIAL.USER_ID;
     }
 
     @Override
-    public Field<String> field3() {
-        return UserAccount.USER_ACCOUNT.USERNAME;
+    public Field<UByte> field3() {
+        return UserCredential.USER_CREDENTIAL.TYPE;
     }
 
     @Override
     public Field<String> field4() {
-        return UserAccount.USER_ACCOUNT.PASSWORD;
+        return UserCredential.USER_CREDENTIAL.VALUE;
     }
 
     @Override
-    public Field<UByte> field5() {
-        return UserAccount.USER_ACCOUNT.STATE;
+    public Field<String> field5() {
+        return UserCredential.USER_CREDENTIAL.DESCRIPTION;
     }
 
     @Override
     public Field<LocalDateTime> field6() {
-        return UserAccount.USER_ACCOUNT.CREATE_TIME;
+        return UserCredential.USER_CREDENTIAL.CREATE_TIME;
     }
 
     @Override
     public Field<ULong> field7() {
-        return UserAccount.USER_ACCOUNT.CREATE_USER_ID;
+        return UserCredential.USER_CREDENTIAL.CREATE_USER_ID;
     }
 
     @Override
     public Field<LocalDateTime> field8() {
-        return UserAccount.USER_ACCOUNT.LAST_MODIFY_TIME;
+        return UserCredential.USER_CREDENTIAL.LAST_MODIFY_TIME;
     }
 
     @Override
     public Field<ULong> field9() {
-        return UserAccount.USER_ACCOUNT.LAST_MODIFY_USER_ID;
+        return UserCredential.USER_CREDENTIAL.LAST_MODIFY_USER_ID;
     }
 
     @Override
     public Field<ULong> field10() {
-        return UserAccount.USER_ACCOUNT.IS_DELETED;
+        return UserCredential.USER_CREDENTIAL.IS_DELETED;
     }
 
     @Override
     public ULong component1() {
-        return getUserAccountId();
+        return getUserCredentialId();
     }
 
     @Override
@@ -249,18 +249,18 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     }
 
     @Override
-    public String component3() {
-        return getUsername();
+    public UByte component3() {
+        return getType();
     }
 
     @Override
     public String component4() {
-        return getPassword();
+        return getValue();
     }
 
     @Override
-    public UByte component5() {
-        return getState();
+    public String component5() {
+        return getDescription();
     }
 
     @Override
@@ -290,7 +290,7 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
 
     @Override
     public ULong value1() {
-        return getUserAccountId();
+        return getUserCredentialId();
     }
 
     @Override
@@ -299,18 +299,18 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     }
 
     @Override
-    public String value3() {
-        return getUsername();
+    public UByte value3() {
+        return getType();
     }
 
     @Override
     public String value4() {
-        return getPassword();
+        return getValue();
     }
 
     @Override
-    public UByte value5() {
-        return getState();
+    public String value5() {
+        return getDescription();
     }
 
     @Override
@@ -339,67 +339,67 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     }
 
     @Override
-    public UserAccountRecord value1(ULong value) {
-        setUserAccountId(value);
+    public UserCredentialRecord value1(ULong value) {
+        setUserCredentialId(value);
         return this;
     }
 
     @Override
-    public UserAccountRecord value2(ULong value) {
+    public UserCredentialRecord value2(ULong value) {
         setUserId(value);
         return this;
     }
 
     @Override
-    public UserAccountRecord value3(String value) {
-        setUsername(value);
+    public UserCredentialRecord value3(UByte value) {
+        setType(value);
         return this;
     }
 
     @Override
-    public UserAccountRecord value4(String value) {
-        setPassword(value);
+    public UserCredentialRecord value4(String value) {
+        setValue(value);
         return this;
     }
 
     @Override
-    public UserAccountRecord value5(UByte value) {
-        setState(value);
+    public UserCredentialRecord value5(String value) {
+        setDescription(value);
         return this;
     }
 
     @Override
-    public UserAccountRecord value6(LocalDateTime value) {
+    public UserCredentialRecord value6(LocalDateTime value) {
         setCreateTime(value);
         return this;
     }
 
     @Override
-    public UserAccountRecord value7(ULong value) {
+    public UserCredentialRecord value7(ULong value) {
         setCreateUserId(value);
         return this;
     }
 
     @Override
-    public UserAccountRecord value8(LocalDateTime value) {
+    public UserCredentialRecord value8(LocalDateTime value) {
         setLastModifyTime(value);
         return this;
     }
 
     @Override
-    public UserAccountRecord value9(ULong value) {
+    public UserCredentialRecord value9(ULong value) {
         setLastModifyUserId(value);
         return this;
     }
 
     @Override
-    public UserAccountRecord value10(ULong value) {
+    public UserCredentialRecord value10(ULong value) {
         setIsDeleted(value);
         return this;
     }
 
     @Override
-    public UserAccountRecord values(ULong value1, ULong value2, String value3, String value4, UByte value5, LocalDateTime value6, ULong value7, LocalDateTime value8, ULong value9, ULong value10) {
+    public UserCredentialRecord values(ULong value1, ULong value2, UByte value3, String value4, String value5, LocalDateTime value6, ULong value7, LocalDateTime value8, ULong value9, ULong value10) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -418,23 +418,23 @@ public class UserAccountRecord extends UpdatableRecordImpl<UserAccountRecord> im
     // -------------------------------------------------------------------------
 
     /**
-     * Create a detached UserAccountRecord
+     * Create a detached UserCredentialRecord
      */
-    public UserAccountRecord() {
-        super(UserAccount.USER_ACCOUNT);
+    public UserCredentialRecord() {
+        super(UserCredential.USER_CREDENTIAL);
     }
 
     /**
-     * Create a detached, initialised UserAccountRecord
+     * Create a detached, initialised UserCredentialRecord
      */
-    public UserAccountRecord(ULong userAccountId, ULong userId, String username, String password, UByte state, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
-        super(UserAccount.USER_ACCOUNT);
+    public UserCredentialRecord(ULong userCredentialId, ULong userId, UByte type, String value, String description, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+        super(UserCredential.USER_CREDENTIAL);
 
-        set(0, userAccountId);
+        set(0, userCredentialId);
         set(1, userId);
-        set(2, username);
-        set(3, password);
-        set(4, state);
+        set(2, type);
+        set(3, value);
+        set(4, description);
         set(5, createTime);
         set(6, createUserId);
         set(7, lastModifyTime);

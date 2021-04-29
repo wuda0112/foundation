@@ -5,12 +5,13 @@ package com.wuda.foundation.jooq.code.generation.user;
 
 
 import com.wuda.foundation.jooq.code.generation.user.tables.IndividualUserGeneral;
-import com.wuda.foundation.jooq.code.generation.user.tables.UserAccount;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupGeneral;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserBelongsToGroupRole;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserCore;
+import com.wuda.foundation.jooq.code.generation.user.tables.UserCredential;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserEmail;
 import com.wuda.foundation.jooq.code.generation.user.tables.UserPhone;
+import com.wuda.foundation.jooq.code.generation.user.tables.UserPrincipal;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +27,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FoundationUser extends SchemaImpl {
 
-    private static final long serialVersionUID = 577477150;
+    private static final long serialVersionUID = 92084194;
 
     /**
      * The reference instance of <code>foundation_user</code>
@@ -37,11 +38,6 @@ public class FoundationUser extends SchemaImpl {
      * 个人用户－基本信息
      */
     public final IndividualUserGeneral INDIVIDUAL_USER_GENERAL = IndividualUserGeneral.INDIVIDUAL_USER_GENERAL;
-
-    /**
-     * 用户账号信息，适用各种类型的用户
-     */
-    public final UserAccount USER_ACCOUNT = UserAccount.USER_ACCOUNT;
 
     /**
      * 用户在组中的基本信息
@@ -59,6 +55,11 @@ public class FoundationUser extends SchemaImpl {
     public final UserCore USER_CORE = UserCore.USER_CORE;
 
     /**
+     * 比如password，public key等都是credential
+     */
+    public final UserCredential USER_CREDENTIAL = UserCredential.USER_CREDENTIAL;
+
+    /**
      * 用户的email
      */
     public final UserEmail USER_EMAIL = UserEmail.USER_EMAIL;
@@ -67,6 +68,11 @@ public class FoundationUser extends SchemaImpl {
      * 用户的电话
      */
     public final UserPhone USER_PHONE = UserPhone.USER_PHONE;
+
+    /**
+     * 用户的身份标记，比如用户名就是一种principal
+     */
+    public final UserPrincipal USER_PRINCIPAL = UserPrincipal.USER_PRINCIPAL;
 
     /**
      * No further instances allowed
@@ -85,11 +91,12 @@ public class FoundationUser extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
             IndividualUserGeneral.INDIVIDUAL_USER_GENERAL,
-            UserAccount.USER_ACCOUNT,
             UserBelongsToGroupGeneral.USER_BELONGS_TO_GROUP_GENERAL,
             UserBelongsToGroupRole.USER_BELONGS_TO_GROUP_ROLE,
             UserCore.USER_CORE,
+            UserCredential.USER_CREDENTIAL,
             UserEmail.USER_EMAIL,
-            UserPhone.USER_PHONE);
+            UserPhone.USER_PHONE,
+            UserPrincipal.USER_PRINCIPAL);
     }
 }

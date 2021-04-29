@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 import org.jooq.Field;
 import org.jooq.Record1;
-import org.jooq.Record9;
-import org.jooq.Row9;
+import org.jooq.Record11;
+import org.jooq.Row11;
 import org.jooq.impl.UpdatableRecordImpl;
 import org.jooq.types.UByte;
 import org.jooq.types.ULong;
@@ -22,9 +22,9 @@ import org.jooq.types.ULong;
  * user。这个表属于所有用户的基本信息，其他不同类型的用户有自己专属的表，然后用用户ID关联回这个表。这样做还有一个好处，那就是其他表中的用户ID都统一关联回这个表，这样用户ID就不会有歧义了。
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
-public class UserCoreRecord extends UpdatableRecordImpl<UserCoreRecord> implements Record9<ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
+public class UserCoreRecord extends UpdatableRecordImpl<UserCoreRecord> implements Record11<ULong, ULong, UByte, UByte, UByte, Boolean, LocalDateTime, ULong, LocalDateTime, ULong, ULong> {
 
-    private static final long serialVersionUID = 1089785176;
+    private static final long serialVersionUID = -70999483;
 
     /**
      * Setter for <code>foundation_user.user_core.user_core_id</code>.
@@ -55,101 +55,129 @@ public class UserCoreRecord extends UpdatableRecordImpl<UserCoreRecord> implemen
     }
 
     /**
+     * Setter for <code>foundation_user.user_core.represent</code>. 比如User可以表示常规的用户，也可以用于表示账号
+     */
+    public void setRepresent(UByte value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>foundation_user.user_core.represent</code>. 比如User可以表示常规的用户，也可以用于表示账号
+     */
+    public UByte getRepresent() {
+        return (UByte) get(2);
+    }
+
+    /**
      * Setter for <code>foundation_user.user_core.type</code>. 用户类型
      */
     public void setType(UByte value) {
-        set(2, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_core.type</code>. 用户类型
      */
     public UByte getType() {
-        return (UByte) get(2);
+        return (UByte) get(3);
     }
 
     /**
      * Setter for <code>foundation_user.user_core.state</code>. 用户状态
      */
     public void setState(UByte value) {
-        set(3, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_core.state</code>. 用户状态
      */
     public UByte getState() {
-        return (UByte) get(3);
+        return (UByte) get(4);
+    }
+
+    /**
+     * Setter for <code>foundation_user.user_core.can_sign_in</code>. 是否可以登录
+     */
+    public void setCanSignIn(Boolean value) {
+        set(5, value);
+    }
+
+    /**
+     * Getter for <code>foundation_user.user_core.can_sign_in</code>. 是否可以登录
+     */
+    public Boolean getCanSignIn() {
+        return (Boolean) get(5);
     }
 
     /**
      * Setter for <code>foundation_user.user_core.create_time</code>.
      */
     public void setCreateTime(LocalDateTime value) {
-        set(4, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_core.create_time</code>.
      */
     public LocalDateTime getCreateTime() {
-        return (LocalDateTime) get(4);
+        return (LocalDateTime) get(6);
     }
 
     /**
      * Setter for <code>foundation_user.user_core.create_user_id</code>.
      */
     public void setCreateUserId(ULong value) {
-        set(5, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_core.create_user_id</code>.
      */
     public ULong getCreateUserId() {
-        return (ULong) get(5);
+        return (ULong) get(7);
     }
 
     /**
      * Setter for <code>foundation_user.user_core.last_modify_time</code>.
      */
     public void setLastModifyTime(LocalDateTime value) {
-        set(6, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_core.last_modify_time</code>.
      */
     public LocalDateTime getLastModifyTime() {
-        return (LocalDateTime) get(6);
+        return (LocalDateTime) get(8);
     }
 
     /**
      * Setter for <code>foundation_user.user_core.last_modify_user_id</code>.
      */
     public void setLastModifyUserId(ULong value) {
-        set(7, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_core.last_modify_user_id</code>.
      */
     public ULong getLastModifyUserId() {
-        return (ULong) get(7);
+        return (ULong) get(9);
     }
 
     /**
      * Setter for <code>foundation_user.user_core.is_deleted</code>.
      */
     public void setIsDeleted(ULong value) {
-        set(8, value);
+        set(10, value);
     }
 
     /**
      * Getter for <code>foundation_user.user_core.is_deleted</code>.
      */
     public ULong getIsDeleted() {
-        return (ULong) get(8);
+        return (ULong) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -162,17 +190,17 @@ public class UserCoreRecord extends UpdatableRecordImpl<UserCoreRecord> implemen
     }
 
     // -------------------------------------------------------------------------
-    // Record9 type implementation
+    // Record11 type implementation
     // -------------------------------------------------------------------------
 
     @Override
-    public Row9<ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
-        return (Row9) super.fieldsRow();
+    public Row11<ULong, ULong, UByte, UByte, UByte, Boolean, LocalDateTime, ULong, LocalDateTime, ULong, ULong> fieldsRow() {
+        return (Row11) super.fieldsRow();
     }
 
     @Override
-    public Row9<ULong, ULong, UByte, UByte, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
-        return (Row9) super.valuesRow();
+    public Row11<ULong, ULong, UByte, UByte, UByte, Boolean, LocalDateTime, ULong, LocalDateTime, ULong, ULong> valuesRow() {
+        return (Row11) super.valuesRow();
     }
 
     @Override
@@ -187,36 +215,46 @@ public class UserCoreRecord extends UpdatableRecordImpl<UserCoreRecord> implemen
 
     @Override
     public Field<UByte> field3() {
-        return UserCore.USER_CORE.TYPE;
+        return UserCore.USER_CORE.REPRESENT;
     }
 
     @Override
     public Field<UByte> field4() {
+        return UserCore.USER_CORE.TYPE;
+    }
+
+    @Override
+    public Field<UByte> field5() {
         return UserCore.USER_CORE.STATE;
     }
 
     @Override
-    public Field<LocalDateTime> field5() {
-        return UserCore.USER_CORE.CREATE_TIME;
-    }
-
-    @Override
-    public Field<ULong> field6() {
-        return UserCore.USER_CORE.CREATE_USER_ID;
+    public Field<Boolean> field6() {
+        return UserCore.USER_CORE.CAN_SIGN_IN;
     }
 
     @Override
     public Field<LocalDateTime> field7() {
-        return UserCore.USER_CORE.LAST_MODIFY_TIME;
+        return UserCore.USER_CORE.CREATE_TIME;
     }
 
     @Override
     public Field<ULong> field8() {
+        return UserCore.USER_CORE.CREATE_USER_ID;
+    }
+
+    @Override
+    public Field<LocalDateTime> field9() {
+        return UserCore.USER_CORE.LAST_MODIFY_TIME;
+    }
+
+    @Override
+    public Field<ULong> field10() {
         return UserCore.USER_CORE.LAST_MODIFY_USER_ID;
     }
 
     @Override
-    public Field<ULong> field9() {
+    public Field<ULong> field11() {
         return UserCore.USER_CORE.IS_DELETED;
     }
 
@@ -232,36 +270,46 @@ public class UserCoreRecord extends UpdatableRecordImpl<UserCoreRecord> implemen
 
     @Override
     public UByte component3() {
-        return getType();
+        return getRepresent();
     }
 
     @Override
     public UByte component4() {
+        return getType();
+    }
+
+    @Override
+    public UByte component5() {
         return getState();
     }
 
     @Override
-    public LocalDateTime component5() {
-        return getCreateTime();
-    }
-
-    @Override
-    public ULong component6() {
-        return getCreateUserId();
+    public Boolean component6() {
+        return getCanSignIn();
     }
 
     @Override
     public LocalDateTime component7() {
-        return getLastModifyTime();
+        return getCreateTime();
     }
 
     @Override
     public ULong component8() {
+        return getCreateUserId();
+    }
+
+    @Override
+    public LocalDateTime component9() {
+        return getLastModifyTime();
+    }
+
+    @Override
+    public ULong component10() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong component9() {
+    public ULong component11() {
         return getIsDeleted();
     }
 
@@ -277,36 +325,46 @@ public class UserCoreRecord extends UpdatableRecordImpl<UserCoreRecord> implemen
 
     @Override
     public UByte value3() {
-        return getType();
+        return getRepresent();
     }
 
     @Override
     public UByte value4() {
+        return getType();
+    }
+
+    @Override
+    public UByte value5() {
         return getState();
     }
 
     @Override
-    public LocalDateTime value5() {
-        return getCreateTime();
-    }
-
-    @Override
-    public ULong value6() {
-        return getCreateUserId();
+    public Boolean value6() {
+        return getCanSignIn();
     }
 
     @Override
     public LocalDateTime value7() {
-        return getLastModifyTime();
+        return getCreateTime();
     }
 
     @Override
     public ULong value8() {
+        return getCreateUserId();
+    }
+
+    @Override
+    public LocalDateTime value9() {
+        return getLastModifyTime();
+    }
+
+    @Override
+    public ULong value10() {
         return getLastModifyUserId();
     }
 
     @Override
-    public ULong value9() {
+    public ULong value11() {
         return getIsDeleted();
     }
 
@@ -324,48 +382,60 @@ public class UserCoreRecord extends UpdatableRecordImpl<UserCoreRecord> implemen
 
     @Override
     public UserCoreRecord value3(UByte value) {
-        setType(value);
+        setRepresent(value);
         return this;
     }
 
     @Override
     public UserCoreRecord value4(UByte value) {
+        setType(value);
+        return this;
+    }
+
+    @Override
+    public UserCoreRecord value5(UByte value) {
         setState(value);
         return this;
     }
 
     @Override
-    public UserCoreRecord value5(LocalDateTime value) {
-        setCreateTime(value);
-        return this;
-    }
-
-    @Override
-    public UserCoreRecord value6(ULong value) {
-        setCreateUserId(value);
+    public UserCoreRecord value6(Boolean value) {
+        setCanSignIn(value);
         return this;
     }
 
     @Override
     public UserCoreRecord value7(LocalDateTime value) {
-        setLastModifyTime(value);
+        setCreateTime(value);
         return this;
     }
 
     @Override
     public UserCoreRecord value8(ULong value) {
+        setCreateUserId(value);
+        return this;
+    }
+
+    @Override
+    public UserCoreRecord value9(LocalDateTime value) {
+        setLastModifyTime(value);
+        return this;
+    }
+
+    @Override
+    public UserCoreRecord value10(ULong value) {
         setLastModifyUserId(value);
         return this;
     }
 
     @Override
-    public UserCoreRecord value9(ULong value) {
+    public UserCoreRecord value11(ULong value) {
         setIsDeleted(value);
         return this;
     }
 
     @Override
-    public UserCoreRecord values(ULong value1, ULong value2, UByte value3, UByte value4, LocalDateTime value5, ULong value6, LocalDateTime value7, ULong value8, ULong value9) {
+    public UserCoreRecord values(ULong value1, ULong value2, UByte value3, UByte value4, UByte value5, Boolean value6, LocalDateTime value7, ULong value8, LocalDateTime value9, ULong value10, ULong value11) {
         value1(value1);
         value2(value2);
         value3(value3);
@@ -375,6 +445,8 @@ public class UserCoreRecord extends UpdatableRecordImpl<UserCoreRecord> implemen
         value7(value7);
         value8(value8);
         value9(value9);
+        value10(value10);
+        value11(value11);
         return this;
     }
 
@@ -392,17 +464,19 @@ public class UserCoreRecord extends UpdatableRecordImpl<UserCoreRecord> implemen
     /**
      * Create a detached, initialised UserCoreRecord
      */
-    public UserCoreRecord(ULong userCoreId, ULong userId, UByte type, UByte state, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
+    public UserCoreRecord(ULong userCoreId, ULong userId, UByte represent, UByte type, UByte state, Boolean canSignIn, LocalDateTime createTime, ULong createUserId, LocalDateTime lastModifyTime, ULong lastModifyUserId, ULong isDeleted) {
         super(UserCore.USER_CORE);
 
         set(0, userCoreId);
         set(1, userId);
-        set(2, type);
-        set(3, state);
-        set(4, createTime);
-        set(5, createUserId);
-        set(6, lastModifyTime);
-        set(7, lastModifyUserId);
-        set(8, isDeleted);
+        set(2, represent);
+        set(3, type);
+        set(4, state);
+        set(5, canSignIn);
+        set(6, createTime);
+        set(7, createUserId);
+        set(8, lastModifyTime);
+        set(9, lastModifyUserId);
+        set(10, isDeleted);
     }
 }

@@ -37,7 +37,7 @@
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <mysql.connector.java.version>8.0.22</mysql.connector.java.version>
         <mysql.jdbc.driver>com.mysql.cj.jdbc.Driver</mysql.jdbc.driver>
-        <jackson.version>2.11.3</jackson.version>
+        <jackson.version>2.12.6.1</jackson.version>
 
         <!--用于代码生成时连接数据库-->
         <mysql.url>jdbc:mysql://localhost:3306/?serverTimezone=UTC</mysql.url>

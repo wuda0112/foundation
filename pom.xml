@@ -31,7 +31,7 @@
         <lombok.version>1.18.12</lombok.version>
         <lombok.maven.version>1.18.12.0</lombok.maven.version>
         <guava.version>20.0</guava.version>
-        <commons.lang3.version>3.9</commons.lang3.version>
+        <commons.lang3.version>3.18.0</commons.lang3.version>
         <commons.collections4.version>4.4</commons.collections4.version>
         <jooq.version>3.13.2</jooq.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
